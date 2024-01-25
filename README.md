@@ -4,7 +4,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 ## This repository belongs to team 20
 - Haydon Carty (hxc293@student.bham.ac.uk)
-- Sum Ming Timothy Yum (sty138@student.bham.ac.uk)
+- Timothy Sum Ming Yum (sty138@student.bham.ac.uk)
 
 ## changes for Teamproject
 
