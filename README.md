@@ -10,7 +10,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Opemipo Feyisitan (oof122@student.bham.ac.uk)
 - Ho Wong (hxw171@student.bham.ac.uk)
 - Jacob Keneson (xxx000@student.bham.ac.uk)
-- Sum Yum X (xxx000@student.bham.ac.uk)
+- Sum Ming Timothy Yum  (sty138@student.bham.ac.uk)
 
 ## changes for Teamproject
 
