@@ -5,12 +5,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 ## This repository belongs to team 20
 
 - Haydon Carty (hxc293@student.bham.ac.uk)
-- Tameemul Chowdhury (txc180@student.bham.ac.uk)
-- James Waller (jxw1505@student.bham.ac.uk)
-- Opemipo Feyisitan (oof122@student.bham.ac.uk)
-- Ho Wong (hxw171@student.bham.ac.uk)
-- Jacob Keneson (xxx000@student.bham.ac.uk)
-- Sum Ming Timothy Yum  (sty138@student.bham.ac.uk)
+- Sum Ming Timothy Yum (sty138@student.bham.ac.uk)
 
 ## changes for Teamproject
 
