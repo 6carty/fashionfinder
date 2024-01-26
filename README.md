@@ -3,7 +3,7 @@
 This application was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
 
 ## This repository belongs to team 20
-- Haydon Carty (hxc293@student.bham.ac.uk)
+
 - Timothy Sum Ming Yum (sty138@student.bham.ac.uk)
 - Ho Him Wong (Raphael) (hxw171@student.bham.ac.uk)
 - Feyisitan Opemipo (Tobi) (oof122@student.bham.ac.uk)
