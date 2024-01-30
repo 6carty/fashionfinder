@@ -8,6 +8,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Ho Him Wong (Raphael) (hxw171@student.bham.ac.uk)
 - Feyisitan Opemipo (Tobi) (oof122@student.bham.ac.uk)
 - Tameemul Chowdhury (txc180@student.bham.ac.uk)
+- James waller (jxw1505@student.bham.ac.uk)
 
 ## changes for Teamproject
 
