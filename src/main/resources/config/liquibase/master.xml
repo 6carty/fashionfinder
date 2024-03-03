@@ -17,7 +17,43 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123212_added_entity_UserProfile.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123213_added_entity_ClothingItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123214_added_entity_Outfit.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123215_added_entity_Message.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123216_added_entity_Chatroom.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123217_added_entity_UserMilestone.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123218_added_entity_MilestoneType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123219_added_entity_Event.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123220_added_entity_Calendar.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123221_added_entity_Weather.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123222_added_entity_FashionTip.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123223_added_entity_ExchangeRequest.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123224_added_entity_PurchaseListing.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123225_added_entity_SaleListing.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123226_added_entity_Rating.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123227_added_entity_TrendingOutfit.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123228_added_entity_Post.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123229_added_entity_Likes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123230_added_entity_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123231_added_entity_Leaderboard.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20240303123212_added_entity_constraints_UserProfile.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123213_added_entity_constraints_ClothingItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123214_added_entity_constraints_Outfit.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123215_added_entity_constraints_Message.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123217_added_entity_constraints_UserMilestone.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123220_added_entity_constraints_Calendar.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123221_added_entity_constraints_Weather.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123222_added_entity_constraints_FashionTip.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123223_added_entity_constraints_ExchangeRequest.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123224_added_entity_constraints_PurchaseListing.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123225_added_entity_constraints_SaleListing.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123227_added_entity_constraints_TrendingOutfit.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123228_added_entity_constraints_Post.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123229_added_entity_constraints_Likes.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123230_added_entity_constraints_Comment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123231_added_entity_constraints_Leaderboard.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

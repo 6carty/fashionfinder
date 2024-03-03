@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123216",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chatroom",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "icon",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Chatroom",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "message",
+      "otherEntityRelationshipName": "chatroom",
+      "relationshipName": "chatroom",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "chatroom",
+      "ownerSide": false,
+      "relationshipName": "userProfile",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,106 @@
+<div>
+  <h2 id="page-heading" data-cy="ExchangeRequestHeading">
+    <span>Exchange Requests</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-exchange-request"
+        [routerLink]="['/exchange-request/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Exchange Request </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="exchangeRequests?.length === 0">
+    <span>No Exchange Requests found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="exchangeRequests && exchangeRequests.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="offeringItem">
+            <div class="d-flex">
+              <span>Offering Item</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="requestedItem">
+            <div class="d-flex">
+              <span>Requested Item</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="requester.id">
+            <div class="d-flex">
+              <span>Requester</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exchangeRequest of exchangeRequests; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/exchange-request', exchangeRequest.id, 'view']">{{ exchangeRequest.id }}</a>
+          </td>
+          <td>{{ exchangeRequest.offeringItem }}</td>
+          <td>{{ exchangeRequest.requestedItem }}</td>
+          <td>
+            <div *ngIf="exchangeRequest.requester">
+              <a [routerLink]="['/user-profile', exchangeRequest.requester.id, 'view']">{{ exchangeRequest.requester.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/exchange-request', exchangeRequest.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/exchange-request', exchangeRequest.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(exchangeRequest)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

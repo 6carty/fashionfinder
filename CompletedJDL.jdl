@@ -1,0 +1,212 @@
+enum ClothingType {
+    SHIRTS,
+    SHOES,
+    DRESS,
+    TROUSERS,
+    ACCESSORIES,
+    OTHERS
+}
+
+enum Status {
+    NOTFORSALE,
+    AVAILABLE,
+    EXCHANGED,
+    SOLD
+}
+
+enum Occasion {
+    FORMAL,
+    BUSINESS,
+    CASUAL,
+    SPORTS
+}
+
+enum Privacy {
+    PUBLIC,
+    PRIVATE
+}
+
+entity UserProfile {
+    firstName String
+    lastName String
+    profilePicture ImageBlob
+    lastSeen Instant
+    location String
+    privacy Privacy required
+}
+
+entity ClothingItem {
+    name String required
+    type ClothingType required
+    description String
+    clothingSize String
+    colour String
+    style String
+    brand String
+    material String
+    status Status required
+    lastWorn Instant
+}
+
+entity Outfit {
+    name String required
+    description String
+    date Instant
+    occasion Occasion required
+}
+
+entity Message {
+    content String required
+    timeStamp Instant required
+    messageImage ImageBlob
+}
+
+entity Chatroom {
+    name String required
+    icon ImageBlob
+}
+
+entity UserMilestone {
+    currentProgress Long required
+    completed Boolean required
+    unlockedDate Instant
+}
+
+entity MilestoneType {
+    name String required
+    initialTarget Long required
+    nextTarget Long
+}
+
+entity Event {
+    title String required
+    location String required
+    dateTime ZonedDateTime required
+}
+
+entity Calendar {
+    currentWeek ZonedDateTime required
+    calendarConnected String
+    calendarSync ZonedDateTime
+}
+
+entity Weather {
+    datetime ZonedDateTime required
+    weatherCode String required
+    maxTemperature Double
+    minTemperature Double
+    precipitation Double
+    windSpeed Double
+    windDirection String
+}
+
+entity FashionTip {
+    title1 String required
+    description1 String
+    title2 String
+    description2 String
+}
+
+entity ExchangeRequest {
+    offeringItem Long required
+    requestedItem Long required
+}
+
+entity PurchaseListing {
+    itemForSale Long required
+    price Double required
+}
+
+entity SaleListing {
+    itemForSale Long required
+    price Double required
+}
+
+entity Rating {
+    rating Double required
+}
+
+entity TrendingOutfit {
+    name String required
+    description String
+}
+
+
+
+entity Post {
+    caption String required
+    image ImageBlob
+    createdDate LocalDate required
+    editedDate LocalDate
+    totalLikes Integer
+}
+
+entity Likes{
+    like Boolean
+    likedAt Instant
+}
+
+entity Comment {
+    content String required
+    createdDate Instant required
+}
+
+entity Leaderboard{
+    profilePic ImageBlob
+    usersName String
+    likeCount Integer
+    position Integer
+}
+
+relationship OneToOne {
+    UserProfile to User
+    Calendar to UserProfile
+    TrendingOutfit to Rating
+}
+
+relationship ManyToMany {
+    ClothingItem to Outfit
+    UserProfile to Chatroom
+}
+
+relationship ManyToOne {
+    Likes to Post
+    Comment{postCommented} to Post
+    Leaderboard{post} to Post
+    Outfit to Weather{weather}//unsure
+    Outfit to Rating{rating} //unsure
+    ClothingItem to Event{events}
+    UserMilestone to MilestoneType{type}
+    Weather to Calendar
+    Message to Chatroom{chatroom(name)}
+}
+
+relationship OneToMany {
+    UserProfile{posts} to Post{author}
+    UserProfile{comments} to Comment{userCommented}
+    UserProfile{likes} to Likes{userLiked}
+    UserProfile{ClothingItems} to ClothingItem{owner}
+    UserProfile{outfits} to Outfit{creator}
+    UserProfile to Message
+    UserProfile{exchangeRequests} to ExchangeRequest{requester}
+    UserProfile{purchaseListings} to PurchaseListing{seller}
+    UserProfile{saleListings} to SaleListing{seller}
+    UserProfile{fashionTips} to FashionTip{author}
+    UserProfile to UserMilestone
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

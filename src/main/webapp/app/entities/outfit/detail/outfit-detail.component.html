@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="outfit">
+      <h2 data-cy="outfitDetailsHeading"><span>Outfit</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ outfit.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ outfit.name }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ outfit.description }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ outfit.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Occasion</span></dt>
+        <dd>
+          <span>{{ outfit.occasion }}</span>
+        </dd>
+        <dt><span>Weather</span></dt>
+        <dd>
+          <div *ngIf="outfit.weather">
+            <a [routerLink]="['/weather', outfit.weather.id, 'view']">{{ outfit.weather.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <div *ngIf="outfit.rating">
+            <a [routerLink]="['/rating', outfit.rating.id, 'view']">{{ outfit.rating.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Creator</span></dt>
+        <dd>
+          <div *ngIf="outfit.creator">
+            <a [routerLink]="['/user-profile', outfit.creator.id, 'view']">{{ outfit.creator.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/outfit', outfit.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123223",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "exchange_request",
+  "fields": [
+    {
+      "fieldName": "offeringItem",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "requestedItem",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ExchangeRequest",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "exchangeRequests",
+      "relationshipName": "requester",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

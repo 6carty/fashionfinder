@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123218",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "milestone_type",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "initialTarget",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nextTarget",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "MilestoneType",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userMilestone",
+      "otherEntityRelationshipName": "milestoneType",
+      "relationshipName": "type",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

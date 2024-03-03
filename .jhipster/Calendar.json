@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123220",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "calendar",
+  "fields": [
+    {
+      "fieldName": "currentWeek",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "calendarConnected",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "calendarSync",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Calendar",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "calendar",
+      "ownerSide": true,
+      "relationshipName": "userProfile",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "weather",
+      "otherEntityRelationshipName": "calendar",
+      "relationshipName": "weather",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

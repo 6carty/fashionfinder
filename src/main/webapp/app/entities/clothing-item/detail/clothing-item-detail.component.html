@@ -1,0 +1,87 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="clothingItem">
+      <h2 data-cy="clothingItemDetailsHeading"><span>Clothing Item</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ clothingItem.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ clothingItem.name }}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+          <span>{{ clothingItem.type }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ clothingItem.description }}</span>
+        </dd>
+        <dt><span>Clothing Size</span></dt>
+        <dd>
+          <span>{{ clothingItem.clothingSize }}</span>
+        </dd>
+        <dt><span>Colour</span></dt>
+        <dd>
+          <span>{{ clothingItem.colour }}</span>
+        </dd>
+        <dt><span>Style</span></dt>
+        <dd>
+          <span>{{ clothingItem.style }}</span>
+        </dd>
+        <dt><span>Brand</span></dt>
+        <dd>
+          <span>{{ clothingItem.brand }}</span>
+        </dd>
+        <dt><span>Material</span></dt>
+        <dd>
+          <span>{{ clothingItem.material }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ clothingItem.status }}</span>
+        </dd>
+        <dt><span>Last Worn</span></dt>
+        <dd>
+          <span>{{ clothingItem.lastWorn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Event</span></dt>
+        <dd>
+          <div *ngIf="clothingItem.event">
+            <a [routerLink]="['/event', clothingItem.event.id, 'view']">{{ clothingItem.event.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Outfit</span></dt>
+        <dd>
+          <span *ngFor="let outfit of clothingItem.outfits; let last = last">
+            <a [routerLink]="['/outfit', outfit.id, 'view']">{{ outfit.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span>Owner</span></dt>
+        <dd>
+          <div *ngIf="clothingItem.owner">
+            <a [routerLink]="['/user-profile', clothingItem.owner.id, 'view']">{{ clothingItem.owner.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/clothing-item', clothingItem.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

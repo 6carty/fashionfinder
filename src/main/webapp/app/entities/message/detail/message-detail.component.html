@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="message">
+      <h2 data-cy="messageDetailsHeading"><span>Message</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ message.id }}</span>
+        </dd>
+        <dt><span>Content</span></dt>
+        <dd>
+          <span>{{ message.content }}</span>
+        </dd>
+        <dt><span>Time Stamp</span></dt>
+        <dd>
+          <span>{{ message.timeStamp | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Message Image</span></dt>
+        <dd>
+          <div *ngIf="message.messageImage">
+            <a (click)="openFile(message.messageImage, message.messageImageContentType)">
+              <img
+                [src]="'data:' + message.messageImageContentType + ';base64,' + message.messageImage"
+                style="max-width: 100%"
+                alt="message image"
+              />
+            </a>
+            {{ message.messageImageContentType }}, {{ byteSize(message.messageImage) }}
+          </div>
+        </dd>
+        <dt><span>Chatroom</span></dt>
+        <dd>
+          <div *ngIf="message.chatroom">
+            <a [routerLink]="['/chatroom', message.chatroom.id, 'view']">{{ message.chatroom.id }}</a>
+          </div>
+        </dd>
+        <dt><span>User Profile</span></dt>
+        <dd>
+          <div *ngIf="message.userProfile">
+            <a [routerLink]="['/user-profile', message.userProfile.id, 'view']">{{ message.userProfile.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/message', message.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

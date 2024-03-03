@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="fashionTip">
+      <h2 data-cy="fashionTipDetailsHeading"><span>Fashion Tip</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ fashionTip.id }}</span>
+        </dd>
+        <dt><span>Title 1</span></dt>
+        <dd>
+          <span>{{ fashionTip.title1 }}</span>
+        </dd>
+        <dt><span>Description 1</span></dt>
+        <dd>
+          <span>{{ fashionTip.description1 }}</span>
+        </dd>
+        <dt><span>Title 2</span></dt>
+        <dd>
+          <span>{{ fashionTip.title2 }}</span>
+        </dd>
+        <dt><span>Description 2</span></dt>
+        <dd>
+          <span>{{ fashionTip.description2 }}</span>
+        </dd>
+        <dt><span>Author</span></dt>
+        <dd>
+          <div *ngIf="fashionTip.author">
+            <a [routerLink]="['/user-profile', fashionTip.author.id, 'view']">{{ fashionTip.author.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/fashion-tip', fashionTip.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

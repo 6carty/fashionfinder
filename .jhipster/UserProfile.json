@@ -1,0 +1,131 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123212",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_profile",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "profilePicture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "lastSeen",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "privacy",
+      "fieldType": "Privacy",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PUBLIC,PRIVATE"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserProfile",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "userProfile",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "post",
+      "otherEntityRelationshipName": "author",
+      "relationshipName": "posts",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "userCommented",
+      "relationshipName": "comments",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "likes",
+      "otherEntityRelationshipName": "userLiked",
+      "relationshipName": "likes",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "clothingItem",
+      "otherEntityRelationshipName": "owner",
+      "relationshipName": "clothingItems",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "outfit",
+      "otherEntityRelationshipName": "creator",
+      "relationshipName": "outfits",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "message",
+      "otherEntityRelationshipName": "userProfile",
+      "relationshipName": "message",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "exchangeRequest",
+      "otherEntityRelationshipName": "requester",
+      "relationshipName": "exchangeRequests",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "purchaseListing",
+      "otherEntityRelationshipName": "seller",
+      "relationshipName": "purchaseListings",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "saleListing",
+      "otherEntityRelationshipName": "seller",
+      "relationshipName": "saleListings",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "fashionTip",
+      "otherEntityRelationshipName": "author",
+      "relationshipName": "fashionTips",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "userMilestone",
+      "otherEntityRelationshipName": "userProfile",
+      "relationshipName": "userMilestone",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "chatroom",
+      "otherEntityRelationshipName": "userProfile",
+      "ownerSide": true,
+      "relationshipName": "chatroom",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "calendar",
+      "otherEntityRelationshipName": "userProfile",
+      "ownerSide": false,
+      "relationshipName": "calendar",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,91 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-exchange-request-heading" data-cy="ExchangeRequestCreateUpdateHeading">Create or edit a Exchange Request</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_offeringItem">Offering Item</label>
+          <input
+            type="number"
+            class="form-control"
+            name="offeringItem"
+            id="field_offeringItem"
+            data-cy="offeringItem"
+            formControlName="offeringItem"
+          />
+          <div
+            *ngIf="editForm.get('offeringItem')!.invalid && (editForm.get('offeringItem')!.dirty || editForm.get('offeringItem')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('offeringItem')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('offeringItem')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_requestedItem">Requested Item</label>
+          <input
+            type="number"
+            class="form-control"
+            name="requestedItem"
+            id="field_requestedItem"
+            data-cy="requestedItem"
+            formControlName="requestedItem"
+          />
+          <div
+            *ngIf="
+              editForm.get('requestedItem')!.invalid && (editForm.get('requestedItem')!.dirty || editForm.get('requestedItem')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('requestedItem')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('requestedItem')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_requester">Requester</label>
+          <select
+            class="form-control"
+            id="field_requester"
+            data-cy="requester"
+            name="requester"
+            formControlName="requester"
+            [compareWith]="compareUserProfile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
+              {{ userProfileOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

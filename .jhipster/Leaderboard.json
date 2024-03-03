@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123231",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "leaderboard",
+  "fields": [
+    {
+      "fieldName": "profilePic",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "usersName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "likeCount",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "position",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Leaderboard",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "post",
+      "relationshipName": "post",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

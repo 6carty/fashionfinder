@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123222",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "fashion_tip",
+  "fields": [
+    {
+      "fieldName": "title1",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "title2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description2",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FashionTip",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "fashionTips",
+      "relationshipName": "author",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="likes">
+      <h2 data-cy="likesDetailsHeading"><span>Likes</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ likes.id }}</span>
+        </dd>
+        <dt><span>Like</span></dt>
+        <dd>
+          <span>{{ likes.like }}</span>
+        </dd>
+        <dt><span>Liked At</span></dt>
+        <dd>
+          <span>{{ likes.likedAt | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Post</span></dt>
+        <dd>
+          <div *ngIf="likes.post">
+            <a [routerLink]="['/post', likes.post.id, 'view']">{{ likes.post.id }}</a>
+          </div>
+        </dd>
+        <dt><span>User Liked</span></dt>
+        <dd>
+          <div *ngIf="likes.userLiked">
+            <a [routerLink]="['/user-profile', likes.userLiked.id, 'view']">{{ likes.userLiked.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/likes', likes.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="exchangeRequest">
+      <h2 data-cy="exchangeRequestDetailsHeading"><span>Exchange Request</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ exchangeRequest.id }}</span>
+        </dd>
+        <dt><span>Offering Item</span></dt>
+        <dd>
+          <span>{{ exchangeRequest.offeringItem }}</span>
+        </dd>
+        <dt><span>Requested Item</span></dt>
+        <dd>
+          <span>{{ exchangeRequest.requestedItem }}</span>
+        </dd>
+        <dt><span>Requester</span></dt>
+        <dd>
+          <div *ngIf="exchangeRequest.requester">
+            <a [routerLink]="['/user-profile', exchangeRequest.requester.id, 'view']">{{ exchangeRequest.requester.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/exchange-request', exchangeRequest.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

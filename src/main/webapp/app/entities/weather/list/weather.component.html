@@ -1,0 +1,141 @@
+<div>
+  <h2 id="page-heading" data-cy="WeatherHeading">
+    <span>Weathers</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-weather"
+        [routerLink]="['/weather/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Weather </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="weathers?.length === 0">
+    <span>No Weathers found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="weathers && weathers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="datetime">
+            <div class="d-flex">
+              <span>Datetime</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="weatherCode">
+            <div class="d-flex">
+              <span>Weather Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maxTemperature">
+            <div class="d-flex">
+              <span>Max Temperature</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="minTemperature">
+            <div class="d-flex">
+              <span>Min Temperature</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="precipitation">
+            <div class="d-flex">
+              <span>Precipitation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="windSpeed">
+            <div class="d-flex">
+              <span>Wind Speed</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="windDirection">
+            <div class="d-flex">
+              <span>Wind Direction</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="calendar.id">
+            <div class="d-flex">
+              <span>Calendar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let weather of weathers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/weather', weather.id, 'view']">{{ weather.id }}</a>
+          </td>
+          <td>{{ weather.datetime | formatMediumDatetime }}</td>
+          <td>{{ weather.weatherCode }}</td>
+          <td>{{ weather.maxTemperature }}</td>
+          <td>{{ weather.minTemperature }}</td>
+          <td>{{ weather.precipitation }}</td>
+          <td>{{ weather.windSpeed }}</td>
+          <td>{{ weather.windDirection }}</td>
+          <td>
+            <div *ngIf="weather.calendar">
+              <a [routerLink]="['/calendar', weather.calendar.id, 'view']">{{ weather.calendar.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/weather', weather.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/weather', weather.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(weather)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

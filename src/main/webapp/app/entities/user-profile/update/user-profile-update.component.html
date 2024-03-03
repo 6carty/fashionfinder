@@ -1,0 +1,142 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-user-profile-heading" data-cy="UserProfileCreateUpdateHeading">Create or edit a User Profile</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_lastName">Last Name</label>
+          <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_profilePicture">Profile Picture</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('profilePictureContentType')!.value + ';base64,' + editForm.get('profilePicture')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('profilePicture')!.value"
+              alt="userProfile image"
+            />
+            <div *ngIf="editForm.get('profilePicture')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('profilePictureContentType')!.value }}, {{ byteSize(editForm.get('profilePicture')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('profilePicture', 'profilePictureContentType', 'file_profilePicture')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_profilePicture"
+              data-cy="profilePicture"
+              (change)="setFileData($event, 'profilePicture', true)"
+              accept="image/*"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePicture"
+            id="field_profilePicture"
+            data-cy="profilePicture"
+            formControlName="profilePicture"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePictureContentType"
+            id="field_profilePictureContentType"
+            formControlName="profilePictureContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_lastSeen">Last Seen</label>
+          <div class="d-flex">
+            <input
+              id="field_lastSeen"
+              data-cy="lastSeen"
+              type="datetime-local"
+              class="form-control"
+              name="lastSeen"
+              formControlName="lastSeen"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_privacy">Privacy</label>
+          <select class="form-control" name="privacy" formControlName="privacy" id="field_privacy" data-cy="privacy">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let privacy of privacyValues" [value]="privacy">privacy</option>
+          </select>
+          <div *ngIf="editForm.get('privacy')!.invalid && (editForm.get('privacy')!.dirty || editForm.get('privacy')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('privacy')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label for="field_chatrooms">Chatroom</label>
+          <select
+            class="form-control"
+            id="field_chatrooms"
+            data-cy="chatroom"
+            multiple
+            name="chatrooms"
+            formControlName="chatrooms"
+            [compareWith]="compareChatroom"
+          >
+            <option [ngValue]="chatroomOption" *ngFor="let chatroomOption of chatroomsSharedCollection">{{ chatroomOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

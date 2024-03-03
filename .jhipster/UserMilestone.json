@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123217",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_milestone",
+  "fields": [
+    {
+      "fieldName": "currentProgress",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "completed",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "unlockedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserMilestone",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "milestoneType",
+      "otherEntityRelationshipName": "type",
+      "relationshipName": "milestoneType",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "userMilestone",
+      "relationshipName": "userProfile",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

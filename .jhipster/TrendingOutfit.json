@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123227",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "trending_outfit",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "TrendingOutfit",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "trendingOutfit",
+      "ownerSide": true,
+      "relationshipName": "rating",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,81 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123213",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "clothing_item",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "ClothingType",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "SHIRTS,SHOES,DRESS,TROUSERS,ACCESSORIES,OTHERS"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "clothingSize",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "colour",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "style",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "brand",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "material",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NOTFORSALE,AVAILABLE,EXCHANGED,SOLD"
+    },
+    {
+      "fieldName": "lastWorn",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ClothingItem",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "events",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "outfit",
+      "otherEntityRelationshipName": "clothingItem",
+      "ownerSide": true,
+      "relationshipName": "outfit",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "clothingItems",
+      "relationshipName": "owner",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

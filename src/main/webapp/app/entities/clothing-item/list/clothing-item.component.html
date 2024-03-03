@@ -1,0 +1,185 @@
+<div>
+  <h2 id="page-heading" data-cy="ClothingItemHeading">
+    <span>Clothing Items</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-clothing-item"
+        [routerLink]="['/clothing-item/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Clothing Item </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="clothingItems?.length === 0">
+    <span>No Clothing Items found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="clothingItems && clothingItems.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="type">
+            <div class="d-flex">
+              <span>Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span>Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="clothingSize">
+            <div class="d-flex">
+              <span>Clothing Size</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="colour">
+            <div class="d-flex">
+              <span>Colour</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="style">
+            <div class="d-flex">
+              <span>Style</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="brand">
+            <div class="d-flex">
+              <span>Brand</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="material">
+            <div class="d-flex">
+              <span>Material</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span>Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastWorn">
+            <div class="d-flex">
+              <span>Last Worn</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="event.id">
+            <div class="d-flex">
+              <span>Event</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="outfit.id">
+            <div class="d-flex">
+              <span>Outfit</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="owner.id">
+            <div class="d-flex">
+              <span>Owner</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let clothingItem of clothingItems; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/clothing-item', clothingItem.id, 'view']">{{ clothingItem.id }}</a>
+          </td>
+          <td>{{ clothingItem.name }}</td>
+          <td>{{ clothingItem.type }}</td>
+          <td>{{ clothingItem.description }}</td>
+          <td>{{ clothingItem.clothingSize }}</td>
+          <td>{{ clothingItem.colour }}</td>
+          <td>{{ clothingItem.style }}</td>
+          <td>{{ clothingItem.brand }}</td>
+          <td>{{ clothingItem.material }}</td>
+          <td>{{ clothingItem.status }}</td>
+          <td>{{ clothingItem.lastWorn | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="clothingItem.event">
+              <a [routerLink]="['/event', clothingItem.event.id, 'view']">{{ clothingItem.event.id }}</a>
+            </div>
+          </td>
+          <td>
+            <span *ngFor="let outfit of clothingItem.outfits; let last = last">
+              <a class="form-control-static" [routerLink]="['/outfit', outfit.id, 'view']">{{ outfit.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <div *ngIf="clothingItem.owner">
+              <a [routerLink]="['/user-profile', clothingItem.owner.id, 'view']">{{ clothingItem.owner.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/clothing-item', clothingItem.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/clothing-item', clothingItem.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(clothingItem)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="chatroom">
+      <h2 data-cy="chatroomDetailsHeading"><span>Chatroom</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ chatroom.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ chatroom.name }}</span>
+        </dd>
+        <dt><span>Icon</span></dt>
+        <dd>
+          <div *ngIf="chatroom.icon">
+            <a (click)="openFile(chatroom.icon, chatroom.iconContentType)">
+              <img [src]="'data:' + chatroom.iconContentType + ';base64,' + chatroom.icon" style="max-width: 100%" alt="chatroom image" />
+            </a>
+            {{ chatroom.iconContentType }}, {{ byteSize(chatroom.icon) }}
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chatroom', chatroom.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

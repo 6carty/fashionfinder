@@ -1,0 +1,120 @@
+<div>
+  <h2 id="page-heading" data-cy="FashionTipHeading">
+    <span>Fashion Tips</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-fashion-tip"
+        [routerLink]="['/fashion-tip/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Fashion Tip </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="fashionTips?.length === 0">
+    <span>No Fashion Tips found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="fashionTips && fashionTips.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title1">
+            <div class="d-flex">
+              <span>Title 1</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description1">
+            <div class="d-flex">
+              <span>Description 1</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title2">
+            <div class="d-flex">
+              <span>Title 2</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description2">
+            <div class="d-flex">
+              <span>Description 2</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="author.id">
+            <div class="d-flex">
+              <span>Author</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let fashionTip of fashionTips; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/fashion-tip', fashionTip.id, 'view']">{{ fashionTip.id }}</a>
+          </td>
+          <td>{{ fashionTip.title1 }}</td>
+          <td>{{ fashionTip.description1 }}</td>
+          <td>{{ fashionTip.title2 }}</td>
+          <td>{{ fashionTip.description2 }}</td>
+          <td>
+            <div *ngIf="fashionTip.author">
+              <a [routerLink]="['/user-profile', fashionTip.author.id, 'view']">{{ fashionTip.author.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/fashion-tip', fashionTip.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/fashion-tip', fashionTip.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(fashionTip)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

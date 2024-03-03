@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123229",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "likes",
+  "fields": [
+    {
+      "fieldName": "like",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "likedAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Likes",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "post",
+      "otherEntityRelationshipName": "likes",
+      "relationshipName": "post",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "likes",
+      "relationshipName": "userLiked",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

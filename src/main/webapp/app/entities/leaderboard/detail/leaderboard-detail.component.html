@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="leaderboard">
+      <h2 data-cy="leaderboardDetailsHeading"><span>Leaderboard</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ leaderboard.id }}</span>
+        </dd>
+        <dt><span>Profile Pic</span></dt>
+        <dd>
+          <div *ngIf="leaderboard.profilePic">
+            <a (click)="openFile(leaderboard.profilePic, leaderboard.profilePicContentType)">
+              <img
+                [src]="'data:' + leaderboard.profilePicContentType + ';base64,' + leaderboard.profilePic"
+                style="max-width: 100%"
+                alt="leaderboard image"
+              />
+            </a>
+            {{ leaderboard.profilePicContentType }}, {{ byteSize(leaderboard.profilePic) }}
+          </div>
+        </dd>
+        <dt><span>Users Name</span></dt>
+        <dd>
+          <span>{{ leaderboard.usersName }}</span>
+        </dd>
+        <dt><span>Like Count</span></dt>
+        <dd>
+          <span>{{ leaderboard.likeCount }}</span>
+        </dd>
+        <dt><span>Position</span></dt>
+        <dd>
+          <span>{{ leaderboard.position }}</span>
+        </dd>
+        <dt><span>Post</span></dt>
+        <dd>
+          <div *ngIf="leaderboard.post">
+            <a [routerLink]="['/post', leaderboard.post.id, 'view']">{{ leaderboard.post.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/leaderboard', leaderboard.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

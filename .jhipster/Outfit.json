@@ -1,0 +1,61 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123214",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "outfit",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "occasion",
+      "fieldType": "Occasion",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "FORMAL,BUSINESS,CASUAL,SPORTS"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Outfit",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "weather",
+      "otherEntityRelationshipName": "weather",
+      "relationshipName": "weather",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "rating",
+      "relationshipName": "rating",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "outfits",
+      "relationshipName": "creator",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "clothingItem",
+      "otherEntityRelationshipName": "outfit",
+      "ownerSide": false,
+      "relationshipName": "clothingItem",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

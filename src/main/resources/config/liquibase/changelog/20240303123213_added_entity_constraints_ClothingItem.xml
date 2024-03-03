@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity ClothingItem.
+    -->
+    <changeSet id="20240303123213-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="event_id"
+                                 baseTableName="clothing_item"
+                                 constraintName="fk_clothing_item__event_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="event"/>
+
+        <addForeignKeyConstraint baseColumnNames="clothing_item_id"
+                                 baseTableName="rel_clothing_item__outfit"
+                                 constraintName="fk_rel_clothing_item__outfit__clothing_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="clothing_item"/>
+
+        <addForeignKeyConstraint baseColumnNames="outfit_id"
+                                 baseTableName="rel_clothing_item__outfit"
+                                 constraintName="fk_rel_clothing_item__outfit__outfit_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="outfit"/>
+
+        <addForeignKeyConstraint baseColumnNames="owner_id"
+                                 baseTableName="clothing_item"
+                                 constraintName="fk_clothing_item__owner_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
+    </changeSet>
+</databaseChangeLog>

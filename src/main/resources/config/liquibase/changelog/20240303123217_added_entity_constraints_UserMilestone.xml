@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity UserMilestone.
+    -->
+    <changeSet id="20240303123217-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="milestone_type_id"
+                                 baseTableName="user_milestone"
+                                 constraintName="fk_user_milestone__milestone_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="milestone_type"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_profile_id"
+                                 baseTableName="user_milestone"
+                                 constraintName="fk_user_milestone__user_profile_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="userMilestone">
+      <h2 data-cy="userMilestoneDetailsHeading"><span>User Milestone</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ userMilestone.id }}</span>
+        </dd>
+        <dt><span>Current Progress</span></dt>
+        <dd>
+          <span>{{ userMilestone.currentProgress }}</span>
+        </dd>
+        <dt><span>Completed</span></dt>
+        <dd>
+          <span>{{ userMilestone.completed }}</span>
+        </dd>
+        <dt><span>Unlocked Date</span></dt>
+        <dd>
+          <span>{{ userMilestone.unlockedDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Milestone Type</span></dt>
+        <dd>
+          <div *ngIf="userMilestone.milestoneType">
+            <a [routerLink]="['/milestone-type', userMilestone.milestoneType.id, 'view']">{{ userMilestone.milestoneType.id }}</a>
+          </div>
+        </dd>
+        <dt><span>User Profile</span></dt>
+        <dd>
+          <div *ngIf="userMilestone.userProfile">
+            <a [routerLink]="['/user-profile', userMilestone.userProfile.id, 'view']">{{ userMilestone.userProfile.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-milestone', userMilestone.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

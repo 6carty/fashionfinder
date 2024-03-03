@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123228",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "post",
+  "fields": [
+    {
+      "fieldName": "caption",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "editedDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "totalLikes",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Post",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "posts",
+      "relationshipName": "author",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "likes",
+      "otherEntityRelationshipName": "post",
+      "relationshipName": "likes",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

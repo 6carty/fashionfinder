@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123224",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "purchase_listing",
+  "fields": [
+    {
+      "fieldName": "itemForSale",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PurchaseListing",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "userProfile",
+      "otherEntityRelationshipName": "purchaseListings",
+      "relationshipName": "seller",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

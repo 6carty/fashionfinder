@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="purchaseListing">
+      <h2 data-cy="purchaseListingDetailsHeading"><span>Purchase Listing</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ purchaseListing.id }}</span>
+        </dd>
+        <dt><span>Item For Sale</span></dt>
+        <dd>
+          <span>{{ purchaseListing.itemForSale }}</span>
+        </dd>
+        <dt><span>Price</span></dt>
+        <dd>
+          <span>{{ purchaseListing.price }}</span>
+        </dd>
+        <dt><span>Seller</span></dt>
+        <dd>
+          <div *ngIf="purchaseListing.seller">
+            <a [routerLink]="['/user-profile', purchaseListing.seller.id, 'view']">{{ purchaseListing.seller.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/purchase-listing', purchaseListing.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

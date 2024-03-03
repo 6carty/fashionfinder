@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-leaderboard-heading" data-cy="LeaderboardCreateUpdateHeading">Create or edit a Leaderboard</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_profilePic">Profile Pic</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('profilePicContentType')!.value + ';base64,' + editForm.get('profilePic')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('profilePic')!.value"
+              alt="leaderboard image"
+            />
+            <div *ngIf="editForm.get('profilePic')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('profilePicContentType')!.value }}, {{ byteSize(editForm.get('profilePic')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('profilePic', 'profilePicContentType', 'file_profilePic')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_profilePic"
+              data-cy="profilePic"
+              (change)="setFileData($event, 'profilePic', true)"
+              accept="image/*"
+            />
+          </div>
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePic"
+            id="field_profilePic"
+            data-cy="profilePic"
+            formControlName="profilePic"
+          />
+          <input
+            type="hidden"
+            class="form-control"
+            name="profilePicContentType"
+            id="field_profilePicContentType"
+            formControlName="profilePicContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_usersName">Users Name</label>
+          <input type="text" class="form-control" name="usersName" id="field_usersName" data-cy="usersName" formControlName="usersName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_likeCount">Like Count</label>
+          <input type="number" class="form-control" name="likeCount" id="field_likeCount" data-cy="likeCount" formControlName="likeCount" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_position">Position</label>
+          <input type="number" class="form-control" name="position" id="field_position" data-cy="position" formControlName="position" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_post">Post</label>
+          <select class="form-control" id="field_post" data-cy="post" name="post" formControlName="post" [compareWith]="comparePost">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="postOption" *ngFor="let postOption of postsSharedCollection">{{ postOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

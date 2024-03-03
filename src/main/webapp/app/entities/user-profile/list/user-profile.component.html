@@ -1,0 +1,155 @@
+<div>
+  <h2 id="page-heading" data-cy="UserProfileHeading">
+    <span>User Profiles</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-user-profile"
+        [routerLink]="['/user-profile/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new User Profile </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="userProfiles?.length === 0">
+    <span>No User Profiles found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="userProfiles && userProfiles.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="firstName">
+            <div class="d-flex">
+              <span>First Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <div class="d-flex">
+              <span>Last Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="profilePicture">
+            <div class="d-flex">
+              <span>Profile Picture</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastSeen">
+            <div class="d-flex">
+              <span>Last Seen</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="location">
+            <div class="d-flex">
+              <span>Location</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="privacy">
+            <div class="d-flex">
+              <span>Privacy</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.id">
+            <div class="d-flex">
+              <span>User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="chatroom.id">
+            <div class="d-flex">
+              <span>Chatroom</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userProfile of userProfiles; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/user-profile', userProfile.id, 'view']">{{ userProfile.id }}</a>
+          </td>
+          <td>{{ userProfile.firstName }}</td>
+          <td>{{ userProfile.lastName }}</td>
+          <td>
+            <a *ngIf="userProfile.profilePicture" (click)="openFile(userProfile.profilePicture, userProfile.profilePictureContentType)">
+              <img
+                [src]="'data:' + userProfile.profilePictureContentType + ';base64,' + userProfile.profilePicture"
+                style="max-height: 30px"
+                alt="userProfile image"
+              />
+            </a>
+            <span *ngIf="userProfile.profilePicture"
+              >{{ userProfile.profilePictureContentType }}, {{ byteSize(userProfile.profilePicture) }}</span
+            >
+          </td>
+          <td>{{ userProfile.lastSeen | formatMediumDatetime }}</td>
+          <td>{{ userProfile.location }}</td>
+          <td>{{ userProfile.privacy }}</td>
+          <td>
+            {{ userProfile.user?.id }}
+          </td>
+          <td>
+            <span *ngFor="let chatroom of userProfile.chatrooms; let last = last">
+              <a class="form-control-static" [routerLink]="['/chatroom', chatroom.id, 'view']">{{ chatroom.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/user-profile', userProfile.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/user-profile', userProfile.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(userProfile)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

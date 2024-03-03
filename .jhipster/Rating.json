@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123226",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "rating",
+  "fields": [
+    {
+      "fieldName": "rating",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Rating",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "trendingOutfit",
+      "otherEntityRelationshipName": "rating",
+      "ownerSide": false,
+      "relationshipName": "trendingOutfit",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "outfit",
+      "otherEntityRelationshipName": "rating",
+      "relationshipName": "rating",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

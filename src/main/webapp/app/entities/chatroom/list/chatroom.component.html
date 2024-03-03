@@ -1,0 +1,100 @@
+<div>
+  <h2 id="page-heading" data-cy="ChatroomHeading">
+    <span>Chatrooms</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-chatroom"
+        [routerLink]="['/chatroom/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Chatroom </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="chatrooms?.length === 0">
+    <span>No Chatrooms found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="chatrooms && chatrooms.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="icon">
+            <div class="d-flex">
+              <span>Icon</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chatroom of chatrooms; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/chatroom', chatroom.id, 'view']">{{ chatroom.id }}</a>
+          </td>
+          <td>{{ chatroom.name }}</td>
+          <td>
+            <a *ngIf="chatroom.icon" (click)="openFile(chatroom.icon, chatroom.iconContentType)">
+              <img [src]="'data:' + chatroom.iconContentType + ';base64,' + chatroom.icon" style="max-height: 30px" alt="chatroom image" />
+            </a>
+            <span *ngIf="chatroom.icon">{{ chatroom.iconContentType }}, {{ byteSize(chatroom.icon) }}</span>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/chatroom', chatroom.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/chatroom', chatroom.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(chatroom)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

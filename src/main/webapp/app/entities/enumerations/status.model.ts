@@ -1,0 +1,9 @@
+export enum Status {
+  NOTFORSALE = 'NOTFORSALE',
+
+  AVAILABLE = 'AVAILABLE',
+
+  EXCHANGED = 'EXCHANGED',
+
+  SOLD = 'SOLD',
+}

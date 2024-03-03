@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-fashion-tip-heading" data-cy="FashionTipCreateUpdateHeading">Create or edit a Fashion Tip</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_title1">Title 1</label>
+          <input type="text" class="form-control" name="title1" id="field_title1" data-cy="title1" formControlName="title1" />
+          <div *ngIf="editForm.get('title1')!.invalid && (editForm.get('title1')!.dirty || editForm.get('title1')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title1')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_description1">Description 1</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description1"
+            id="field_description1"
+            data-cy="description1"
+            formControlName="description1"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_title2">Title 2</label>
+          <input type="text" class="form-control" name="title2" id="field_title2" data-cy="title2" formControlName="title2" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_description2">Description 2</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description2"
+            id="field_description2"
+            data-cy="description2"
+            formControlName="description2"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_author">Author</label>
+          <select
+            class="form-control"
+            id="field_author"
+            data-cy="author"
+            name="author"
+            formControlName="author"
+            [compareWith]="compareUserProfile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
+              {{ userProfileOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

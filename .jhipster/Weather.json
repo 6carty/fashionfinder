@@ -1,0 +1,59 @@
+{
+  "applications": "*",
+  "changelogDate": "20240303123221",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "weather",
+  "fields": [
+    {
+      "fieldName": "datetime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "weatherCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "maxTemperature",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "minTemperature",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "precipitation",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "windSpeed",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "windDirection",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Weather",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "calendar",
+      "otherEntityRelationshipName": "weather",
+      "relationshipName": "calendar",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "outfit",
+      "otherEntityRelationshipName": "weather",
+      "relationshipName": "weather",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
