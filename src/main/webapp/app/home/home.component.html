@@ -6,7 +6,7 @@
       <span class="first-line">Join and curate</span>
       <span class="second-line">your every wardrobe needs</span>
     </h1>
-    <button class="get-started-button" onclick="">Get Started</button>
+    <button class="get-started-button" (click)="signUP()">Get Started</button>
 
     <div [ngSwitch]="account !== null">
       <div class="alert alert-success fade-out" *ngSwitchCase="true">
