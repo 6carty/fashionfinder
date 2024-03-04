@@ -20,7 +20,7 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <a class="nav-link" routerLink="/" (click)="wardrobe()">
             <span>
               <!--              <fa-icon icon="shirt"></fa-icon>-->
               <span>Wardrobe</span>
@@ -33,7 +33,7 @@
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+          <a class="nav-link" routerLink="/mix-and-match" (click)="collapseNavbar()">
             <span>
               <span>Mix&Match</span>
             </span>

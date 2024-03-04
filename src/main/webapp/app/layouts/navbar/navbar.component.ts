@@ -69,4 +69,7 @@ export class NavbarComponent implements OnInit {
   socialChat(): void {
     this.router.navigate(['/social-chat']);
   }
+  wardrobe(): void {
+    this.router.navigate(['/wardrobe']);
+  }
 }

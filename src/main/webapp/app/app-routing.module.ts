@@ -11,6 +11,8 @@ import { GdprComponent } from './gdpr/gdpr.component';
 import { CommunityComponent } from './community/community.component';
 import { FashionPlannerComponent } from './fashion-planner/fashion-planner.component';
 import { SocialChatComponent } from './social-chat/social-chat.component';
+import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
+import { WardrobeComponent } from './wardrobe/wardrobe.component';
 
 @NgModule({
   imports: [
@@ -51,6 +53,14 @@ import { SocialChatComponent } from './social-chat/social-chat.component';
         {
           path: 'social-chat',
           component: SocialChatComponent,
+        },
+        {
+          path: 'mix-and-match',
+          component: MixAndMatchComponent,
+        },
+        {
+          path: 'wardrobe',
+          component: WardrobeComponent,
         },
         navbarRoute,
         ...errorRoute,
