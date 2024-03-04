@@ -25,6 +25,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { GdprComponent } from './gdpr/gdpr.component';
 import { CommunityComponent } from './community/community.component';
+import { FashionPlannerComponent } from './fashion-planner/fashion-planner.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,16 @@ import { CommunityComponent } from './community/community.component';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, GdprComponent, CommunityComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    GdprComponent,
+    CommunityComponent,
+    FashionPlannerComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

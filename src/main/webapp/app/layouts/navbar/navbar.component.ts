@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
-  gdpr(): void {
-    this.router.navigate(['/gdpr']);
+  fashionPlanner(): void {
+    this.router.navigate(['/fashion-planner']);
   }
 }
