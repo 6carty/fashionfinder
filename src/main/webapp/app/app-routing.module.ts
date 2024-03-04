@@ -8,6 +8,7 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprComponent } from './gdpr/gdpr.component';
+import { CommunityComponent } from './community/community.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,10 @@ import { GdprComponent } from './gdpr/gdpr.component';
         {
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
+        },
+        {
+          path: 'community',
+          component: CommunityComponent,
         },
         {
           path: 'gdpr',
