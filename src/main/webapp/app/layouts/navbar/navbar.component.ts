@@ -65,4 +65,8 @@ export class NavbarComponent implements OnInit {
   fashionPlanner(): void {
     this.router.navigate(['/fashion-planner']);
   }
+
+  wardrobe(): void {
+    this.router.navigate(['/wardrobe']);
+  }
 }

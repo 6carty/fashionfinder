@@ -27,6 +27,7 @@ import { GdprComponent } from './gdpr/gdpr.component';
 import { CommunityComponent } from './community/community.component';
 import { FashionPlannerComponent } from './fashion-planner/fashion-planner.component';
 import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
+import { WardrobeComponent } from './wardrobe/wardrobe.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
     CommunityComponent,
     FashionPlannerComponent,
     MixAndMatchComponent,
+    WardrobeComponent,
   ],
   bootstrap: [MainComponent],
 })
