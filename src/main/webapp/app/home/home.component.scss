@@ -9,6 +9,10 @@ Main page styles
   min-height: 78vh;
   justify-content: center;
 }
+.alert-success {
+  position: absolute;
+  bottom: 10px;
+}
 .fade-out {
   animation: fadeOut 10s ease forwards;
 }
