@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,13 +16,30 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private renderer: Renderer2,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit(): void {
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
+    this.accountService.getAuthenticationState().subscribe((account: Account | null) => {
+      this.account = account;
+
+      if (account) {
+        setTimeout(() => {
+          const alertElement = this.elementRef.nativeElement.querySelector('.alert-success');
+          if (alertElement) {
+            this.renderer.addClass(alertElement, 'fade-out');
+          }
+        }, 3000);
+      }
+    });
   }
 
   login(): void {

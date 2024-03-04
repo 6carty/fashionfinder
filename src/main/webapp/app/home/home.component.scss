@@ -9,6 +9,18 @@ Main page styles
   min-height: 78vh;
   justify-content: center;
 }
+.fade-out {
+  animation: fadeOut 10s ease forwards;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none; /* Optionally, hide the element after fading out */
+  }
+}
 
 .first-line,
 .second-line {
