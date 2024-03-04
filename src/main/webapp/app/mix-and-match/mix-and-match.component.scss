@@ -1,0 +1,36 @@
+.display-5 {
+  display: flex;
+  position: relative;
+  min-height: 74vh;
+  //justify-content: space-between;
+  //align-items: flex-start;
+}
+.date-and-time {
+  position: absolute;
+  left: 0.6510416666666666vw;
+  top: 0;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.4199726402188784vh;
+  height: 10.943912448700411vh;
+  width: 15.299479166666666vw;
+  //margin-bottom: 20px;
+}
+.filter-box {
+  position: absolute;
+  left: 0.6510416666666666vw;
+  top: 13.679890560875513vh;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.4199726402188784vh;
+  height: 46.238030095759235vh;
+  width: 15.299479166666666vw;
+}
+.rectangle-4 {
+  position: absolute;
+  //left: 35.9781121751026vh;
+  left: 18.59vw;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.4199726402188784vh;
+  //min-height: 75vh;
+  height: 80vh;
+  width: 76.171875vw;
+}
