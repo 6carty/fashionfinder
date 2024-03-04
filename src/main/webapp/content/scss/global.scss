@@ -78,11 +78,11 @@ Generic styles
 }
 
 .footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
-  position: absolute;
+  position: relative;
   bottom: 0;
   height: 40px;
   margin-top: 40px;
+  clear: both;
 }
 
 .hand,
