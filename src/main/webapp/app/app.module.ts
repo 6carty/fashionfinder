@@ -29,6 +29,7 @@ import { FashionPlannerComponent } from './fashion-planner/fashion-planner.compo
 import { SocialChatComponent } from './social-chat/social-chat.component';
 import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
 import { WardrobeComponent } from './wardrobe/wardrobe.component';
+import { SustainabilityComponent } from './sustainability/sustainability.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
     SocialChatComponent,
     MixAndMatchComponent,
     WardrobeComponent,
+    SustainabilityComponent,
   ],
   bootstrap: [MainComponent],
 })

@@ -72,4 +72,8 @@ export class NavbarComponent implements OnInit {
   wardrobe(): void {
     this.router.navigate(['/wardrobe']);
   }
+
+  sustainability(): void {
+    this.router.navigate(['/sustainability']);
+  }
 }
