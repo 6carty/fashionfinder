@@ -1,14 +1,45 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-
-.hipster {
-  display: inline-block;
-  width: 347px;
-  height: 497px;
-  background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
-  background-size: contain;
+.row {
+  position: relative;
+  //border: 1px solid transparent;
+  align-items: center;
+  font-family: Inter, sans-serif;
+  min-height: 78vh;
+  justify-content: center;
 }
+.col-md-9 {
+  color: white;
+}
+.first-line,
+.second-line {
+  display: block; /* Display on its own line */
+}
+
+.display-4 {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.get-started-button {
+  background-color: lightseagreen;
+  color: white;
+  border-radius: 25px;
+  width: 175px;
+  height: 60px;
+
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+//.hipster {
+//  display: inline-block;
+//  width: 347px;
+//  height: 497px;
+//  background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
+//  background-size: contain;
+//}
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -16,8 +47,8 @@ Main page styles
   only screen and (-o-min-device-pixel-ratio: 2/1),
   only screen and (min-resolution: 192dpi),
   only screen and (min-resolution: 2dppx) {
-  .hipster {
-    background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
-    background-size: contain;
-  }
+  //.hipster {
+  //  background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
+  //  background-size: contain;
+  //}
 }

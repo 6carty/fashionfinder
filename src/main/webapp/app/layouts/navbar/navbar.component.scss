@@ -23,8 +23,11 @@ Navbar
   .dropdown-item.active:hover {
     background-color: $dark;
   }
-
+  .navbar-title {
+    color: white;
+  }
   a.nav-link {
+    color: white;
     font-weight: 400;
   }
 
@@ -43,6 +46,6 @@ Logo styles
   width: 45px;
   display: inline-block;
   vertical-align: middle;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+  background: url('../../../content/images/Logo.png') no-repeat center center;
   background-size: contain;
 }
