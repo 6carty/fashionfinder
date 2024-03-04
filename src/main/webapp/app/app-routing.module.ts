@@ -10,6 +10,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { GdprComponent } from './gdpr/gdpr.component';
 import { CommunityComponent } from './community/community.component';
 import { FashionPlannerComponent } from './fashion-planner/fashion-planner.component';
+import { SocialChatComponent } from './social-chat/social-chat.component';
 
 @NgModule({
   imports: [
@@ -46,6 +47,10 @@ import { FashionPlannerComponent } from './fashion-planner/fashion-planner.compo
         {
           path: 'fashion-planner',
           component: FashionPlannerComponent,
+        },
+        {
+          path: 'social-chat',
+          component: SocialChatComponent,
         },
         navbarRoute,
         ...errorRoute,

@@ -1,0 +1,117 @@
+.chat-container {
+  display: flex;
+  height: 75vh;
+  align-items: stretch;
+
+  // This mixin creates a translucent background for the columns
+  @mixin translucent-bg($color, $alpha) {
+    background-color: rgba($color, $alpha);
+  }
+
+  .left-column {
+    // Column for the users chats, profiles, create new chat,
+    flex: 1; // The left column will take up 1 part of the space
+    padding: 10px;
+    border-radius: 20px;
+    margin: 10px;
+    backdrop-filter: blur(10px);
+    @include translucent-bg(white, 0.2);
+    // Additional styles for left column...
+  }
+
+  .right-column {
+    // Column for the current chat opened
+    flex: 2; // The right column will take up 2 parts of the space, making it twice as wide as the left column
+    padding: 10px;
+    border-radius: 20px;
+    margin: 10px;
+    backdrop-filter: blur(10px);
+    @include translucent-bg(white, 0.2);
+    // Additional styles for right column...
+  }
+
+  .left-column {
+    .user-profile {
+      // Style for user profile
+    }
+
+    .search-bar {
+      // Style for search bar
+    }
+
+    .chatrooms-list {
+      // Style for chatrooms list
+    }
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    @include translucent-bg(white, 0.2);
+    position: relative;
+    padding-bottom: 60px;
+
+    .chat-header {
+      // Style for the chat header
+    }
+
+    .chat-messages {
+      // Style for the chat messages area
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .message-input-container {
+      align-self: center;
+      display: flex;
+      padding: 5px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 30px;
+      margin-bottom: 0px;
+      margin-top: auto;
+      width: 90%;
+      max-width: 600px;
+
+      .message-input-field {
+        flex-grow: 1;
+        border: none;
+        background: transparent;
+        margin-right: 10px; // Space before the send button
+        color: #000000; // White text color
+
+        &::placeholder {
+          color: #000000; // White placeholder text color
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .send-button {
+        background: #00ff00; // Placeholder green color, replace with the color of your send button
+        border: none;
+        border-radius: 50%; // Circular button
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 20px; // Adjust the size of your send icon as needed
+          height: 20px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
