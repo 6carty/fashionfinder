@@ -26,6 +26,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { GdprComponent } from './gdpr/gdpr.component';
 import { CommunityComponent } from './community/community.component';
 import { FashionPlannerComponent } from './fashion-planner/fashion-planner.component';
+import { MixandmatchComponent } from './mixandmatch/mixandmatch.component';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { FashionPlannerComponent } from './fashion-planner/fashion-planner.compo
     GdprComponent,
     CommunityComponent,
     FashionPlannerComponent,
+    MixandmatchComponent,
   ],
   bootstrap: [MainComponent],
 })
