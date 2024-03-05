@@ -12,6 +12,7 @@ describe('SustainabilityComponent', () => {
     })
     .compileComponents();
 
+
     fixture = TestBed.createComponent(SustainabilityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
