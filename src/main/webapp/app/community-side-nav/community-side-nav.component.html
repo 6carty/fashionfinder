@@ -1,41 +1,36 @@
 <!-- sidebar.component.html -->
-
-<div class="sidebar">
-  <div class="user-details">
-    <!-- Profile Picture -->
-    <div class="profile-picture">
-      <img src="content/images/jhipster_family_member_0_head-192.png" alt="Profile Picture" />
-    </div>
-    <!-- Display Name -->
-    <div class="display-name">
-      <h4>Name Name</h4>
-      <p class="text-muted">@USERNAME</p>
-    </div>
+<div class="user-details">
+  <!-- Profile Picture -->
+  <div class="profile-picture">
+    <img src="content/images/jhipster_family_member_0_head-192.png" alt="Profile Picture" />
+  </div>
+  <!-- Display Name -->
+  <div class="display-name">
+    <h4>Name Name</h4>
+    <p class="text-muted">@USERNAME</p>
   </div>
 
-  <!-- Followers and Following Section -->
-  <div class="stats">
-    <a class="rank">
-      <h5>Rank:</h5>
-      <h4>0</h4>
-    </a>
-    <a class="followers">
-      <h5>Followers:</h5>
-      <h4>0</h4>
-    </a>
-    <a class="following">
-      <h5>Following:</h5>
-      <h4>0</h4>
-    </a>
-    <a class="like-count">
-      <h5>Total Likes:</h5>
-      <h4>0</h4>
-    </a>
+  <div class="sidebar">
+    <div class="stats">
+      <a class="rank">
+        <span class="stat-heading"><h5>Rank:</h5></span>
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="followers">
+        <span class="stat-heading"><h5>Followers:</h5></span> <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="following">
+        <span class="stat-heading"><h5>Following:</h5></span>
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="like-count">
+        <span class="stat-heading"><h5>Total Likes:</h5></span>
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+    </div>
+    <!-- Button for Uploads -->
+    <button class="btn">Create Post</button>
+    <!-- Button for Gallery -->
+    <button class="btn">Gallery</button>
   </div>
-
-  <!-- Button for Uploads -->
-  <button class="btn">Create Post</button>
-
-  <!-- Button for Gallery -->
-  <button class="btn">Gallery</button>
 </div>
