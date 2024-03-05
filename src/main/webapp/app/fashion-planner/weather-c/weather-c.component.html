@@ -1,0 +1,22 @@
+<!--<p *ngIf="data">Data: {{ data }}</p>-->
+
+<h4>Weather Forecast</h4>
+
+<table *ngIf="data" class="custom-table">
+  <tr>
+    <th>Date</th>
+    <th>Condition</th>
+    <th>Low (°C)</th>
+    <th>High (°C)</th>
+    <th>Precipitation</th>
+    <th>Wind Speed (km/h)</th>
+  </tr>
+  <tr *ngFor="let day of data">
+    <td>{{ day['date'] }}</td>
+    <td>{{ day['weatherCode'] }}</td>
+    <td>{{ day['minTemp'] }}</td>
+    <td>{{ day['maxTemp'] }}</td>
+    <td>{{ day['precipitation'] }}%</td>
+    <td>{{ day['windSpeed'] }}</td>
+  </tr>
+</table>

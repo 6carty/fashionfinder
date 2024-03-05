@@ -8,10 +8,8 @@ describe('SustainabilityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SustainabilityComponent ]
-    })
-    .compileComponents();
-
+      declarations: [SustainabilityComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SustainabilityComponent);
     component = fixture.componentInstance;

@@ -9,5 +9,6 @@ import { EventRoutingModule } from './route/event-routing.module';
 @NgModule({
   imports: [SharedModule, EventRoutingModule],
   declarations: [EventComponent, EventDetailComponent, EventUpdateComponent, EventDeleteDialogComponent],
+  exports: [EventComponent, EventDetailComponent],
 })
 export class EventModule {}
