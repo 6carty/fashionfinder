@@ -9,5 +9,7 @@ export enum ClothingType {
 
   ACCESSORIES = 'ACCESSORIES',
 
+  HATS = 'HATS',
+
   OTHERS = 'OTHERS',
 }

@@ -7,18 +7,23 @@
   <div class="left-column">
     <div class="user-profile">
       <!-- User profile section -->
+      <div *ngIf="account">
+        <h3>Welcome {{ account.firstName }} {{ account.lastName }}!</h3>
+      </div>
     </div>
     <div class="search-bar">
-      <input type="text" placeholder="Search..." class="search-input" />
-      <button class="search-btn">
-        <fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon>
-      </button>
-      <button class="add-btn">
-        <fa-icon icon="plus" [fixedWidth]="true"></fa-icon>
-      </button>
+      <div class="center">
+        <input type="text" placeholder="Search..." class="search-input" />
+        <button class="search-btn">
+          <fa-icon icon="magnifying-glass"></fa-icon>
+        </button>
+        <button class="add-btn">
+          <fa-icon icon="plus"></fa-icon>
+        </button>
+      </div>
     </div>
     <div class="chatrooms-list">
-      <!-- Chatrooms list section -->
+      <h3>Chatrooms</h3>
     </div>
   </div>
 
@@ -29,11 +34,17 @@
     </div>
     <div class="chat-messages">
       <!-- Messages will go here -->
+      <div class="message" *ngFor="let message of messages">
+        <div class="message-content" [ngClass]="{ sent: message.isSent, received: !message.isSent }">
+          <span>{{ message.text }}</span>
+          <span class="message-time">{{ message.time }}</span>
+        </div>
+      </div>
     </div>
     <div class="message-input">
       <div class="message-input-container">
         <input type="text" placeholder="Write" class="message-input-field" />
-        <button class="send-button">
+        <button class="send-btn">
           <img src="content/images/SendIcon.png" alt="Send" />
         </button>
       </div>

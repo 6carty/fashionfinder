@@ -1,7 +1,12 @@
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
 .chat-container {
   display: flex;
   height: 75vh;
-  align-items: stretch;
 
   // This mixin creates a translucent background for the columns
   @mixin translucent-bg($color, $alpha) {
@@ -14,12 +19,10 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     border-radius: 20px;
     margin: 10px;
     backdrop-filter: blur(10px);
     @include translucent-bg(white, 0.2);
-    // Additional styles for left column...
   }
 
   .right-column {
@@ -33,8 +36,6 @@
     flex-direction: column;
     justify-content: flex-end;
 
-    @include translucent-bg(white, 0.2);
-    position: relative;
     padding-bottom: 60px;
   }
 
@@ -46,19 +47,8 @@
     .search-bar {
       // Style for search bar
       .search-container {
-        display: flex;
-        align-items: center;
-        background-color: #ff00ff; // Use the color from your mockup
-        border-radius: 20px;
-        padding: 5px 10px;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 500px;
-        margin-top: 200px;
-        box-sizing: border-box;
-
         .search-input {
-          flex-grow: 1;
+          flex-grow: 2;
           border: none;
           background: transparent;
           padding: 10px;
@@ -76,15 +66,10 @@
 
         .search-btn,
         .add-btn {
-          background: transparent;
-          border: none;
-          cursor: pointer;
           display: flex;
-          align-items: center;
-          justify-content: center;
 
           img {
-            height: 20px; // Adjust based on your icon size
+            height: 20px;
             width: 20px;
           }
 
@@ -106,9 +91,45 @@
     }
 
     .chat-messages {
-      // Style for the chat messages area
-      flex-grow: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      max-height: 100%;
       overflow-y: auto;
+
+      .message {
+        display: flex;
+        margin: 8px 0;
+
+        &-content {
+          max-width: 70%;
+          padding: 10px;
+          border-radius: 15px;
+          margin: 4px;
+          position: relative;
+
+          &.sent {
+            background-color: #d1ffd7; // light green for sent messages
+            align-self: flex-end;
+            display: flex;
+            margin-top: auto;
+          }
+
+          &.received {
+            background-color: #ffffff; // white for received messages
+            align-self: flex-start;
+          }
+
+          .message-time {
+            position: absolute;
+            bottom: -18px;
+            right: 10px;
+            font-size: 0.75rem;
+            color: #000000;
+          }
+        }
+      }
     }
 
     .message-input-container {
@@ -120,7 +141,6 @@
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.5);
       border-radius: 30px;
-      margin-bottom: 0px;
       margin-top: auto;
       width: 90%;
       max-width: 600px;
@@ -141,7 +161,8 @@
         }
       }
 
-      .send-button {
+      //Buttons
+      .send-btn {
         background: #00ff00;
         border: none;
         border-radius: 50%;

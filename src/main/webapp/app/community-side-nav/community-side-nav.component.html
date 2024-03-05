@@ -1,50 +1,45 @@
 <!-- sidebar.component.html -->
-
-<div class="sidebar">
+<div class="user-details">
   <!-- Profile Picture -->
   <div class="profile-picture">
-    <img src="assets/profile-picture.jpg" alt="Profile Picture" />
+    <img src="content/images/jhipster_family_member_0_head-192.png" alt="Profile Picture" class="circle-image" />
   </div>
-
   <!-- Display Name -->
   <div class="display-name">
-    <span class="label">@USERNAME</span>
+    <h5>Haydon Carty</h5>
+    <p class="text-muted">@sixcarty</p>
   </div>
 
-  <!-- Followers and Following Section -->
-  <div class="stats">
-    <div class="ranking">
-      <span class="text">
-        <h6>Rank:</h6>
-        <h5>24</h5>
-      </span>
+  <div class="sidebar">
+    <div class="stats">
+      <a class="rank" style="text-decoration: none">
+        <span class="stat-heading"
+          ><h5><b>Rank:</b></h5></span
+        >
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="followers" style="text-decoration: none">
+        <span class="stat-heading"
+          ><h5><b>Followers:</b></h5></span
+        >
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="following" style="text-decoration: none">
+        <span class="stat-heading"
+          ><h5><b>Following:</b></h5></span
+        >
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
+      <a class="like-count" style="text-decoration: none">
+        <span class="stat-heading"
+          ><h5><b>Total Likes:</b></h5></span
+        >
+        <span class="stat-value"><h4>0</h4></span>
+      </a>
     </div>
-
-    <div class="followers">
-      <span class="text">
-        <h6>Followers:</h6>
-        <h5>500</h5>
-      </span>
-    </div>
-
-    <div class="following">
-      <span class="text">
-        <h6>Following:</h6>
-        <h5>1000</h5>
-      </span>
-    </div>
-
-    <div class="like-count">
-      <span class="text">
-        <h6>Total Likes:</h6>
-        <h5>2423</h5>
-      </span>
-    </div>
+    <!-- Button for Uploads -->
+    <button class="post-btn"><b>Create Post</b></button>
+    <!-- Button for Gallery -->
+    <button class="gallery-btn"><b>Gallery</b></button>
   </div>
-
-  <!-- Button for Uploads -->
-  <button class="btn">Uploads</button>
-
-  <!-- Button for Gallery -->
-  <button class="btn">Gallery</button>
 </div>

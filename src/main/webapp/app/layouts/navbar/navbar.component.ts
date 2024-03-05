@@ -75,4 +75,8 @@ export class NavbarComponent implements OnInit {
   sustainability(): void {
     this.router.navigate(['/sustainability']);
   }
+
+  analytics(): void {
+    this.router.navigate(['/analytics']);
+  }
 }

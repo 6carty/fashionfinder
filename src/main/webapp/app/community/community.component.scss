@@ -1,0 +1,28 @@
+main {
+  position: relative;
+}
+
+.community-page {
+  display: grid;
+  grid-template-columns: 18vw auto 20vw;
+  column-gap: 2rem;
+  position: relative;
+}
+
+main .container .left {
+  height: max-content;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+main .container .left .user-details {
+  padding: 10px;
+  background: #595b5f;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  column-gap: 1rem;
+}

@@ -9,6 +9,5 @@ import { CalendarRoutingModule } from './route/calendar-routing.module';
 @NgModule({
   imports: [SharedModule, CalendarRoutingModule],
   declarations: [CalendarComponent, CalendarDetailComponent, CalendarUpdateComponent, CalendarDeleteDialogComponent],
-  exports: [CalendarComponent],
 })
 export class CalendarModule {}

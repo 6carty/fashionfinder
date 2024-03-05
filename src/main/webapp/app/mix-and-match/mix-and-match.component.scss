@@ -23,6 +23,30 @@
 .current-temp {
   //font-size: large;
 }
+.first-image-line,
+.second-image-line {
+  display: flex;
+  justify-content: space-between;
+}
+.first-line-img01,
+.second-image-img01 {
+  margin-left: 6.380208333333333vw;
+}
+.first-line-img01,
+.first-line-img02,
+.first-line-img03,
+.first-line-img04,
+.second-image-img01,
+.second-image-img02,
+.second-image-img03,
+.second-image-img04 {
+  margin-top: 1.915184678522572vh;
+  margin-right: 3.515625vw;
+  background-color: white;
+  height: 27.359781121751027vh;
+  width: 13.020833333333334vw;
+  border-radius: 3.4199726402188784vh;
+}
 .current-temp {
   margin-left: 10px;
 }
@@ -41,15 +65,20 @@
   left: 18.59vw;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.4199726402188784vh;
-  height: 80vh;
+  height: 82vh;
   width: 76.171875vw;
 }
-.filter-text,
-.recommended-outfit-text {
+.filter-text {
   position: relative;
   left: 19px;
   top: 11px;
 }
+.recommended-outfit-text,
+.trending-outfit-text {
+  margin-left: 4.036458333333333vw;
+  margin-top: 4.686730506155951vh;
+}
+
 .filter-text {
   font-size: 20px;
 }

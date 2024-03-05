@@ -14,6 +14,7 @@ import { SocialChatComponent } from './social-chat/social-chat.component';
 import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
 import { WardrobeComponent } from './wardrobe/wardrobe.component';
 import { SustainabilityComponent } from './sustainability/sustainability.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,10 @@ import { SustainabilityComponent } from './sustainability/sustainability.compone
         {
           path: 'sustainability',
           component: SustainabilityComponent,
+        },
+        {
+          path: 'analytics',
+          component: AnalyticsComponent,
         },
         navbarRoute,
         ...errorRoute,
