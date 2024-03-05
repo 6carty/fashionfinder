@@ -28,9 +28,7 @@ export class AccountService {
   authenticate(identity: Account | null): void {
     this.userIdentity = identity;
     this.authenticationState.next(this.userIdentity);
-    if (!identity) {
-      this.accountCache$ = null;
-    }
+    this.accountCache$ = null;
   }
 
   hasAnyAuthority(authorities: string[] | string): boolean {

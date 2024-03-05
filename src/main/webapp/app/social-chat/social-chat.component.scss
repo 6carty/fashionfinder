@@ -53,7 +53,7 @@
         padding: 5px 10px;
         justify-content: space-between;
         width: 100%;
-        max-width: 500px;
+        max-width: 100%;
         margin-top: 200px;
         box-sizing: border-box;
 
@@ -141,7 +141,8 @@
         }
       }
 
-      .send-button {
+      //Buttons
+      .send-btn {
         background: #00ff00;
         border: none;
         border-radius: 50%;

@@ -46,12 +46,14 @@ export class SettingsComponent implements OnInit {
 
   save(): void {
     this.success = false;
-
     const account = this.settingsForm.getRawValue();
     this.accountService.save(account).subscribe(() => {
       this.success = true;
-
-      this.accountService.authenticate(account);
+      this.accountService.identity(true).subscribe((account: Account | null) => {
+        if (account) {
+          this.accountService.authenticate(account);
+        }
+      });
     });
   }
 }
