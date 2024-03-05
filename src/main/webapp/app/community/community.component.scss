@@ -1,0 +1,18 @@
+main {
+  position: relative;
+}
+
+.community-page {
+  display: grid;
+  grid-template-columns: 18vw auto 20vw;
+  column-gap: 2rem;
+  position: relative;
+}
+
+.left {
+  height: max-content;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
