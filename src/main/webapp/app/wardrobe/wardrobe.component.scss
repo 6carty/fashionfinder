@@ -28,3 +28,20 @@
   left: 19px;
   top: 11px;
 }
+
+.apply-filter-button {
+  background-color: #bbcedd;
+  color: black;
+  border-radius: 1.75vh;
+  width: 15vw;
+  height: 5vh;
+  transition-duration: 0.4s;
+  &:hover {
+    background-color: #aabdcc;
+  }
+  &:active {
+    transition-duration: 0s;
+    background-color: #888888;
+    color: white;
+  }
+}
