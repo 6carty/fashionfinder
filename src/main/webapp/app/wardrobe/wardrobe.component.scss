@@ -25,15 +25,15 @@
 
 .rectangle-displayContent {
   position: absolute;
-  left: 19px;
-  top: 11px;
+  left: 1.75vh;
+  top: 1.75vh;
 }
 
 .apply-filter-button {
   background-color: #bbcedd;
   color: black;
   border-radius: 1.75vh;
-  width: 15vw;
+  width: 17.5vw;
   height: 5vh;
   transition-duration: 0.4s;
   &:hover {
@@ -41,7 +41,57 @@
   }
   &:active {
     transition-duration: 0s;
-    background-color: #888888;
+    background-color: #889baa;
     color: white;
+  }
+}
+
+.rectangle-filter-button {
+  position: absolute;
+  left: 0.75vh;
+  top: 0.75vh;
+}
+
+.table-clothes {
+  width: 65vw;
+  height: 65vh;
+  top: 2.5vh;
+  left: 2.5vw;
+  caption {
+    color: black;
+    text-align: center;
+  }
+  thead {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    th {
+      text-align: center;
+      padding: 10px;
+      color: black;
+      border: 1px solid black;
+    }
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid black;
+    }
+    td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+    th {
+      padding-left: 10px;
+      border: 1px solid black;
+    }
+  }
+  tfoot {
+    color: black;
+    border-bottom: 2px solid black;
+    tr {
+      td {
+        padding: 10px;
+        border: 1px solid black;
+      }
+    }
   }
 }
