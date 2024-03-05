@@ -1,0 +1,30 @@
+.display-wardrobe {
+  display: flex;
+  position: relative;
+  min-height: 75vh;
+}
+.rectangle-display {
+  position: absolute;
+  left: 25vw;
+  top: 5vh;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  height: 70vh;
+  width: 70vw;
+}
+
+.rectangle-filter {
+  position: absolute;
+  left: 2.5vw;
+  top: 5vh;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  height: 70vh;
+  width: 20vw;
+}
+
+.rectangle-displayContent {
+  position: absolute;
+  left: 19px;
+  top: 11px;
+}
