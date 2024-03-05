@@ -55,8 +55,8 @@ export class MixAndMatchComponent implements OnInit {
   }
   async fetchWeatherData(): Promise<void> {
     const params = {
-      latitude: 52.52,
-      longitude: 13.41,
+      latitude: 52.4862,
+      longitude: -1.8904,
       hourly: ['temperature_2m', 'relative_humidity_2m', 'precipitation', 'weather_code', 'wind_speed_10m'],
     };
     const url = 'https://api.open-meteo.com/v1/forecast';
@@ -99,7 +99,6 @@ export class MixAndMatchComponent implements OnInit {
       this.currentHourHumidity = this.weatherData.hourly.relativeHumidity2m[currentIndex];
       this.currentHourPrecipitation = this.weatherData.hourly.precipitation[currentIndex];
       this.currentWeatherDescription = this.getWeatherDescription(this.weatherData.hourly.weatherCode[currentIndex]);
-      // this.currentHourWeatherCode = this.weatherData.hourly.weatherCode[currentIndex];
     } else {
       console.error('Weather data not available for the current hour.');
     }
