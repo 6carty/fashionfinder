@@ -9,6 +9,8 @@ export const sampleWithRequiredData: IClothingItem = {
   id: 66040,
   name: 'Liaison benchmark',
   type: ClothingType['OTHERS'],
+  clothingImg: '../fake-data/blob/hipster.png',
+  clothingImgContentType: 'unknown',
   status: Status['SOLD'],
 };
 
@@ -16,6 +18,8 @@ export const sampleWithPartialData: IClothingItem = {
   id: 74226,
   name: 'Dollar Awesome 1080p',
   type: ClothingType['SHIRTS'],
+  clothingImg: '../fake-data/blob/hipster.png',
+  clothingImgContentType: 'unknown',
   clothingSize: 'Barthelemy deliverables Dollar',
   colour: 'productize Auto',
   status: Status['EXCHANGED'],
@@ -26,6 +30,8 @@ export const sampleWithFullData: IClothingItem = {
   id: 15312,
   name: 'Gorgeous',
   type: ClothingType['DRESS'],
+  clothingImg: '../fake-data/blob/hipster.png',
+  clothingImgContentType: 'unknown',
   description: 'withdrawal',
   clothingSize: 'Lanka Oro Coordinator',
   colour: 'California',
@@ -39,6 +45,8 @@ export const sampleWithFullData: IClothingItem = {
 export const sampleWithNewData: NewClothingItem = {
   name: 'bandwidth real-time',
   type: ClothingType['TROUSERS'],
+  clothingImg: '../fake-data/blob/hipster.png',
+  clothingImgContentType: 'unknown',
   status: Status['EXCHANGED'],
   id: null,
 };
