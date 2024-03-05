@@ -26,20 +26,10 @@
           </tr>
         </tfoot>
         <tbody>
-          <tr>
-            <th>Hoodie</th>
-            <td>Informal</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>Jeans</th>
-            <td>Smart Casual</td>
-            <td>blue</td>
-          </tr>
-          <tr>
-            <th>Shirt</th>
-            <td>Formal</td>
-            <th>white</th>
+          <tr *ngFor="let item of recievedData">
+            <th>{{ item.name }}</th>
+            <td>{{ item.style }}</td>
+            <td>{{ item.colour }}</td>
           </tr>
         </tbody>
       </table>

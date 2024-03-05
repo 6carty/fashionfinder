@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -6,7 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./wardrobe.component.scss'],
 })
 export class WardrobeComponent implements OnInit {
-  constructor() {}
+  recievedData: any;
+  constructor(private clothingItemService: ClothingItemService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchClothingitem();
+  }
+
+  fetchClothingitem() {
+    const request = {
+      // Add filters, pagination, sorting options here
+    };
+
+    this.clothingItemService.query(request).subscribe(clothingItems => {
+      this.recievedData = clothingItems.body;
+    });
+  }
 }
