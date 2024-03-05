@@ -4,7 +4,6 @@ enum ClothingType {
     DRESS,
     TROUSERS,
     ACCESSORIES,
-    HATS,
     OTHERS
 }
 
@@ -39,7 +38,6 @@ entity UserProfile {
 entity ClothingItem {
     name String required
     type ClothingType required
-    clothingImg ImageBlob required
     description String
     clothingSize String
     colour String

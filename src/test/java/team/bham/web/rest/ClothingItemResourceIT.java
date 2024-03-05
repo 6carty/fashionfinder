@@ -27,7 +27,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.ClothingItem;
 import team.bham.domain.enumeration.ClothingType;
@@ -48,11 +47,6 @@ class ClothingItemResourceIT {
 
     private static final ClothingType DEFAULT_TYPE = ClothingType.SHIRTS;
     private static final ClothingType UPDATED_TYPE = ClothingType.SHOES;
-
-    private static final byte[] DEFAULT_CLOTHING_IMG = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_CLOTHING_IMG = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_CLOTHING_IMG_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_CLOTHING_IMG_CONTENT_TYPE = "image/png";
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -108,8 +102,6 @@ class ClothingItemResourceIT {
         ClothingItem clothingItem = new ClothingItem()
             .name(DEFAULT_NAME)
             .type(DEFAULT_TYPE)
-            .clothingImg(DEFAULT_CLOTHING_IMG)
-            .clothingImgContentType(DEFAULT_CLOTHING_IMG_CONTENT_TYPE)
             .description(DEFAULT_DESCRIPTION)
             .clothingSize(DEFAULT_CLOTHING_SIZE)
             .colour(DEFAULT_COLOUR)
@@ -131,8 +123,6 @@ class ClothingItemResourceIT {
         ClothingItem clothingItem = new ClothingItem()
             .name(UPDATED_NAME)
             .type(UPDATED_TYPE)
-            .clothingImg(UPDATED_CLOTHING_IMG)
-            .clothingImgContentType(UPDATED_CLOTHING_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .clothingSize(UPDATED_CLOTHING_SIZE)
             .colour(UPDATED_COLOUR)
@@ -164,8 +154,6 @@ class ClothingItemResourceIT {
         ClothingItem testClothingItem = clothingItemList.get(clothingItemList.size() - 1);
         assertThat(testClothingItem.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testClothingItem.getType()).isEqualTo(DEFAULT_TYPE);
-        assertThat(testClothingItem.getClothingImg()).isEqualTo(DEFAULT_CLOTHING_IMG);
-        assertThat(testClothingItem.getClothingImgContentType()).isEqualTo(DEFAULT_CLOTHING_IMG_CONTENT_TYPE);
         assertThat(testClothingItem.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testClothingItem.getClothingSize()).isEqualTo(DEFAULT_CLOTHING_SIZE);
         assertThat(testClothingItem.getColour()).isEqualTo(DEFAULT_COLOUR);
@@ -259,8 +247,6 @@ class ClothingItemResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(clothingItem.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].clothingImgContentType").value(hasItem(DEFAULT_CLOTHING_IMG_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].clothingImg").value(hasItem(Base64Utils.encodeToString(DEFAULT_CLOTHING_IMG))))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].clothingSize").value(hasItem(DEFAULT_CLOTHING_SIZE)))
             .andExpect(jsonPath("$.[*].colour").value(hasItem(DEFAULT_COLOUR)))
@@ -302,8 +288,6 @@ class ClothingItemResourceIT {
             .andExpect(jsonPath("$.id").value(clothingItem.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.clothingImgContentType").value(DEFAULT_CLOTHING_IMG_CONTENT_TYPE))
-            .andExpect(jsonPath("$.clothingImg").value(Base64Utils.encodeToString(DEFAULT_CLOTHING_IMG)))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.clothingSize").value(DEFAULT_CLOTHING_SIZE))
             .andExpect(jsonPath("$.colour").value(DEFAULT_COLOUR))
@@ -336,8 +320,6 @@ class ClothingItemResourceIT {
         updatedClothingItem
             .name(UPDATED_NAME)
             .type(UPDATED_TYPE)
-            .clothingImg(UPDATED_CLOTHING_IMG)
-            .clothingImgContentType(UPDATED_CLOTHING_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .clothingSize(UPDATED_CLOTHING_SIZE)
             .colour(UPDATED_COLOUR)
@@ -361,8 +343,6 @@ class ClothingItemResourceIT {
         ClothingItem testClothingItem = clothingItemList.get(clothingItemList.size() - 1);
         assertThat(testClothingItem.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testClothingItem.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testClothingItem.getClothingImg()).isEqualTo(UPDATED_CLOTHING_IMG);
-        assertThat(testClothingItem.getClothingImgContentType()).isEqualTo(UPDATED_CLOTHING_IMG_CONTENT_TYPE);
         assertThat(testClothingItem.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testClothingItem.getClothingSize()).isEqualTo(UPDATED_CLOTHING_SIZE);
         assertThat(testClothingItem.getColour()).isEqualTo(UPDATED_COLOUR);
@@ -443,13 +423,12 @@ class ClothingItemResourceIT {
 
         partialUpdatedClothingItem
             .type(UPDATED_TYPE)
-            .clothingImg(UPDATED_CLOTHING_IMG)
-            .clothingImgContentType(UPDATED_CLOTHING_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .clothingSize(UPDATED_CLOTHING_SIZE)
-            .style(UPDATED_STYLE)
+            .colour(UPDATED_COLOUR)
             .brand(UPDATED_BRAND)
-            .material(UPDATED_MATERIAL);
+            .material(UPDATED_MATERIAL)
+            .status(UPDATED_STATUS);
 
         restClothingItemMockMvc
             .perform(
@@ -465,15 +444,13 @@ class ClothingItemResourceIT {
         ClothingItem testClothingItem = clothingItemList.get(clothingItemList.size() - 1);
         assertThat(testClothingItem.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testClothingItem.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testClothingItem.getClothingImg()).isEqualTo(UPDATED_CLOTHING_IMG);
-        assertThat(testClothingItem.getClothingImgContentType()).isEqualTo(UPDATED_CLOTHING_IMG_CONTENT_TYPE);
         assertThat(testClothingItem.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testClothingItem.getClothingSize()).isEqualTo(UPDATED_CLOTHING_SIZE);
-        assertThat(testClothingItem.getColour()).isEqualTo(DEFAULT_COLOUR);
-        assertThat(testClothingItem.getStyle()).isEqualTo(UPDATED_STYLE);
+        assertThat(testClothingItem.getColour()).isEqualTo(UPDATED_COLOUR);
+        assertThat(testClothingItem.getStyle()).isEqualTo(DEFAULT_STYLE);
         assertThat(testClothingItem.getBrand()).isEqualTo(UPDATED_BRAND);
         assertThat(testClothingItem.getMaterial()).isEqualTo(UPDATED_MATERIAL);
-        assertThat(testClothingItem.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testClothingItem.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testClothingItem.getLastWorn()).isEqualTo(DEFAULT_LAST_WORN);
     }
 
@@ -492,8 +469,6 @@ class ClothingItemResourceIT {
         partialUpdatedClothingItem
             .name(UPDATED_NAME)
             .type(UPDATED_TYPE)
-            .clothingImg(UPDATED_CLOTHING_IMG)
-            .clothingImgContentType(UPDATED_CLOTHING_IMG_CONTENT_TYPE)
             .description(UPDATED_DESCRIPTION)
             .clothingSize(UPDATED_CLOTHING_SIZE)
             .colour(UPDATED_COLOUR)
@@ -517,8 +492,6 @@ class ClothingItemResourceIT {
         ClothingItem testClothingItem = clothingItemList.get(clothingItemList.size() - 1);
         assertThat(testClothingItem.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testClothingItem.getType()).isEqualTo(UPDATED_TYPE);
-        assertThat(testClothingItem.getClothingImg()).isEqualTo(UPDATED_CLOTHING_IMG);
-        assertThat(testClothingItem.getClothingImgContentType()).isEqualTo(UPDATED_CLOTHING_IMG_CONTENT_TYPE);
         assertThat(testClothingItem.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testClothingItem.getClothingSize()).isEqualTo(UPDATED_CLOTHING_SIZE);
         assertThat(testClothingItem.getColour()).isEqualTo(UPDATED_COLOUR);

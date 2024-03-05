@@ -14,13 +14,7 @@
       "fieldName": "type",
       "fieldType": "ClothingType",
       "fieldValidateRules": ["required"],
-      "fieldValues": "SHIRTS,SHOES,DRESS,TROUSERS,ACCESSORIES,HATS,OTHERS"
-    },
-    {
-      "fieldName": "clothingImg",
-      "fieldType": "byte[]",
-      "fieldTypeBlobContent": "image",
-      "fieldValidateRules": ["required"]
+      "fieldValues": "SHIRTS,SHOES,DRESS,TROUSERS,ACCESSORIES,OTHERS"
     },
     {
       "fieldName": "description",

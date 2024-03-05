@@ -22,19 +22,6 @@
         <dd>
           <span>{{ clothingItem.type }}</span>
         </dd>
-        <dt><span>Clothing Img</span></dt>
-        <dd>
-          <div *ngIf="clothingItem.clothingImg">
-            <a (click)="openFile(clothingItem.clothingImg, clothingItem.clothingImgContentType)">
-              <img
-                [src]="'data:' + clothingItem.clothingImgContentType + ';base64,' + clothingItem.clothingImg"
-                style="max-width: 100%"
-                alt="clothingItem image"
-              />
-            </a>
-            {{ clothingItem.clothingImgContentType }}, {{ byteSize(clothingItem.clothingImg) }}
-          </div>
-        </dd>
         <dt><span>Description</span></dt>
         <dd>
           <span>{{ clothingItem.description }}</span>
