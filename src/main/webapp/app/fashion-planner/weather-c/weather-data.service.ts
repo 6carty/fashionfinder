@@ -21,7 +21,7 @@ interface WeatherData {
 })
 export class WeatherDataService {
   private api =
-    'https://api.open-meteo.com/v1/forecast?latitude=52.4814&longitude=-1.8998&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=GMT&past_days=7';
+    'https://api.open-meteo.com/v1/forecast?latitude=52.4814&longitude=-1.8998&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max&timezone=GMT';
 
   constructor(private http: HttpClient) {}
 

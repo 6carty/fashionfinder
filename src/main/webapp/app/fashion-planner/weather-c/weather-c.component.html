@@ -1,5 +1,3 @@
-<!--<p *ngIf="data">Data: {{ data }}</p>-->
-
 <h4>Weather Forecast</h4>
 
 <table *ngIf="data" class="custom-table">
@@ -20,3 +18,13 @@
     <td>{{ day['windSpeed'] }}</td>
   </tr>
 </table>
+
+<!--<ul *ngIf="data" style="padding-top: 20px">-->
+<!--  <li *ngFor="let day of data" style="text-align: left">-->
+<!--    <span style="font-weight: bold"> {{ day['date'] }}</span>-->
+<!--    <span> | {{ day['weatherCode'] }} | </span>-->
+<!--    <span>{{ day['maxTemp'] }}°C/{{ day['minTemp'] }}°C | </span>-->
+<!--    <span>{{ day['precipitation'] }}% | </span>-->
+<!--    <span>{{ day['windSpeed'] }} km/h</span>-->
+<!--  </li>-->
+<!--</ul>-->
