@@ -3,9 +3,22 @@
 </div>
 
 <div class="container">
-  <div class="card">
-    <jhi-weather-c></jhi-weather-c>
+  <div *ngFor="let dayEvents of eventsByDay">
+    <h3 style="text-align: left">{{ dayEvents.date | date: 'EEEE, d LLLL' }}</h3>
+    <div *ngIf="dayEvents.events.length > 0; else noEvents">
+      <div *ngFor="let event of dayEvents.events">
+        <div class="custom-card">
+          <span
+            >{{ event.title }} <br />
+            {{ event.dateTime | date: 'h:MM aa' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <ng-template #noEvents>
+      <div class="custom-card">No events</div>
+    </ng-template>
   </div>
 
-  <div class="card">Some text here for now</div>
+  <jhi-weather-c></jhi-weather-c>
 </div>
