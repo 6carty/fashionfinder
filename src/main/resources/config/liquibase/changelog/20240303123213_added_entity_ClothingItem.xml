@@ -20,6 +20,12 @@
             <column name="type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="clothing_img" type="${blobType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="clothing_img_content_type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -88,6 +94,8 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="type" type="string"/>
+            <column name="clothing_img" type="blob"/>
+            <column name="clothing_img_content_type" type="string"/>
             <column name="description" type="string"/>
             <column name="clothing_size" type="string"/>
             <column name="colour" type="string"/>

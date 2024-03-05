@@ -9,5 +9,6 @@ public enum ClothingType {
     DRESS,
     TROUSERS,
     ACCESSORIES,
+    HATS,
     OTHERS,
 }
