@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fetchWeatherApi } from 'openmeteo';
+import { fetchWeatherApi } from "openmeteo";
 
 @Component({
   selector: 'jhi-mix-and-match',
