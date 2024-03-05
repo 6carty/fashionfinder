@@ -29,6 +29,9 @@ import { FashionPlannerComponent } from './fashion-planner/fashion-planner.compo
 import { SocialChatComponent } from './social-chat/social-chat.component';
 import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
 import { WardrobeComponent } from './wardrobe/wardrobe.component';
+import { CalendarModule } from './entities/calendar/calendar.module';
+import { EventModule } from './entities/event/event.module';
+import { WeatherCComponent } from './fashion-planner/weather-c/weather-c.component';
 
 @NgModule({
   imports: [
@@ -41,6 +44,8 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
+    CalendarModule,
+    EventModule,
   ],
   providers: [
     Title,
@@ -60,6 +65,7 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
     SocialChatComponent,
     MixAndMatchComponent,
     WardrobeComponent,
+    WeatherCComponent,
   ],
   bootstrap: [MainComponent],
 })

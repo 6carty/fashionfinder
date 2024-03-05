@@ -29,7 +29,7 @@
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="events && events.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
+    <table class="table table-striped">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
