@@ -35,6 +35,7 @@ import { WeatherCComponent } from './fashion-planner/weather-c/weather-c.compone
 import { SustainabilityComponent } from './sustainability/sustainability.component';
 import { CommunitySideNavComponent } from './community-side-nav/community-side-nav.component';
 import { CommunityFeedComponent } from './community-feed/community-feed.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { CommunityFeedComponent } from './community-feed/community-feed.componen
     SustainabilityComponent,
     CommunitySideNavComponent,
     CommunityFeedComponent,
+    AnalyticsComponent,
   ],
   bootstrap: [MainComponent],
 })
