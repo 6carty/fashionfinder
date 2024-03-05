@@ -29,7 +29,12 @@ import { FashionPlannerComponent } from './fashion-planner/fashion-planner.compo
 import { SocialChatComponent } from './social-chat/social-chat.component';
 import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
 import { WardrobeComponent } from './wardrobe/wardrobe.component';
+import { CalendarModule } from './entities/calendar/calendar.module';
+import { EventModule } from './entities/event/event.module';
+import { WeatherCComponent } from './fashion-planner/weather-c/weather-c.component';
 import { SustainabilityComponent } from './sustainability/sustainability.component';
+import { CommunitySideNavComponent } from './community-side-nav/community-side-nav.component';
+import { CommunityFeedComponent } from './community-feed/community-feed.component';
 
 @NgModule({
   imports: [
@@ -42,6 +47,8 @@ import { SustainabilityComponent } from './sustainability/sustainability.compone
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
+    CalendarModule,
+    EventModule,
   ],
   providers: [
     Title,
@@ -61,7 +68,10 @@ import { SustainabilityComponent } from './sustainability/sustainability.compone
     SocialChatComponent,
     MixAndMatchComponent,
     WardrobeComponent,
+    WeatherCComponent,
     SustainabilityComponent,
+    CommunitySideNavComponent,
+    CommunityFeedComponent,
   ],
   bootstrap: [MainComponent],
 })
@@ -72,5 +82,4 @@ export class AppModule {
     iconLibrary.addIcons(...fontAwesomeIcons);
     dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
   }
-
 }

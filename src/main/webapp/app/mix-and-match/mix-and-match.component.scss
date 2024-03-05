@@ -2,8 +2,6 @@
   display: flex;
   position: relative;
   min-height: 74vh;
-  //justify-content: space-between;
-  //align-items: flex-start;
 }
 .date-and-time {
   position: absolute;
@@ -11,14 +9,28 @@
   top: 0;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.4199726402188784vh;
-  height: 10.943912448700411vh;
+  height: 8.447729672650475vh;
   width: 15.299479166666666vw;
-  //margin-bottom: 20px;
 }
+.date-txt,
+.time-txt,
+.current-temp {
+  position: relative;
+  top: 0.6839945280437757vh;
+  left: 0.78125vw;
+}
+.time-txt,
+.current-temp {
+  //font-size: large;
+}
+.current-temp {
+  margin-left: 10px;
+}
+
 .filter-box {
   position: absolute;
   left: 0.6510416666666666vw;
-  top: 13.679890560875513vh;
+  top: 11.615628299894404vh;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.4199726402188784vh;
   height: 46.238030095759235vh;
@@ -26,11 +38,43 @@
 }
 .rectangle-4 {
   position: absolute;
-  //left: 35.9781121751026vh;
   left: 18.59vw;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.4199726402188784vh;
-  //min-height: 75vh;
   height: 80vh;
   width: 76.171875vw;
+}
+.filter-text,
+.recommended-outfit-text {
+  position: relative;
+  left: 19px;
+  top: 11px;
+}
+.filter-text {
+  font-size: 20px;
+}
+
+.topnav .search-container {
+  display: flex;
+  margin-top: 3.283173734610123vh;
+}
+
+.topnav input[type='text'] {
+  font-size: 17px;
+  border: none;
+  width: 13.4765625vw;
+  height: 3.9671682626538987vh;
+}
+
+.topnav .search-container button {
+  background: rgba(167, 167, 167, 0.5);
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+  width: 1.8229166666666667vw;
+  height: 3.9671682626538987vh;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
 }

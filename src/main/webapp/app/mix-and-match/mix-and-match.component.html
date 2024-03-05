@@ -1,8 +1,22 @@
 <div class="display-5">
-  <div class="date-and-time"></div>
-  <div class="filter-box"></div>
+  <div class="date-and-time">
+    <h5 class="date-txt">{{ currentDateStr }}</h5>
+    <h5>
+      <span class="time-txt">{{ currentTimeStr }} </span>
+      <span class="current-temp">{{ currentHourTemperature }} °C</span>
+    </h5>
+  </div>
+  <div class="filter-box">
+    <h5 class="filter-text">Filters</h5>
+    <div class="topnav">
+      <div class="search-container">
+        <input type="text" placeholder="Filter by Search" name="search" />
+        <button type="submit"><fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon></button>
+      </div>
+    </div>
+  </div>
   <div class="rectangle-4">
-    <h5>Recommended Outfits</h5>
+    <h5 class="recommended-outfit-text">Recommended Outfits</h5>
     <div class="first-image-line"></div>
   </div>
 </div>
