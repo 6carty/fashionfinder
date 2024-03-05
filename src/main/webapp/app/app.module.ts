@@ -32,6 +32,8 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
 import { CalendarModule } from './entities/calendar/calendar.module';
 import { EventModule } from './entities/event/event.module';
 import { WeatherCComponent } from './fashion-planner/weather-c/weather-c.component';
+import { SustainabilityComponent } from './sustainability/sustainability.component';
+import { CommunitySideNavComponent } from './community-side-nav/community-side-nav.component';
 
 @NgModule({
   imports: [
@@ -66,6 +68,8 @@ import { WeatherCComponent } from './fashion-planner/weather-c/weather-c.compone
     MixAndMatchComponent,
     WardrobeComponent,
     WeatherCComponent,
+    SustainabilityComponent,
+    CommunitySideNavComponent,
   ],
   bootstrap: [MainComponent],
 })
