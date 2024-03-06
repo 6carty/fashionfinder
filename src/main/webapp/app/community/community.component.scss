@@ -16,19 +16,19 @@ main .container .left {
   flex-direction: column;
   justify-content: center;
 }
-//
-//main .container .middle {
-//  padding: 10px;
-//  background: #595b5f;
-//  border-radius: 15px;
-//  height: max-content;
-//  width: max-content;
-//  margin-left: 30px;
-//  margin-bottom: 30px;
-//}
+
+main .container .middle {
+  padding: 10px;
+  background: #595b5f;
+  border-radius: 15px;
+  height: max-content;
+  width: max-content;
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
 
 main .container .left .user-details {
-  padding: 11px;
+  padding: 10px;
   background: #595b5f;
   border-radius: 15px;
   display: flex;
