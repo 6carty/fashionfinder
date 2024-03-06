@@ -25,12 +25,14 @@
             <td colspan="3">Currently a test</td>
           </tr>
         </tfoot>
-        <tbody>
-          <tr *ngFor="let item of recievedData">
-            <th>{{ item.name }}</th>
-            <td>{{ item.style }}</td>
-            <td>{{ item.colour }}</td>
-          </tr>
+        <tbody *ngFor="let item of recievedData">
+          <div>
+            <tr *ngIf="item.owner.id == 1001">
+              <th>{{ item.name }}</th>
+              <td>{{ item.style }}</td>
+              <td>{{ item.colour }}</td>
+            </tr>
+          </div>
         </tbody>
       </table>
     </div>
