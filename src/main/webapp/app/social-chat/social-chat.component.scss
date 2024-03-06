@@ -81,13 +81,80 @@
     }
 
     .chatrooms-list {
-      // Style for chatrooms list
+      flex-grow: 1;
+      overflow-y: auto;
+
+      .chatroom-items {
+        list-style: none;
+        padding: 0;
+
+        .chatroom-item {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.2);
+
+          &:hover,
+          &.selected {
+            background: rgba(255, 255, 255, 0.3);
+          }
+
+          .chatroom-image {
+            width: 40px; // Adjust as necessary
+            height: 40px; // Adjust as necessary
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+
+          .chatroom-info {
+            .chatroom-name {
+              font-weight: bold;
+            }
+
+            .chatroom-last-message {
+              font-size: 0.8em;
+              opacity: 0.8;
+            }
+          }
+        }
+      }
     }
+
+    // ... other styles ...
   }
 
   .right-column {
     .chat-header {
-      // Style for the chat header
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-bottom: 1px solid #ddd;
+
+      .chat-partner-info {
+        display: flex;
+        align-items: center;
+
+        .chat-partner-image {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        .chat-partner-name {
+          font-weight: bold;
+          font-size: 1rem;
+        }
+
+        .chat-partner-last-seen {
+          font-size: 0.8rem;
+          color: #666;
+        }
+      }
     }
 
     .chat-messages {
