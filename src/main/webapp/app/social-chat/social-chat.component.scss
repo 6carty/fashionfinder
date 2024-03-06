@@ -81,13 +81,53 @@
     }
 
     .chatrooms-list {
-      // Style for chatrooms list
+      flex-grow: 1;
+      overflow-y: auto;
+
+      .chatroom-items {
+        list-style: none;
+        padding: 0;
+
+        .chatroom-item {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          border-radius: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          background: rgba(255, 255, 255, 0.2);
+
+          &:hover,
+          &.selected {
+            background: rgba(255, 255, 255, 0.3);
+          }
+
+          .chatroom-image {
+            width: 40px; // Adjust as necessary
+            height: 40px; // Adjust as necessary
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+
+          .chatroom-info {
+            .chatroom-name {
+              font-weight: bold;
+            }
+
+            .chatroom-last-message {
+              font-size: 0.8em;
+              opacity: 0.8;
+            }
+          }
+        }
+      }
     }
+
+    // ... other styles ...
   }
 
   .right-column {
     .chat-header {
-      // Style for the chat header
     }
 
     .chat-messages {
@@ -111,22 +151,27 @@
 
           &.sent {
             background-color: #d1ffd7; // light green for sent messages
-            align-self: flex-end;
             display: flex;
-            margin-top: auto;
+            margin-left: auto;
+            .message-time {
+              position: absolute;
+              bottom: -18px;
+              left: 10px;
+              font-size: 0.75rem;
+              color: #000000;
+            }
           }
 
           &.received {
             background-color: #ffffff; // white for received messages
             align-self: flex-start;
-          }
-
-          .message-time {
-            position: absolute;
-            bottom: -18px;
-            right: 10px;
-            font-size: 0.75rem;
-            color: #000000;
+            .message-time {
+              position: absolute;
+              bottom: -18px;
+              right: 10px;
+              font-size: 0.75rem;
+              color: #000000;
+            }
           }
         }
       }

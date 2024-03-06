@@ -24,6 +24,17 @@
     </div>
     <div class="chatrooms-list">
       <h3>Chatrooms</h3>
+      <ul class="chatroom-items">
+        <li *ngFor="let chatroom of chatrooms" [class.selected]="chatroom === selectedChatroom">
+          <div class="chatroom-item">
+            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image" />
+            <div class="chatroom-info">
+              <div class="chatroom-name">{{ chatroom.name }}</div>
+              <div class="chatroom-last-message">{{ chatroom.lastMessage }}</div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 
