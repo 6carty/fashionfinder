@@ -17,14 +17,14 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     { text: 'Hey, how are you', isSent: true, time: '12:50' },
     { text: 'I am good hbu', isSent: false, time: '13:00' },
     { text: 'Yeah I am doing good too', isSent: true, time: '13:05' },
-    { text: 'I am so excited to post my outfit today', isSent: true, time: '13:00' },
-    { text: 'Must be good', isSent: false, time: '13:01' },
-    { text: "You're gonna love it just posted it", isSent: true, time: '13:10' },
-    { text: 'Wow you were right I love your outfit today', isSent: false, time: '13:00' },
-    { text: "Thanks Bob, can't wait to see what you're wearing today", isSent: false, time: '13:01' },
-    { text: 'Just posted it', isSent: true, time: '13:10' },
-    { text: 'What you think?', isSent: true, time: '13:11' },
-    { text: 'That looks sick 🔥🔥🔥', isSent: false, time: '13:15' },
+    { text: 'I am so excited to post my outfit today', isSent: true, time: '13:07' },
+    { text: 'Must be good', isSent: false, time: '13:10' },
+    { text: "You're gonna love it just posted it", isSent: true, time: '14:12' },
+    { text: 'Wow you were right I love your outfit today', isSent: false, time: '15:00' },
+    { text: "Thanks Bob, can't wait to see what you're wearing today", isSent: false, time: '15:05' },
+    { text: 'Just posted it', isSent: true, time: '15:10' },
+    { text: 'What you think?', isSent: true, time: '15:11' },
+    { text: 'That looks sick 🔥🔥🔥', isSent: false, time: '15:15' },
   ];
 
   chatrooms = [
