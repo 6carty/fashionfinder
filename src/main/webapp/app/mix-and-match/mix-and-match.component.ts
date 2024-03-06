@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { fetchWeatherApi } from "openmeteo";
+import { fetchWeatherApi } from 'openmeteo';
+import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
 
 @Component({
   selector: 'jhi-mix-and-match',
@@ -15,7 +16,7 @@ export class MixAndMatchComponent implements OnInit {
   currentHourHumidity: number | undefined;
   currentHourPrecipitation: number | undefined;
   weatherData: any;
-  constructor() {}
+  constructor(private clothingItemService: ClothingItemService) {}
 
   ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
@@ -26,6 +27,9 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getCurrentHourData();
     }, 3600000);
+  }
+  fetchClothingItems(): void {
+    this.clothingItemService.query().subscribe();
   }
   getCurrentDateTime(): void {
     const currentDate = new Date();
@@ -55,8 +59,8 @@ export class MixAndMatchComponent implements OnInit {
   }
   async fetchWeatherData(): Promise<void> {
     const params = {
-      latitude: 52.4862,
-      longitude: -1.8904,
+      latitude: 52.4814,
+      longitude: -1.8998,
       hourly: ['temperature_2m', 'relative_humidity_2m', 'precipitation', 'weather_code', 'wind_speed_10m'],
     };
     const url = 'https://api.open-meteo.com/v1/forecast';
