@@ -31,6 +31,7 @@
   background: #595b5f;
   border-radius: 15px;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 }
@@ -64,7 +65,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-  width: 200px;
+  width: 85%;
   height: 75px;
   margin-bottom: 10px;
   border-radius: 30px;
@@ -78,7 +79,7 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-  width: 200px;
+  width: 85%;
   height: 75px;
   background-color: red;
   color: white;
