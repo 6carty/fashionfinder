@@ -111,22 +111,27 @@
 
           &.sent {
             background-color: #d1ffd7; // light green for sent messages
-            align-self: flex-end;
             display: flex;
-            margin-top: auto;
+            margin-left: auto;
+            .message-time {
+              position: absolute;
+              bottom: -18px;
+              left: 10px;
+              font-size: 0.75rem;
+              color: #000000;
+            }
           }
 
           &.received {
             background-color: #ffffff; // white for received messages
             align-self: flex-start;
-          }
-
-          .message-time {
-            position: absolute;
-            bottom: -18px;
-            right: 10px;
-            font-size: 0.75rem;
-            color: #000000;
+            .message-time {
+              position: absolute;
+              bottom: -18px;
+              right: 10px;
+              font-size: 0.75rem;
+              color: #000000;
+            }
           }
         }
       }
