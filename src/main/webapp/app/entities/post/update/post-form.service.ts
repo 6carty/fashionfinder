@@ -71,7 +71,6 @@ export class PostFormService {
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
-
   private getFormDefaults(): PostFormDefaults {
     return {
       id: null,
