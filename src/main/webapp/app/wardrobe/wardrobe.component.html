@@ -26,13 +26,11 @@
           </tr>
         </tfoot>
         <tbody *ngFor="let item of recievedData">
-          <div>
-            <tr *ngIf="item.owner.id == 1001">
-              <th>{{ item.name }}</th>
-              <td>{{ item.style }}</td>
-              <td>{{ item.colour }}</td>
-            </tr>
-          </div>
+          <tr *ngIf="item.owner.id == 1001">
+            <th>{{ item.name }}</th>
+            <td>{{ item.style }}</td>
+            <td>{{ item.colour }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
