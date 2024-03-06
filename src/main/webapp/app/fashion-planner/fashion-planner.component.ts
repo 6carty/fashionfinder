@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../entities/event/service/event.service';
+import { EntityArrayResponseType, EventService } from '../entities/event/service/event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-fashion-planner',
@@ -10,7 +11,7 @@ export class FashionPlannerComponent implements OnInit {
   events: any;
   eventsByDay: { date: Date; events: any[] }[] = [];
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchEvents();
@@ -38,5 +39,9 @@ export class FashionPlannerComponent implements OnInit {
       });
       return { date, events: eventsForDay };
     });
+  }
+
+  view(id: string): void {
+    this.router.navigate(['/event/' + id + '/view']);
   }
 }

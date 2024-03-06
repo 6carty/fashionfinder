@@ -29,7 +29,37 @@
   padding: 8px;
   backdrop-filter: blur(20px);
   box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.5);
   text-align: left;
   border-radius: 10px;
+}
+
+.custom-card:hover {
+  cursor: pointer;
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.4);
+  transition-duration: 0.2s;
+}
+
+.custom-card-2 {
+  margin: 8px;
+  width: 80%;
+  border: #555555;
+  padding: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(150, 150, 150, 0.1);
+  text-align: left;
+  border-radius: 10px;
+}
+
+.d-flex {
+  justify-content: start;
+  padding-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: rgba(130, 130, 130, 69);
+  border: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 10px rgba(129, 124, 124, 0.2);
 }

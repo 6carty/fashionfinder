@@ -3,11 +3,22 @@
 </div>
 
 <div class="container">
+  <div class="d-flex">
+    <button
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-event"
+      [routerLink]="['/event/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span> Create a new Event </span>
+    </button>
+  </div>
   <div *ngFor="let dayEvents of eventsByDay">
     <h3 style="text-align: left">{{ dayEvents.date | date: 'EEEE, d LLLL' }}</h3>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
-        <div class="custom-card">
+        <div class="custom-card" (click)="view(event.id)">
           <span
             >{{ event.title }} <br />
             {{ event.dateTime | date: 'h:MM aa' }}
@@ -16,7 +27,7 @@
       </div>
     </div>
     <ng-template #noEvents>
-      <div class="custom-card">No events</div>
+      <div class="custom-card-2">No events</div>
     </ng-template>
   </div>
 
