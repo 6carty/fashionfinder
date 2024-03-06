@@ -33,8 +33,6 @@ type ClothingItemFormGroupContent = {
   id: FormControl<ClothingItemFormRawValue['id'] | NewClothingItem['id']>;
   name: FormControl<ClothingItemFormRawValue['name']>;
   type: FormControl<ClothingItemFormRawValue['type']>;
-  clothingImg: FormControl<ClothingItemFormRawValue['clothingImg']>;
-  clothingImgContentType: FormControl<ClothingItemFormRawValue['clothingImgContentType']>;
   description: FormControl<ClothingItemFormRawValue['description']>;
   clothingSize: FormControl<ClothingItemFormRawValue['clothingSize']>;
   colour: FormControl<ClothingItemFormRawValue['colour']>;
@@ -71,10 +69,6 @@ export class ClothingItemFormService {
       type: new FormControl(clothingItemRawValue.type, {
         validators: [Validators.required],
       }),
-      clothingImg: new FormControl(clothingItemRawValue.clothingImg, {
-        validators: [Validators.required],
-      }),
-      clothingImgContentType: new FormControl(clothingItemRawValue.clothingImgContentType),
       description: new FormControl(clothingItemRawValue.description),
       clothingSize: new FormControl(clothingItemRawValue.clothingSize),
       colour: new FormControl(clothingItemRawValue.colour),

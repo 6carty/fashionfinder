@@ -131,12 +131,6 @@ public class ClothingItemResource {
                 if (clothingItem.getType() != null) {
                     existingClothingItem.setType(clothingItem.getType());
                 }
-                if (clothingItem.getClothingImg() != null) {
-                    existingClothingItem.setClothingImg(clothingItem.getClothingImg());
-                }
-                if (clothingItem.getClothingImgContentType() != null) {
-                    existingClothingItem.setClothingImgContentType(clothingItem.getClothingImgContentType());
-                }
                 if (clothingItem.getDescription() != null) {
                     existingClothingItem.setDescription(clothingItem.getDescription());
                 }

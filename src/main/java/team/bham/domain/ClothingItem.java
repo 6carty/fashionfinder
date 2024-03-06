@@ -38,14 +38,6 @@ public class ClothingItem implements Serializable {
     @Column(name = "type", nullable = false)
     private ClothingType type;
 
-    @Lob
-    @Column(name = "clothing_img", nullable = false)
-    private byte[] clothingImg;
-
-    @NotNull
-    @Column(name = "clothing_img_content_type", nullable = false)
-    private String clothingImgContentType;
-
     @Column(name = "description")
     private String description;
 
@@ -147,32 +139,6 @@ public class ClothingItem implements Serializable {
 
     public void setType(ClothingType type) {
         this.type = type;
-    }
-
-    public byte[] getClothingImg() {
-        return this.clothingImg;
-    }
-
-    public ClothingItem clothingImg(byte[] clothingImg) {
-        this.setClothingImg(clothingImg);
-        return this;
-    }
-
-    public void setClothingImg(byte[] clothingImg) {
-        this.clothingImg = clothingImg;
-    }
-
-    public String getClothingImgContentType() {
-        return this.clothingImgContentType;
-    }
-
-    public ClothingItem clothingImgContentType(String clothingImgContentType) {
-        this.clothingImgContentType = clothingImgContentType;
-        return this;
-    }
-
-    public void setClothingImgContentType(String clothingImgContentType) {
-        this.clothingImgContentType = clothingImgContentType;
     }
 
     public String getDescription() {
@@ -356,8 +322,6 @@ public class ClothingItem implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +
-            ", clothingImg='" + getClothingImg() + "'" +
-            ", clothingImgContentType='" + getClothingImgContentType() + "'" +
             ", description='" + getDescription() + "'" +
             ", clothingSize='" + getClothingSize() + "'" +
             ", colour='" + getColour() + "'" +

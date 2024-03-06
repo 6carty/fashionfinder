@@ -9,5 +9,6 @@ import { WeatherRoutingModule } from './route/weather-routing.module';
 @NgModule({
   imports: [SharedModule, WeatherRoutingModule],
   declarations: [WeatherComponent, WeatherDetailComponent, WeatherUpdateComponent, WeatherDeleteDialogComponent],
+  exports: [WeatherComponent],
 })
 export class WeatherModule {}

@@ -9,8 +9,6 @@ export interface IClothingItem {
   id: number;
   name?: string | null;
   type?: ClothingType | null;
-  clothingImg?: string | null;
-  clothingImgContentType?: string | null;
   description?: string | null;
   clothingSize?: string | null;
   colour?: string | null;

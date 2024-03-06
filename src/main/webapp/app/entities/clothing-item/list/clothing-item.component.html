@@ -50,12 +50,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="clothingImg">
-            <div class="d-flex">
-              <span>Clothing Img</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="description">
             <div class="d-flex">
               <span>Description</span>
@@ -132,18 +126,6 @@
           </td>
           <td>{{ clothingItem.name }}</td>
           <td>{{ clothingItem.type }}</td>
-          <td>
-            <a *ngIf="clothingItem.clothingImg" (click)="openFile(clothingItem.clothingImg, clothingItem.clothingImgContentType)">
-              <img
-                [src]="'data:' + clothingItem.clothingImgContentType + ';base64,' + clothingItem.clothingImg"
-                style="max-height: 30px"
-                alt="clothingItem image"
-              />
-            </a>
-            <span *ngIf="clothingItem.clothingImg"
-              >{{ clothingItem.clothingImgContentType }}, {{ byteSize(clothingItem.clothingImg) }}</span
-            >
-          </td>
           <td>{{ clothingItem.description }}</td>
           <td>{{ clothingItem.clothingSize }}</td>
           <td>{{ clothingItem.colour }}</td>
