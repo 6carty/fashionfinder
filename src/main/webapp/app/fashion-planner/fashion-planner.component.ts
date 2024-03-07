@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EntityArrayResponseType, EventService } from '../entities/event/service/event.service';
 import { Router } from '@angular/router';
+import { ProfileService } from '../layouts/profiles/profile.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from '../core/auth/account.model';
 
 @Component({
   selector: 'jhi-fashion-planner',
@@ -10,11 +13,21 @@ import { Router } from '@angular/router';
 export class FashionPlannerComponent implements OnInit {
   events: any;
   eventsByDay: { date: Date; events: any[] }[] = [];
+  account: Account | null = null;
 
-  constructor(private eventService: EventService, private router: Router) {}
+  constructor(
+    private eventService: EventService,
+    private router: Router,
+    private profileService: ProfileService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.fetchEvents();
+
+    this.accountService.getAuthenticationState().subscribe(account => {
+      this.account = account;
+    });
   }
 
   fetchEvents() {
@@ -43,5 +56,9 @@ export class FashionPlannerComponent implements OnInit {
 
   view(id: string): void {
     this.router.navigate(['/event/' + id + '/view']);
+  }
+
+  addEvent(): void {
+    this.router.navigate(['/event/new']);
   }
 }

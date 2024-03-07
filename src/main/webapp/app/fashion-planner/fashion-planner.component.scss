@@ -40,6 +40,12 @@
   transition-duration: 0.2s;
 }
 
+.custom-card-2:hover {
+  cursor: pointer;
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.4);
+  transition-duration: 0.2s;
+}
+
 .custom-card-2 {
   margin: 8px;
   width: 80%;
