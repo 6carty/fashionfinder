@@ -2,13 +2,11 @@
   display: flex;
   height: 75vh;
 
-  // This mixin creates a translucent background for the columns
   @mixin translucent-bg($color, $alpha) {
     background-color: rgba($color, $alpha);
   }
 
   .left-column {
-    // Column for the users chats, profiles, create new chat,
     flex: 1; // The left column will take up 1 part of the space
     padding: 10px;
     display: flex;
@@ -20,8 +18,7 @@
   }
 
   .right-column {
-    // Column for the current chat opened
-    flex: 2; // The right column will take up 2 parts of the space, making it twice as wide as the left column
+    flex: 2;
     border-radius: 20px;
     margin: 10px;
     backdrop-filter: blur(10px);
@@ -47,10 +44,10 @@
           background: transparent;
           padding: 10px;
           border-radius: 20px;
-          color: #ffffff; // Adjust the text color as needed
+          color: #ffffff;
 
           &::placeholder {
-            color: #ffffff; // Adjust the placeholder text color as needed
+            color: #ffffff;
           }
         }
 
@@ -93,8 +90,8 @@
           }
 
           .chatroom-image {
-            width: 40px; // Adjust as necessary
-            height: 40px; // Adjust as necessary
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             margin-right: 10px;
           }
@@ -112,12 +109,37 @@
         }
       }
     }
-
-    // ... other styles ...
   }
 
   .right-column {
     .chat-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-bottom: 1px solid #ddd;
+
+      .chat-partner-info {
+        display: flex;
+        align-items: center;
+
+        .chat-partner-image {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        .chat-partner-name {
+          font-weight: bold;
+          font-size: 1rem;
+        }
+
+        .chat-partner-last-seen {
+          font-size: 0.8rem;
+          color: #666;
+        }
+      }
     }
 
     .chat-messages {
@@ -184,15 +206,14 @@
         flex-grow: 1;
         border: none;
         background: transparent;
-        margin-right: 10px; // Space before the send button
+        margin-right: 10px;
         color: #000000; // White text color
 
         &::placeholder {
-          color: #000000; // White placeholder text color
+          color: #000000;
         }
       }
 
-      //Buttons
       .send-btn {
         background: #00ff00;
         border: none;

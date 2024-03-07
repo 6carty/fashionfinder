@@ -41,7 +41,13 @@
   <!-- Right Column for Chat Interface -->
   <div class="right-column">
     <div class="chat-header">
-      <!-- Chat header section -->
+      <div class="chat-partner-info">
+        <img [src]="currentChatPartner.image" alt="Chat Partner" class="chat-partner-image" />
+        <div>
+          <div class="chat-partner-name">{{ currentChatPartner.name }}</div>
+          <div class="chat-partner-last-seen">Last Seen {{ currentChatPartner.lastSeen | date: 'shortTime' }}</div>
+        </div>
+      </div>
     </div>
     <div class="chat-messages">
       <!-- Messages will go here -->
