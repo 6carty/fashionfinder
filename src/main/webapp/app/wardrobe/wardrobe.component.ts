@@ -4,6 +4,7 @@ import { ClothingItemService } from '../entities/clothing-item/service/clothing-
 import { NewClothingItem } from '../entities/clothing-item/clothing-item.model';
 import { Status } from '../entities/enumerations/status.model';
 import { ClothingType } from '../entities/enumerations/clothing-type.model';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -41,28 +42,5 @@ export class WardrobeComponent implements OnInit {
     this.recievedData.unsubscribe();
   }
 
-  onSubmit(): void {
-    this.clothingItemService.query('include.owner').subscribe(clothingItems => {
-      this.recievedData = clothingItems.body;
-    });
-
-    this.recievedData.unsubscribe();
-
-    this.highestId = 0;
-    for (this.tempvalue in this.recievedData) {
-      if (this.tempvalue.id >= this.highestId) {
-        this.highestId = this.tempvalue.id + 1;
-      }
-      const newClothingItem: NewClothingItem = {
-        id: this.highestId,
-        name: this.formData.name,
-        style: this.formData.occasion,
-        colour: this.formData.colour,
-        status: Status.NOTFORSALE,
-        type: ClothingType.OTHERS,
-      };
-
-      this.clothingItemService.create(newClothingItem);
-    }
-  }
+  addnewitem(): void {}
 }

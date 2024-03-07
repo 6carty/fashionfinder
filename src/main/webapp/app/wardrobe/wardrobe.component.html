@@ -2,18 +2,7 @@
 <div class="display-wardrobe">
   <div class="rectangle-filter">
     <div class="rectangle-displayContent">
-      <form (ngSubmit)="onSubmit()">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" [(ngModel)]="formData.name" />
-        <br />
-        <label for="occasion">Occasion:</label>
-        <input type="text" id="occasion" name="occasion" [(ngModel)]="formData.occasion" />
-        <br />
-        <label for="colour">Colour:</label>
-        <input type="text" id="colour" name="colour" [(ngModel)]="formData.colour" />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+      <button [routerLink]="['/clothing-item/new']">add new item</button>
     </div>
   </div>
   <div class="rectangle-display">
