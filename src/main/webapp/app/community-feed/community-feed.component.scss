@@ -4,7 +4,7 @@
   border-radius: 15px;
   font-size: 0.85rem;
   line-height: 0.5;
-  margin-bottom: 30px;
+  //margin-bottom: 30px;
 }
 .info {
   margin-top: 5px;
@@ -32,11 +32,20 @@
   border: 2px solid white;
 }
 
+.post-img {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+}
+
 .post {
   overflow: hidden;
   margin: 0.7rem 0;
-  width: 500px;
-  height: 500px;
+  max-height: 960px;
+  max-width: 540px;
+  width: auto;
+  height: auto;
   border-radius: 10px;
 }
 
@@ -44,19 +53,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.4rem;
-  margin: 0.6rem;
 }
 
 .action-img {
   width: 30px;
   height: 30px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
+.like-btn,
+.comment-btn,
+.share-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  margin-right: 5px;
+}
 .liked-by {
   display: flex;
 }
-
+.info {
+  color: white;
+}
 .liked-by span {
   width: 1.4rem;
   height: 1.4rem;
@@ -71,9 +91,13 @@
   margin: 0;
 }
 
+.caption p {
+  color: white;
+}
 .liked-by p {
   margin-left: 0.5rem;
   margin-top: 1.5%;
+  color: white;
 }
 
 .caption {
