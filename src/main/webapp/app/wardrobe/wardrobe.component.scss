@@ -13,6 +13,28 @@
   width: 70vw;
 }
 
+.filter-item {
+  margin: 5px; /* Adjust margins as needed */
+
+  label {
+    display: block;
+    padding: 5px 10px; /* Adjust padding as needed */
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  input[type='checkbox'] {
+    display: none;
+
+    &:checked + label {
+      background-color: #ccc; /* Change background color on check */
+    }
+  }
+}
+
 .rectangle-filter {
   position: absolute;
   left: 2.5vw;
@@ -32,6 +54,7 @@
 .apply-filter-button {
   background-color: #bbcedd;
   color: black;
+  padding: 5px 10px;
   border-radius: 1.75vh;
   width: 17.5vw;
   height: 5vh;
