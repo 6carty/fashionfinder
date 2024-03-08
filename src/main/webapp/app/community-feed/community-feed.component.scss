@@ -4,7 +4,6 @@
   border-radius: 15px;
   font-size: 0.85rem;
   line-height: 0.5;
-  //margin-bottom: 30px;
 }
 .info {
   margin-top: 5px;
@@ -71,25 +70,28 @@
   cursor: pointer;
   margin-right: 5px;
 }
-.liked-by {
-  display: flex;
-}
+
 .info {
   color: white;
 }
-.liked-by span {
-  width: 1.4rem;
-  height: 1.4rem;
-  display: block;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid white;
-  margin-left: -0.6rem;
-}
 
-.liked-by span:first-child {
-  margin: 0;
+//Styles for the images of ppl who have liked
+.liked-by {
+  display: flex;
 }
+//.liked-by span {
+//  width: 1.4rem;
+//  height: 1.4rem;
+//  display: block;
+//  border-radius: 50%;
+//  overflow: hidden;
+//  border: 2px solid white;
+//  margin-left: -0.6rem;
+//}
+//
+//.liked-by span:first-child {
+//  margin: 0;
+//}
 
 .caption p {
   color: white;
