@@ -9,7 +9,7 @@ main {
   position: relative;
 }
 
-main .container .middle {
+main .container .community-page .middle {
   padding: 10px;
   background: #595b5f;
   border-radius: 15px;
@@ -17,14 +17,18 @@ main .container .middle {
   width: max-content;
   margin-left: 30px;
   margin-bottom: 30px;
+  overflow-y: auto;
+  flex: 1;
 }
 
-main .container .left {
+main .container .community-page .left {
   height: max-content;
   position: sticky;
   display: flex;
   flex-direction: column;
+  width: 18vw;
   justify-content: center;
+  top: 75px;
 }
 
 main .container .left .user-details {
