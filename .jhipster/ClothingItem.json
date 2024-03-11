@@ -71,6 +71,13 @@
       "relationshipType": "many-to-many"
     },
     {
+      "otherEntityName": "clothingPic",
+      "otherEntityRelationshipName": "clothingItem",
+      "ownerSide": false,
+      "relationshipName": "clothingPic",
+      "relationshipType": "one-to-one"
+    },
+    {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "clothingItems",
       "relationshipName": "owner",

@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import { Router } from '@angular/router';
+
 import { OutfitFormService, OutfitFormGroup } from './outfit-form.service';
 import { IOutfit } from '../outfit.model';
 import { OutfitService } from '../service/outfit.service';
@@ -36,7 +38,8 @@ export class OutfitUpdateComponent implements OnInit {
     protected weatherService: WeatherService,
     protected ratingService: RatingService,
     protected userProfileService: UserProfileService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router
   ) {}
 
   compareWeather = (o1: IWeather | null, o2: IWeather | null): boolean => this.weatherService.compareWeather(o1, o2);
@@ -78,7 +81,10 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.router.navigate(['/outfit-pic/new'], {
+      queryParams: { displayClothingItemForm: false }, // Pass the parameter here
+    });
+    // this.previousState();
   }
 
   protected onSaveError(): void {

@@ -44,6 +44,13 @@
       "relationshipType": "many-to-one"
     },
     {
+      "otherEntityName": "outfitPic",
+      "otherEntityRelationshipName": "outfit",
+      "ownerSide": false,
+      "relationshipName": "outfitPic",
+      "relationshipType": "one-to-one"
+    },
+    {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "outfits",
       "relationshipName": "creator",

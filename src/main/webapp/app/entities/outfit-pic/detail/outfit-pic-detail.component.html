@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="outfitPic">
+      <h2 data-cy="outfitPicDetailsHeading"><span>Outfit Pic</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ outfitPic.id }}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="outfitPic.image">
+            <a (click)="openFile(outfitPic.image, outfitPic.imageContentType)">
+              <img
+                [src]="'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image"
+                style="max-width: 100%"
+                alt="outfitPic image"
+              />
+            </a>
+            {{ outfitPic.imageContentType }}, {{ byteSize(outfitPic.image) }}
+          </div>
+        </dd>
+        <dt><span>Outfit</span></dt>
+        <dd>
+          <div *ngIf="outfitPic.outfit">
+            <a [routerLink]="['/outfit', outfitPic.outfit.id, 'view']">{{ outfitPic.outfit.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/outfit-pic', outfitPic.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

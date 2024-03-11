@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
@@ -27,6 +27,8 @@ export type EntityArrayResponseType = HttpResponse<IClothingItem[]>;
 @Injectable({ providedIn: 'root' })
 export class ClothingItemService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/clothing-items');
+  private clothingData = new BehaviorSubject<number | null>(null);
+  clothingData$ = this.clothingData.asObservable();
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
