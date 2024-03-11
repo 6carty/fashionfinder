@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20240307132329",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "clothing_pic",
+  "fields": [
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ClothingPic",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "clothingItem",
+      "otherEntityRelationshipName": "clothingPic",
+      "ownerSide": true,
+      "relationshipName": "clothingItem",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}
