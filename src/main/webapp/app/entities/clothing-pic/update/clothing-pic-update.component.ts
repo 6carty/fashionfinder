@@ -124,7 +124,7 @@ export class ClothingPicUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    // this.previousState();
     this.router.navigate(['']);
   }
 
