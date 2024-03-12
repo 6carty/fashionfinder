@@ -1,44 +1,52 @@
 <div class="display-5">
-  <div class="date-and-time">
-    <h5 class="date-txt">{{ currentDateStr }}</h5>
-    <h5>
-      <span class="time-txt">{{ currentTimeStr }} </span>
-      <span class="current-temp">{{ currentHourTemperature }} °C</span>
-      <!--      <span class="">{{currentHourPrecipitation}}</span>-->
-      <!--      <span class="">{{currentHourHumidity}}</span>-->
-      <!--      <span class="">{{currentWeatherDescription}}</span>-->
-    </h5>
-    <!--    <h5>{{currentTimeStr}}</h5>-->
-  </div>
-  <div class="filter-box">
-    <h4 class="filter-text">Filters</h4>
-    <div class="topnav">
-      <div class="search-container">
-        <input type="text" placeholder="Filter by Search.." name="search" />
-        <button type="submit"><fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon></button>
+  <div class="non-img-boxes">
+    <div class="date-and-time">
+      <h5 class="date-txt">{{ currentDateStr }}</h5>
+      <h5>
+        <span class="time-txt">{{ currentTimeStr }} </span>
+        <span class="current-temp">{{ currentHourTemperature }} °C</span>
+        <!--      <span class="">{{currentHourPrecipitation}}</span>-->
+        <!--      <span class="">{{currentHourHumidity}}</span>-->
+        <!--      <span class="">{{currentWeatherDescription}}</span>-->
+      </h5>
+      <!--    <h5>{{currentTimeStr}}</h5>-->
+    </div>
+    <div class="filter-box">
+      <h4 class="filter-text">Filters</h4>
+      <div class="topnav">
+        <div class="search-container">
+          <input type="text" placeholder="Filter by Search.." name="search" />
+          <button type="submit"><fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon></button>
+        </div>
+      </div>
+      <div class="normal-filters">
+        <button class="type-Button"><span class="Brandtxt">Type</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <hr class="line3" />
+        <button class="colour-Button"><span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <hr class="line3" />
+        <button class="style-Button"><span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <hr class="line3" />
+        <button class="brand-Button"><span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <hr class="line3" />
+        <button class="material-Button"><span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <hr class="line3" />
       </div>
     </div>
-    <div class="normal-filters">
-      <button class="type-Button"><span class="Brandtxt">Type</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
-      <hr class="line3" />
-      <button class="colour-Button"><span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
-      <hr class="line3" />
-      <button class="style-Button"><span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
-      <hr class="line3" />
-      <button class="brand-Button"><span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
-      <hr class="line3" />
-      <button class="material-Button"><span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
-      <hr class="line3" />
-    </div>
   </div>
+
   <div class="rectangle-4">
     <h5 class="recommended-outfit-text">Recommended Outfits</h5>
     <div class="first-image-line">
-      <a><div class="first-line-img01"></div></a>
-      <a><div class="first-line-img02"></div></a>
-      <a><div class="first-line-img03"></div></a>
-      <a><div class="first-line-img04"></div></a>
-      <a><div class="first-line-img05"></div></a>
+      <ng-container *ngFor="let image of outfitImages; let i = index">
+        <a class="outfit-image">
+          <img class="outfit-image" [src]="image" alt="Outfit Image" />
+        </a>
+      </ng-container>
+      <ng-container *ngFor="let placeholder of placeholders">
+        <a class="outfit-image placeholder">
+          <div class="first-line-img02"></div>
+        </a>
+      </ng-container>
     </div>
     <h5 class="trending-outfit-text">Trending Outfits</h5>
     <div class="second-image-line">

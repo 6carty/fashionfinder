@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { fetchWeatherApi } from 'openmeteo';
 import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
-
+import { OutfitPicService } from '../entities/outfit-pic/service/outfit-pic.service';
+import { IOutfitPic } from '../entities/outfit-pic/outfit-pic.model';
+import { HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'jhi-mix-and-match',
   templateUrl: './mix-and-match.component.html',
@@ -16,7 +18,9 @@ export class MixAndMatchComponent implements OnInit {
   currentHourHumidity: number | undefined;
   currentHourPrecipitation: number | undefined;
   weatherData: any;
-  constructor(private clothingItemService: ClothingItemService) {}
+  outfitImages: any;
+  placeholders: number[] = [];
+  constructor(private clothingItemService: ClothingItemService, private outfitPicService: OutfitPicService) {}
 
   ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
@@ -27,10 +31,21 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getCurrentHourData();
     }, 3600000);
+    this.fetchOutfitImages();
+  }
+  fetchOutfitImages(): void {
+    this.outfitPicService.query().subscribe((res: HttpResponse<IOutfitPic[]>) => {
+      if (res.body) {
+        this.outfitImages = res.body.slice(0, 5).map(outfitPic => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image);
+      }
+      const remaining = 5 - this.outfitImages.length;
+      this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
+    });
   }
   fetchClothingItems(): void {
     this.clothingItemService.query().subscribe();
   }
+
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
