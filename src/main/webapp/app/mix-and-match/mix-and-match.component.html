@@ -20,16 +20,66 @@
         </div>
       </div>
       <div class="normal-filters">
-        <button class="type-Button"><span class="Brandtxt">Type</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <button class="type-Button" (click)="toggleTypeDropdown()">
+          <span class="Brandtxt">Type</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        </button>
         <hr class="line3" />
-        <button class="colour-Button"><span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <div class="dropdown-content" [ngStyle]="{ display: isTypeDropdownOpen ? 'block' : 'none' }">
+          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+        </div>
+        <button class="colour-Button" (click)="toggleColourDropdown()">
+          <span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        </button>
         <hr class="line3" />
-        <button class="style-Button"><span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <div class="dropdown-content" [ngStyle]="{ display: isColourDropdownOpen ? 'block' : 'none' }">
+          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+        </div>
+        <button class="style-Button" (click)="toggleStyleDropdown()">
+          <span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        </button>
         <hr class="line3" />
-        <button class="brand-Button"><span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <div class="dropdown-content" [ngStyle]="{ display: isStyleDropdownOpen ? 'block' : 'none' }">
+          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+        </div>
+        <button class="brand-Button" (click)="toggleBrandDropdown()">
+          <span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        </button>
         <hr class="line3" />
-        <button class="material-Button"><span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon></button>
+        <div class="dropdown-content" [ngStyle]="{ display: isBrandDropdownOpen ? 'block' : 'none' }">
+          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+        </div>
+        <button class="material-Button" (click)="toggleMaterialDropdown()">
+          <span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        </button>
         <hr class="line3" />
+        <div class="dropdown-content" [ngStyle]="{ display: isMaterialDropdownOpen ? 'block' : 'none' }">
+          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+        </div>
       </div>
     </div>
   </div>

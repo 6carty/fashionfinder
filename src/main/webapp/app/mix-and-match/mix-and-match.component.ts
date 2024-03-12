@@ -10,6 +10,11 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./mix-and-match.component.scss'],
 })
 export class MixAndMatchComponent implements OnInit {
+  isTypeDropdownOpen: boolean = false;
+  isColourDropdownOpen: boolean = false;
+  isStyleDropdownOpen: boolean = false;
+  isBrandDropdownOpen: boolean = false;
+  isMaterialDropdownOpen: boolean = false;
   currentDateStr: string = '';
   currentTimeStr: string = '';
   currentHourTemperature: number | undefined;
@@ -103,6 +108,25 @@ export class MixAndMatchComponent implements OnInit {
     };
     console.log(this.weatherData);
     this.getCurrentHourData();
+  }
+  toggleTypeDropdown(): void {
+    this.isTypeDropdownOpen = !this.isTypeDropdownOpen;
+  }
+
+  toggleColourDropdown(): void {
+    this.isColourDropdownOpen = !this.isColourDropdownOpen;
+  }
+
+  toggleStyleDropdown(): void {
+    this.isStyleDropdownOpen = !this.isStyleDropdownOpen;
+  }
+
+  toggleBrandDropdown(): void {
+    this.isBrandDropdownOpen = !this.isBrandDropdownOpen;
+  }
+
+  toggleMaterialDropdown(): void {
+    this.isMaterialDropdownOpen = !this.isMaterialDropdownOpen;
   }
   getCurrentHourData(): void {
     const currentDate = new Date();

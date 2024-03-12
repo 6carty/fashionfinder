@@ -3,21 +3,16 @@
 
   min-height: 74vh;
   .non-img-boxes {
-    flex: 1;
+    //flex: 1;
+    margin-right: 20px;
     .date-and-time {
       background-color: rgba(87, 87, 87, 0.5);
-      //border-radius: 3.4199726402188784vh;
-      //height: 8.447729672650475vh;
-      //width: 15.299479166666666vw;
       height: 61.752903907074966px;
       width: 235px;
       border-radius: 25px;
       margin-bottom: 40px;
 
       .date-txt {
-        //position: relative;
-        //top: 0.6839945280437757vh;
-        //left: 0.78125vw;
         padding-top: 5px;
         margin-left: 12px;
       }
@@ -30,12 +25,10 @@
     .filter-box {
       background-color: rgba(87, 87, 87, 0.5);
       border-radius: 25px;
-      //min-height: 46.238030095759235vh;
       min-height: 338px;
       width: 235px;
       .topnav .search-container {
         display: flex;
-        //margin-top: 3.283173734610123vh;
         margin-top: 24px;
         margin-bottom: 25px;
       }
@@ -43,9 +36,7 @@
       .topnav input[type='text'] {
         font-size: 17px;
         border: none;
-        //width: 13.4765625vw;
         width: 207px;
-        //height: 3.9671682626538987vh;
         height: 29px;
       }
 
@@ -54,9 +45,7 @@
         font-size: 17px;
         border: none;
         cursor: pointer;
-        //width: 1.8229166666666667vw;
         width: 28px;
-        //height: 3.9671682626538987vh;
         height: 29px;
       }
 
@@ -74,43 +63,31 @@
         .style-Button,
         .type-Button {
           background: none;
-          //font-size: 0.4em;
           font-size: 19px;
           text-align: left;
           display: flex;
           justify-content: space-between;
           border: none;
-          //width: 15.299479166666666vw;
           width: 235px;
-          //height: 2.5991792065663475vh;
           height: 19px;
-          //margin-bottom: 0.8207934336525308vh;
           margin-bottom: 6px;
           .Brandtxt {
             margin-left: 20px;
           }
           .plusbt {
-            //margin-right: 1.3020833333333333vw;
             margin-right: 20px;
           }
         }
         .line3 {
-          //margin-top: 0.8207934336525308vh;
           margin-top: 6px;
           margin-bottom: 6px;
-          //margin-bottom: 0.8207934336525308vh;
-          //width: 13.020833333333334vw;
           width: 200px;
           border-bottom: 1px solid black;
         }
       }
 
       .filter-text {
-        //position: relative;
-        //left: 19px;
-        //top: 11px;
         margin-left: 19px;
-        //margin-top: 11px;
         padding-top: 10px;
       }
     }
@@ -118,40 +95,34 @@
 
   .rectangle-4 {
     flex: 2;
-    //flex-grow: inherit;
-    //justify-content: flex-end;
-    //position: absolute;
-    left: 18.59vw;
     background-color: rgba(87, 87, 87, 0.5);
-    border-radius: 3.4199726402188784vh;
-    //min-height: 81.5vh;
-    //width: 76.171875vw;
+    border-radius: 25px;
+
     width: 1170px;
     min-height: 595.765px;
     .recommended-outfit-text,
     .trending-outfit-text {
-      margin-left: 4.036458333333333vw;
-      margin-top: 4.686730506155951vh;
+      margin-left: 62px;
+      margin-top: 34.26px;
     }
     .first-image-line,
     .second-image-line {
       display: flex;
-      //justify-content: space-between;
-      margin-left: 6.380208333333333vw;
+      margin-left: 98px;
 
       .outfit-image {
         //margin-right: 20px;
-        margin-right: 3.515625vw;
-        height: 27.359781121751027vh;
-        width: 13.020833333333334vw;
+        margin-right: 54px;
+        height: 200px;
+        width: 200px;
         border-radius: 25px;
         background-size: cover;
         background-position: center;
       }
       .first-line-img02 {
         background-color: white;
-        height: 27.359781121751027vh;
-        width: 13.020833333333334vw;
+        height: 200px;
+        width: 200px;
         border-radius: 25px;
       }
       .second-image-img01,
@@ -159,11 +130,11 @@
       .second-image-img03,
       .second-image-img04,
       .second-image-img05 {
-        margin-top: 1.915184678522572vh;
-        margin-right: 3.515625vw;
+        margin-top: 14px;
+        margin-right: 54px;
         background-color: white;
-        height: 27.359781121751027vh;
-        width: 13.020833333333334vw;
+        height: 200px;
+        width: 200px;
         border-radius: 25px;
       }
     }
@@ -175,4 +146,18 @@
       white-space: nowrap;
     }
   }
+}
+
+.dropdown-content {
+  font-size: 16px;
+  padding: 12px 16px;
+}
+
+.dropdown-content label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.dropdown-content label input {
+  margin-right: 5px;
 }
