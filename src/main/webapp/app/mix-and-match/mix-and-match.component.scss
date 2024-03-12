@@ -84,6 +84,21 @@
           width: 200px;
           border-bottom: 1px solid black;
         }
+        .dropdown-content {
+          font-size: 16px;
+          //margin-left: 12px;
+
+          padding: 12px 16px;
+        }
+
+        .dropdown-content label {
+          display: block;
+          margin-bottom: 8px;
+        }
+
+        .dropdown-content label input {
+          margin-right: 5px;
+        }
       }
 
       .filter-text {
@@ -94,12 +109,12 @@
   }
 
   .rectangle-4 {
-    flex: 2;
+    //flex: 2;
     background-color: rgba(87, 87, 87, 0.5);
     border-radius: 25px;
 
     width: 1170px;
-    min-height: 595.765px;
+    height: 595.765px;
     .recommended-outfit-text,
     .trending-outfit-text {
       margin-left: 62px;
@@ -146,18 +161,4 @@
       white-space: nowrap;
     }
   }
-}
-
-.dropdown-content {
-  font-size: 16px;
-  padding: 12px 16px;
-}
-
-.dropdown-content label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.dropdown-content label input {
-  margin-right: 5px;
 }

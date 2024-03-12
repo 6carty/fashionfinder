@@ -25,60 +25,41 @@
         </button>
         <hr class="line3" />
         <div class="dropdown-content" [ngStyle]="{ display: isTypeDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+          <label><input type="checkbox" name="type" value="SHIRTS" />SHIRTS</label>
+          <label><input type="checkbox" name="type" value="SHOES" />SHOES</label>
+          <label><input type="checkbox" name="type" value="DRESS" />DRESS</label>
+          <label><input type="checkbox" name="type" value="TROUSERS" />TROUSERS</label>
+          <label><input type="checkbox" name="type" value="ACCESSORIES" />ACCESSORIES</label>
+          <label><input type="checkbox" name="type" value="OTHERS" />OTHERS</label>
         </div>
+
         <button class="colour-Button" (click)="toggleColourDropdown()">
           <span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
         <div class="dropdown-content" [ngStyle]="{ display: isColourDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+          <label *ngFor="let colour of colours"> <input type="checkbox" name="colour" [value]="colour" />{{ colour }} </label>
         </div>
         <button class="style-Button" (click)="toggleStyleDropdown()">
           <span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
         <div class="dropdown-content" [ngStyle]="{ display: isStyleDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+          <label *ngFor="let style of styles"> <input type="checkbox" name="colour" [value]="style" />{{ style }} </label>
         </div>
         <button class="brand-Button" (click)="toggleBrandDropdown()">
           <span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
         <div class="dropdown-content" [ngStyle]="{ display: isBrandDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+          <label *ngFor="let brand of brands"> <input type="checkbox" name="colour" [value]="brand" />{{ brand }} </label>
         </div>
         <button class="material-Button" (click)="toggleMaterialDropdown()">
           <span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
         <div class="dropdown-content" [ngStyle]="{ display: isMaterialDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="category" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="category" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="category" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="category" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="category" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="category" value="OTHERS" />OTHERS</label>
+          <label *ngFor="let material of materials"> <input type="checkbox" name="colour" [value]="material" />{{ material }} </label>
         </div>
       </div>
     </div>

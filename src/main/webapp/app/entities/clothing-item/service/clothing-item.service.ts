@@ -73,7 +73,9 @@ export class ClothingItemService {
   getClothingItemIdentifier(clothingItem: Pick<IClothingItem, 'id'>): number {
     return clothingItem.id;
   }
-
+  getAllClothingItems(): Observable<IClothingItem[]> {
+    return this.http.get<IClothingItem[]>(`${this.resourceUrl}`);
+  }
   compareClothingItem(o1: Pick<IClothingItem, 'id'> | null, o2: Pick<IClothingItem, 'id'> | null): boolean {
     return o1 && o2 ? this.getClothingItemIdentifier(o1) === this.getClothingItemIdentifier(o2) : o1 === o2;
   }

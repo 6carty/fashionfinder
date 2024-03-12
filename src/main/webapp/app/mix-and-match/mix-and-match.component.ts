@@ -3,7 +3,9 @@ import { fetchWeatherApi } from 'openmeteo';
 import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
 import { OutfitPicService } from '../entities/outfit-pic/service/outfit-pic.service';
 import { IOutfitPic } from '../entities/outfit-pic/outfit-pic.model';
+import { IClothingItem } from '../entities/clothing-item/clothing-item.model';
 import { HttpResponse } from '@angular/common/http';
+
 @Component({
   selector: 'jhi-mix-and-match',
   templateUrl: './mix-and-match.component.html',
@@ -25,6 +27,11 @@ export class MixAndMatchComponent implements OnInit {
   weatherData: any;
   outfitImages: any;
   placeholders: number[] = [];
+  colours: string[] = [];
+  styles: string[] = [];
+  brands: string[] = [];
+  materials: string[] = [];
+  clothingItems: any;
   constructor(private clothingItemService: ClothingItemService, private outfitPicService: OutfitPicService) {}
 
   ngOnInit(): void {
@@ -37,6 +44,7 @@ export class MixAndMatchComponent implements OnInit {
       this.getCurrentHourData();
     }, 3600000);
     this.fetchOutfitImages();
+    this.fetchClothingItems();
   }
   fetchOutfitImages(): void {
     this.outfitPicService.query().subscribe((res: HttpResponse<IOutfitPic[]>) => {
@@ -48,9 +56,50 @@ export class MixAndMatchComponent implements OnInit {
     });
   }
   fetchClothingItems(): void {
-    this.clothingItemService.query().subscribe();
+    this.clothingItemService.query().subscribe(clothingItems => {
+      this.clothingItems = clothingItems.body;
+      this.extractDistinctColours();
+      this.extractDistinctStyle();
+      this.extractDistinctBrand();
+      this.extractDistinctMaterial();
+    });
   }
-
+  extractDistinctColours(): void {
+    const coloursSet = new Set<string>();
+    this.clothingItems.forEach((item: { colour: string | null }) => {
+      if (item.colour != null) {
+        coloursSet.add(item.colour);
+      }
+    });
+    this.colours = Array.from(coloursSet);
+  }
+  extractDistinctStyle(): void {
+    const styleSet = new Set<string>();
+    this.clothingItems.forEach((item: { style: string | null }) => {
+      if (item.style != null) {
+        styleSet.add(item.style);
+      }
+    });
+    this.styles = Array.from(styleSet);
+  }
+  extractDistinctBrand(): void {
+    const brandSet = new Set<string>();
+    this.clothingItems.forEach((item: { brand: string | null }) => {
+      if (item.brand != null) {
+        brandSet.add(item.brand);
+      }
+    });
+    this.brands = Array.from(brandSet);
+  }
+  extractDistinctMaterial(): void {
+    const materialSet = new Set<string>();
+    this.clothingItems.forEach((item: { material: string | null }) => {
+      if (item.material != null) {
+        materialSet.add(item.material);
+      }
+    });
+    this.materials = Array.from(materialSet);
+  }
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
