@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ProfileService } from '../layouts/profiles/profile.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
+import { WeatherDataService } from './weather-c/weather-data.service';
 
 @Component({
   selector: 'jhi-fashion-planner',
@@ -12,6 +13,7 @@ import { Account } from '../core/auth/account.model';
 })
 export class FashionPlannerComponent implements OnInit {
   events: any;
+  data: any;
   eventsByDay: { date: Date; events: any[] }[] = [];
   account: Account | null = null;
 
@@ -19,7 +21,8 @@ export class FashionPlannerComponent implements OnInit {
     private eventService: EventService,
     private router: Router,
     private profileService: ProfileService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private weatherService: WeatherDataService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +30,11 @@ export class FashionPlannerComponent implements OnInit {
 
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
+    });
+
+    this.weatherService.getData().subscribe(data => {
+      this.data = data;
+      console.log(data);
     });
   }
 

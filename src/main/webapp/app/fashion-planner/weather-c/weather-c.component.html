@@ -2,6 +2,7 @@
 
 <table *ngIf="data" class="custom-table">
   <tr>
+    <th>Index</th>
     <th>Date</th>
     <th>Condition</th>
     <th>Low (°C)</th>
@@ -10,6 +11,7 @@
     <th>Wind Speed (km/h)</th>
   </tr>
   <tr *ngFor="let day of data">
+    <td>{{ day['index'] }}</td>
     <td>{{ day['date'] }}</td>
     <td>{{ day['weatherCode'] }}</td>
     <td>{{ day['minTemp'] }}</td>

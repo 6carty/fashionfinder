@@ -37,6 +37,7 @@ export class WeatherDataService {
 
   private parseData(data: WeatherData) {
     const weatherData: {
+      index: number;
       date: string;
       weatherCode: number | string;
       minTemp: number;
@@ -46,6 +47,7 @@ export class WeatherDataService {
     }[] = [];
     for (let i = 0; i < data.daily.time.length; i++) {
       weatherData.push({
+        index: i,
         date: this.parseDate(data.daily.time[i]),
         weatherCode: this.parseWeatherCode(data.daily.weather_code[i]),
         minTemp: this.roundToNearestInt(data.daily.temperature_2m_min[i]),

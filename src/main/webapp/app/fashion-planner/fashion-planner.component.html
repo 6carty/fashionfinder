@@ -11,17 +11,24 @@
       [routerLink]="['/event/new']"
     >
       <fa-icon icon="plus"></fa-icon>
-      <span> Create a new event </span>
+      <span *ngIf="account"> Create a new event </span>
+      <span *ngIf="!account"> Sign in to start planning </span>
     </button>
   </div>
-  <div *ngFor="let dayEvents of eventsByDay" style="padding-bottom: 10px">
-    <h3 style="text-align: left">{{ dayEvents.date | date: 'EEEE, d LLLL' }}</h3>
+  <div *ngFor="let dayEvents of eventsByDay; let i = index" style="padding-bottom: 8px">
+    <h3 style="text-align: left">{{ dayEvents.date | date: 'EEEE, d LLLL' }} &nbsp;</h3>
+    <div style="padding: 8px 0px">
+      <span class="chip"> {{ data[i]['weatherCode'] }} | {{ data[i]['minTemp'] }}°C / {{ data[i]['maxTemp'] }}°C </span>
+      <span class="chip"> Precipitation: {{ data[i]['precipitation'] }}% </span>
+      <span class="chip"> Wind: {{ data[i]['windSpeed'] }}km/h </span>
+    </div>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
         <div class="custom-card" (click)="view(event.id)">
           <span>
             {{ event.title }} <br />
             {{ event.dateTime | date: 'h:MM aa' }} <br />
+            <!--For when location is no longer necessary-->
             <!--            <div *ngIf="event.location">-->
             <!--              {{ event.location }}-->
             <!--            </div>-->
@@ -34,7 +41,5 @@
     </ng-template>
   </div>
 
-  <div *ngIf="account">
-    <jhi-weather-c></jhi-weather-c>
-  </div>
+  <div *ngIf="!data">Weather data temporary unavailable</div>
 </div>
