@@ -61,7 +61,7 @@ body {
   font-style: italic;
 }
 
-.btn {
+.Buy\/SellButton {
   padding: 10px 15px;
   margin-top: 10px;
   background: $primary-color;
@@ -72,6 +72,20 @@ body {
     background: $hover-color;
   }
 }
+
+.ExchangeButton{
+  padding: 10px 15px;
+  margin-top: 10px;
+  background: $primary-color;
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    background: $hover-color;
+  }
+}
+
+
 
 .image-cycle {
   text-align: center;
