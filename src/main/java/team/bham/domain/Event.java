@@ -3,8 +3,6 @@ package team.bham.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -41,15 +39,13 @@ public class Event implements Serializable {
     @Column(name = "end_time")
     private ZonedDateTime endTime;
 
-    @OneToMany(mappedBy = "event")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
-    private Set<ClothingItem> clothingItems = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "outfits", "owner", "events" }, allowSetters = true)
+    private ClothingItem clothingItem;
 
-    @OneToMany(mappedBy = "event")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
-    private Set<Outfit> outfits = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "rating", "creator", "events", "clothingItems" }, allowSetters = true)
+    private Outfit outfit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -118,65 +114,29 @@ public class Event implements Serializable {
         this.endTime = endTime;
     }
 
-    public Set<ClothingItem> getClothingItems() {
-        return this.clothingItems;
+    public ClothingItem getClothingItem() {
+        return this.clothingItem;
     }
 
-    public void setClothingItems(Set<ClothingItem> clothingItems) {
-        if (this.clothingItems != null) {
-            this.clothingItems.forEach(i -> i.setEvent(null));
-        }
-        if (clothingItems != null) {
-            clothingItems.forEach(i -> i.setEvent(this));
-        }
-        this.clothingItems = clothingItems;
+    public void setClothingItem(ClothingItem clothingItem) {
+        this.clothingItem = clothingItem;
     }
 
-    public Event clothingItems(Set<ClothingItem> clothingItems) {
-        this.setClothingItems(clothingItems);
+    public Event clothingItem(ClothingItem clothingItem) {
+        this.setClothingItem(clothingItem);
         return this;
     }
 
-    public Event addClothingItem(ClothingItem clothingItem) {
-        this.clothingItems.add(clothingItem);
-        clothingItem.setEvent(this);
-        return this;
+    public Outfit getOutfit() {
+        return this.outfit;
     }
 
-    public Event removeClothingItem(ClothingItem clothingItem) {
-        this.clothingItems.remove(clothingItem);
-        clothingItem.setEvent(null);
-        return this;
+    public void setOutfit(Outfit outfit) {
+        this.outfit = outfit;
     }
 
-    public Set<Outfit> getOutfits() {
-        return this.outfits;
-    }
-
-    public void setOutfits(Set<Outfit> outfits) {
-        if (this.outfits != null) {
-            this.outfits.forEach(i -> i.setEvent(null));
-        }
-        if (outfits != null) {
-            outfits.forEach(i -> i.setEvent(this));
-        }
-        this.outfits = outfits;
-    }
-
-    public Event outfits(Set<Outfit> outfits) {
-        this.setOutfits(outfits);
-        return this;
-    }
-
-    public Event addOutfit(Outfit outfit) {
-        this.outfits.add(outfit);
-        outfit.setEvent(this);
-        return this;
-    }
-
-    public Event removeOutfit(Outfit outfit) {
-        this.outfits.remove(outfit);
-        outfit.setEvent(null);
+    public Event outfit(Outfit outfit) {
+        this.setOutfit(outfit);
         return this;
     }
 

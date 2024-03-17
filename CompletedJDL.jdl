@@ -168,8 +168,8 @@ relationship ManyToOne {
     Likes to Post
     Comment{postCommented} to Post
     Leaderboard{post} to Post
-    ClothingItem{event} to Event{clothingItem}
-    Outfit{event} to Event{outfit}
+    Event{clothingItem} to ClothingItem{event}
+    Event{outfit} to Outfit{event}
     UserMilestone to MilestoneType{type}
     Message to Chatroom{chatroom(name)}
 }

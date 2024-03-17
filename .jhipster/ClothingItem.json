@@ -63,12 +63,6 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "event",
-      "otherEntityRelationshipName": "clothingItem",
-      "relationshipName": "event",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "clothingItem",
       "ownerSide": true,
@@ -80,6 +74,12 @@
       "otherEntityRelationshipName": "clothingItems",
       "relationshipName": "owner",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "clothingItem",
+      "relationshipName": "event",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

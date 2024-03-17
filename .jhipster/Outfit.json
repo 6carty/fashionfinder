@@ -44,16 +44,16 @@
       "relationshipType": "one-to-one"
     },
     {
-      "otherEntityName": "event",
-      "otherEntityRelationshipName": "outfit",
-      "relationshipName": "event",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "outfits",
       "relationshipName": "creator",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "outfit",
+      "relationshipName": "event",
+      "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "clothingItem",

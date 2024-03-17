@@ -34,13 +34,13 @@
       "otherEntityName": "clothingItem",
       "otherEntityRelationshipName": "event",
       "relationshipName": "clothingItem",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "event",
       "relationshipName": "outfit",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

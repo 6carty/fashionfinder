@@ -26,6 +26,12 @@
             <column name="end_time" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
+            <column name="clothing_item_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="outfit_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="event" columnName="date_time" columnDataType="${datetimeType}"/>

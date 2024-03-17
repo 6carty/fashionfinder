@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { EventFormService, EventFormGroup } from './event-form.service';
 import { IEvent } from '../event.model';
 import { EventService } from '../service/event.service';
+import { IClothingItem } from 'app/entities/clothing-item/clothing-item.model';
+import { ClothingItemService } from 'app/entities/clothing-item/service/clothing-item.service';
+import { IOutfit } from 'app/entities/outfit/outfit.model';
+import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
 @Component({
   selector: 'jhi-event-update',
@@ -16,13 +20,23 @@ export class EventUpdateComponent implements OnInit {
   isSaving = false;
   event: IEvent | null = null;
 
+  clothingItemsSharedCollection: IClothingItem[] = [];
+  outfitsSharedCollection: IOutfit[] = [];
+
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
 
   constructor(
     protected eventService: EventService,
     protected eventFormService: EventFormService,
+    protected clothingItemService: ClothingItemService,
+    protected outfitService: OutfitService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareClothingItem = (o1: IClothingItem | null, o2: IClothingItem | null): boolean =>
+    this.clothingItemService.compareClothingItem(o1, o2);
+
+  compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
@@ -30,6 +44,8 @@ export class EventUpdateComponent implements OnInit {
       if (event) {
         this.updateForm(event);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -69,5 +85,29 @@ export class EventUpdateComponent implements OnInit {
   protected updateForm(event: IEvent): void {
     this.event = event;
     this.eventFormService.resetForm(this.editForm, event);
+
+    this.clothingItemsSharedCollection = this.clothingItemService.addClothingItemToCollectionIfMissing<IClothingItem>(
+      this.clothingItemsSharedCollection,
+      event.clothingItem
+    );
+    this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(this.outfitsSharedCollection, event.outfit);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.clothingItemService
+      .query()
+      .pipe(map((res: HttpResponse<IClothingItem[]>) => res.body ?? []))
+      .pipe(
+        map((clothingItems: IClothingItem[]) =>
+          this.clothingItemService.addClothingItemToCollectionIfMissing<IClothingItem>(clothingItems, this.event?.clothingItem)
+        )
+      )
+      .subscribe((clothingItems: IClothingItem[]) => (this.clothingItemsSharedCollection = clothingItems));
+
+    this.outfitService
+      .query()
+      .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))
+      .pipe(map((outfits: IOutfit[]) => this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(outfits, this.event?.outfit)))
+      .subscribe((outfits: IOutfit[]) => (this.outfitsSharedCollection = outfits));
   }
 }

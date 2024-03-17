@@ -30,6 +30,18 @@
         <dd>
           <span>{{ event.endTime | formatMediumDatetime }}</span>
         </dd>
+        <dt><span>Clothing Item</span></dt>
+        <dd>
+          <div *ngIf="event.clothingItem">
+            <a [routerLink]="['/clothing-item', event.clothingItem.id, 'view']">{{ event.clothingItem.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Outfit</span></dt>
+        <dd>
+          <div *ngIf="event.outfit">
+            <a [routerLink]="['/outfit', event.outfit.id, 'view']">{{ event.outfit.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
