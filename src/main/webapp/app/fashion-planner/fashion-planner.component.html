@@ -24,13 +24,12 @@
     </div>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
-        <div class="custom-card" (click)="view(event.id)">
+        <div class="custom-card" (click)="view(event.id)" [ngClass]="{ cardA: event.dateTime < currentTime() }">
           <span>
             {{ event.title }} <br />
-            {{ event.dateTime | date: 'h:MM aa' }} <span *ngIf="event.endTime"> - {{ event.endTime | date: 'h:MM aa' }}</span> <br />
-            <div *ngIf="event.location">
-              {{ event.location }}
-            </div>
+            {{ event.dateTime | date: 'h:mm a' | lowercase }}
+            <span *ngIf="event.endTime"> - {{ event.endTime | date: 'h:mm a' | lowercase }}</span> <br />
+            <div *ngIf="event.location">{{ event.location }}</div>
           </span>
         </div>
       </div>

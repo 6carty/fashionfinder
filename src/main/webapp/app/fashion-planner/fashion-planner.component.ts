@@ -46,27 +46,30 @@ export class FashionPlannerComponent implements OnInit {
   }
 
   groupEventsByDay() {
-    const today = new Date();
     const nextSevenDays = Array.from({ length: 7 }, (_, i) => {
       const date = new Date();
-      date.setDate(today.getDate() + i);
+      date.setDate(date.getDate() + i);
       return date;
     });
 
     this.eventsByDay = nextSevenDays.map(date => {
       const eventsForDay = this.events.filter((event: { dateTime: string | number | Date }) => {
         const eventDate = new Date(event.dateTime);
-        return eventDate.toDateString() === date.toDateString() && eventDate >= today;
+        return eventDate.toDateString() === date.toDateString();
       });
       return { date, events: eventsForDay };
     });
   }
 
   view(id: string): void {
-    this.router.navigate(['/event/' + id + '/view']);
+    this.router.navigate(['/event/' + id + '/edit']);
   }
 
   addEvent(): void {
     this.router.navigate(['/event/new']);
+  }
+
+  currentTime() {
+    return new Date();
   }
 }

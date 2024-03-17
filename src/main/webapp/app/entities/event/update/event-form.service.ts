@@ -85,8 +85,10 @@ export class EventFormService {
 
     return {
       id: null,
-      dateTime: currentTime,
-      endTime: currentTime,
+      // date time should be the next rounded hour
+      dateTime: currentTime.add(1, 'hour').startOf('hour'),
+      //end time should be 1 hour after the start time
+      endTime: currentTime.add(2, 'hour').startOf('hour'),
     };
   }
 
