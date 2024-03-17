@@ -55,7 +55,7 @@
           <label class="form-label" for="field_occasion">Occasion</label>
           <select class="form-control" name="occasion" formControlName="occasion" id="field_occasion" data-cy="occasion">
             <option [ngValue]="null"></option>
-            <option *ngFor="let occasion of occasionValues" [value]="occasion">occasion</option>
+            <option *ngFor="let occasion of occasionValues" [value]="occasion">{{ occasion }}</option>
           </select>
           <div *ngIf="editForm.get('occasion')!.invalid && (editForm.get('occasion')!.dirty || editForm.get('occasion')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('occasion')?.errors?.required"> This field is required. </small>

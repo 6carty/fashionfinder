@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { fetchWeatherApi } from 'openmeteo';
-import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
-import { IClothingItem } from '../entities/clothing-item/clothing-item.model';
-import { HttpResponse } from '@angular/common/http';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 
 @Component({
@@ -30,10 +27,9 @@ export class MixAndMatchComponent implements OnInit {
   outfit: any;
   activeFilters: string[] = [];
   filterOutfits: any;
-  // filterPics: any;
-  // filterPics2:any;
   allfiltersOff: boolean = true;
-  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
+  searchTerm: string = '';
+  constructor(private outfitService: OutfitService) {}
 
   ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
@@ -114,16 +110,21 @@ export class MixAndMatchComponent implements OnInit {
             const outfitDate = new Date(outfit.date);
             return outfitDate >= startOfYear && outfitDate <= endOfYear;
           });
-
-          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getFullYear() === today.getFullYear());
         }
       }
     });
+    if (this.searchTerm.trim()) {
+      this.filterOutfits = this.filterOutfits.filter(
+        (outfit: any) => outfit.name.replace(/\s/g, '').toLowerCase().includes(this.searchTerm.replace(/\s/g, '').toLowerCase())
+        // outfit.name.toLowerCase().includes(this.searchTerm.trim().toLowerCase())
+      );
+    }
     this.filterResults = [];
     this.filterResults = this.filterOutfits.map(
       (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
     );
   }
+
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -225,12 +226,24 @@ export class MixAndMatchComponent implements OnInit {
     if (monthElement.checked) activeFilters.push('Month');
     if (yearElement.checked) activeFilters.push('Year');
     this.activeFilters = activeFilters;
-    if (activeFilters.length === 0) {
-      this.allfiltersOff = true;
-    } else {
+
+    if (this.searchTerm.trim()) {
+      // If search term is not empty, consider filters as active
       this.allfiltersOff = false;
+    } else {
+      // If search term is empty, check if other filters are active
+      if (activeFilters.length === 0) {
+        this.allfiltersOff = true;
+      } else {
+        this.allfiltersOff = false;
+        this.fetchFilteredOutfit();
+      }
     }
-    this.fetchFilteredOutfit();
+    // if (activeFilters.length === 0) {
+    //   this.allfiltersOff = true;
+    // } else {
+    //   this.allfiltersOff = false;
+    // }
   }
   clearFilterSelections() {
     var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
@@ -264,6 +277,7 @@ export class MixAndMatchComponent implements OnInit {
     this.isOccasionDropdownOpen = false;
     this.isWeatherDropdownOpen = false;
     this.isDateDropdownOpen = false;
+    this.searchTerm = '';
     this.allfiltersOff = true; // Set all filters off
   }
   getCurrentHourData(): void {

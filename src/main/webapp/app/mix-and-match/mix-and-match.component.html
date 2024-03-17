@@ -15,7 +15,7 @@
       <h4 class="filter-text">Filters</h4>
       <div class="topnav">
         <div class="search-container">
-          <input type="text" placeholder="Filter by Search.." name="search" />
+          <input type="text" placeholder="Filter by Search.." name="search" [(ngModel)]="searchTerm" (input)="fetchFilteredOutfit()" />
           <button type="submit"><fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon></button>
         </div>
       </div>
@@ -68,7 +68,7 @@
     <h5 class="recommended-outfit-text">Recommended Outfits</h5>
     <div class="first-image-line">
       <ng-container *ngFor="let image of outfitImages; let i = index">
-        <a class="outfit-image">
+        <a class="outfit-image" [routerLink]="['/outfit', outfit[i].id, 'view']">
           <!--          [routerLink]="['/outfit-details', i]">-->
           <img class="outfit-image" [src]="image" alt="Outfit Image" />
         </a>
@@ -90,10 +90,10 @@
   </div>
   <div class="filter-results" *ngIf="!allfiltersOff">
     <ng-container *ngFor="let outfitPic of filterResults; let i = index">
-      <a class="outfit-image-2">
-        <!--         [routerLink]="['/outfit-details', i]"-->
-
+      <a class="outfit-image-2" [routerLink]="['/outfit', filterOutfits[i].id, 'view']">
         <img class="outfit-image-2" [src]="outfitPic" alt="Outfit Image" />
+
+        {{ this.filterResults[i].id }}
       </a>
     </ng-container>
   </div>
