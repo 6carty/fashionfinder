@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-clothing-pic-heading" data-cy="ClothingPicCreateUpdateHeading">Please add a clothing Picture</h2>
+      <h2 id="jhi-clothing-pic-heading" data-cy="ClothingPicCreateUpdateHeading">Create or edit a Clothing Pic</h2>
 
       <div>
         <jhi-alert-error></jhi-alert-error>
@@ -42,7 +42,7 @@
           />
         </div>
 
-        <div *ngIf="!hideClothingItemForm" class="row mb-3">
+        <div class="row mb-3">
           <label class="form-label" for="field_clothingItem">Clothing Item</label>
           <select
             class="form-control"

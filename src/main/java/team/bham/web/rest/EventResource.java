@@ -132,6 +132,9 @@ public class EventResource {
                 if (event.getDateTime() != null) {
                     existingEvent.setDateTime(event.getDateTime());
                 }
+                if (event.getEndTime() != null) {
+                    existingEvent.setEndTime(event.getEndTime());
+                }
 
                 return existingEvent;
             })

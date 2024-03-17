@@ -5,28 +5,26 @@ import { IEvent, NewEvent } from './event.model';
 export const sampleWithRequiredData: IEvent = {
   id: 63022,
   title: 'Cotton',
-  location: 'Steel red',
-  dateTime: dayjs('2024-03-02T19:08'),
+  dateTime: dayjs('2024-03-03T00:21'),
 };
 
 export const sampleWithPartialData: IEvent = {
-  id: 58638,
-  title: 'Metal teal',
-  location: 'Rubber SAS Officer',
-  dateTime: dayjs('2024-03-03T06:51'),
+  id: 14349,
+  title: 'Home',
+  dateTime: dayjs('2024-03-02T22:27'),
 };
 
 export const sampleWithFullData: IEvent = {
-  id: 26951,
-  title: 'Barbuda',
-  location: 'bus',
-  dateTime: dayjs('2024-03-02T16:43'),
+  id: 38618,
+  title: 'withdrawal',
+  location: 'wireless',
+  dateTime: dayjs('2024-03-02T22:15'),
+  endTime: dayjs('2024-03-03T12:18'),
 };
 
 export const sampleWithNewData: NewEvent = {
-  title: 'generation fuchsia',
-  location: 'Dalasi',
-  dateTime: dayjs('2024-03-03T03:32'),
+  title: 'generating Tuna coherent',
+  dateTime: dayjs('2024-03-03T11:41'),
   id: null,
 };
 

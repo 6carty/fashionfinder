@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
@@ -27,8 +27,6 @@ export type EntityArrayResponseType = HttpResponse<IClothingItem[]>;
 @Injectable({ providedIn: 'root' })
 export class ClothingItemService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/clothing-items');
-  private clothingData = new BehaviorSubject<number | null>(null);
-  clothingData$ = this.clothingData.asObservable();
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -73,9 +71,7 @@ export class ClothingItemService {
   getClothingItemIdentifier(clothingItem: Pick<IClothingItem, 'id'>): number {
     return clothingItem.id;
   }
-  getAllClothingItems(): Observable<IClothingItem[]> {
-    return this.http.get<IClothingItem[]>(`${this.resourceUrl}`);
-  }
+
   compareClothingItem(o1: Pick<IClothingItem, 'id'> | null, o2: Pick<IClothingItem, 'id'> | null): boolean {
     return o1 && o2 ? this.getClothingItemIdentifier(o1) === this.getClothingItemIdentifier(o2) : o1 === o2;
   }

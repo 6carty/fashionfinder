@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { Router } from '@angular/router';
-
 import { ClothingItemFormService, ClothingItemFormGroup } from './clothing-item-form.service';
 import { IClothingItem } from '../clothing-item.model';
 import { ClothingItemService } from '../service/clothing-item.service';
@@ -40,8 +38,7 @@ export class ClothingItemUpdateComponent implements OnInit {
     protected eventService: EventService,
     protected outfitService: OutfitService,
     protected userProfileService: UserProfileService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareEvent = (o1: IEvent | null, o2: IEvent | null): boolean => this.eventService.compareEvent(o1, o2);
@@ -82,14 +79,8 @@ export class ClothingItemUpdateComponent implements OnInit {
     });
   }
 
-  //
-  // Trying to redirect to clothingpic so it can set an image
-  //
   protected onSaveSuccess(): void {
-    this.router.navigate(['/clothing-pic/new'], {
-      queryParams: { displayClothingItemForm: false }, // Pass the parameter here
-    });
-    // this.previousState();
+    this.previousState();
   }
 
   protected onSaveError(): void {

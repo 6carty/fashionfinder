@@ -19,21 +19,23 @@ type EventFormGroupInput = IEvent | PartialWithRequiredKeyOf<NewEvent>;
 /**
  * Type that converts some properties for forms.
  */
-type FormValueOf<T extends IEvent | NewEvent> = Omit<T, 'dateTime'> & {
+type FormValueOf<T extends IEvent | NewEvent> = Omit<T, 'dateTime' | 'endTime'> & {
   dateTime?: string | null;
+  endTime?: string | null;
 };
 
 type EventFormRawValue = FormValueOf<IEvent>;
 
 type NewEventFormRawValue = FormValueOf<NewEvent>;
 
-type EventFormDefaults = Pick<NewEvent, 'id' | 'dateTime'>;
+type EventFormDefaults = Pick<NewEvent, 'id' | 'dateTime' | 'endTime'>;
 
 type EventFormGroupContent = {
   id: FormControl<EventFormRawValue['id'] | NewEvent['id']>;
   title: FormControl<EventFormRawValue['title']>;
   location: FormControl<EventFormRawValue['location']>;
   dateTime: FormControl<EventFormRawValue['dateTime']>;
+  endTime: FormControl<EventFormRawValue['endTime']>;
 };
 
 export type EventFormGroup = FormGroup<EventFormGroupContent>;
@@ -56,12 +58,11 @@ export class EventFormService {
       title: new FormControl(eventRawValue.title, {
         validators: [Validators.required],
       }),
-      location: new FormControl(eventRawValue.location, {
-        validators: [Validators.required],
-      }),
+      location: new FormControl(eventRawValue.location),
       dateTime: new FormControl(eventRawValue.dateTime, {
         validators: [Validators.required],
       }),
+      endTime: new FormControl(eventRawValue.endTime),
     });
   }
 
@@ -85,6 +86,7 @@ export class EventFormService {
     return {
       id: null,
       dateTime: currentTime,
+      // endTime: currentTime,
     };
   }
 
@@ -92,6 +94,7 @@ export class EventFormService {
     return {
       ...rawEvent,
       dateTime: dayjs(rawEvent.dateTime, DATE_TIME_FORMAT),
+      endTime: dayjs(rawEvent.endTime, DATE_TIME_FORMAT),
     };
   }
 
@@ -101,6 +104,7 @@ export class EventFormService {
     return {
       ...event,
       dateTime: event.dateTime ? event.dateTime.format(DATE_TIME_FORMAT) : undefined,
+      endTime: event.endTime ? event.endTime.format(DATE_TIME_FORMAT) : undefined,
     };
   }
 }

@@ -59,7 +59,7 @@
   "relationships": [
     {
       "otherEntityName": "event",
-      "otherEntityRelationshipName": "events",
+      "otherEntityRelationshipName": "clothingItem",
       "relationshipName": "event",
       "relationshipType": "many-to-one"
     },

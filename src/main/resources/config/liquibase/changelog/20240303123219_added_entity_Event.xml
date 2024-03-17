@@ -18,14 +18,18 @@
                 <constraints nullable="false" />
             </column>
             <column name="location" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="date_time" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
+            <column name="end_time" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="event" columnName="date_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="event" columnName="end_time" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -48,6 +52,7 @@
             <column name="title" type="string"/>
             <column name="location" type="string"/>
             <column name="date_time" type="date"/>
+            <column name="end_time" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

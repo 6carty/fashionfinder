@@ -44,6 +44,12 @@
       "relationshipType": "many-to-one"
     },
     {
+      "otherEntityName": "event",
+      "otherEntityRelationshipName": "outfit",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "outfitPic",
       "otherEntityRelationshipName": "outfit",
       "ownerSide": false,

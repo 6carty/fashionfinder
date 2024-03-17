@@ -26,6 +26,7 @@ describe('Outfit Form Service', () => {
             occasion: expect.any(Object),
             weather: expect.any(Object),
             rating: expect.any(Object),
+            event: expect.any(Object),
             creator: expect.any(Object),
             clothingItems: expect.any(Object),
           })
@@ -44,6 +45,7 @@ describe('Outfit Form Service', () => {
             occasion: expect.any(Object),
             weather: expect.any(Object),
             rating: expect.any(Object),
+            event: expect.any(Object),
             creator: expect.any(Object),
             clothingItems: expect.any(Object),
           })

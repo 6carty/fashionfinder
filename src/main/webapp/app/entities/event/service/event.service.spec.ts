@@ -9,6 +9,7 @@ import { EventService, RestEvent } from './event.service';
 const requireRestSample: RestEvent = {
   ...sampleWithRequiredData,
   dateTime: sampleWithRequiredData.dateTime?.toJSON(),
+  endTime: sampleWithRequiredData.endTime?.toJSON(),
 };
 
 describe('Event Service', () => {

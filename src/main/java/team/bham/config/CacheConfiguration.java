@@ -90,6 +90,10 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Likes.class.getName());
             createCache(cm, team.bham.domain.Comment.class.getName());
             createCache(cm, team.bham.domain.Leaderboard.class.getName());
+            createCache(cm, team.bham.domain.ClothingPic.class.getName());
+            createCache(cm, team.bham.domain.OutfitPic.class.getName());
+            createCache(cm, team.bham.domain.Event.class.getName() + ".clothingItems");
+            createCache(cm, team.bham.domain.Event.class.getName() + ".outfits");
             // jhipster-needle-ehcache-add-entry
         };
     }

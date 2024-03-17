@@ -42,6 +42,12 @@
             <a [routerLink]="['/rating', outfit.rating.id, 'view']">{{ outfit.rating.id }}</a>
           </div>
         </dd>
+        <dt><span>Event</span></dt>
+        <dd>
+          <div *ngIf="outfit.event">
+            <a [routerLink]="['/event', outfit.event.id, 'view']">{{ outfit.event.id }}</a>
+          </div>
+        </dd>
         <dt><span>Creator</span></dt>
         <dd>
           <div *ngIf="outfit.creator">

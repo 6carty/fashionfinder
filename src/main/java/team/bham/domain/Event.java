@@ -31,18 +31,25 @@ public class Event implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotNull
-    @Column(name = "location", nullable = false)
+    @Column(name = "location")
     private String location;
 
     @NotNull
     @Column(name = "date_time", nullable = false)
     private ZonedDateTime dateTime;
 
+    @Column(name = "end_time")
+    private ZonedDateTime endTime;
+
     @OneToMany(mappedBy = "event")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
-    private Set<ClothingItem> events = new HashSet<>();
+    @JsonIgnoreProperties(value = { "event", "outfits", "clothingPic", "owner" }, allowSetters = true)
+    private Set<ClothingItem> clothingItems = new HashSet<>();
+
+    @OneToMany(mappedBy = "event")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
+    private Set<Outfit> outfits = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -98,34 +105,78 @@ public class Event implements Serializable {
         this.dateTime = dateTime;
     }
 
-    public Set<ClothingItem> getEvents() {
-        return this.events;
+    public ZonedDateTime getEndTime() {
+        return this.endTime;
     }
 
-    public void setEvents(Set<ClothingItem> clothingItems) {
-        if (this.events != null) {
-            this.events.forEach(i -> i.setEvent(null));
+    public Event endTime(ZonedDateTime endTime) {
+        this.setEndTime(endTime);
+        return this;
+    }
+
+    public void setEndTime(ZonedDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Set<ClothingItem> getClothingItems() {
+        return this.clothingItems;
+    }
+
+    public void setClothingItems(Set<ClothingItem> clothingItems) {
+        if (this.clothingItems != null) {
+            this.clothingItems.forEach(i -> i.setEvent(null));
         }
         if (clothingItems != null) {
             clothingItems.forEach(i -> i.setEvent(this));
         }
-        this.events = clothingItems;
+        this.clothingItems = clothingItems;
     }
 
-    public Event events(Set<ClothingItem> clothingItems) {
-        this.setEvents(clothingItems);
+    public Event clothingItems(Set<ClothingItem> clothingItems) {
+        this.setClothingItems(clothingItems);
         return this;
     }
 
-    public Event addEvents(ClothingItem clothingItem) {
-        this.events.add(clothingItem);
+    public Event addClothingItem(ClothingItem clothingItem) {
+        this.clothingItems.add(clothingItem);
         clothingItem.setEvent(this);
         return this;
     }
 
-    public Event removeEvents(ClothingItem clothingItem) {
-        this.events.remove(clothingItem);
+    public Event removeClothingItem(ClothingItem clothingItem) {
+        this.clothingItems.remove(clothingItem);
         clothingItem.setEvent(null);
+        return this;
+    }
+
+    public Set<Outfit> getOutfits() {
+        return this.outfits;
+    }
+
+    public void setOutfits(Set<Outfit> outfits) {
+        if (this.outfits != null) {
+            this.outfits.forEach(i -> i.setEvent(null));
+        }
+        if (outfits != null) {
+            outfits.forEach(i -> i.setEvent(this));
+        }
+        this.outfits = outfits;
+    }
+
+    public Event outfits(Set<Outfit> outfits) {
+        this.setOutfits(outfits);
+        return this;
+    }
+
+    public Event addOutfit(Outfit outfit) {
+        this.outfits.add(outfit);
+        outfit.setEvent(this);
+        return this;
+    }
+
+    public Event removeOutfit(Outfit outfit) {
+        this.outfits.remove(outfit);
+        outfit.setEvent(null);
         return this;
     }
 
@@ -156,6 +207,7 @@ public class Event implements Serializable {
             ", title='" + getTitle() + "'" +
             ", location='" + getLocation() + "'" +
             ", dateTime='" + getDateTime() + "'" +
+            ", endTime='" + getEndTime() + "'" +
             "}";
     }
 }

@@ -32,6 +32,9 @@
             <column name="rating_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="event_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="creator_id" type="bigint">
                 <constraints nullable="true" />
             </column>

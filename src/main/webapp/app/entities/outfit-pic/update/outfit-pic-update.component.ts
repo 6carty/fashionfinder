@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { Router } from '@angular/router';
-
 import { OutfitPicFormService, OutfitPicFormGroup } from './outfit-pic-form.service';
 import { IOutfitPic } from '../outfit-pic.model';
 import { OutfitPicService } from '../service/outfit-pic.service';
@@ -27,7 +25,6 @@ export class OutfitPicUpdateComponent implements OnInit {
 
   editForm: OutfitPicFormGroup = this.outfitPicFormService.createOutfitPicFormGroup();
 
-  hideClothingItemForm = false;
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
@@ -35,8 +32,7 @@ export class OutfitPicUpdateComponent implements OnInit {
     protected outfitPicFormService: OutfitPicFormService,
     protected outfitService: OutfitService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
@@ -47,31 +43,7 @@ export class OutfitPicUpdateComponent implements OnInit {
       if (outfitPic) {
         this.updateForm(outfitPic);
       }
-      this.activatedRoute.queryParams.subscribe(params => {
-        const displayClothingItemForm = params['displayClothingItemForm'];
-        if (displayClothingItemForm === 'false') {
-          // Hide the clothing item form
-          this.hideClothingItemForm = true;
-        } else {
-          // Display the clothing item form
-          this.hideClothingItemForm = false;
-        }
-      });
 
-      this.outfitService.query().subscribe({
-        next: (response: HttpResponse<IOutfit[]>) => {
-          const clothingItems = response.body;
-          if (clothingItems && clothingItems.length > 0) {
-            const lastClothingItem = clothingItems.reduce((prev, current) => (prev.id > current.id ? prev : current));
-            this.editForm.patchValue({
-              outfit: lastClothingItem,
-            });
-          }
-        },
-        error: (error: any) => {
-          // Handle error
-        },
-      });
       this.loadRelationshipsOptions();
     });
   }
@@ -123,8 +95,7 @@ export class OutfitPicUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    // this.previousState();
-    this.router.navigate(['']);
+    this.previousState();
   }
 
   protected onSaveError(): void {

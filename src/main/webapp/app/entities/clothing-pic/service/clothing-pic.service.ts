@@ -51,10 +51,6 @@ export class ClothingPicService {
     return clothingPic.id;
   }
 
-  getByClothingItemId(clothingItemId: number): Observable<IClothingPic | null> {
-    return this.http.get<IClothingPic>(`${this.resourceUrl}/clothing-item/${clothingItemId}`);
-  }
-
   compareClothingPic(o1: Pick<IClothingPic, 'id'> | null, o2: Pick<IClothingPic, 'id'> | null): boolean {
     return o1 && o2 ? this.getClothingPicIdentifier(o1) === this.getClothingPicIdentifier(o2) : o1 === o2;
   }

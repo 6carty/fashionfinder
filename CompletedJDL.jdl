@@ -80,8 +80,9 @@ entity MilestoneType {
 
 entity Event {
     title String required
-    location String required
+    location String
     dateTime ZonedDateTime required
+    endTime ZonedDateTime
 }
 
 entity Calendar {
@@ -183,7 +184,8 @@ relationship ManyToOne {
     Leaderboard{post} to Post
     Outfit to Weather{weather}//unsure
     Outfit to Rating{rating} //unsure
-    ClothingItem to Event{events}
+    ClothingItem{event} to Event{clothingItem}
+    Outfit{event} to Event{outfit}
     UserMilestone to MilestoneType{type}
     Weather to Calendar
     Message to Chatroom{chatroom(name)}
@@ -202,19 +204,3 @@ relationship OneToMany {
     UserProfile{fashionTips} to FashionTip{author}
     UserProfile to UserMilestone
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

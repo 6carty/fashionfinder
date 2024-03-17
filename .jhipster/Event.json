@@ -12,13 +12,16 @@
     },
     {
       "fieldName": "location",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldType": "String"
     },
     {
       "fieldName": "dateTime",
       "fieldType": "ZonedDateTime",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "ZonedDateTime"
     }
   ],
   "fluentMethods": true,
@@ -30,7 +33,13 @@
     {
       "otherEntityName": "clothingItem",
       "otherEntityRelationshipName": "event",
-      "relationshipName": "events",
+      "relationshipName": "clothingItem",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "outfit",
+      "otherEntityRelationshipName": "event",
+      "relationshipName": "outfit",
       "relationshipType": "one-to-many"
     }
   ],

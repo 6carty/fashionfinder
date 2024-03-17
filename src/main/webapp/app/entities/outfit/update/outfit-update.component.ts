@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { Router } from '@angular/router';
-
 import { OutfitFormService, OutfitFormGroup } from './outfit-form.service';
 import { IOutfit } from '../outfit.model';
 import { OutfitService } from '../service/outfit.service';
@@ -13,6 +11,8 @@ import { IWeather } from 'app/entities/weather/weather.model';
 import { WeatherService } from 'app/entities/weather/service/weather.service';
 import { IRating } from 'app/entities/rating/rating.model';
 import { RatingService } from 'app/entities/rating/service/rating.service';
+import { IEvent } from 'app/entities/event/event.model';
+import { EventService } from 'app/entities/event/service/event.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 import { Occasion } from 'app/entities/enumerations/occasion.model';
@@ -28,6 +28,7 @@ export class OutfitUpdateComponent implements OnInit {
 
   weathersSharedCollection: IWeather[] = [];
   ratingsSharedCollection: IRating[] = [];
+  eventsSharedCollection: IEvent[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: OutfitFormGroup = this.outfitFormService.createOutfitFormGroup();
@@ -37,14 +38,16 @@ export class OutfitUpdateComponent implements OnInit {
     protected outfitFormService: OutfitFormService,
     protected weatherService: WeatherService,
     protected ratingService: RatingService,
+    protected eventService: EventService,
     protected userProfileService: UserProfileService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareWeather = (o1: IWeather | null, o2: IWeather | null): boolean => this.weatherService.compareWeather(o1, o2);
 
   compareRating = (o1: IRating | null, o2: IRating | null): boolean => this.ratingService.compareRating(o1, o2);
+
+  compareEvent = (o1: IEvent | null, o2: IEvent | null): boolean => this.eventService.compareEvent(o1, o2);
 
   compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
@@ -81,10 +84,7 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.router.navigate(['/outfit-pic/new'], {
-      queryParams: { displayClothingItemForm: false }, // Pass the parameter here
-    });
-    // this.previousState();
+    this.previousState();
   }
 
   protected onSaveError(): void {
@@ -104,6 +104,7 @@ export class OutfitUpdateComponent implements OnInit {
       outfit.weather
     );
     this.ratingsSharedCollection = this.ratingService.addRatingToCollectionIfMissing<IRating>(this.ratingsSharedCollection, outfit.rating);
+    this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, outfit.event);
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
       outfit.creator
@@ -122,6 +123,12 @@ export class OutfitUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IRating[]>) => res.body ?? []))
       .pipe(map((ratings: IRating[]) => this.ratingService.addRatingToCollectionIfMissing<IRating>(ratings, this.outfit?.rating)))
       .subscribe((ratings: IRating[]) => (this.ratingsSharedCollection = ratings));
+
+    this.eventService
+      .query()
+      .pipe(map((res: HttpResponse<IEvent[]>) => res.body ?? []))
+      .pipe(map((events: IEvent[]) => this.eventService.addEventToCollectionIfMissing<IEvent>(events, this.outfit?.event)))
+      .subscribe((events: IEvent[]) => (this.eventsSharedCollection = events));
 
     this.userProfileService
       .query()

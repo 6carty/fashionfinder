@@ -26,6 +26,10 @@
         <dd>
           <span>{{ event.dateTime | formatMediumDatetime }}</span>
         </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+          <span>{{ event.endTime | formatMediumDatetime }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

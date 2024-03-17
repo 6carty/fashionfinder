@@ -74,6 +74,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="event.id">
+            <div class="d-flex">
+              <span>Event</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="creator.id">
             <div class="d-flex">
               <span>Creator</span>
@@ -100,6 +106,11 @@
           <td>
             <div *ngIf="outfit.rating">
               <a [routerLink]="['/rating', outfit.rating.id, 'view']">{{ outfit.rating.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="outfit.event">
+              <a [routerLink]="['/event', outfit.event.id, 'view']">{{ outfit.event.id }}</a>
             </div>
           </td>
           <td>

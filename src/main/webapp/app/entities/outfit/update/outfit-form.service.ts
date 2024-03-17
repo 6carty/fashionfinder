@@ -37,6 +37,7 @@ type OutfitFormGroupContent = {
   occasion: FormControl<OutfitFormRawValue['occasion']>;
   weather: FormControl<OutfitFormRawValue['weather']>;
   rating: FormControl<OutfitFormRawValue['rating']>;
+  event: FormControl<OutfitFormRawValue['event']>;
   creator: FormControl<OutfitFormRawValue['creator']>;
   clothingItems: FormControl<OutfitFormRawValue['clothingItems']>;
 };
@@ -68,6 +69,7 @@ export class OutfitFormService {
       }),
       weather: new FormControl(outfitRawValue.weather),
       rating: new FormControl(outfitRawValue.rating),
+      event: new FormControl(outfitRawValue.event),
       creator: new FormControl(outfitRawValue.creator),
       clothingItems: new FormControl(outfitRawValue.clothingItems ?? []),
     });

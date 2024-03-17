@@ -5,6 +5,7 @@ export interface IEvent {
   title?: string | null;
   location?: string | null;
   dateTime?: dayjs.Dayjs | null;
+  endTime?: dayjs.Dayjs | null;
 }
 
 export type NewEvent = Omit<IEvent, 'id'> & { id: null };

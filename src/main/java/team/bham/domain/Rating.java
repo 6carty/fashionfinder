@@ -36,7 +36,7 @@ public class Rating implements Serializable {
 
     @OneToMany(mappedBy = "rating")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> ratings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

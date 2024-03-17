@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { Router } from '@angular/router';
-
 import { ClothingPicFormService, ClothingPicFormGroup } from './clothing-pic-form.service';
 import { IClothingPic } from '../clothing-pic.model';
 import { ClothingPicService } from '../service/clothing-pic.service';
@@ -27,7 +25,6 @@ export class ClothingPicUpdateComponent implements OnInit {
 
   editForm: ClothingPicFormGroup = this.clothingPicFormService.createClothingPicFormGroup();
 
-  hideClothingItemForm = false;
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
@@ -35,8 +32,7 @@ export class ClothingPicUpdateComponent implements OnInit {
     protected clothingPicFormService: ClothingPicFormService,
     protected clothingItemService: ClothingItemService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareClothingItem = (o1: IClothingItem | null, o2: IClothingItem | null): boolean =>
@@ -48,31 +44,7 @@ export class ClothingPicUpdateComponent implements OnInit {
       if (clothingPic) {
         this.updateForm(clothingPic);
       }
-      this.activatedRoute.queryParams.subscribe(params => {
-        const displayClothingItemForm = params['displayClothingItemForm'];
-        if (displayClothingItemForm === 'false') {
-          // Hide the clothing item form
-          this.hideClothingItemForm = true;
-        } else {
-          // Display the clothing item form
-          this.hideClothingItemForm = false;
-        }
-      });
 
-      this.clothingItemService.query().subscribe({
-        next: (response: HttpResponse<IClothingItem[]>) => {
-          const clothingItems = response.body;
-          if (clothingItems && clothingItems.length > 0) {
-            const lastClothingItem = clothingItems.reduce((prev, current) => (prev.id > current.id ? prev : current));
-            this.editForm.patchValue({
-              clothingItem: lastClothingItem,
-            });
-          }
-        },
-        error: (error: any) => {
-          // Handle error
-        },
-      });
       this.loadRelationshipsOptions();
     });
   }
@@ -107,8 +79,8 @@ export class ClothingPicUpdateComponent implements OnInit {
   }
 
   save(): void {
+    this.isSaving = true;
     const clothingPic = this.clothingPicFormService.getClothingPic(this.editForm);
-    // Retrieve the clothing item corresponding to the specific ID
     if (clothingPic.id !== null) {
       this.subscribeToSaveResponse(this.clothingPicService.update(clothingPic));
     } else {
@@ -124,8 +96,7 @@ export class ClothingPicUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    // this.previousState();
-    this.router.navigate(['']);
+    this.previousState();
   }
 
   protected onSaveError(): void {

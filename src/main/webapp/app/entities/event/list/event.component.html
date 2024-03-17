@@ -29,7 +29,7 @@
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="events && events.length > 0">
-    <table class="table table-striped">
+    <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
@@ -56,6 +56,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="endTime">
+            <div class="d-flex">
+              <span>End Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -67,6 +73,7 @@
           <td>{{ event.title }}</td>
           <td>{{ event.location }}</td>
           <td>{{ event.dateTime | formatMediumDatetime }}</td>
+          <td>{{ event.endTime | formatMediumDatetime }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

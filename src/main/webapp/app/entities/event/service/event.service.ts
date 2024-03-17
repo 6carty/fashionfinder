@@ -11,8 +11,9 @@ import { IEvent, NewEvent } from '../event.model';
 
 export type PartialUpdateEvent = Partial<IEvent> & Pick<IEvent, 'id'>;
 
-type RestOf<T extends IEvent | NewEvent> = Omit<T, 'dateTime'> & {
+type RestOf<T extends IEvent | NewEvent> = Omit<T, 'dateTime' | 'endTime'> & {
   dateTime?: string | null;
+  endTime?: string | null;
 };
 
 export type RestEvent = RestOf<IEvent>;
@@ -98,6 +99,7 @@ export class EventService {
     return {
       ...event,
       dateTime: event.dateTime?.toJSON() ?? null,
+      endTime: event.endTime?.toJSON() ?? null,
     };
   }
 
@@ -105,6 +107,7 @@ export class EventService {
     return {
       ...restEvent,
       dateTime: restEvent.dateTime ? dayjs(restEvent.dateTime) : undefined,
+      endTime: restEvent.endTime ? dayjs(restEvent.endTime) : undefined,
     };
   }
 

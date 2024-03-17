@@ -65,7 +65,7 @@ public class ClothingItem implements Serializable {
     private Instant lastWorn;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "events" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
     private Event event;
 
     @ManyToMany
@@ -75,8 +75,12 @@ public class ClothingItem implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "outfit_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> outfits = new HashSet<>();
+
+    @JsonIgnoreProperties(value = { "clothingItem" }, allowSetters = true)
+    @OneToOne(mappedBy = "clothingItem")
+    private ClothingPic clothingPic;
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -280,6 +284,25 @@ public class ClothingItem implements Serializable {
     public ClothingItem removeOutfit(Outfit outfit) {
         this.outfits.remove(outfit);
         outfit.getClothingItems().remove(this);
+        return this;
+    }
+
+    public ClothingPic getClothingPic() {
+        return this.clothingPic;
+    }
+
+    public void setClothingPic(ClothingPic clothingPic) {
+        if (this.clothingPic != null) {
+            this.clothingPic.setClothingItem(null);
+        }
+        if (clothingPic != null) {
+            clothingPic.setClothingItem(this);
+        }
+        this.clothingPic = clothingPic;
+    }
+
+    public ClothingItem clothingPic(ClothingPic clothingPic) {
+        this.setClothingPic(clothingPic);
         return this;
     }
 

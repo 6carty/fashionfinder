@@ -43,6 +43,9 @@ class EventResourceIT {
     private static final ZonedDateTime DEFAULT_DATE_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DATE_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
+    private static final ZonedDateTime DEFAULT_END_TIME = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
+    private static final ZonedDateTime UPDATED_END_TIME = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+
     private static final String ENTITY_API_URL = "/api/events";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -67,7 +70,7 @@ class EventResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Event createEntity(EntityManager em) {
-        Event event = new Event().title(DEFAULT_TITLE).location(DEFAULT_LOCATION).dateTime(DEFAULT_DATE_TIME);
+        Event event = new Event().title(DEFAULT_TITLE).location(DEFAULT_LOCATION).dateTime(DEFAULT_DATE_TIME).endTime(DEFAULT_END_TIME);
         return event;
     }
 
@@ -78,7 +81,7 @@ class EventResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Event createUpdatedEntity(EntityManager em) {
-        Event event = new Event().title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME);
+        Event event = new Event().title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME).endTime(UPDATED_END_TIME);
         return event;
     }
 
@@ -103,6 +106,7 @@ class EventResourceIT {
         assertThat(testEvent.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testEvent.getLocation()).isEqualTo(DEFAULT_LOCATION);
         assertThat(testEvent.getDateTime()).isEqualTo(DEFAULT_DATE_TIME);
+        assertThat(testEvent.getEndTime()).isEqualTo(DEFAULT_END_TIME);
     }
 
     @Test
@@ -129,23 +133,6 @@ class EventResourceIT {
         int databaseSizeBeforeTest = eventRepository.findAll().size();
         // set the field null
         event.setTitle(null);
-
-        // Create the Event, which fails.
-
-        restEventMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(event)))
-            .andExpect(status().isBadRequest());
-
-        List<Event> eventList = eventRepository.findAll();
-        assertThat(eventList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkLocationIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventRepository.findAll().size();
-        // set the field null
-        event.setLocation(null);
 
         // Create the Event, which fails.
 
@@ -188,7 +175,8 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].location").value(hasItem(DEFAULT_LOCATION)))
-            .andExpect(jsonPath("$.[*].dateTime").value(hasItem(sameInstant(DEFAULT_DATE_TIME))));
+            .andExpect(jsonPath("$.[*].dateTime").value(hasItem(sameInstant(DEFAULT_DATE_TIME))))
+            .andExpect(jsonPath("$.[*].endTime").value(hasItem(sameInstant(DEFAULT_END_TIME))));
     }
 
     @Test
@@ -205,7 +193,8 @@ class EventResourceIT {
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.location").value(DEFAULT_LOCATION))
-            .andExpect(jsonPath("$.dateTime").value(sameInstant(DEFAULT_DATE_TIME)));
+            .andExpect(jsonPath("$.dateTime").value(sameInstant(DEFAULT_DATE_TIME)))
+            .andExpect(jsonPath("$.endTime").value(sameInstant(DEFAULT_END_TIME)));
     }
 
     @Test
@@ -227,7 +216,7 @@ class EventResourceIT {
         Event updatedEvent = eventRepository.findById(event.getId()).get();
         // Disconnect from session so that the updates on updatedEvent are not directly saved in db
         em.detach(updatedEvent);
-        updatedEvent.title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME);
+        updatedEvent.title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME).endTime(UPDATED_END_TIME);
 
         restEventMockMvc
             .perform(
@@ -244,6 +233,7 @@ class EventResourceIT {
         assertThat(testEvent.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testEvent.getLocation()).isEqualTo(UPDATED_LOCATION);
         assertThat(testEvent.getDateTime()).isEqualTo(UPDATED_DATE_TIME);
+        assertThat(testEvent.getEndTime()).isEqualTo(UPDATED_END_TIME);
     }
 
     @Test
@@ -331,6 +321,7 @@ class EventResourceIT {
         assertThat(testEvent.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testEvent.getLocation()).isEqualTo(UPDATED_LOCATION);
         assertThat(testEvent.getDateTime()).isEqualTo(DEFAULT_DATE_TIME);
+        assertThat(testEvent.getEndTime()).isEqualTo(DEFAULT_END_TIME);
     }
 
     @Test
@@ -345,7 +336,7 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME);
+        partialUpdatedEvent.title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME).endTime(UPDATED_END_TIME);
 
         restEventMockMvc
             .perform(
@@ -362,6 +353,7 @@ class EventResourceIT {
         assertThat(testEvent.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testEvent.getLocation()).isEqualTo(UPDATED_LOCATION);
         assertThat(testEvent.getDateTime()).isEqualTo(UPDATED_DATE_TIME);
+        assertThat(testEvent.getEndTime()).isEqualTo(UPDATED_END_TIME);
     }
 
     @Test

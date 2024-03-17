@@ -52,6 +52,14 @@ public class Outfit implements Serializable {
     private Rating rating;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
+    private Event event;
+
+    @JsonIgnoreProperties(value = { "outfit" }, allowSetters = true)
+    @OneToOne(mappedBy = "outfit")
+    private OutfitPic outfitPic;
+
+    @ManyToOne
     @JsonIgnoreProperties(
         value = {
             "user",
@@ -75,7 +83,7 @@ public class Outfit implements Serializable {
 
     @ManyToMany(mappedBy = "outfits")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "event", "outfits", "clothingPic", "owner" }, allowSetters = true)
     private Set<ClothingItem> clothingItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -168,6 +176,38 @@ public class Outfit implements Serializable {
 
     public Outfit rating(Rating rating) {
         this.setRating(rating);
+        return this;
+    }
+
+    public Event getEvent() {
+        return this.event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Outfit event(Event event) {
+        this.setEvent(event);
+        return this;
+    }
+
+    public OutfitPic getOutfitPic() {
+        return this.outfitPic;
+    }
+
+    public void setOutfitPic(OutfitPic outfitPic) {
+        if (this.outfitPic != null) {
+            this.outfitPic.setOutfit(null);
+        }
+        if (outfitPic != null) {
+            outfitPic.setOutfit(this);
+        }
+        this.outfitPic = outfitPic;
+    }
+
+    public Outfit outfitPic(OutfitPic outfitPic) {
+        this.setOutfitPic(outfitPic);
         return this;
     }
 
