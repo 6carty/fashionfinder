@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { fetchWeatherApi } from 'openmeteo';
 import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
-import { OutfitPicService } from '../entities/outfit-pic/service/outfit-pic.service';
-import { IOutfitPic } from '../entities/outfit-pic/outfit-pic.model';
 import { IClothingItem } from '../entities/clothing-item/clothing-item.model';
 import { HttpResponse } from '@angular/common/http';
+import { OutfitService } from '../entities/outfit/service/outfit.service';
 
 @Component({
   selector: 'jhi-mix-and-match',
@@ -12,11 +11,9 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./mix-and-match.component.scss'],
 })
 export class MixAndMatchComponent implements OnInit {
-  isTypeDropdownOpen: boolean = false;
-  isColourDropdownOpen: boolean = false;
-  isStyleDropdownOpen: boolean = false;
-  isBrandDropdownOpen: boolean = false;
-  isMaterialDropdownOpen: boolean = false;
+  isOccasionDropdownOpen: boolean = false;
+  isWeatherDropdownOpen: boolean = false;
+  isDateDropdownOpen: boolean = false;
   currentDateStr: string = '';
   currentTimeStr: string = '';
   currentHourTemperature: number | undefined;
@@ -26,13 +23,17 @@ export class MixAndMatchComponent implements OnInit {
   currentHourPrecipitation: number | undefined;
   weatherData: any;
   outfitImages: any;
+  filterResults: any;
   placeholders: number[] = [];
-  colours: string[] = [];
+  weathers: string[] = [];
   styles: string[] = [];
-  brands: string[] = [];
-  materials: string[] = [];
-  clothingItems: any;
-  constructor(private clothingItemService: ClothingItemService, private outfitPicService: OutfitPicService) {}
+  outfit: any;
+  activeFilters: string[] = [];
+  filterOutfits: any;
+  // filterPics: any;
+  // filterPics2:any;
+  allfiltersOff: boolean = true;
+  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
 
   ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
@@ -43,62 +44,85 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getCurrentHourData();
     }, 3600000);
-    this.fetchOutfitImages();
-    this.fetchClothingItems();
+    this.fetchOufit();
+    setInterval(() => {
+      this.getActiveFilters();
+    }, 1000);
   }
-  fetchOutfitImages(): void {
-    this.outfitPicService.query().subscribe((res: HttpResponse<IOutfitPic[]>) => {
-      if (res.body) {
-        this.outfitImages = res.body.slice(0, 5).map(outfitPic => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image);
-      }
+  fetchOufit(): void {
+    this.outfitService.query().subscribe(outfit => {
+      this.outfit = outfit.body;
+      // this.outfitImages =outfit.body.image
+      this.outfitImages = this.outfit.map(
+        (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
+      );
       const remaining = 5 - this.outfitImages.length;
       this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
     });
   }
-  fetchClothingItems(): void {
-    this.clothingItemService.query().subscribe(clothingItems => {
-      this.clothingItems = clothingItems.body;
-      this.extractDistinctColours();
-      this.extractDistinctStyle();
-      this.extractDistinctBrand();
-      this.extractDistinctMaterial();
-    });
-  }
-  extractDistinctColours(): void {
-    const coloursSet = new Set<string>();
-    this.clothingItems.forEach((item: { colour: string | null }) => {
-      if (item.colour != null) {
-        coloursSet.add(item.colour);
+  fetchFilteredOutfit(): void {
+    this.filterOutfits = this.outfit;
+    const today = new Date();
+    this.activeFilters.forEach(filter => {
+      if (filter === 'Formal' || filter === 'Business' || filter === 'Casual' || filter === 'Sports') {
+        this.filterOutfits = this.filterOutfits.filter((outfit: any) => outfit.occasion === filter.toUpperCase());
+      } else if (
+        filter === 'Sunny' ||
+        filter === 'Rainy' ||
+        filter === 'Windy' ||
+        filter === 'Cold' ||
+        filter === 'Hot' ||
+        filter === 'Snowy'
+      ) {
+        this.filterOutfits = this.filterOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
+      } else if (filter === 'Today' || filter === 'Week' || filter === 'Month' || filter === 'Year') {
+        if (filter === 'Today') {
+          const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+          const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1); // Add one day to get the end of today
+
+          this.filterOutfits = this.filterOutfits.filter((outfit: any) => {
+            const outfitDate = new Date(outfit.date);
+            return outfitDate >= startOfToday && outfitDate < endOfToday;
+          });
+
+          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getDate === today);
+        } else if (filter === 'Week') {
+          const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()); // Start of current week (Sunday)
+          const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + 7); // End of current week (next Sunday)
+
+          this.filterOutfits = this.filterOutfits.filter((outfit: any) => {
+            const outfitDate = new Date(outfit.date);
+            return outfitDate >= startOfWeek && outfitDate < endOfWeek;
+          });
+          // const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+          // const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + 6);
+          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getDate >= startOfWeek && outfit.date <= endOfWeek);
+        } else if (filter === 'Month') {
+          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+          const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Get the last day of the current month
+
+          this.filterOutfits = this.filterOutfits.filter((outfit: any) => {
+            const outfitDate = new Date(outfit.date);
+            return outfitDate >= startOfMonth && outfitDate <= endOfMonth;
+          });
+          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getMonth() === today.getMonth() && outfit.date.getFullYear() === today.getFullYear());
+        } else if (filter === 'Year') {
+          const startOfYear = new Date(today.getFullYear(), 0, 1);
+          const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st of the current year
+
+          this.filterOutfits = this.filterOutfits.filter((outfit: any) => {
+            const outfitDate = new Date(outfit.date);
+            return outfitDate >= startOfYear && outfitDate <= endOfYear;
+          });
+
+          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getFullYear() === today.getFullYear());
+        }
       }
     });
-    this.colours = Array.from(coloursSet);
-  }
-  extractDistinctStyle(): void {
-    const styleSet = new Set<string>();
-    this.clothingItems.forEach((item: { style: string | null }) => {
-      if (item.style != null) {
-        styleSet.add(item.style);
-      }
-    });
-    this.styles = Array.from(styleSet);
-  }
-  extractDistinctBrand(): void {
-    const brandSet = new Set<string>();
-    this.clothingItems.forEach((item: { brand: string | null }) => {
-      if (item.brand != null) {
-        brandSet.add(item.brand);
-      }
-    });
-    this.brands = Array.from(brandSet);
-  }
-  extractDistinctMaterial(): void {
-    const materialSet = new Set<string>();
-    this.clothingItems.forEach((item: { material: string | null }) => {
-      if (item.material != null) {
-        materialSet.add(item.material);
-      }
-    });
-    this.materials = Array.from(materialSet);
+    this.filterResults = [];
+    this.filterResults = this.filterOutfits.map(
+      (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
+    );
   }
   getCurrentDateTime(): void {
     const currentDate = new Date();
@@ -126,6 +150,7 @@ export class MixAndMatchComponent implements OnInit {
     // this.currentDateStr = currentDate.toDateString();
     this.currentTimeStr = currentDate.toLocaleTimeString();
   }
+
   async fetchWeatherData(): Promise<void> {
     const params = {
       latitude: 52.4814,
@@ -158,24 +183,88 @@ export class MixAndMatchComponent implements OnInit {
     console.log(this.weatherData);
     this.getCurrentHourData();
   }
-  toggleTypeDropdown(): void {
-    this.isTypeDropdownOpen = !this.isTypeDropdownOpen;
+  toggleOccasionDropdown(): void {
+    this.isOccasionDropdownOpen = !this.isOccasionDropdownOpen;
   }
 
-  toggleColourDropdown(): void {
-    this.isColourDropdownOpen = !this.isColourDropdownOpen;
+  toggleWeatherDropdown(): void {
+    this.isWeatherDropdownOpen = !this.isWeatherDropdownOpen;
   }
-
-  toggleStyleDropdown(): void {
-    this.isStyleDropdownOpen = !this.isStyleDropdownOpen;
+  toggleDateDropdown(): void {
+    this.isDateDropdownOpen = !this.isDateDropdownOpen;
   }
+  getActiveFilters() {
+    var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
+    var businessElement = <HTMLInputElement>document.getElementById('BusinessCheck');
+    var casualElement = <HTMLInputElement>document.getElementById('CasualCheck');
+    var sportElement = <HTMLInputElement>document.getElementById('SportCheck');
+    var sunnyElement = <HTMLInputElement>document.getElementById('WeatherSunny');
+    var rainyElement = <HTMLInputElement>document.getElementById('WeatherRainy');
+    var windyElement = <HTMLInputElement>document.getElementById('WeatherWindy');
+    var coldElement = <HTMLInputElement>document.getElementById('WeatherCold');
+    var hotElement = <HTMLInputElement>document.getElementById('WeatherHot');
+    var snowyElement = <HTMLInputElement>document.getElementById('WeatherSnowy');
+    var todayElement = <HTMLInputElement>document.getElementById('DateToday');
+    var weekElement = <HTMLInputElement>document.getElementById('DateWeek');
+    var monthElement = <HTMLInputElement>document.getElementById('DateMonth');
+    var yearElement = <HTMLInputElement>document.getElementById('DateYear');
 
-  toggleBrandDropdown(): void {
-    this.isBrandDropdownOpen = !this.isBrandDropdownOpen;
+    var activeFilters: string[] = [];
+    if (formalElement.checked) activeFilters.push('Formal');
+    if (businessElement.checked) activeFilters.push('Business');
+    if (casualElement.checked) activeFilters.push('Casual');
+    if (sportElement.checked) activeFilters.push('Sports');
+    if (sunnyElement.checked) activeFilters.push('Sunny');
+    if (rainyElement.checked) activeFilters.push('Rainy');
+    if (windyElement.checked) activeFilters.push('Windy');
+    if (coldElement.checked) activeFilters.push('Cold');
+    if (hotElement.checked) activeFilters.push('Hot');
+    if (snowyElement.checked) activeFilters.push('Snowy');
+    if (todayElement.checked) activeFilters.push('Today');
+    if (weekElement.checked) activeFilters.push('Week');
+    if (monthElement.checked) activeFilters.push('Month');
+    if (yearElement.checked) activeFilters.push('Year');
+    this.activeFilters = activeFilters;
+    if (activeFilters.length === 0) {
+      this.allfiltersOff = true;
+    } else {
+      this.allfiltersOff = false;
+    }
+    this.fetchFilteredOutfit();
   }
-
-  toggleMaterialDropdown(): void {
-    this.isMaterialDropdownOpen = !this.isMaterialDropdownOpen;
+  clearFilterSelections() {
+    var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
+    var businessElement = <HTMLInputElement>document.getElementById('BusinessCheck');
+    var casualElement = <HTMLInputElement>document.getElementById('CasualCheck');
+    var sportElement = <HTMLInputElement>document.getElementById('SportCheck');
+    var sunnyElement = <HTMLInputElement>document.getElementById('WeatherSunny');
+    var rainyElement = <HTMLInputElement>document.getElementById('WeatherRainy');
+    var windyElement = <HTMLInputElement>document.getElementById('WeatherWindy');
+    var coldElement = <HTMLInputElement>document.getElementById('WeatherCold');
+    var hotElement = <HTMLInputElement>document.getElementById('WeatherHot');
+    var snowyElement = <HTMLInputElement>document.getElementById('WeatherSnowy');
+    var todayElement = <HTMLInputElement>document.getElementById('DateToday');
+    var weekElement = <HTMLInputElement>document.getElementById('DateWeek');
+    var monthElement = <HTMLInputElement>document.getElementById('DateMonth');
+    var yearElement = <HTMLInputElement>document.getElementById('DateYear');
+    formalElement.checked = false;
+    businessElement.checked = false;
+    casualElement.checked = false;
+    sportElement.checked = false;
+    sunnyElement.checked = false;
+    rainyElement.checked = false;
+    windyElement.checked = false;
+    coldElement.checked = false;
+    hotElement.checked = false;
+    snowyElement.checked = false;
+    todayElement.checked = false;
+    weekElement.checked = false;
+    monthElement.checked = false;
+    yearElement.checked = false;
+    this.isOccasionDropdownOpen = false;
+    this.isWeatherDropdownOpen = false;
+    this.isDateDropdownOpen = false;
+    this.allfiltersOff = true; // Set all filters off
   }
   getCurrentHourData(): void {
     const currentDate = new Date();

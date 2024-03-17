@@ -20,56 +20,56 @@
         </div>
       </div>
       <div class="normal-filters">
-        <button class="type-Button" (click)="toggleTypeDropdown()">
-          <span class="Brandtxt">Type</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        <button class="occasion-Button" (click)="toggleOccasionDropdown()">
+          <span class="Brandtxt">Occasion</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
-        <div class="dropdown-content" [ngStyle]="{ display: isTypeDropdownOpen ? 'block' : 'none' }">
-          <label><input type="checkbox" name="type" value="SHIRTS" />SHIRTS</label>
-          <label><input type="checkbox" name="type" value="SHOES" />SHOES</label>
-          <label><input type="checkbox" name="type" value="DRESS" />DRESS</label>
-          <label><input type="checkbox" name="type" value="TROUSERS" />TROUSERS</label>
-          <label><input type="checkbox" name="type" value="ACCESSORIES" />ACCESSORIES</label>
-          <label><input type="checkbox" name="type" value="OTHERS" />OTHERS</label>
+        <div class="dropdown-content" [ngStyle]="{ display: isOccasionDropdownOpen ? 'block' : 'none' }">
+          <!--          <label *ngFor="let occasion of occasions"> <input type="checkbox" name="type" [value]="occasion" />{{ occasion }} </label>-->
+          <label> <input type="radio" id="FormalCheck" name="ocassion" /> Formal</label>
+          <label><input type="radio" id="BusinessCheck" name="ocassion" /> Business</label>
+          <label><input type="radio" id="CasualCheck" name="ocassion" /> Casual</label>
+          <label><input type="radio" id="SportCheck" name="ocassion" />Sport</label>
         </div>
-
-        <button class="colour-Button" (click)="toggleColourDropdown()">
-          <span class="Brandtxt">Colours</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        <button class="weather-Button" (click)="toggleWeatherDropdown()">
+          <span class="Brandtxt">Weather</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
-        <div class="dropdown-content" [ngStyle]="{ display: isColourDropdownOpen ? 'block' : 'none' }">
-          <label *ngFor="let colour of colours"> <input type="checkbox" name="colour" [value]="colour" />{{ colour }} </label>
+        <div class="dropdown-content" [ngStyle]="{ display: isWeatherDropdownOpen ? 'block' : 'none' }">
+          <!--          <label *ngFor="let weather of weathers"> <input type="checkbox" name="type" [value]="weather" />{{ weather }} </label>-->
+          <label> <input type="checkbox" id="WeatherSunny" name="Weather" /> Sunny</label>
+          <label><input type="checkbox" id="WeatherRainy" name="Weather" /> Rainy</label>
+          <label><input type="checkbox" id="WeatherWindy" name="Weather" /> Windy</label>
+          <label><input type="checkbox" id="WeatherCold" name="Weather" />Cold</label>
+          <label><input type="checkbox" id="WeatherHot" name="Weather" /> Hot</label>
+          <label><input type="checkbox" id="WeatherSnowy" name="Weather" />Snowy</label>
         </div>
-        <button class="style-Button" (click)="toggleStyleDropdown()">
-          <span class="Brandtxt">Styles</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
+        <button class="date-Button" (click)="toggleDateDropdown()">
+          <span class="Brandtxt">Date Added</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
         <hr class="line3" />
-        <div class="dropdown-content" [ngStyle]="{ display: isStyleDropdownOpen ? 'block' : 'none' }">
-          <label *ngFor="let style of styles"> <input type="checkbox" name="colour" [value]="style" />{{ style }} </label>
+        <div class="dropdown-content" [ngStyle]="{ display: isDateDropdownOpen ? 'block' : 'none' }">
+          <!--          <label *ngFor="let weather of weathers"> <input type="checkbox" name="type" [value]="weather" />{{ weather }} </label>-->
+          <label> <input type="radio" id="DateToday" name="Dates" /> Today</label>
+          <label><input type="radio" id="DateWeek" name="Dates" /> This Week</label>
+          <label><input type="radio" id="DateMonth" name="Dates" /> This Month</label>
+          <label><input type="radio" id="DateYear" name="Dates" />This year</label>
+          <!--        <label><input type="checkbox" id="WeatherHot"> Hot</label>-->
+          <!--        <label><input type="checkbox" id="WeatherSnowy">Snowy</label>-->
         </div>
-        <button class="brand-Button" (click)="toggleBrandDropdown()">
-          <span class="Brandtxt">Brand</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
-        </button>
-        <hr class="line3" />
-        <div class="dropdown-content" [ngStyle]="{ display: isBrandDropdownOpen ? 'block' : 'none' }">
-          <label *ngFor="let brand of brands"> <input type="checkbox" name="colour" [value]="brand" />{{ brand }} </label>
-        </div>
-        <button class="material-Button" (click)="toggleMaterialDropdown()">
-          <span class="Brandtxt">Material</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
-        </button>
-        <hr class="line3" />
-        <div class="dropdown-content" [ngStyle]="{ display: isMaterialDropdownOpen ? 'block' : 'none' }">
-          <label *ngFor="let material of materials"> <input type="checkbox" name="colour" [value]="material" />{{ material }} </label>
-        </div>
+        <!--    </div>-->
       </div>
+
+      <button class="clear-button" (click)="clearFilterSelections()">Clear All</button>
     </div>
   </div>
 
-  <div class="rectangle-4">
+  <div class="rectangle-4" *ngIf="allfiltersOff">
     <h5 class="recommended-outfit-text">Recommended Outfits</h5>
     <div class="first-image-line">
       <ng-container *ngFor="let image of outfitImages; let i = index">
         <a class="outfit-image">
+          <!--          [routerLink]="['/outfit-details', i]">-->
           <img class="outfit-image" [src]="image" alt="Outfit Image" />
         </a>
       </ng-container>
@@ -87,5 +87,14 @@
       <a><div class="second-image-img04"></div></a>
       <a><div class="second-image-img05"></div></a>
     </div>
+  </div>
+  <div class="filter-results" *ngIf="!allfiltersOff">
+    <ng-container *ngFor="let outfitPic of filterResults; let i = index">
+      <a class="outfit-image-2">
+        <!--         [routerLink]="['/outfit-details', i]"-->
+
+        <img class="outfit-image-2" [src]="outfitPic" alt="Outfit Image" />
+      </a>
+    </ng-container>
   </div>
 </div>

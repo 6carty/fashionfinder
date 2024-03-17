@@ -92,11 +92,36 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   save(): void {
+    // this.isSaving = true;
+    // const outfit = this.outfitFormService.getOutfit(this.editForm);
+    // if (outfit.id !== null) {
+    //   this.subscribeToSaveResponse(this.outfitService.update(outfit));
+    // } else {
+    //   this.subscribeToSaveResponse(this.outfitService.create(outfit));
+    // }
+
     this.isSaving = true;
     const outfit = this.outfitFormService.getOutfit(this.editForm);
     if (outfit.id !== null) {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+      outfit.description = outfit.description?.split(',')[0];
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
+
       this.subscribeToSaveResponse(this.outfitService.update(outfit));
     } else {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
       this.subscribeToSaveResponse(this.outfitService.create(outfit));
     }
   }
