@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -139,6 +137,12 @@ public class OutfitResource {
                 if (outfit.getOccasion() != null) {
                     existingOutfit.setOccasion(outfit.getOccasion());
                 }
+                if (outfit.getImage() != null) {
+                    existingOutfit.setImage(outfit.getImage());
+                }
+                if (outfit.getImageContentType() != null) {
+                    existingOutfit.setImageContentType(outfit.getImageContentType());
+                }
 
                 return existingOutfit;
             })
@@ -153,18 +157,10 @@ public class OutfitResource {
     /**
      * {@code GET  /outfits} : get all the outfits.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of outfits in body.
      */
     @GetMapping("/outfits")
-    public List<Outfit> getAllOutfits(@RequestParam(required = false) String filter) {
-        if ("outfitpic-is-null".equals(filter)) {
-            log.debug("REST request to get all Outfits where outfitPic is null");
-            return StreamSupport
-                .stream(outfitRepository.findAll().spliterator(), false)
-                .filter(outfit -> outfit.getOutfitPic() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Outfit> getAllOutfits() {
         log.debug("REST request to get all Outfits");
         return outfitRepository.findAll();
     }

@@ -48,6 +48,12 @@
             <a [routerLink]="['/calendar', weather.calendar.id, 'view']">{{ weather.calendar.id }}</a>
           </div>
         </dd>
+        <dt><span>Weather</span></dt>
+        <dd>
+          <div *ngIf="weather.weather">
+            <a [routerLink]="['/outfit', weather.weather.id, 'view']">{{ weather.weather.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -114,6 +114,21 @@
             <option [ngValue]="calendarOption" *ngFor="let calendarOption of calendarsSharedCollection">{{ calendarOption.id }}</option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_weather">Weather</label>
+          <select
+            class="form-control"
+            id="field_weather"
+            data-cy="weather"
+            name="weather"
+            formControlName="weather"
+            [compareWith]="compareOutfit"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="outfitOption" *ngFor="let outfitOption of outfitsSharedCollection">{{ outfitOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

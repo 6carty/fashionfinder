@@ -98,6 +98,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="image">
+            <div class="d-flex">
+              <span>Image</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="event.id">
             <div class="d-flex">
               <span>Event</span>
@@ -134,6 +140,16 @@
           <td>{{ clothingItem.material }}</td>
           <td>{{ clothingItem.status }}</td>
           <td>{{ clothingItem.lastWorn | formatMediumDatetime }}</td>
+          <td>
+            <a *ngIf="clothingItem.image" (click)="openFile(clothingItem.image, clothingItem.imageContentType)">
+              <img
+                [src]="'data:' + clothingItem.imageContentType + ';base64,' + clothingItem.image"
+                style="max-height: 30px"
+                alt="clothingItem image"
+              />
+            </a>
+            <span *ngIf="clothingItem.image">{{ clothingItem.imageContentType }}, {{ byteSize(clothingItem.image) }}</span>
+          </td>
           <td>
             <div *ngIf="clothingItem.event">
               <a [routerLink]="['/event', clothingItem.event.id, 'view']">{{ clothingItem.event.id }}</a>

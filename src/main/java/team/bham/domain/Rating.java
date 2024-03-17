@@ -2,8 +2,6 @@ package team.bham.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -34,10 +32,9 @@ public class Rating implements Serializable {
     @OneToOne(mappedBy = "rating")
     private TrendingOutfit trendingOutfit;
 
-    @OneToMany(mappedBy = "rating")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
-    private Set<Outfit> ratings = new HashSet<>();
+    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
+    @OneToOne(mappedBy = "rating")
+    private Outfit outfit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -86,34 +83,22 @@ public class Rating implements Serializable {
         return this;
     }
 
-    public Set<Outfit> getRatings() {
-        return this.ratings;
+    public Outfit getOutfit() {
+        return this.outfit;
     }
 
-    public void setRatings(Set<Outfit> outfits) {
-        if (this.ratings != null) {
-            this.ratings.forEach(i -> i.setRating(null));
+    public void setOutfit(Outfit outfit) {
+        if (this.outfit != null) {
+            this.outfit.setRating(null);
         }
-        if (outfits != null) {
-            outfits.forEach(i -> i.setRating(this));
+        if (outfit != null) {
+            outfit.setRating(this);
         }
-        this.ratings = outfits;
+        this.outfit = outfit;
     }
 
-    public Rating ratings(Set<Outfit> outfits) {
-        this.setRatings(outfits);
-        return this;
-    }
-
-    public Rating addRating(Outfit outfit) {
-        this.ratings.add(outfit);
-        outfit.setRating(this);
-        return this;
-    }
-
-    public Rating removeRating(Outfit outfit) {
-        this.ratings.remove(outfit);
-        outfit.setRating(null);
+    public Rating outfit(Outfit outfit) {
+        this.setOutfit(outfit);
         return this;
     }
 

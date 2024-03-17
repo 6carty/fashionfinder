@@ -35,7 +35,8 @@ type OutfitFormGroupContent = {
   description: FormControl<OutfitFormRawValue['description']>;
   date: FormControl<OutfitFormRawValue['date']>;
   occasion: FormControl<OutfitFormRawValue['occasion']>;
-  weather: FormControl<OutfitFormRawValue['weather']>;
+  image: FormControl<OutfitFormRawValue['image']>;
+  imageContentType: FormControl<OutfitFormRawValue['imageContentType']>;
   rating: FormControl<OutfitFormRawValue['rating']>;
   event: FormControl<OutfitFormRawValue['event']>;
   creator: FormControl<OutfitFormRawValue['creator']>;
@@ -67,7 +68,8 @@ export class OutfitFormService {
       occasion: new FormControl(outfitRawValue.occasion, {
         validators: [Validators.required],
       }),
-      weather: new FormControl(outfitRawValue.weather),
+      image: new FormControl(outfitRawValue.image),
+      imageContentType: new FormControl(outfitRawValue.imageContentType),
       rating: new FormControl(outfitRawValue.rating),
       event: new FormControl(outfitRawValue.event),
       creator: new FormControl(outfitRawValue.creator),

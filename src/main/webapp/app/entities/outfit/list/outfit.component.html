@@ -62,9 +62,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="weather.id">
+          <th scope="col" jhiSortBy="image">
             <div class="d-flex">
-              <span>Weather</span>
+              <span>Image</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -99,9 +99,10 @@
           <td>{{ outfit.date | formatMediumDatetime }}</td>
           <td>{{ outfit.occasion }}</td>
           <td>
-            <div *ngIf="outfit.weather">
-              <a [routerLink]="['/weather', outfit.weather.id, 'view']">{{ outfit.weather.id }}</a>
-            </div>
+            <a *ngIf="outfit.image" (click)="openFile(outfit.image, outfit.imageContentType)">
+              <img [src]="'data:' + outfit.imageContentType + ';base64,' + outfit.image" style="max-height: 30px" alt="outfit image" />
+            </a>
+            <span *ngIf="outfit.image">{{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}</span>
           </td>
           <td>
             <div *ngIf="outfit.rating">

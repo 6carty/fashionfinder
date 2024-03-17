@@ -8,12 +8,6 @@
     -->
     <changeSet id="20240303123214-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="weather_id"
-                                 baseTableName="outfit"
-                                 constraintName="fk_outfit__weather_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="weather"/>
-
         <addForeignKeyConstraint baseColumnNames="rating_id"
                                  baseTableName="outfit"
                                  constraintName="fk_outfit__rating_id"

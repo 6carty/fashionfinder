@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { OutfitFormService } from './outfit-form.service';
 import { OutfitService } from '../service/outfit.service';
 import { IOutfit } from '../outfit.model';
-import { IWeather } from 'app/entities/weather/weather.model';
-import { WeatherService } from 'app/entities/weather/service/weather.service';
 import { IRating } from 'app/entities/rating/rating.model';
 import { RatingService } from 'app/entities/rating/service/rating.service';
 import { IEvent } from 'app/entities/event/event.model';
@@ -26,7 +24,6 @@ describe('Outfit Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let outfitFormService: OutfitFormService;
   let outfitService: OutfitService;
-  let weatherService: WeatherService;
   let ratingService: RatingService;
   let eventService: EventService;
   let userProfileService: UserProfileService;
@@ -52,7 +49,6 @@ describe('Outfit Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     outfitFormService = TestBed.inject(OutfitFormService);
     outfitService = TestBed.inject(OutfitService);
-    weatherService = TestBed.inject(WeatherService);
     ratingService = TestBed.inject(RatingService);
     eventService = TestBed.inject(EventService);
     userProfileService = TestBed.inject(UserProfileService);
@@ -61,48 +57,22 @@ describe('Outfit Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call Weather query and add missing value', () => {
-      const outfit: IOutfit = { id: 456 };
-      const weather: IWeather = { id: 52454 };
-      outfit.weather = weather;
-
-      const weatherCollection: IWeather[] = [{ id: 48526 }];
-      jest.spyOn(weatherService, 'query').mockReturnValue(of(new HttpResponse({ body: weatherCollection })));
-      const additionalWeathers = [weather];
-      const expectedCollection: IWeather[] = [...additionalWeathers, ...weatherCollection];
-      jest.spyOn(weatherService, 'addWeatherToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ outfit });
-      comp.ngOnInit();
-
-      expect(weatherService.query).toHaveBeenCalled();
-      expect(weatherService.addWeatherToCollectionIfMissing).toHaveBeenCalledWith(
-        weatherCollection,
-        ...additionalWeathers.map(expect.objectContaining)
-      );
-      expect(comp.weathersSharedCollection).toEqual(expectedCollection);
-    });
-
-    it('Should call Rating query and add missing value', () => {
+    it('Should call rating query and add missing value', () => {
       const outfit: IOutfit = { id: 456 };
       const rating: IRating = { id: 76865 };
       outfit.rating = rating;
 
       const ratingCollection: IRating[] = [{ id: 39298 }];
       jest.spyOn(ratingService, 'query').mockReturnValue(of(new HttpResponse({ body: ratingCollection })));
-      const additionalRatings = [rating];
-      const expectedCollection: IRating[] = [...additionalRatings, ...ratingCollection];
+      const expectedCollection: IRating[] = [rating, ...ratingCollection];
       jest.spyOn(ratingService, 'addRatingToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ outfit });
       comp.ngOnInit();
 
       expect(ratingService.query).toHaveBeenCalled();
-      expect(ratingService.addRatingToCollectionIfMissing).toHaveBeenCalledWith(
-        ratingCollection,
-        ...additionalRatings.map(expect.objectContaining)
-      );
-      expect(comp.ratingsSharedCollection).toEqual(expectedCollection);
+      expect(ratingService.addRatingToCollectionIfMissing).toHaveBeenCalledWith(ratingCollection, rating);
+      expect(comp.ratingsCollection).toEqual(expectedCollection);
     });
 
     it('Should call Event query and add missing value', () => {
@@ -151,8 +121,6 @@ describe('Outfit Management Update Component', () => {
 
     it('Should update editForm', () => {
       const outfit: IOutfit = { id: 456 };
-      const weather: IWeather = { id: 83363 };
-      outfit.weather = weather;
       const rating: IRating = { id: 71358 };
       outfit.rating = rating;
       const event: IEvent = { id: 36543 };
@@ -163,8 +131,7 @@ describe('Outfit Management Update Component', () => {
       activatedRoute.data = of({ outfit });
       comp.ngOnInit();
 
-      expect(comp.weathersSharedCollection).toContain(weather);
-      expect(comp.ratingsSharedCollection).toContain(rating);
+      expect(comp.ratingsCollection).toContain(rating);
       expect(comp.eventsSharedCollection).toContain(event);
       expect(comp.userProfilesSharedCollection).toContain(creator);
       expect(comp.outfit).toEqual(outfit);
@@ -240,16 +207,6 @@ describe('Outfit Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareWeather', () => {
-      it('Should forward to weatherService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(weatherService, 'compareWeather');
-        comp.compareWeather(entity, entity2);
-        expect(weatherService.compareWeather).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
     describe('compareRating', () => {
       it('Should forward to ratingService', () => {
         const entity = { id: 123 };

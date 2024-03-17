@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -157,6 +155,12 @@ public class ClothingItemResource {
                 if (clothingItem.getLastWorn() != null) {
                     existingClothingItem.setLastWorn(clothingItem.getLastWorn());
                 }
+                if (clothingItem.getImage() != null) {
+                    existingClothingItem.setImage(clothingItem.getImage());
+                }
+                if (clothingItem.getImageContentType() != null) {
+                    existingClothingItem.setImageContentType(clothingItem.getImageContentType());
+                }
 
                 return existingClothingItem;
             })
@@ -172,21 +176,10 @@ public class ClothingItemResource {
      * {@code GET  /clothing-items} : get all the clothingItems.
      *
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clothingItems in body.
      */
     @GetMapping("/clothing-items")
-    public List<ClothingItem> getAllClothingItems(
-        @RequestParam(required = false) String filter,
-        @RequestParam(required = false, defaultValue = "false") boolean eagerload
-    ) {
-        if ("clothingpic-is-null".equals(filter)) {
-            log.debug("REST request to get all ClothingItems where clothingPic is null");
-            return StreamSupport
-                .stream(clothingItemRepository.findAll().spliterator(), false)
-                .filter(clothingItem -> clothingItem.getClothingPic() == null)
-                .collect(Collectors.toList());
-        }
+    public List<ClothingItem> getAllClothingItems(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ClothingItems");
         if (eagerload) {
             return clothingItemRepository.findAllWithEagerRelationships();

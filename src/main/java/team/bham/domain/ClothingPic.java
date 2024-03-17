@@ -30,7 +30,7 @@ public class ClothingPic implements Serializable {
     @Column(name = "image_content_type")
     private String imageContentType;
 
-    @JsonIgnoreProperties(value = { "event", "outfits", "clothingPic", "owner" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private ClothingItem clothingItem;

@@ -86,7 +86,7 @@ export class EventFormService {
     return {
       id: null,
       dateTime: currentTime,
-      // endTime: currentTime,
+      endTime: currentTime,
     };
   }
 

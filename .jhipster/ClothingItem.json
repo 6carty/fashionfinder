@@ -14,7 +14,7 @@
       "fieldName": "type",
       "fieldType": "ClothingType",
       "fieldValidateRules": ["required"],
-      "fieldValues": "SHIRTS,SHOES,DRESS,TROUSERS,ACCESSORIES,OTHERS"
+      "fieldValues": "SHIRTS,SHOES,DRESS,TROUSERS,HATS,ACCESSORIES,OTHERS"
     },
     {
       "fieldName": "description",
@@ -49,6 +49,11 @@
     {
       "fieldName": "lastWorn",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
@@ -69,13 +74,6 @@
       "ownerSide": true,
       "relationshipName": "outfit",
       "relationshipType": "many-to-many"
-    },
-    {
-      "otherEntityName": "clothingPic",
-      "otherEntityRelationshipName": "clothingItem",
-      "ownerSide": false,
-      "relationshipName": "clothingPic",
-      "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "userProfile",

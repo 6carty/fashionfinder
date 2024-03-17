@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.Outfit;
 import team.bham.domain.enumeration.Occasion;
@@ -44,6 +45,11 @@ class OutfitResourceIT {
     private static final Occasion DEFAULT_OCCASION = Occasion.FORMAL;
     private static final Occasion UPDATED_OCCASION = Occasion.BUSINESS;
 
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+
     private static final String ENTITY_API_URL = "/api/outfits";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -68,7 +74,13 @@ class OutfitResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Outfit createEntity(EntityManager em) {
-        Outfit outfit = new Outfit().name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION).date(DEFAULT_DATE).occasion(DEFAULT_OCCASION);
+        Outfit outfit = new Outfit()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .date(DEFAULT_DATE)
+            .occasion(DEFAULT_OCCASION)
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
         return outfit;
     }
 
@@ -79,7 +91,13 @@ class OutfitResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Outfit createUpdatedEntity(EntityManager em) {
-        Outfit outfit = new Outfit().name(UPDATED_NAME).description(UPDATED_DESCRIPTION).date(UPDATED_DATE).occasion(UPDATED_OCCASION);
+        Outfit outfit = new Outfit()
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .date(UPDATED_DATE)
+            .occasion(UPDATED_OCCASION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
         return outfit;
     }
 
@@ -105,6 +123,8 @@ class OutfitResourceIT {
         assertThat(testOutfit.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testOutfit.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testOutfit.getOccasion()).isEqualTo(DEFAULT_OCCASION);
+        assertThat(testOutfit.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testOutfit.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -174,7 +194,9 @@ class OutfitResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].occasion").value(hasItem(DEFAULT_OCCASION.toString())));
+            .andExpect(jsonPath("$.[*].occasion").value(hasItem(DEFAULT_OCCASION.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
 
     @Test
@@ -192,7 +214,9 @@ class OutfitResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
-            .andExpect(jsonPath("$.occasion").value(DEFAULT_OCCASION.toString()));
+            .andExpect(jsonPath("$.occasion").value(DEFAULT_OCCASION.toString()))
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)));
     }
 
     @Test
@@ -214,7 +238,13 @@ class OutfitResourceIT {
         Outfit updatedOutfit = outfitRepository.findById(outfit.getId()).get();
         // Disconnect from session so that the updates on updatedOutfit are not directly saved in db
         em.detach(updatedOutfit);
-        updatedOutfit.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).date(UPDATED_DATE).occasion(UPDATED_OCCASION);
+        updatedOutfit
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .date(UPDATED_DATE)
+            .occasion(UPDATED_OCCASION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restOutfitMockMvc
             .perform(
@@ -232,6 +262,8 @@ class OutfitResourceIT {
         assertThat(testOutfit.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testOutfit.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testOutfit.getOccasion()).isEqualTo(UPDATED_OCCASION);
+        assertThat(testOutfit.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testOutfit.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -320,6 +352,8 @@ class OutfitResourceIT {
         assertThat(testOutfit.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testOutfit.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testOutfit.getOccasion()).isEqualTo(UPDATED_OCCASION);
+        assertThat(testOutfit.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testOutfit.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -334,7 +368,13 @@ class OutfitResourceIT {
         Outfit partialUpdatedOutfit = new Outfit();
         partialUpdatedOutfit.setId(outfit.getId());
 
-        partialUpdatedOutfit.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).date(UPDATED_DATE).occasion(UPDATED_OCCASION);
+        partialUpdatedOutfit
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .date(UPDATED_DATE)
+            .occasion(UPDATED_OCCASION)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restOutfitMockMvc
             .perform(
@@ -352,6 +392,8 @@ class OutfitResourceIT {
         assertThat(testOutfit.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testOutfit.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testOutfit.getOccasion()).isEqualTo(UPDATED_OCCASION);
+        assertThat(testOutfit.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testOutfit.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test

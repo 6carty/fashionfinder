@@ -27,8 +27,9 @@
     {
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "rating",
-      "relationshipName": "rating",
-      "relationshipType": "one-to-many"
+      "ownerSide": false,
+      "relationshipName": "outfit",
+      "relationshipType": "one-to-one"
     }
   ],
   "service": "no"

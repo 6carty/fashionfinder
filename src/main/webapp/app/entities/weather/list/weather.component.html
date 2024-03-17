@@ -86,6 +86,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="weather.id">
+            <div class="d-flex">
+              <span>Weather</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -104,6 +110,11 @@
           <td>
             <div *ngIf="weather.calendar">
               <a [routerLink]="['/calendar', weather.calendar.id, 'view']">{{ weather.calendar.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="weather.weather">
+              <a [routerLink]="['/outfit', weather.weather.id, 'view']">{{ weather.weather.id }}</a>
             </div>
           </td>
           <td class="text-end">

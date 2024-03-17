@@ -39,6 +39,7 @@ type WeatherFormGroupContent = {
   windSpeed: FormControl<WeatherFormRawValue['windSpeed']>;
   windDirection: FormControl<WeatherFormRawValue['windDirection']>;
   calendar: FormControl<WeatherFormRawValue['calendar']>;
+  weather: FormControl<WeatherFormRawValue['weather']>;
 };
 
 export type WeatherFormGroup = FormGroup<WeatherFormGroupContent>;
@@ -70,6 +71,7 @@ export class WeatherFormService {
       windSpeed: new FormControl(weatherRawValue.windSpeed),
       windDirection: new FormControl(weatherRawValue.windDirection),
       calendar: new FormControl(weatherRawValue.calendar),
+      weather: new FormControl(weatherRawValue.weather),
     });
   }
 

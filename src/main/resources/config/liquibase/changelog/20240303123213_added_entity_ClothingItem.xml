@@ -44,6 +44,12 @@
             <column name="last_worn" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
+            <column name="image" type="${blobType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="image_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="event_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -96,6 +102,8 @@
             <column name="material" type="string"/>
             <column name="status" type="string"/>
             <column name="last_worn" type="date"/>
+            <column name="image" type="blob"/>
+            <column name="image_content_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -13,33 +13,37 @@ export const sampleWithRequiredData: IClothingItem = {
 };
 
 export const sampleWithPartialData: IClothingItem = {
-  id: 74226,
-  name: 'Dollar Awesome 1080p',
-  type: ClothingType['SHIRTS'],
-  clothingSize: 'Barthelemy deliverables Dollar',
-  colour: 'productize Auto',
-  status: Status['EXCHANGED'],
-  lastWorn: dayjs('2024-03-03T10:33'),
+  id: 77597,
+  name: 'Producer Federation Robust',
+  type: ClothingType['HATS'],
+  clothingSize: 'EXE',
+  colour: 'deliverables Dollar Junction',
+  status: Status['AVAILABLE'],
+  lastWorn: dayjs('2024-03-02T21:32'),
+  image: '../fake-data/blob/hipster.png',
+  imageContentType: 'unknown',
 };
 
 export const sampleWithFullData: IClothingItem = {
-  id: 15312,
-  name: 'Gorgeous',
-  type: ClothingType['DRESS'],
-  description: 'withdrawal',
-  clothingSize: 'Lanka Oro Coordinator',
-  colour: 'California',
-  style: 'deposit Kyrgyz',
-  brand: 'National',
-  material: 'Maryland streamline Re-contextualized',
+  id: 85195,
+  name: 'California',
+  type: ClothingType['SHOES'],
+  description: 'non-volatile',
+  clothingSize: 'withdrawal',
+  colour: 'Lanka Oro Coordinator',
+  style: 'California',
+  brand: 'deposit Kyrgyz',
+  material: 'National',
   status: Status['SOLD'],
-  lastWorn: dayjs('2024-03-03T10:26'),
+  lastWorn: dayjs('2024-03-02T22:50'),
+  image: '../fake-data/blob/hipster.png',
+  imageContentType: 'unknown',
 };
 
 export const sampleWithNewData: NewClothingItem = {
-  name: 'bandwidth real-time',
-  type: ClothingType['TROUSERS'],
-  status: Status['EXCHANGED'],
+  name: 'functionalities Enterprise-wide',
+  type: ClothingType['DRESS'],
+  status: Status['SOLD'],
   id: null,
 };
 

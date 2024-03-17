@@ -38,6 +38,9 @@
             <column name="calendar_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="weather_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="weather" columnName="datetime" columnDataType="${datetimeType}"/>

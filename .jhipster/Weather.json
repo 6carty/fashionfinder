@@ -52,7 +52,7 @@
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "weather",
       "relationshipName": "weather",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

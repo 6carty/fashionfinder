@@ -73,12 +73,12 @@ public class UserProfile implements Serializable {
 
     @OneToMany(mappedBy = "owner")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "clothingPic", "owner" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
     private Set<ClothingItem> clothingItems = new HashSet<>();
 
     @OneToMany(mappedBy = "creator")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> outfits = new HashSet<>();
 
     @OneToMany(mappedBy = "userProfile")
@@ -121,7 +121,7 @@ public class UserProfile implements Serializable {
     @JsonIgnoreProperties(value = { "chatrooms", "userProfiles" }, allowSetters = true)
     private Set<Chatroom> chatrooms = new HashSet<>();
 
-    @JsonIgnoreProperties(value = { "userProfile", "weathers" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userProfile" }, allowSetters = true)
     @OneToOne(mappedBy = "userProfile")
     private Calendar calendar;
 

@@ -64,6 +64,13 @@ public class ClothingItem implements Serializable {
     @Column(name = "last_worn")
     private Instant lastWorn;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
     private Event event;
@@ -75,12 +82,8 @@ public class ClothingItem implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "outfit_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> outfits = new HashSet<>();
-
-    @JsonIgnoreProperties(value = { "clothingItem" }, allowSetters = true)
-    @OneToOne(mappedBy = "clothingItem")
-    private ClothingPic clothingPic;
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -249,6 +252,32 @@ public class ClothingItem implements Serializable {
         this.lastWorn = lastWorn;
     }
 
+    public byte[] getImage() {
+        return this.image;
+    }
+
+    public ClothingItem image(byte[] image) {
+        this.setImage(image);
+        return this;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return this.imageContentType;
+    }
+
+    public ClothingItem imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
     public Event getEvent() {
         return this.event;
     }
@@ -284,25 +313,6 @@ public class ClothingItem implements Serializable {
     public ClothingItem removeOutfit(Outfit outfit) {
         this.outfits.remove(outfit);
         outfit.getClothingItems().remove(this);
-        return this;
-    }
-
-    public ClothingPic getClothingPic() {
-        return this.clothingPic;
-    }
-
-    public void setClothingPic(ClothingPic clothingPic) {
-        if (this.clothingPic != null) {
-            this.clothingPic.setClothingItem(null);
-        }
-        if (clothingPic != null) {
-            clothingPic.setClothingItem(this);
-        }
-        this.clothingPic = clothingPic;
-    }
-
-    public ClothingItem clothingPic(ClothingPic clothingPic) {
-        this.setClothingPic(clothingPic);
         return this;
     }
 
@@ -353,6 +363,8 @@ public class ClothingItem implements Serializable {
             ", material='" + getMaterial() + "'" +
             ", status='" + getStatus() + "'" +
             ", lastWorn='" + getLastWorn() + "'" +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
             "}";
     }
 }

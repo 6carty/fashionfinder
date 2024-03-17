@@ -31,7 +31,7 @@ public class TrendingOutfit implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnoreProperties(value = { "trendingOutfit", "ratings" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "trendingOutfit", "outfit" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Rating rating;

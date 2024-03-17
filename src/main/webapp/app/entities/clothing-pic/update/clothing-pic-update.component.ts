@@ -21,7 +21,7 @@ export class ClothingPicUpdateComponent implements OnInit {
   isSaving = false;
   clothingPic: IClothingPic | null = null;
 
-  clothingItemsCollection: IClothingItem[] = [];
+  clothingItemsSharedCollection: IClothingItem[] = [];
 
   editForm: ClothingPicFormGroup = this.clothingPicFormService.createClothingPicFormGroup();
 
@@ -111,21 +111,21 @@ export class ClothingPicUpdateComponent implements OnInit {
     this.clothingPic = clothingPic;
     this.clothingPicFormService.resetForm(this.editForm, clothingPic);
 
-    this.clothingItemsCollection = this.clothingItemService.addClothingItemToCollectionIfMissing<IClothingItem>(
-      this.clothingItemsCollection,
+    this.clothingItemsSharedCollection = this.clothingItemService.addClothingItemToCollectionIfMissing<IClothingItem>(
+      this.clothingItemsSharedCollection,
       clothingPic.clothingItem
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.clothingItemService
-      .query({ filter: 'clothingpic-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IClothingItem[]>) => res.body ?? []))
       .pipe(
         map((clothingItems: IClothingItem[]) =>
           this.clothingItemService.addClothingItemToCollectionIfMissing<IClothingItem>(clothingItems, this.clothingPic?.clothingItem)
         )
       )
-      .subscribe((clothingItems: IClothingItem[]) => (this.clothingItemsCollection = clothingItems));
+      .subscribe((clothingItems: IClothingItem[]) => (this.clothingItemsSharedCollection = clothingItems));
   }
 }

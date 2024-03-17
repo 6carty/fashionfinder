@@ -3,8 +3,6 @@ package team.bham.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -59,11 +57,6 @@ public class Calendar implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private UserProfile userProfile;
-
-    @OneToMany(mappedBy = "calendar")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "calendar", "weathers" }, allowSetters = true)
-    private Set<Weather> weathers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -129,37 +122,6 @@ public class Calendar implements Serializable {
 
     public Calendar userProfile(UserProfile userProfile) {
         this.setUserProfile(userProfile);
-        return this;
-    }
-
-    public Set<Weather> getWeathers() {
-        return this.weathers;
-    }
-
-    public void setWeathers(Set<Weather> weathers) {
-        if (this.weathers != null) {
-            this.weathers.forEach(i -> i.setCalendar(null));
-        }
-        if (weathers != null) {
-            weathers.forEach(i -> i.setCalendar(this));
-        }
-        this.weathers = weathers;
-    }
-
-    public Calendar weathers(Set<Weather> weathers) {
-        this.setWeathers(weathers);
-        return this;
-    }
-
-    public Calendar addWeather(Weather weather) {
-        this.weathers.add(weather);
-        weather.setCalendar(this);
-        return this;
-    }
-
-    public Calendar removeWeather(Weather weather) {
-        this.weathers.remove(weather);
-        weather.setCalendar(null);
         return this;
     }
 

@@ -11,6 +11,8 @@ import { WeatherService } from '../service/weather.service';
 import { IWeather } from '../weather.model';
 import { ICalendar } from 'app/entities/calendar/calendar.model';
 import { CalendarService } from 'app/entities/calendar/service/calendar.service';
+import { IOutfit } from 'app/entities/outfit/outfit.model';
+import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
 import { WeatherUpdateComponent } from './weather-update.component';
 
@@ -21,6 +23,7 @@ describe('Weather Management Update Component', () => {
   let weatherFormService: WeatherFormService;
   let weatherService: WeatherService;
   let calendarService: CalendarService;
+  let outfitService: OutfitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +47,7 @@ describe('Weather Management Update Component', () => {
     weatherFormService = TestBed.inject(WeatherFormService);
     weatherService = TestBed.inject(WeatherService);
     calendarService = TestBed.inject(CalendarService);
+    outfitService = TestBed.inject(OutfitService);
 
     comp = fixture.componentInstance;
   });
@@ -71,15 +75,40 @@ describe('Weather Management Update Component', () => {
       expect(comp.calendarsSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call Outfit query and add missing value', () => {
+      const weather: IWeather = { id: 456 };
+      const weather: IOutfit = { id: 18579 };
+      weather.weather = weather;
+
+      const outfitCollection: IOutfit[] = [{ id: 84318 }];
+      jest.spyOn(outfitService, 'query').mockReturnValue(of(new HttpResponse({ body: outfitCollection })));
+      const additionalOutfits = [weather];
+      const expectedCollection: IOutfit[] = [...additionalOutfits, ...outfitCollection];
+      jest.spyOn(outfitService, 'addOutfitToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ weather });
+      comp.ngOnInit();
+
+      expect(outfitService.query).toHaveBeenCalled();
+      expect(outfitService.addOutfitToCollectionIfMissing).toHaveBeenCalledWith(
+        outfitCollection,
+        ...additionalOutfits.map(expect.objectContaining)
+      );
+      expect(comp.outfitsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const weather: IWeather = { id: 456 };
       const calendar: ICalendar = { id: 50580 };
       weather.calendar = calendar;
+      const weather: IOutfit = { id: 15874 };
+      weather.weather = weather;
 
       activatedRoute.data = of({ weather });
       comp.ngOnInit();
 
       expect(comp.calendarsSharedCollection).toContain(calendar);
+      expect(comp.outfitsSharedCollection).toContain(weather);
       expect(comp.weather).toEqual(weather);
     });
   });
@@ -160,6 +189,16 @@ describe('Weather Management Update Component', () => {
         jest.spyOn(calendarService, 'compareCalendar');
         comp.compareCalendar(entity, entity2);
         expect(calendarService.compareCalendar).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareOutfit', () => {
+      it('Should forward to outfitService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(outfitService, 'compareOutfit');
+        comp.compareOutfit(entity, entity2);
+        expect(outfitService.compareOutfit).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

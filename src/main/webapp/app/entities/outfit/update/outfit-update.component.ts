@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -7,8 +7,9 @@ import { finalize, map } from 'rxjs/operators';
 import { OutfitFormService, OutfitFormGroup } from './outfit-form.service';
 import { IOutfit } from '../outfit.model';
 import { OutfitService } from '../service/outfit.service';
-import { IWeather } from 'app/entities/weather/weather.model';
-import { WeatherService } from 'app/entities/weather/service/weather.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
+import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IRating } from 'app/entities/rating/rating.model';
 import { RatingService } from 'app/entities/rating/service/rating.service';
 import { IEvent } from 'app/entities/event/event.model';
@@ -26,24 +27,23 @@ export class OutfitUpdateComponent implements OnInit {
   outfit: IOutfit | null = null;
   occasionValues = Object.keys(Occasion);
 
-  weathersSharedCollection: IWeather[] = [];
-  ratingsSharedCollection: IRating[] = [];
+  ratingsCollection: IRating[] = [];
   eventsSharedCollection: IEvent[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: OutfitFormGroup = this.outfitFormService.createOutfitFormGroup();
 
   constructor(
+    protected dataUtils: DataUtils,
+    protected eventManager: EventManager,
     protected outfitService: OutfitService,
     protected outfitFormService: OutfitFormService,
-    protected weatherService: WeatherService,
     protected ratingService: RatingService,
     protected eventService: EventService,
     protected userProfileService: UserProfileService,
+    protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute
   ) {}
-
-  compareWeather = (o1: IWeather | null, o2: IWeather | null): boolean => this.weatherService.compareWeather(o1, o2);
 
   compareRating = (o1: IRating | null, o2: IRating | null): boolean => this.ratingService.compareRating(o1, o2);
 
@@ -60,6 +60,31 @@ export class OutfitUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    this.dataUtils.openFile(base64String, contentType);
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
+      error: (err: FileLoadError) =>
+        this.eventManager.broadcast(new EventWithContent<AlertError>('teamprojectApp.error', { message: err.message })),
+    });
+  }
+
+  clearInputImage(field: string, fieldContentType: string, idInput: string): void {
+    this.editForm.patchValue({
+      [field]: null,
+      [fieldContentType]: null,
+    });
+    if (idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
+      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
+    }
   }
 
   previousState(): void {
@@ -99,11 +124,7 @@ export class OutfitUpdateComponent implements OnInit {
     this.outfit = outfit;
     this.outfitFormService.resetForm(this.editForm, outfit);
 
-    this.weathersSharedCollection = this.weatherService.addWeatherToCollectionIfMissing<IWeather>(
-      this.weathersSharedCollection,
-      outfit.weather
-    );
-    this.ratingsSharedCollection = this.ratingService.addRatingToCollectionIfMissing<IRating>(this.ratingsSharedCollection, outfit.rating);
+    this.ratingsCollection = this.ratingService.addRatingToCollectionIfMissing<IRating>(this.ratingsCollection, outfit.rating);
     this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, outfit.event);
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
@@ -112,17 +133,11 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.weatherService
-      .query()
-      .pipe(map((res: HttpResponse<IWeather[]>) => res.body ?? []))
-      .pipe(map((weathers: IWeather[]) => this.weatherService.addWeatherToCollectionIfMissing<IWeather>(weathers, this.outfit?.weather)))
-      .subscribe((weathers: IWeather[]) => (this.weathersSharedCollection = weathers));
-
     this.ratingService
-      .query()
+      .query({ filter: 'outfit-is-null' })
       .pipe(map((res: HttpResponse<IRating[]>) => res.body ?? []))
       .pipe(map((ratings: IRating[]) => this.ratingService.addRatingToCollectionIfMissing<IRating>(ratings, this.outfit?.rating)))
-      .subscribe((ratings: IRating[]) => (this.ratingsSharedCollection = ratings));
+      .subscribe((ratings: IRating[]) => (this.ratingsCollection = ratings));
 
     this.eventService
       .query()

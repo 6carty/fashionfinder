@@ -17,6 +17,8 @@ export interface IClothingItem {
   material?: string | null;
   status?: Status | null;
   lastWorn?: dayjs.Dayjs | null;
+  image?: string | null;
+  imageContentType?: string | null;
   event?: Pick<IEvent, 'id'> | null;
   outfits?: Pick<IOutfit, 'id'>[] | null;
   owner?: Pick<IUserProfile, 'id'> | null;

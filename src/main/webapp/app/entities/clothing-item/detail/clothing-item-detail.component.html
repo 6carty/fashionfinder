@@ -54,6 +54,19 @@
         <dd>
           <span>{{ clothingItem.lastWorn | formatMediumDatetime }}</span>
         </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="clothingItem.image">
+            <a (click)="openFile(clothingItem.image, clothingItem.imageContentType)">
+              <img
+                [src]="'data:' + clothingItem.imageContentType + ';base64,' + clothingItem.image"
+                style="max-width: 100%"
+                alt="clothingItem image"
+              />
+            </a>
+            {{ clothingItem.imageContentType }}, {{ byteSize(clothingItem.image) }}
+          </div>
+        </dd>
         <dt><span>Event</span></dt>
         <dd>
           <div *ngIf="clothingItem.event">

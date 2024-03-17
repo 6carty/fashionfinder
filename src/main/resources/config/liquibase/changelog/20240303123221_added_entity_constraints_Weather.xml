@@ -13,5 +13,11 @@
                                  constraintName="fk_weather__calendar_id"
                                  referencedColumnNames="id"
                                  referencedTableName="calendar"/>
+
+        <addForeignKeyConstraint baseColumnNames="weather_id"
+                                 baseTableName="weather"
+                                 constraintName="fk_weather__weather_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="outfit"/>
     </changeSet>
 </databaseChangeLog>

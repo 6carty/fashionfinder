@@ -49,22 +49,26 @@ describe('OutfitPic Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call outfit query and add missing value', () => {
+    it('Should call Outfit query and add missing value', () => {
       const outfitPic: IOutfitPic = { id: 456 };
       const outfit: IOutfit = { id: 6865 };
       outfitPic.outfit = outfit;
 
       const outfitCollection: IOutfit[] = [{ id: 18185 }];
       jest.spyOn(outfitService, 'query').mockReturnValue(of(new HttpResponse({ body: outfitCollection })));
-      const expectedCollection: IOutfit[] = [outfit, ...outfitCollection];
+      const additionalOutfits = [outfit];
+      const expectedCollection: IOutfit[] = [...additionalOutfits, ...outfitCollection];
       jest.spyOn(outfitService, 'addOutfitToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ outfitPic });
       comp.ngOnInit();
 
       expect(outfitService.query).toHaveBeenCalled();
-      expect(outfitService.addOutfitToCollectionIfMissing).toHaveBeenCalledWith(outfitCollection, outfit);
-      expect(comp.outfitsCollection).toEqual(expectedCollection);
+      expect(outfitService.addOutfitToCollectionIfMissing).toHaveBeenCalledWith(
+        outfitCollection,
+        ...additionalOutfits.map(expect.objectContaining)
+      );
+      expect(comp.outfitsSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
@@ -75,7 +79,7 @@ describe('OutfitPic Management Update Component', () => {
       activatedRoute.data = of({ outfitPic });
       comp.ngOnInit();
 
-      expect(comp.outfitsCollection).toContain(outfit);
+      expect(comp.outfitsSharedCollection).toContain(outfit);
       expect(comp.outfitPic).toEqual(outfitPic);
     });
   });

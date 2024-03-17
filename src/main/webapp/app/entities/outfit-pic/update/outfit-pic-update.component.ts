@@ -21,7 +21,7 @@ export class OutfitPicUpdateComponent implements OnInit {
   isSaving = false;
   outfitPic: IOutfitPic | null = null;
 
-  outfitsCollection: IOutfit[] = [];
+  outfitsSharedCollection: IOutfit[] = [];
 
   editForm: OutfitPicFormGroup = this.outfitPicFormService.createOutfitPicFormGroup();
 
@@ -110,14 +110,17 @@ export class OutfitPicUpdateComponent implements OnInit {
     this.outfitPic = outfitPic;
     this.outfitPicFormService.resetForm(this.editForm, outfitPic);
 
-    this.outfitsCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(this.outfitsCollection, outfitPic.outfit);
+    this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(
+      this.outfitsSharedCollection,
+      outfitPic.outfit
+    );
   }
 
   protected loadRelationshipsOptions(): void {
     this.outfitService
-      .query({ filter: 'outfitpic-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))
       .pipe(map((outfits: IOutfit[]) => this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(outfits, this.outfitPic?.outfit)))
-      .subscribe((outfits: IOutfit[]) => (this.outfitsCollection = outfits));
+      .subscribe((outfits: IOutfit[]) => (this.outfitsSharedCollection = outfits));
   }
 }

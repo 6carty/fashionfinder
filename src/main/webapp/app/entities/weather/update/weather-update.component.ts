@@ -9,6 +9,8 @@ import { IWeather } from '../weather.model';
 import { WeatherService } from '../service/weather.service';
 import { ICalendar } from 'app/entities/calendar/calendar.model';
 import { CalendarService } from 'app/entities/calendar/service/calendar.service';
+import { IOutfit } from 'app/entities/outfit/outfit.model';
+import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
 @Component({
   selector: 'jhi-weather-update',
@@ -19,6 +21,7 @@ export class WeatherUpdateComponent implements OnInit {
   weather: IWeather | null = null;
 
   calendarsSharedCollection: ICalendar[] = [];
+  outfitsSharedCollection: IOutfit[] = [];
 
   editForm: WeatherFormGroup = this.weatherFormService.createWeatherFormGroup();
 
@@ -26,10 +29,13 @@ export class WeatherUpdateComponent implements OnInit {
     protected weatherService: WeatherService,
     protected weatherFormService: WeatherFormService,
     protected calendarService: CalendarService,
+    protected outfitService: OutfitService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareCalendar = (o1: ICalendar | null, o2: ICalendar | null): boolean => this.calendarService.compareCalendar(o1, o2);
+
+  compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ weather }) => {
@@ -83,6 +89,10 @@ export class WeatherUpdateComponent implements OnInit {
       this.calendarsSharedCollection,
       weather.calendar
     );
+    this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(
+      this.outfitsSharedCollection,
+      weather.weather
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -93,5 +103,11 @@ export class WeatherUpdateComponent implements OnInit {
         map((calendars: ICalendar[]) => this.calendarService.addCalendarToCollectionIfMissing<ICalendar>(calendars, this.weather?.calendar))
       )
       .subscribe((calendars: ICalendar[]) => (this.calendarsSharedCollection = calendars));
+
+    this.outfitService
+      .query()
+      .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))
+      .pipe(map((outfits: IOutfit[]) => this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(outfits, this.weather?.weather)))
+      .subscribe((outfits: IOutfit[]) => (this.outfitsSharedCollection = outfits));
   }
 }

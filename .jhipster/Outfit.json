@@ -23,6 +23,11 @@
       "fieldType": "Occasion",
       "fieldValidateRules": ["required"],
       "fieldValues": "FORMAL,BUSINESS,CASUAL,SPORTS"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
@@ -32,29 +37,17 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "weather",
-      "otherEntityRelationshipName": "weather",
-      "relationshipName": "weather",
-      "relationshipType": "many-to-one"
-    },
-    {
       "otherEntityName": "rating",
-      "otherEntityRelationshipName": "rating",
+      "otherEntityRelationshipName": "outfit",
+      "ownerSide": true,
       "relationshipName": "rating",
-      "relationshipType": "many-to-one"
+      "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "event",
       "otherEntityRelationshipName": "outfit",
       "relationshipName": "event",
       "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "outfitPic",
-      "otherEntityRelationshipName": "outfit",
-      "ownerSide": false,
-      "relationshipName": "outfitPic",
-      "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "userProfile",

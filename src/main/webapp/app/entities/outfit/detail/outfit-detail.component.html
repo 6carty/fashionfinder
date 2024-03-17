@@ -30,10 +30,13 @@
         <dd>
           <span>{{ outfit.occasion }}</span>
         </dd>
-        <dt><span>Weather</span></dt>
+        <dt><span>Image</span></dt>
         <dd>
-          <div *ngIf="outfit.weather">
-            <a [routerLink]="['/weather', outfit.weather.id, 'view']">{{ outfit.weather.id }}</a>
+          <div *ngIf="outfit.image">
+            <a (click)="openFile(outfit.image, outfit.imageContentType)">
+              <img [src]="'data:' + outfit.imageContentType + ';base64,' + outfit.image" style="max-width: 100%" alt="outfit image" />
+            </a>
+            {{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}
           </div>
         </dd>
         <dt><span>Rating</span></dt>

@@ -3,6 +3,7 @@ enum ClothingType {
     SHOES,
     DRESS,
     TROUSERS,
+    HATS,
     ACCESSORIES,
     OTHERS
 }
@@ -46,6 +47,7 @@ entity ClothingItem {
     material String
     status Status required
     lastWorn Instant
+    image ImageBlob
 }
 
 entity Outfit {
@@ -53,6 +55,7 @@ entity Outfit {
     description String
     date Instant
     occasion Occasion required
+    image ImageBlob
 }
 
 entity Message {
@@ -91,15 +94,6 @@ entity Calendar {
     calendarSync ZonedDateTime
 }
 
-entity Weather {
-    datetime ZonedDateTime required
-    weatherCode String required
-    maxTemperature Double
-    minTemperature Double
-    precipitation Double
-    windSpeed Double
-    windDirection String
-}
 
 entity FashionTip {
     title1 String required
@@ -133,7 +127,6 @@ entity TrendingOutfit {
 }
 
 
-
 entity Post {
     caption String required
     image ImageBlob
@@ -159,18 +152,11 @@ entity Leaderboard{
     position Integer
 }
 
-entity ClothingPic {
-    image ImageBlob
-}
-entity OutfitPic{
-    image ImageBlob
-}
 relationship OneToOne {
     UserProfile to User
     Calendar to UserProfile
     TrendingOutfit to Rating
-    ClothingPic to ClothingItem
-    OutfitPic to Outfit
+    Outfit to Rating
 }
 
 relationship ManyToMany {
@@ -182,12 +168,9 @@ relationship ManyToOne {
     Likes to Post
     Comment{postCommented} to Post
     Leaderboard{post} to Post
-    Outfit to Weather{weather}//unsure
-    Outfit to Rating{rating} //unsure
     ClothingItem{event} to Event{clothingItem}
     Outfit{event} to Event{outfit}
     UserMilestone to MilestoneType{type}
-    Weather to Calendar
     Message to Chatroom{chatroom(name)}
 }
 

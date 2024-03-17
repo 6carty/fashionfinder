@@ -43,21 +43,21 @@ public class Outfit implements Serializable {
     @Column(name = "occasion", nullable = false)
     private Occasion occasion;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "calendar", "weathers" }, allowSetters = true)
-    private Weather weather;
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "trendingOutfit", "ratings" }, allowSetters = true)
+    @Column(name = "image_content_type")
+    private String imageContentType;
+
+    @JsonIgnoreProperties(value = { "trendingOutfit", "outfit" }, allowSetters = true)
+    @OneToOne
+    @JoinColumn(unique = true)
     private Rating rating;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
     private Event event;
-
-    @JsonIgnoreProperties(value = { "outfit" }, allowSetters = true)
-    @OneToOne(mappedBy = "outfit")
-    private OutfitPic outfitPic;
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -83,7 +83,7 @@ public class Outfit implements Serializable {
 
     @ManyToMany(mappedBy = "outfits")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "clothingPic", "owner" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
     private Set<ClothingItem> clothingItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -153,17 +153,30 @@ public class Outfit implements Serializable {
         this.occasion = occasion;
     }
 
-    public Weather getWeather() {
-        return this.weather;
+    public byte[] getImage() {
+        return this.image;
     }
 
-    public void setWeather(Weather weather) {
-        this.weather = weather;
-    }
-
-    public Outfit weather(Weather weather) {
-        this.setWeather(weather);
+    public Outfit image(byte[] image) {
+        this.setImage(image);
         return this;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageContentType() {
+        return this.imageContentType;
+    }
+
+    public Outfit imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+        return this;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
     }
 
     public Rating getRating() {
@@ -189,25 +202,6 @@ public class Outfit implements Serializable {
 
     public Outfit event(Event event) {
         this.setEvent(event);
-        return this;
-    }
-
-    public OutfitPic getOutfitPic() {
-        return this.outfitPic;
-    }
-
-    public void setOutfitPic(OutfitPic outfitPic) {
-        if (this.outfitPic != null) {
-            this.outfitPic.setOutfit(null);
-        }
-        if (outfitPic != null) {
-            outfitPic.setOutfit(this);
-        }
-        this.outfitPic = outfitPic;
-    }
-
-    public Outfit outfitPic(OutfitPic outfitPic) {
-        this.setOutfitPic(outfitPic);
         return this;
     }
 
@@ -283,6 +277,8 @@ public class Outfit implements Serializable {
             ", description='" + getDescription() + "'" +
             ", date='" + getDate() + "'" +
             ", occasion='" + getOccasion() + "'" +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
             "}";
     }
 }

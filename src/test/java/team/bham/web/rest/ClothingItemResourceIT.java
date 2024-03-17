@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.ClothingItem;
 import team.bham.domain.enumeration.ClothingType;
@@ -72,6 +73,11 @@ class ClothingItemResourceIT {
     private static final Instant DEFAULT_LAST_WORN = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_LAST_WORN = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
+
     private static final String ENTITY_API_URL = "/api/clothing-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -109,7 +115,9 @@ class ClothingItemResourceIT {
             .brand(DEFAULT_BRAND)
             .material(DEFAULT_MATERIAL)
             .status(DEFAULT_STATUS)
-            .lastWorn(DEFAULT_LAST_WORN);
+            .lastWorn(DEFAULT_LAST_WORN)
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE);
         return clothingItem;
     }
 
@@ -130,7 +138,9 @@ class ClothingItemResourceIT {
             .brand(UPDATED_BRAND)
             .material(UPDATED_MATERIAL)
             .status(UPDATED_STATUS)
-            .lastWorn(UPDATED_LAST_WORN);
+            .lastWorn(UPDATED_LAST_WORN)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
         return clothingItem;
     }
 
@@ -162,6 +172,8 @@ class ClothingItemResourceIT {
         assertThat(testClothingItem.getMaterial()).isEqualTo(DEFAULT_MATERIAL);
         assertThat(testClothingItem.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testClothingItem.getLastWorn()).isEqualTo(DEFAULT_LAST_WORN);
+        assertThat(testClothingItem.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testClothingItem.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -254,7 +266,9 @@ class ClothingItemResourceIT {
             .andExpect(jsonPath("$.[*].brand").value(hasItem(DEFAULT_BRAND)))
             .andExpect(jsonPath("$.[*].material").value(hasItem(DEFAULT_MATERIAL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].lastWorn").value(hasItem(DEFAULT_LAST_WORN.toString())));
+            .andExpect(jsonPath("$.[*].lastWorn").value(hasItem(DEFAULT_LAST_WORN.toString())))
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -295,7 +309,9 @@ class ClothingItemResourceIT {
             .andExpect(jsonPath("$.brand").value(DEFAULT_BRAND))
             .andExpect(jsonPath("$.material").value(DEFAULT_MATERIAL))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.lastWorn").value(DEFAULT_LAST_WORN.toString()));
+            .andExpect(jsonPath("$.lastWorn").value(DEFAULT_LAST_WORN.toString()))
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)));
     }
 
     @Test
@@ -327,7 +343,9 @@ class ClothingItemResourceIT {
             .brand(UPDATED_BRAND)
             .material(UPDATED_MATERIAL)
             .status(UPDATED_STATUS)
-            .lastWorn(UPDATED_LAST_WORN);
+            .lastWorn(UPDATED_LAST_WORN)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restClothingItemMockMvc
             .perform(
@@ -351,6 +369,8 @@ class ClothingItemResourceIT {
         assertThat(testClothingItem.getMaterial()).isEqualTo(UPDATED_MATERIAL);
         assertThat(testClothingItem.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testClothingItem.getLastWorn()).isEqualTo(UPDATED_LAST_WORN);
+        assertThat(testClothingItem.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testClothingItem.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -452,6 +472,8 @@ class ClothingItemResourceIT {
         assertThat(testClothingItem.getMaterial()).isEqualTo(UPDATED_MATERIAL);
         assertThat(testClothingItem.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testClothingItem.getLastWorn()).isEqualTo(DEFAULT_LAST_WORN);
+        assertThat(testClothingItem.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testClothingItem.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
     }
 
     @Test
@@ -476,7 +498,9 @@ class ClothingItemResourceIT {
             .brand(UPDATED_BRAND)
             .material(UPDATED_MATERIAL)
             .status(UPDATED_STATUS)
-            .lastWorn(UPDATED_LAST_WORN);
+            .lastWorn(UPDATED_LAST_WORN)
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restClothingItemMockMvc
             .perform(
@@ -500,6 +524,8 @@ class ClothingItemResourceIT {
         assertThat(testClothingItem.getMaterial()).isEqualTo(UPDATED_MATERIAL);
         assertThat(testClothingItem.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testClothingItem.getLastWorn()).isEqualTo(UPDATED_LAST_WORN);
+        assertThat(testClothingItem.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testClothingItem.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
     }
 
     @Test

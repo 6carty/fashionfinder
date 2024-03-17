@@ -41,6 +41,8 @@ type ClothingItemFormGroupContent = {
   material: FormControl<ClothingItemFormRawValue['material']>;
   status: FormControl<ClothingItemFormRawValue['status']>;
   lastWorn: FormControl<ClothingItemFormRawValue['lastWorn']>;
+  image: FormControl<ClothingItemFormRawValue['image']>;
+  imageContentType: FormControl<ClothingItemFormRawValue['imageContentType']>;
   event: FormControl<ClothingItemFormRawValue['event']>;
   outfits: FormControl<ClothingItemFormRawValue['outfits']>;
   owner: FormControl<ClothingItemFormRawValue['owner']>;
@@ -79,6 +81,8 @@ export class ClothingItemFormService {
         validators: [Validators.required],
       }),
       lastWorn: new FormControl(clothingItemRawValue.lastWorn),
+      image: new FormControl(clothingItemRawValue.image),
+      imageContentType: new FormControl(clothingItemRawValue.imageContentType),
       event: new FormControl(clothingItemRawValue.event),
       outfits: new FormControl(clothingItemRawValue.outfits ?? []),
       owner: new FormControl(clothingItemRawValue.owner),

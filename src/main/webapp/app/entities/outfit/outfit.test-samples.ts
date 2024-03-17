@@ -11,23 +11,25 @@ export const sampleWithRequiredData: IOutfit = {
 };
 
 export const sampleWithPartialData: IOutfit = {
-  id: 43128,
-  name: 'Shoes Baby',
-  date: dayjs('2024-03-02T13:00'),
+  id: 47386,
+  name: 'IB',
+  date: dayjs('2024-03-02T18:51'),
   occasion: Occasion['FORMAL'],
 };
 
 export const sampleWithFullData: IOutfit = {
-  id: 22816,
-  name: 'bleeding-edge',
-  description: 'line Planner',
-  date: dayjs('2024-03-03T09:04'),
-  occasion: Occasion['CASUAL'],
+  id: 65315,
+  name: 'Officer Future-proofed Mills',
+  description: 'Kwacha Delaware heuristic',
+  date: dayjs('2024-03-02T13:26'),
+  occasion: Occasion['FORMAL'],
+  image: '../fake-data/blob/hipster.png',
+  imageContentType: 'unknown',
 };
 
 export const sampleWithNewData: NewOutfit = {
-  name: 'Ford',
-  occasion: Occasion['FORMAL'],
+  name: 'Refined Principal Representative',
+  occasion: Occasion['CASUAL'],
   id: null,
 };
 

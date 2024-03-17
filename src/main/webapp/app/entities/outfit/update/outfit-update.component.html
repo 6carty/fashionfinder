@@ -58,18 +58,34 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_weather">Weather</label>
-          <select
+          <label class="form-label" for="field_image">Image</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('image')!.value"
+              alt="outfit image"
+            />
+            <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('image', 'imageContentType', 'file_image')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_image" data-cy="image" (change)="setFileData($event, 'image', true)" accept="image/*" />
+          </div>
+          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
+          <input
+            type="hidden"
             class="form-control"
-            id="field_weather"
-            data-cy="weather"
-            name="weather"
-            formControlName="weather"
-            [compareWith]="compareWeather"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="weatherOption" *ngFor="let weatherOption of weathersSharedCollection">{{ weatherOption.id }}</option>
-          </select>
+            name="imageContentType"
+            id="field_imageContentType"
+            formControlName="imageContentType"
+          />
         </div>
 
         <div class="row mb-3">
@@ -83,7 +99,7 @@
             [compareWith]="compareRating"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="ratingOption" *ngFor="let ratingOption of ratingsSharedCollection">{{ ratingOption.id }}</option>
+            <option [ngValue]="ratingOption" *ngFor="let ratingOption of ratingsCollection">{{ ratingOption.id }}</option>
           </select>
         </div>
 

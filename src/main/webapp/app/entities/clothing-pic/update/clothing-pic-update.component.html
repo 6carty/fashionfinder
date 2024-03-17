@@ -53,7 +53,7 @@
             [compareWith]="compareClothingItem"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="clothingItemOption" *ngFor="let clothingItemOption of clothingItemsCollection">
+            <option [ngValue]="clothingItemOption" *ngFor="let clothingItemOption of clothingItemsSharedCollection">
               {{ clothingItemOption.id }}
             </option>
           </select>

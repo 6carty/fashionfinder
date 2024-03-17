@@ -3,8 +3,6 @@ package team.bham.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -51,13 +49,12 @@ public class Weather implements Serializable {
     private String windDirection;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "userProfile", "weathers" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userProfile" }, allowSetters = true)
     private Calendar calendar;
 
-    @OneToMany(mappedBy = "weather")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "weather", "rating", "event", "outfitPic", "creator", "clothingItems" }, allowSetters = true)
-    private Set<Outfit> weathers = new HashSet<>();
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
+    private Outfit weather;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -178,34 +175,16 @@ public class Weather implements Serializable {
         return this;
     }
 
-    public Set<Outfit> getWeathers() {
-        return this.weathers;
+    public Outfit getWeather() {
+        return this.weather;
     }
 
-    public void setWeathers(Set<Outfit> outfits) {
-        if (this.weathers != null) {
-            this.weathers.forEach(i -> i.setWeather(null));
-        }
-        if (outfits != null) {
-            outfits.forEach(i -> i.setWeather(this));
-        }
-        this.weathers = outfits;
+    public void setWeather(Outfit outfit) {
+        this.weather = outfit;
     }
 
-    public Weather weathers(Set<Outfit> outfits) {
-        this.setWeathers(outfits);
-        return this;
-    }
-
-    public Weather addWeather(Outfit outfit) {
-        this.weathers.add(outfit);
-        outfit.setWeather(this);
-        return this;
-    }
-
-    public Weather removeWeather(Outfit outfit) {
-        this.weathers.remove(outfit);
-        outfit.setWeather(null);
+    public Weather weather(Outfit outfit) {
+        this.setWeather(outfit);
         return this;
     }
 

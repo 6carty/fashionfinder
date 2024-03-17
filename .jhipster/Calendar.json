@@ -31,12 +31,6 @@
       "ownerSide": true,
       "relationshipName": "userProfile",
       "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "weather",
-      "otherEntityRelationshipName": "calendar",
-      "relationshipName": "weather",
-      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

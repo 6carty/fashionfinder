@@ -28,6 +28,7 @@ describe('Weather Form Service', () => {
             windSpeed: expect.any(Object),
             windDirection: expect.any(Object),
             calendar: expect.any(Object),
+            weather: expect.any(Object),
           })
         );
       });
@@ -46,6 +47,7 @@ describe('Weather Form Service', () => {
             windSpeed: expect.any(Object),
             windDirection: expect.any(Object),
             calendar: expect.any(Object),
+            weather: expect.any(Object),
           })
         );
       });
