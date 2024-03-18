@@ -10,21 +10,22 @@
   border-radius: 10px;
 }
 
-.card {
-  margin-left: 10px;
-  margin-right: 10px;
-  width: 100%;
-  border: #555555;
-  padding: 15px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
-  background-color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-}
+//.card {
+//  margin-left: 10px;
+//  margin-right: 10px;
+//  width: 100%;
+//  border: #555555;
+//  padding: 15px;
+//  backdrop-filter: blur(20px);
+//  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+//  background-color: rgba(255, 255, 255, 0.5);
+//  text-align: center;
+//}
 
 .custom-card {
-  margin: 8px 0px;
-  width: 80%;
+  display: inline-block;
+  margin: 8px 8px 0px 0px;
+  width: 40%;
   border: #555555;
   padding: 8px;
   backdrop-filter: blur(20px);
@@ -32,11 +33,13 @@
   background-color: rgba(255, 255, 255, 0.5);
   text-align: left;
   border-radius: 10px;
+  vertical-align: top;
 }
 
 .cardA {
-  margin: 8px 0px;
-  width: 80%;
+  display: inline-block;
+  margin: 8px 8px 0px 0px;
+  width: 40%;
   border: #555555;
   padding: 8px;
   backdrop-filter: blur(20px);
@@ -44,22 +47,12 @@
   background-color: rgba(210, 210, 210, 0.2);
   text-align: left;
   border-radius: 10px;
-}
-
-.custom-card:hover {
-  cursor: pointer;
-  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.4);
-  transition-duration: 0.2s;
-}
-
-.custom-card-2:hover {
-  cursor: pointer;
-  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.4);
-  transition-duration: 0.2s;
+  vertical-align: top;
 }
 
 .custom-card-2 {
-  margin: 8px 0px;
+  display: inline-block;
+  margin: 8px 8px 0px 0px;
   width: 80%;
   border: #555555;
   padding: 8px;
@@ -70,15 +63,43 @@
   border-radius: 10px;
 }
 
-.d-flex {
-  justify-content: start;
-  padding-bottom: 20px;
+.custom-card-3 {
+  display: inline-block;
+  margin: 8px 8px 0px 0px;
+  width: 40%;
+  border: #555555;
+  padding: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(150, 150, 150, 0.1);
+  text-align: left;
+  border-radius: 10px;
 }
 
-.btn-primary:hover {
+.clothingCard {
+  display: inline-block;
+  padding: 8px 8px 0px 0px;
+  border: #555555;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.3);
+  background-color: rgba(210, 210, 210, 0.3);
+  text-align: left;
+  border-radius: 10px;
+}
+
+.custom-card:hover,
+.custom-card-2:hover,
+.btn-primary:hover,
+.clothingCard:hover,
+.custom-card-3:hover {
   cursor: pointer;
   box-shadow: 0 5px 25px rgba(129, 124, 124, 0.4);
   transition-duration: 0.2s;
+}
+
+.d-flex {
+  justify-content: start;
+  padding-bottom: 20px;
 }
 
 .btn-primary {

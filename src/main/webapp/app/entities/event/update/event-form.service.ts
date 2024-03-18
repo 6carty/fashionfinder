@@ -36,7 +36,6 @@ type EventFormGroupContent = {
   location: FormControl<EventFormRawValue['location']>;
   dateTime: FormControl<EventFormRawValue['dateTime']>;
   endTime: FormControl<EventFormRawValue['endTime']>;
-  clothingItem: FormControl<EventFormRawValue['clothingItem']>;
   outfit: FormControl<EventFormRawValue['outfit']>;
 };
 
@@ -65,7 +64,6 @@ export class EventFormService {
         validators: [Validators.required],
       }),
       endTime: new FormControl(eventRawValue.endTime),
-      clothingItem: new FormControl(eventRawValue.clothingItem),
       outfit: new FormControl(eventRawValue.outfit),
     });
   }

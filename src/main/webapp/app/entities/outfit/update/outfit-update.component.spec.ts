@@ -11,8 +11,6 @@ import { OutfitService } from '../service/outfit.service';
 import { IOutfit } from '../outfit.model';
 import { IRating } from 'app/entities/rating/rating.model';
 import { RatingService } from 'app/entities/rating/service/rating.service';
-import { IEvent } from 'app/entities/event/event.model';
-import { EventService } from 'app/entities/event/service/event.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 
@@ -25,7 +23,6 @@ describe('Outfit Management Update Component', () => {
   let outfitFormService: OutfitFormService;
   let outfitService: OutfitService;
   let ratingService: RatingService;
-  let eventService: EventService;
   let userProfileService: UserProfileService;
 
   beforeEach(() => {
@@ -50,7 +47,6 @@ describe('Outfit Management Update Component', () => {
     outfitFormService = TestBed.inject(OutfitFormService);
     outfitService = TestBed.inject(OutfitService);
     ratingService = TestBed.inject(RatingService);
-    eventService = TestBed.inject(EventService);
     userProfileService = TestBed.inject(UserProfileService);
 
     comp = fixture.componentInstance;
@@ -73,28 +69,6 @@ describe('Outfit Management Update Component', () => {
       expect(ratingService.query).toHaveBeenCalled();
       expect(ratingService.addRatingToCollectionIfMissing).toHaveBeenCalledWith(ratingCollection, rating);
       expect(comp.ratingsCollection).toEqual(expectedCollection);
-    });
-
-    it('Should call Event query and add missing value', () => {
-      const outfit: IOutfit = { id: 456 };
-      const event: IEvent = { id: 53313 };
-      outfit.event = event;
-
-      const eventCollection: IEvent[] = [{ id: 91553 }];
-      jest.spyOn(eventService, 'query').mockReturnValue(of(new HttpResponse({ body: eventCollection })));
-      const additionalEvents = [event];
-      const expectedCollection: IEvent[] = [...additionalEvents, ...eventCollection];
-      jest.spyOn(eventService, 'addEventToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ outfit });
-      comp.ngOnInit();
-
-      expect(eventService.query).toHaveBeenCalled();
-      expect(eventService.addEventToCollectionIfMissing).toHaveBeenCalledWith(
-        eventCollection,
-        ...additionalEvents.map(expect.objectContaining)
-      );
-      expect(comp.eventsSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call UserProfile query and add missing value', () => {
@@ -123,8 +97,6 @@ describe('Outfit Management Update Component', () => {
       const outfit: IOutfit = { id: 456 };
       const rating: IRating = { id: 71358 };
       outfit.rating = rating;
-      const event: IEvent = { id: 36543 };
-      outfit.event = event;
       const creator: IUserProfile = { id: 80256 };
       outfit.creator = creator;
 
@@ -132,7 +104,6 @@ describe('Outfit Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.ratingsCollection).toContain(rating);
-      expect(comp.eventsSharedCollection).toContain(event);
       expect(comp.userProfilesSharedCollection).toContain(creator);
       expect(comp.outfit).toEqual(outfit);
     });
@@ -214,16 +185,6 @@ describe('Outfit Management Update Component', () => {
         jest.spyOn(ratingService, 'compareRating');
         comp.compareRating(entity, entity2);
         expect(ratingService.compareRating).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
-    describe('compareEvent', () => {
-      it('Should forward to eventService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(eventService, 'compareEvent');
-        comp.compareEvent(entity, entity2);
-        expect(eventService.compareEvent).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

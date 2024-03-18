@@ -61,23 +61,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_clothingItem">Clothing Item</label>
-          <select
-            class="form-control"
-            id="field_clothingItem"
-            data-cy="clothingItem"
-            name="clothingItem"
-            formControlName="clothingItem"
-            [compareWith]="compareClothingItem"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="clothingItemOption" *ngFor="let clothingItemOption of clothingItemsSharedCollection">
-              {{ clothingItemOption.id }}
-            </option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" for="field_outfit">Outfit</label>
           <select
             class="form-control"
@@ -88,7 +71,7 @@
             [compareWith]="compareOutfit"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="outfitOption" *ngFor="let outfitOption of outfitsSharedCollection">{{ outfitOption.id }}</option>
+            <option [ngValue]="outfitOption" *ngFor="let outfitOption of outfitsSharedCollection">{{ outfitOption.name }}</option>
           </select>
         </div>
       </div>

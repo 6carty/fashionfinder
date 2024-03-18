@@ -16,7 +16,7 @@
     </button>
   </div>
   <div *ngFor="let dayEvents of eventsByDay; let i = index" style="padding-bottom: 8px">
-    <h3 style="text-align: left">{{ dayEvents.date | date: 'EEEE, d LLLL' }} &nbsp;</h3>
+    <h3 style="text-align: left; padding-top: 8px">{{ dayEvents.date | date: 'EEEE, d LLLL' }} &nbsp;</h3>
     <div style="padding: 8px 0px">
       <span class="chip"> {{ data[i]['weatherCode'] }} | {{ data[i]['minTemp'] }}°C / {{ data[i]['maxTemp'] }}°C </span>
       <span class="chip"> Precipitation: {{ data[i]['precipitation'] }}% </span>
@@ -24,13 +24,22 @@
     </div>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
-        <div class="custom-card" (click)="view(event.id)" [ngClass]="{ cardA: event.dateTime < currentTime() }">
-          <span>
-            {{ event.title }} <br />
-            {{ event.dateTime | date: 'h:mm a' | lowercase }}
+        <div class="custom-card" (click)="viewEvent(event.id)" [ngClass]="{ cardA: event.dateTime < currentTime() }">
+          <div>
+            <span style="font-weight: bold">
+              {{ event.title }}
+            </span>
+            | {{ event.dateTime | date: 'h:mm a' | lowercase }}
             <span *ngIf="event.endTime"> - {{ event.endTime | date: 'h:mm a' | lowercase }}</span> <br />
             <div *ngIf="event.location">{{ event.location }}</div>
-          </span>
+          </div>
+        </div>
+        <div class="custom-card" *ngIf="event.outfit != null" (click)="viewClothing(event.outfit.id)">
+          <span style="font-weight: bold"> {{ event.outfit.name }} <br /> </span>
+          {{ event.outfit.occasion | titlecase }} outfit
+        </div>
+        <div class="custom-card-3" *ngIf="!event.outfit" (click)="viewEvent(event.id)">
+          <fa-icon icon="plus"></fa-icon> Select an outfit
         </div>
       </div>
     </div>

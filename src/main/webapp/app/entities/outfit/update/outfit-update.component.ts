@@ -12,8 +12,6 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IRating } from 'app/entities/rating/rating.model';
 import { RatingService } from 'app/entities/rating/service/rating.service';
-import { IEvent } from 'app/entities/event/event.model';
-import { EventService } from 'app/entities/event/service/event.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 import { Occasion } from 'app/entities/enumerations/occasion.model';
@@ -28,7 +26,6 @@ export class OutfitUpdateComponent implements OnInit {
   occasionValues = Object.keys(Occasion);
 
   ratingsCollection: IRating[] = [];
-  eventsSharedCollection: IEvent[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: OutfitFormGroup = this.outfitFormService.createOutfitFormGroup();
@@ -39,15 +36,12 @@ export class OutfitUpdateComponent implements OnInit {
     protected outfitService: OutfitService,
     protected outfitFormService: OutfitFormService,
     protected ratingService: RatingService,
-    protected eventService: EventService,
     protected userProfileService: UserProfileService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareRating = (o1: IRating | null, o2: IRating | null): boolean => this.ratingService.compareRating(o1, o2);
-
-  compareEvent = (o1: IEvent | null, o2: IEvent | null): boolean => this.eventService.compareEvent(o1, o2);
 
   compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
@@ -92,36 +86,11 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   save(): void {
-    // this.isSaving = true;
-    // const outfit = this.outfitFormService.getOutfit(this.editForm);
-    // if (outfit.id !== null) {
-    //   this.subscribeToSaveResponse(this.outfitService.update(outfit));
-    // } else {
-    //   this.subscribeToSaveResponse(this.outfitService.create(outfit));
-    // }
-
     this.isSaving = true;
     const outfit = this.outfitFormService.getOutfit(this.editForm);
     if (outfit.id !== null) {
-      const selectedWeatherTags: string[] = [];
-      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
-      checkboxes.forEach(function (checkbox) {
-        selectedWeatherTags.push(checkbox.value);
-      });
-      outfit.description = outfit.description?.split(',')[0];
-      // Set the collected string as the value for the weather attribute
-      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
-
       this.subscribeToSaveResponse(this.outfitService.update(outfit));
     } else {
-      const selectedWeatherTags: string[] = [];
-      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
-      checkboxes.forEach(function (checkbox) {
-        selectedWeatherTags.push(checkbox.value);
-      });
-
-      // Set the collected string as the value for the weather attribute
-      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
       this.subscribeToSaveResponse(this.outfitService.create(outfit));
     }
   }
@@ -150,7 +119,6 @@ export class OutfitUpdateComponent implements OnInit {
     this.outfitFormService.resetForm(this.editForm, outfit);
 
     this.ratingsCollection = this.ratingService.addRatingToCollectionIfMissing<IRating>(this.ratingsCollection, outfit.rating);
-    this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, outfit.event);
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
       outfit.creator
@@ -163,12 +131,6 @@ export class OutfitUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IRating[]>) => res.body ?? []))
       .pipe(map((ratings: IRating[]) => this.ratingService.addRatingToCollectionIfMissing<IRating>(ratings, this.outfit?.rating)))
       .subscribe((ratings: IRating[]) => (this.ratingsCollection = ratings));
-
-    this.eventService
-      .query()
-      .pipe(map((res: HttpResponse<IEvent[]>) => res.body ?? []))
-      .pipe(map((events: IEvent[]) => this.eventService.addEventToCollectionIfMissing<IEvent>(events, this.outfit?.event)))
-      .subscribe((events: IEvent[]) => (this.eventsSharedCollection = events));
 
     this.userProfileService
       .query()

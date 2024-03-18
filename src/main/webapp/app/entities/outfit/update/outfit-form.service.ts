@@ -38,7 +38,6 @@ type OutfitFormGroupContent = {
   image: FormControl<OutfitFormRawValue['image']>;
   imageContentType: FormControl<OutfitFormRawValue['imageContentType']>;
   rating: FormControl<OutfitFormRawValue['rating']>;
-  event: FormControl<OutfitFormRawValue['event']>;
   creator: FormControl<OutfitFormRawValue['creator']>;
   clothingItems: FormControl<OutfitFormRawValue['clothingItems']>;
 };
@@ -71,7 +70,6 @@ export class OutfitFormService {
       image: new FormControl(outfitRawValue.image),
       imageContentType: new FormControl(outfitRawValue.imageContentType),
       rating: new FormControl(outfitRawValue.rating),
-      event: new FormControl(outfitRawValue.event),
       creator: new FormControl(outfitRawValue.creator),
       clothingItems: new FormControl(outfitRawValue.clothingItems ?? []),
     });

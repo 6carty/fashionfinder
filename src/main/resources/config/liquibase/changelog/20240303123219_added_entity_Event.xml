@@ -26,9 +26,6 @@
             <column name="end_time" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="clothing_item_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="outfit_id" type="bigint">
                 <constraints nullable="true" />
             </column>

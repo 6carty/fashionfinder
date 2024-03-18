@@ -14,12 +14,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="rating"/>
 
-        <addForeignKeyConstraint baseColumnNames="event_id"
-                                 baseTableName="outfit"
-                                 constraintName="fk_outfit__event_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="event"/>
-
         <addForeignKeyConstraint baseColumnNames="creator_id"
                                  baseTableName="outfit"
                                  constraintName="fk_outfit__creator_id"

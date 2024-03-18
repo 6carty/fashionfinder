@@ -31,14 +31,8 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "clothingItem",
-      "otherEntityRelationshipName": "event",
-      "relationshipName": "clothingItem",
-      "relationshipType": "many-to-one"
-    },
-    {
+      "otherEntityField": "name",
       "otherEntityName": "outfit",
-      "otherEntityRelationshipName": "event",
       "relationshipName": "outfit",
       "relationshipType": "many-to-one"
     }

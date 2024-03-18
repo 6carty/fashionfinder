@@ -56,10 +56,6 @@ public class Outfit implements Serializable {
     private Rating rating;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
-    private Event event;
-
-    @ManyToOne
     @JsonIgnoreProperties(
         value = {
             "user",
@@ -83,7 +79,7 @@ public class Outfit implements Serializable {
 
     @ManyToMany(mappedBy = "outfits")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "event", "outfits", "owner" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "outfits", "owner" }, allowSetters = true)
     private Set<ClothingItem> clothingItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -189,19 +185,6 @@ public class Outfit implements Serializable {
 
     public Outfit rating(Rating rating) {
         this.setRating(rating);
-        return this;
-    }
-
-    public Event getEvent() {
-        return this.event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public Outfit event(Event event) {
-        this.setEvent(event);
         return this;
     }
 
