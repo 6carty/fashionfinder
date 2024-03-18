@@ -111,10 +111,10 @@
       <div class="ExchangeRequestDetail" >
         <h3>Exchange Request Details</h3>
         <div *ngIf="exchangeRequest">
-          <p>ID: {{ exchangeRequest?.id }}</p>
-          <p>Offering Item: {{ exchangeRequest?.offeringItem }}</p>
-          <p>Requested Item: {{ exchangeRequest?.requestedItem }}</p>
-          <p>Requester ID: {{ exchangeRequest?.requester?.id }}</p>
+          <p>ID: {{ exchangeRequest.id }}</p>
+          <p>Offering Item: {{ exchangeRequest.offeringItem }}</p>
+          <p>Requested Item: {{ exchangeRequest.requestedItem }}</p>
+          <p>Requester ID: {{ exchangeRequest.requester?.id }}</p>
           <!-- Add more details as needed -->
         </div>
         <div *ngIf="!exchangeRequest">
