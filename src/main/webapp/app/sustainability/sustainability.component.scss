@@ -4,27 +4,15 @@
   border: 0.5px solid rgba(26, 25, 25, 0.12);
   padding: 10px;
   margin: 10px;
+  background-color: #e2a417;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 50px;
   font-family: 'Playfair Display';
   color: white;
-
-  background-image: url(/content/images/SustainableBanner.png);
+  background-image: url("https://img.businessoffashion.com/resizer/AUhhVIFVu0pPpTb0pY_eQKuMf38=/1440x0/filters:format(png):quality(70)/cloudfront-eu-central-1.images.arcpublishing.com/businessoffashion/75XJGRKJXJGTDBF34AZFTDUDDA.png");
 }
-
-
-//.ImageBox {
-//  margin-bottom: 10px;
-//}
-//
-//.ImageBox img {
-//  max-width: 100%;
-//  height: auto;
-//}
-
 
 
 
@@ -44,8 +32,6 @@ body {
 .quote {
   font-size: 18px; /* Adjust the font size as needed */
 }
-
-
 
 
 .grid {
@@ -87,7 +73,6 @@ body {
   }
 }
 
-
 .ExchangeButton{
   padding: 10px 15px;
   margin-top: 10px;
@@ -111,6 +96,8 @@ body {
     margin: 10px;
   }
 }
+
+
 
 
 
