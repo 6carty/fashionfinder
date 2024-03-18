@@ -3,8 +3,8 @@
 <!--</div>-->
 
 
-<div style="text-align: center" class="TitleBox">
-    <p>How To Sustainably Shop For Your Clothes?</p>
+<div class="TitleBox">
+  <p style="text-align: center">How To Sustainably Shop For Your Clothes?</p>
 </div>
 
 
@@ -104,10 +104,30 @@
     </div>
     <div class="Buy/SellButton" >
       <button [routerLink]="['/clothing-item/new']">add new item</button>
+
     </div>
+
     <div class="ExchangeButton">
       <button [routerLink]="['/exchange-request/new']">exchange</button>
+
+      <div class="ExchangeRequestDetail" >
+        <h3>Exchange Request Details</h3>
+        <div *ngIf="exchangeRequest">
+          <p>ID: {{ exchangeRequest?.id }}</p>
+          <p>Offering Item: {{ exchangeRequest?.offeringItem }}</p>
+          <p>Requested Item: {{ exchangeRequest?.requestedItem }}</p>
+          <p>Requester ID: {{ exchangeRequest?.requester?.id }}</p>
+          <!-- Add more details as needed -->
+        </div>
+        <div *ngIf="!exchangeRequest">
+          <p>No exchange request details available.</p>
+        </div>
+      </div>
+
     </div>
+
+
+
 </div>
 
 
