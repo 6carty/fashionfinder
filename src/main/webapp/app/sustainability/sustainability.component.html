@@ -107,21 +107,19 @@
     </div>
     <div class="ExchangeButton">
       <button [routerLink]="['/exchange-request/new']">exchange</button>
-
-      <div class="ExchangeRequestDetail" >
-        <h3>Exchange Request Details</h3>
-        <div *ngIf="exchangeRequest">
-          <p>ID: {{ exchangeRequest.id }}</p>
-          <p>Offering Item: {{ exchangeRequest.offeringItem }}</p>
-          <p>Requested Item: {{ exchangeRequest.requestedItem }}</p>
-          <p>Requester ID: {{ exchangeRequest.requester?.id }}</p>
-          <!-- Add more details as needed -->
-        </div>
-        <div *ngIf="!exchangeRequest">
-          <p>No exchange request details available.</p>
-        </div>
+    </div>
+    <div class="ExchangeRequestDetail" >
+      <h3>Exchange Request Details</h3>
+      <div *ngIf="exchangeRequest">
+        <p>ID: {{ exchangeRequest.id }}</p>
+        <p>Offering Item: {{ exchangeRequest.offeringItem }}</p>
+        <p>Requested Item: {{ exchangeRequest.requestedItem }}</p>
+        <p>Requester ID: {{ exchangeRequest.requester?.id }}</p>
+        <!-- Add more details as needed -->
       </div>
-
+      <div *ngIf="!exchangeRequest">
+        <p>No exchange request details available.</p>
+      </div>
     </div>
 
   </div>
