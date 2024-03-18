@@ -20,7 +20,7 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="wardrobe()">
+          <a class="nav-link" routerLink="/wardrobe" (click)="wardrobe()">
             <span>
               <!--              <fa-icon icon="shirt"></fa-icon>-->
               <span>Wardrobe</span>
@@ -28,12 +28,12 @@
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="fashionPlanner()">
+          <a class="nav-link" routerLink="/fashion-planner" (click)="fashionPlanner()">
             <span>Fashion Planner</span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/mix-and-match" (click)="collapseNavbar()">
+          <a class="nav-link" routerLink="/mix-and-match">
             <span>
               <span>Mix&Match</span>
             </span>
@@ -47,21 +47,21 @@
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="analytics()">
+          <a class="nav-link" routerLink="/analytics" (click)="analytics()">
             <span>
               <span>Analytics</span>
             </span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="socialChat()">
+          <a class="nav-link" routerLink="/social-chat" (click)="socialChat()">
             <span>
               <span>Social Chat</span>
             </span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/" (click)="sustainability()">
+          <a class="nav-link" routerLink="/sustainability" (click)="sustainability()">
             <span>
               <span>Sustainability</span>
             </span>

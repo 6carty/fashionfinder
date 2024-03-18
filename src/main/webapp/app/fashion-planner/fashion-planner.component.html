@@ -20,7 +20,7 @@
     <div style="padding: 8px 0px">
       <span class="chip"> {{ data[i]['weatherCode'] }} | {{ data[i]['minTemp'] }}°C / {{ data[i]['maxTemp'] }}°C </span>
       <span class="chip"> Precipitation: {{ data[i]['precipitation'] }}% </span>
-      <span class="chip"> Wind: {{ data[i]['windSpeed'] }}km/h </span>
+      <span class="chip"> Wind: {{ data[i]['windSpeed'] }} km/h </span>
     </div>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
