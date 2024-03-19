@@ -41,49 +41,141 @@ body {
 }
 
 
-//.content {
-//  display: flex;
-//  width:100%;
-//}
-//
-//.column {
-//  flex: 1;
-//  float: left;
-//  width: 33.33%;
-//  padding: 16px;
-//  border: 1px solid #ccc;
-//  //box-sizing: border-box;
-//  //height: auto; /* Should be removed. Only for demonstration */
-//}
+
 
 .quote {
   font-size: 20px;
   font-style: italic;
 }
 
-.Buy\/SellButton {
-  padding: 10px 15px;
-  margin-top: 10px;
-  background: $primary-color;
-  color: white;
-  text-decoration: none;
 
-  &:hover {
-    background: $hover-color;
-  }
+button {
+  /* Variables */
+  --button_radius: 0.75em;
+  --button_color: #e8e8e8;
+  --button_outline_color: #000000;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
 }
 
-.ExchangeButton{
-  padding: 10px 15px;
-  margin-top: 10px;
-  background: $primary-color;
-  color: white;
-  text-decoration: none;
-
-  &:hover {
-    background: $hover-color;
-  }
+.BuySellButton {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
 }
+
+button:hover.BuySellButton {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+
+button:active.BuySellButton {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+//.BuySellButton {
+//  padding: 10px 15px;
+//  margin-top: 10px;
+//  background: $primary-color;
+//  color: white;
+//  text-decoration: none;
+//
+//  &:hover {
+//    background: $hover-color;
+//  }
+//}
+
+button {
+  /* Variables */
+  --button_radius: 0.75em;
+  --button_color: #e8e8e8;
+  --button_outline_color: #000000;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+}
+
+.ExchangeButton {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+}
+
+button:hover.ExchangeButton {
+  /* Pull the button upwards when hovered */
+  transform: translateY(-0.33em);
+}
+
+button:active.ExchangeButton {
+  /* Push the button downwards when pressed */
+  transform: translateY(0);
+}
+
+//.ExchangeButton {
+//  background-color: white;
+//  color: black;
+//  border-radius: 10em;
+//  font-size: 17px;
+//  font-weight: 600;
+//  padding: 1em 2em;
+//  cursor: pointer;
+//  transition: all 0.3s ease-in-out;
+//  border: 1px solid black;
+//  box-shadow: 0 0 0 0 black;
+//}
+//
+//.ExchangeButton:hover {
+//  transform: translateY(-4px) translateX(-2px);
+//  box-shadow: 2px 5px 0 0 black;
+//};
+//
+//.ExchangeButton:active {
+//  transform: translateY(2px) translateX(1px);
+//  box-shadow: 0 0 0 0 black;
+//};
+
+
+//.ExchangeButton{
+//  background-color: #04AA6D; /* Green */
+//  border: none;
+//  color: white;
+//  padding: 15px 32px;
+//  text-align: center;
+//  text-decoration: none;
+//  display: inline-block;
+//  font-size: 16px;
+//
+//
+//  //background-color: green;
+//  //border: none;
+//  //padding: 10px 15px;
+//  //margin-top: 10px;
+//  //background: $primary-color;
+//  //color: white;
+//  //text-decoration: none;
+//
+//  &:hover {
+//    background: $hover-color;
+//  }
+//}
 
 
 

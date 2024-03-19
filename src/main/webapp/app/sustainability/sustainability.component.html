@@ -1,8 +1,3 @@
-<!--<div class="display-4" xmlns="http://www.w3.org/1999/html">-->
-<!--  <p>sustainability works!</p>-->
-<!--</div>-->
-
-
 <div style="text-align: center" class="TitleBox">
     <p>How To Sustainably Shop For Your Clothes?</p>
 </div>
@@ -102,30 +97,29 @@
       <h2 style="text-align: center">Now it's your chance to save the Earth!</h2>
       <p style="text-align: center">Click the buttons below to exchange your clothes with the community.</p>
     </div>
-    <div class="Buy/SellButton" >
-      <button [routerLink]="['/clothing-item/new']">add new item</button>
-    </div>
-    <div class="ExchangeButton">
-      <button [routerLink]="['/exchange-request/new']">exchange</button>
 
-      <div class="ExchangeRequestDetail" >
-        <h3>Exchange Request Details</h3>
+    <button class="BuySellButton" [routerLink]="['/clothing-item/new']">add new item</button>
+    <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">exchange</button>
+
+    <div class="ExchangeRequestDetail" >
+      <h3>Latest Exchange Requests</h3>
+      <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
         <div *ngIf="exchangeRequest">
           <p>ID: {{ exchangeRequest.id }}</p>
           <p>Offering Item: {{ exchangeRequest.offeringItem }}</p>
           <p>Requested Item: {{ exchangeRequest.requestedItem }}</p>
           <p>Requester ID: {{ exchangeRequest.requester?.id }}</p>
-          <!-- Add more details as needed -->
-        </div>
-        <div *ngIf="!exchangeRequest">
-          <p>No exchange request details available.</p>
-        </div>
+        <!-- Add more details as needed -->
       </div>
-
+      <div *ngIf="!exchangeRequest">
+        <p>No exchange request details available.</p>
+      </div>
+      </div>
     </div>
-
   </div>
 </div>
+
+
 
 
 
