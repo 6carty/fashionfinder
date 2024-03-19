@@ -68,12 +68,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="rating.id">
-            <div class="d-flex">
-              <span>Rating</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="creator.id">
             <div class="d-flex">
               <span>Creator</span>
@@ -97,11 +91,6 @@
               <img [src]="'data:' + outfit.imageContentType + ';base64,' + outfit.image" style="max-height: 30px" alt="outfit image" />
             </a>
             <span *ngIf="outfit.image">{{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}</span>
-          </td>
-          <td>
-            <div *ngIf="outfit.rating">
-              <a [routerLink]="['/rating', outfit.rating.id, 'view']">{{ outfit.rating.id }}</a>
-            </div>
           </td>
           <td>
             <div *ngIf="outfit.creator">

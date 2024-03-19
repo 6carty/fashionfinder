@@ -32,9 +32,6 @@
             <column name="image_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="rating_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_outfit__rating_id" />
-            </column>
             <column name="creator_id" type="bigint">
                 <constraints nullable="true" />
             </column>

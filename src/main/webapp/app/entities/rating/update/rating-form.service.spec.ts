@@ -21,6 +21,7 @@ describe('Rating Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             rating: expect.any(Object),
+            outfit: expect.any(Object),
           })
         );
       });
@@ -32,6 +33,7 @@ describe('Rating Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             rating: expect.any(Object),
+            outfit: expect.any(Object),
           })
         );
       });

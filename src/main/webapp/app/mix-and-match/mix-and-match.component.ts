@@ -29,6 +29,8 @@ export class MixAndMatchComponent implements OnInit {
   filterOutfits: any;
   allfiltersOff: boolean = true;
   searchTerm: string = '';
+  likedStates: boolean[] = [];
+  showAlternate: boolean[] = [];
   constructor(private outfitService: OutfitService) {}
 
   ngOnInit(): void {
@@ -44,6 +46,9 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getActiveFilters();
     }, 1000);
+  }
+  likeOutfit(i: number): void {
+    this.likedStates[i] = !this.likedStates[i];
   }
   fetchOufit(): void {
     this.outfitService.query().subscribe(outfit => {
@@ -123,8 +128,11 @@ export class MixAndMatchComponent implements OnInit {
     this.filterResults = this.filterOutfits.map(
       (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
     );
+    this.likedStates = Array(this.filterResults.length).fill(false);
   }
-
+  showAlternateContent(index: number) {
+    this.showAlternate[index] = true;
+  }
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

@@ -39,9 +39,8 @@
     {
       "otherEntityName": "rating",
       "otherEntityRelationshipName": "outfit",
-      "ownerSide": true,
-      "relationshipName": "rating",
-      "relationshipType": "one-to-one"
+      "relationshipName": "ratings",
+      "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "userProfile",

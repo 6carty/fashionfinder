@@ -1,0 +1,151 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-weather-heading" data-cy="WeatherCreateUpdateHeading">Create or edit a Weather</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_datetime">Datetime</label>
+          <div class="d-flex">
+            <input
+              id="field_datetime"
+              data-cy="datetime"
+              type="datetime-local"
+              class="form-control"
+              name="datetime"
+              formControlName="datetime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('datetime')!.invalid && (editForm.get('datetime')!.dirty || editForm.get('datetime')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('datetime')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('datetime')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_weatherCode">Weather Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="weatherCode"
+            id="field_weatherCode"
+            data-cy="weatherCode"
+            formControlName="weatherCode"
+          />
+          <div *ngIf="editForm.get('weatherCode')!.invalid && (editForm.get('weatherCode')!.dirty || editForm.get('weatherCode')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('weatherCode')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_maxTemperature">Max Temperature</label>
+          <input
+            type="number"
+            class="form-control"
+            name="maxTemperature"
+            id="field_maxTemperature"
+            data-cy="maxTemperature"
+            formControlName="maxTemperature"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_minTemperature">Min Temperature</label>
+          <input
+            type="number"
+            class="form-control"
+            name="minTemperature"
+            id="field_minTemperature"
+            data-cy="minTemperature"
+            formControlName="minTemperature"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_precipitation">Precipitation</label>
+          <input
+            type="number"
+            class="form-control"
+            name="precipitation"
+            id="field_precipitation"
+            data-cy="precipitation"
+            formControlName="precipitation"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_windSpeed">Wind Speed</label>
+          <input type="number" class="form-control" name="windSpeed" id="field_windSpeed" data-cy="windSpeed" formControlName="windSpeed" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_windDirection">Wind Direction</label>
+          <input
+            type="text"
+            class="form-control"
+            name="windDirection"
+            id="field_windDirection"
+            data-cy="windDirection"
+            formControlName="windDirection"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_calendar">Calendar</label>
+          <select
+            class="form-control"
+            id="field_calendar"
+            data-cy="calendar"
+            name="calendar"
+            formControlName="calendar"
+            [compareWith]="compareCalendar"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="calendarOption" *ngFor="let calendarOption of calendarsSharedCollection">{{ calendarOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_weather">Weather</label>
+          <select
+            class="form-control"
+            id="field_weather"
+            data-cy="weather"
+            name="weather"
+            formControlName="weather"
+            [compareWith]="compareOutfit"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="outfitOption" *ngFor="let outfitOption of outfitsSharedCollection">{{ outfitOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

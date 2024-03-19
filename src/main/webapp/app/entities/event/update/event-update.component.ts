@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Observable, switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { EventFormService, EventFormGroup } from './event-form.service';
 import { IEvent } from '../event.model';
-import { EntityArrayResponseType, EventService } from '../service/event.service';
+import { EventService } from '../service/event.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
@@ -26,8 +26,7 @@ export class EventUpdateComponent implements OnInit {
     protected eventService: EventService,
     protected eventFormService: EventFormService,
     protected outfitService: OutfitService,
-    protected activatedRoute: ActivatedRoute,
-    private router: Router
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
@@ -89,15 +88,5 @@ export class EventUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))
       .pipe(map((outfits: IOutfit[]) => this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(outfits, this.event?.outfit)))
       .subscribe((outfits: IOutfit[]) => (this.outfitsSharedCollection = outfits));
-  }
-
-  delete(event: IEvent | null) {
-    this.event = event;
-    if (event) {
-      this.eventService.delete(event.id!).subscribe(() => {
-        this.previousState();
-      });
-      this.router.navigate(['/fashion-planner']);
-    }
   }
 }

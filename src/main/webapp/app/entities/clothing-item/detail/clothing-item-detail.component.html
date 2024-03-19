@@ -67,12 +67,6 @@
             {{ clothingItem.imageContentType }}, {{ byteSize(clothingItem.image) }}
           </div>
         </dd>
-        <dt><span>Event</span></dt>
-        <dd>
-          <div *ngIf="clothingItem.event">
-            <a [routerLink]="['/event', clothingItem.event.id, 'view']">{{ clothingItem.event.id }}</a>
-          </div>
-        </dd>
         <dt><span>Outfit</span></dt>
         <dd>
           <span *ngFor="let outfit of clothingItem.outfits; let last = last">

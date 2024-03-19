@@ -71,10 +71,6 @@ public class ClothingItem implements Serializable {
     @Column(name = "image_content_type")
     private String imageContentType;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "clothingItems", "outfits" }, allowSetters = true)
-    private Event event;
-
     @ManyToMany
     @JoinTable(
         name = "rel_clothing_item__outfit",
@@ -82,7 +78,7 @@ public class ClothingItem implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "outfit_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> outfits = new HashSet<>();
 
     @ManyToOne
@@ -276,19 +272,6 @@ public class ClothingItem implements Serializable {
 
     public void setImageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
-    }
-
-    public Event getEvent() {
-        return this.event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public ClothingItem event(Event event) {
-        this.setEvent(event);
-        return this;
     }
 
     public Set<Outfit> getOutfits() {

@@ -53,7 +53,7 @@ public class Weather implements Serializable {
     private Calendar calendar;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Outfit weather;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

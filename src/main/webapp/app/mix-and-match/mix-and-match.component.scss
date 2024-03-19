@@ -141,15 +141,18 @@
         //margin-right: 20px;
         margin-right: 54px;
         height: 200px;
-        width: 200px;
+        width: 160px;
+        //width: 160px;
         border-radius: 25px;
         background-size: cover;
         background-position: center;
+        background-color: white;
       }
       .first-line-img02 {
         background-color: white;
         height: 200px;
         width: 200px;
+        margin-right: 54px;
         border-radius: 25px;
       }
       .second-image-img01,
@@ -165,8 +168,7 @@
         border-radius: 25px;
       }
     }
-    //scrollbar for firstimgline
-    div.first-image-line,
+    scrollbar for firstimgline div.first-image-line,
     div.second-image-line {
       //background-color: #333;
       overflow-x: auto;
@@ -179,8 +181,29 @@
   margin-right: 54px;
   margin-bottom: 10px;
   height: 200px;
-  width: 200px;
+  //width: 200px;
   border-radius: 25px;
   background-size: cover;
   background-position: center;
+}
+
+.outfitbt svg {
+  width: 24px;
+  height: 24px;
+  margin-top: 7px;
+}
+//
+.outfitbt {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin-left: 120px;
+}
+
+.outfitbt:focus {
+  outline: none; /* Remove focus outline */
+}
+.outfitbt fa-icon {
+  font-size: 24px;
+  //margin-bottom: 10px;
 }

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs/esm';
-import { IEvent } from 'app/entities/event/event.model';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { ClothingType } from 'app/entities/enumerations/clothing-type.model';
@@ -19,7 +18,6 @@ export interface IClothingItem {
   lastWorn?: dayjs.Dayjs | null;
   image?: string | null;
   imageContentType?: string | null;
-  event?: Pick<IEvent, 'id'> | null;
   outfits?: Pick<IOutfit, 'id'>[] | null;
   owner?: Pick<IUserProfile, 'id'> | null;
 }

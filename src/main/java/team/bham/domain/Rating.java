@@ -32,8 +32,8 @@ public class Rating implements Serializable {
     @OneToOne(mappedBy = "rating")
     private TrendingOutfit trendingOutfit;
 
-    @JsonIgnoreProperties(value = { "rating", "event", "creator", "clothingItems" }, allowSetters = true)
-    @OneToOne(mappedBy = "rating")
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Outfit outfit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -88,12 +88,6 @@ public class Rating implements Serializable {
     }
 
     public void setOutfit(Outfit outfit) {
-        if (this.outfit != null) {
-            this.outfit.setRating(null);
-        }
-        if (outfit != null) {
-            outfit.setRating(this);
-        }
         this.outfit = outfit;
     }
 

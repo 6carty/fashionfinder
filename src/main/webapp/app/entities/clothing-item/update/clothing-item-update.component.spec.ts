@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { ClothingItemFormService } from './clothing-item-form.service';
 import { ClothingItemService } from '../service/clothing-item.service';
 import { IClothingItem } from '../clothing-item.model';
-import { IEvent } from 'app/entities/event/event.model';
-import { EventService } from 'app/entities/event/service/event.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
@@ -24,7 +22,6 @@ describe('ClothingItem Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let clothingItemFormService: ClothingItemFormService;
   let clothingItemService: ClothingItemService;
-  let eventService: EventService;
   let outfitService: OutfitService;
   let userProfileService: UserProfileService;
 
@@ -49,7 +46,6 @@ describe('ClothingItem Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     clothingItemFormService = TestBed.inject(ClothingItemFormService);
     clothingItemService = TestBed.inject(ClothingItemService);
-    eventService = TestBed.inject(EventService);
     outfitService = TestBed.inject(OutfitService);
     userProfileService = TestBed.inject(UserProfileService);
 
@@ -57,28 +53,6 @@ describe('ClothingItem Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call Event query and add missing value', () => {
-      const clothingItem: IClothingItem = { id: 456 };
-      const event: IEvent = { id: 15890 };
-      clothingItem.event = event;
-
-      const eventCollection: IEvent[] = [{ id: 37376 }];
-      jest.spyOn(eventService, 'query').mockReturnValue(of(new HttpResponse({ body: eventCollection })));
-      const additionalEvents = [event];
-      const expectedCollection: IEvent[] = [...additionalEvents, ...eventCollection];
-      jest.spyOn(eventService, 'addEventToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ clothingItem });
-      comp.ngOnInit();
-
-      expect(eventService.query).toHaveBeenCalled();
-      expect(eventService.addEventToCollectionIfMissing).toHaveBeenCalledWith(
-        eventCollection,
-        ...additionalEvents.map(expect.objectContaining)
-      );
-      expect(comp.eventsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should call Outfit query and add missing value', () => {
       const clothingItem: IClothingItem = { id: 456 };
       const outfits: IOutfit[] = [{ id: 10311 }];
@@ -125,8 +99,6 @@ describe('ClothingItem Management Update Component', () => {
 
     it('Should update editForm', () => {
       const clothingItem: IClothingItem = { id: 456 };
-      const event: IEvent = { id: 61353 };
-      clothingItem.event = event;
       const outfit: IOutfit = { id: 87868 };
       clothingItem.outfits = [outfit];
       const owner: IUserProfile = { id: 21800 };
@@ -135,7 +107,6 @@ describe('ClothingItem Management Update Component', () => {
       activatedRoute.data = of({ clothingItem });
       comp.ngOnInit();
 
-      expect(comp.eventsSharedCollection).toContain(event);
       expect(comp.outfitsSharedCollection).toContain(outfit);
       expect(comp.userProfilesSharedCollection).toContain(owner);
       expect(comp.clothingItem).toEqual(clothingItem);
@@ -211,16 +182,6 @@ describe('ClothingItem Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareEvent', () => {
-      it('Should forward to eventService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(eventService, 'compareEvent');
-        comp.compareEvent(entity, entity2);
-        expect(eventService.compareEvent).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
     describe('compareOutfit', () => {
       it('Should forward to outfitService', () => {
         const entity = { id: 123 };

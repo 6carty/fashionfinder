@@ -132,14 +132,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_event">Event</label>
-          <select class="form-control" id="field_event" data-cy="event" name="event" formControlName="event" [compareWith]="compareEvent">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="eventOption" *ngFor="let eventOption of eventsSharedCollection">{{ eventOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label for="field_outfits">Outfit</label>
           <select
             class="form-control"

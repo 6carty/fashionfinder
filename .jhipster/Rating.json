@@ -26,10 +26,9 @@
     },
     {
       "otherEntityName": "outfit",
-      "otherEntityRelationshipName": "rating",
-      "ownerSide": false,
+      "otherEntityRelationshipName": "ratings",
       "relationshipName": "outfit",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

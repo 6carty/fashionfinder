@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { RatingFormService } from './rating-form.service';
 import { RatingService } from '../service/rating.service';
 import { IRating } from '../rating.model';
+import { IOutfit } from 'app/entities/outfit/outfit.model';
+import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
 import { RatingUpdateComponent } from './rating-update.component';
 
@@ -18,6 +20,7 @@ describe('Rating Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let ratingFormService: RatingFormService;
   let ratingService: RatingService;
+  let outfitService: OutfitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +43,43 @@ describe('Rating Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     ratingFormService = TestBed.inject(RatingFormService);
     ratingService = TestBed.inject(RatingService);
+    outfitService = TestBed.inject(OutfitService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call Outfit query and add missing value', () => {
       const rating: IRating = { id: 456 };
+      const outfit: IOutfit = { id: 29956 };
+      rating.outfit = outfit;
+
+      const outfitCollection: IOutfit[] = [{ id: 88356 }];
+      jest.spyOn(outfitService, 'query').mockReturnValue(of(new HttpResponse({ body: outfitCollection })));
+      const additionalOutfits = [outfit];
+      const expectedCollection: IOutfit[] = [...additionalOutfits, ...outfitCollection];
+      jest.spyOn(outfitService, 'addOutfitToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ rating });
       comp.ngOnInit();
 
+      expect(outfitService.query).toHaveBeenCalled();
+      expect(outfitService.addOutfitToCollectionIfMissing).toHaveBeenCalledWith(
+        outfitCollection,
+        ...additionalOutfits.map(expect.objectContaining)
+      );
+      expect(comp.outfitsSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const rating: IRating = { id: 456 };
+      const outfit: IOutfit = { id: 28331 };
+      rating.outfit = outfit;
+
+      activatedRoute.data = of({ rating });
+      comp.ngOnInit();
+
+      expect(comp.outfitsSharedCollection).toContain(outfit);
       expect(comp.rating).toEqual(rating);
     });
   });
@@ -120,6 +149,18 @@ describe('Rating Management Update Component', () => {
       expect(ratingService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareOutfit', () => {
+      it('Should forward to outfitService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(outfitService, 'compareOutfit');
+        comp.compareOutfit(entity, entity2);
+        expect(outfitService.compareOutfit).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

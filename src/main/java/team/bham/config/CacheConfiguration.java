@@ -95,6 +95,7 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Event.class.getName() + ".clothingItems");
             createCache(cm, team.bham.domain.Event.class.getName() + ".outfits");
             createCache(cm, team.bham.domain.Outfit.class.getName() + ".weathers");
+            createCache(cm, team.bham.domain.Outfit.class.getName() + ".ratings");
             // jhipster-needle-ehcache-add-entry
         };
     }

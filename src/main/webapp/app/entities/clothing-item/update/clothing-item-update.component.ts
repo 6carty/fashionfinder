@@ -10,8 +10,6 @@ import { ClothingItemService } from '../service/clothing-item.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IEvent } from 'app/entities/event/event.model';
-import { EventService } from 'app/entities/event/service/event.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
@@ -29,7 +27,6 @@ export class ClothingItemUpdateComponent implements OnInit {
   clothingTypeValues = Object.keys(ClothingType);
   statusValues = Object.keys(Status);
 
-  eventsSharedCollection: IEvent[] = [];
   outfitsSharedCollection: IOutfit[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
@@ -40,14 +37,11 @@ export class ClothingItemUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected clothingItemService: ClothingItemService,
     protected clothingItemFormService: ClothingItemFormService,
-    protected eventService: EventService,
     protected outfitService: OutfitService,
     protected userProfileService: UserProfileService,
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute
   ) {}
-
-  compareEvent = (o1: IEvent | null, o2: IEvent | null): boolean => this.eventService.compareEvent(o1, o2);
 
   compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
 
@@ -126,7 +120,6 @@ export class ClothingItemUpdateComponent implements OnInit {
     this.clothingItem = clothingItem;
     this.clothingItemFormService.resetForm(this.editForm, clothingItem);
 
-    this.eventsSharedCollection = this.eventService.addEventToCollectionIfMissing<IEvent>(this.eventsSharedCollection, clothingItem.event);
     this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(
       this.outfitsSharedCollection,
       ...(clothingItem.outfits ?? [])
@@ -138,12 +131,6 @@ export class ClothingItemUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.eventService
-      .query()
-      .pipe(map((res: HttpResponse<IEvent[]>) => res.body ?? []))
-      .pipe(map((events: IEvent[]) => this.eventService.addEventToCollectionIfMissing<IEvent>(events, this.clothingItem?.event)))
-      .subscribe((events: IEvent[]) => (this.eventsSharedCollection = events));
-
     this.outfitService
       .query()
       .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))

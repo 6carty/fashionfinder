@@ -19,6 +19,21 @@
             <small class="form-text text-danger" [hidden]="!editForm.get('rating')?.errors?.number"> This field should be a number. </small>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_outfit">Outfit</label>
+          <select
+            class="form-control"
+            id="field_outfit"
+            data-cy="outfit"
+            name="outfit"
+            formControlName="outfit"
+            [compareWith]="compareOutfit"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="outfitOption" *ngFor="let outfitOption of outfitsSharedCollection">{{ outfitOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

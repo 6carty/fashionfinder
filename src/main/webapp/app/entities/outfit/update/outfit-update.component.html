@@ -30,6 +30,11 @@
             formControlName="description"
           />
         </div>
+        <input type="checkbox" name="weather" value="sunny" /> Sunny <br />
+        <input type="checkbox" name="weather" value="rainy" /> Rainy<br />
+        <input type="checkbox" name="weather" value="windy" /> Windy<br />
+        <input type="checkbox" name="weather" value="cold" /> Cold<br />
+        <input type="checkbox" name="weather" value="hot" /> Hot<br />
 
         <div class="row mb-3">
           <label class="form-label" for="field_date">Date</label>
@@ -50,7 +55,7 @@
           <label class="form-label" for="field_occasion">Occasion</label>
           <select class="form-control" name="occasion" formControlName="occasion" id="field_occasion" data-cy="occasion">
             <option [ngValue]="null"></option>
-            <option *ngFor="let occasion of occasionValues" [value]="occasion">occasion</option>
+            <option *ngFor="let occasion of occasionValues" [value]="occasion">{{ occasion }}</option>
           </select>
           <div *ngIf="editForm.get('occasion')!.invalid && (editForm.get('occasion')!.dirty || editForm.get('occasion')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('occasion')?.errors?.required"> This field is required. </small>
@@ -86,21 +91,6 @@
             id="field_imageContentType"
             formControlName="imageContentType"
           />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_rating">Rating</label>
-          <select
-            class="form-control"
-            id="field_rating"
-            data-cy="rating"
-            name="rating"
-            formControlName="rating"
-            [compareWith]="compareRating"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="ratingOption" *ngFor="let ratingOption of ratingsCollection">{{ ratingOption.id }}</option>
-          </select>
         </div>
 
         <div class="row mb-3">

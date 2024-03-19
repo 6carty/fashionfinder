@@ -40,7 +40,7 @@ public class Event implements Serializable {
     private ZonedDateTime endTime;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "rating", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Outfit outfit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

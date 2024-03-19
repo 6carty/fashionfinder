@@ -50,10 +50,10 @@ public class Outfit implements Serializable {
     @Column(name = "image_content_type")
     private String imageContentType;
 
+    @OneToMany(mappedBy = "outfit")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "trendingOutfit", "outfit" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Rating rating;
+    private Set<Rating> ratings = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -175,16 +175,34 @@ public class Outfit implements Serializable {
         this.imageContentType = imageContentType;
     }
 
-    public Rating getRating() {
-        return this.rating;
+    public Set<Rating> getRatings() {
+        return this.ratings;
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setRatings(Set<Rating> ratings) {
+        if (this.ratings != null) {
+            this.ratings.forEach(i -> i.setOutfit(null));
+        }
+        if (ratings != null) {
+            ratings.forEach(i -> i.setOutfit(this));
+        }
+        this.ratings = ratings;
     }
 
-    public Outfit rating(Rating rating) {
-        this.setRating(rating);
+    public Outfit ratings(Set<Rating> ratings) {
+        this.setRatings(ratings);
+        return this;
+    }
+
+    public Outfit addRatings(Rating rating) {
+        this.ratings.add(rating);
+        rating.setOutfit(this);
+        return this;
+    }
+
+    public Outfit removeRatings(Rating rating) {
+        this.ratings.remove(rating);
+        rating.setOutfit(null);
         return this;
     }
 

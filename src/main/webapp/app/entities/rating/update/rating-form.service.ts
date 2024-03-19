@@ -19,6 +19,7 @@ type RatingFormDefaults = Pick<NewRating, 'id'>;
 type RatingFormGroupContent = {
   id: FormControl<IRating['id'] | NewRating['id']>;
   rating: FormControl<IRating['rating']>;
+  outfit: FormControl<IRating['outfit']>;
 };
 
 export type RatingFormGroup = FormGroup<RatingFormGroupContent>;
@@ -41,6 +42,7 @@ export class RatingFormService {
       rating: new FormControl(ratingRawValue.rating, {
         validators: [Validators.required],
       }),
+      outfit: new FormControl(ratingRawValue.outfit),
     });
   }
 

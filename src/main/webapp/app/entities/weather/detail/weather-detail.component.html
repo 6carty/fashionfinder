@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="weather">
+      <h2 data-cy="weatherDetailsHeading"><span>Weather</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ weather.id }}</span>
+        </dd>
+        <dt><span>Datetime</span></dt>
+        <dd>
+          <span>{{ weather.datetime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Weather Code</span></dt>
+        <dd>
+          <span>{{ weather.weatherCode }}</span>
+        </dd>
+        <dt><span>Max Temperature</span></dt>
+        <dd>
+          <span>{{ weather.maxTemperature }}</span>
+        </dd>
+        <dt><span>Min Temperature</span></dt>
+        <dd>
+          <span>{{ weather.minTemperature }}</span>
+        </dd>
+        <dt><span>Precipitation</span></dt>
+        <dd>
+          <span>{{ weather.precipitation }}</span>
+        </dd>
+        <dt><span>Wind Speed</span></dt>
+        <dd>
+          <span>{{ weather.windSpeed }}</span>
+        </dd>
+        <dt><span>Wind Direction</span></dt>
+        <dd>
+          <span>{{ weather.windDirection }}</span>
+        </dd>
+        <dt><span>Calendar</span></dt>
+        <dd>
+          <div *ngIf="weather.calendar">
+            <a [routerLink]="['/calendar', weather.calendar.id, 'view']">{{ weather.calendar.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Weather</span></dt>
+        <dd>
+          <div *ngIf="weather.weather">
+            <a [routerLink]="['/outfit', weather.weather.id, 'view']">{{ weather.weather.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/weather', weather.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

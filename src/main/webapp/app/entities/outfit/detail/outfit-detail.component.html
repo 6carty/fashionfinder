@@ -39,12 +39,6 @@
             {{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}
           </div>
         </dd>
-        <dt><span>Rating</span></dt>
-        <dd>
-          <div *ngIf="outfit.rating">
-            <a [routerLink]="['/rating', outfit.rating.id, 'view']">{{ outfit.rating.id }}</a>
-          </div>
-        </dd>
         <dt><span>Creator</span></dt>
         <dd>
           <div *ngIf="outfit.creator">

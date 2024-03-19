@@ -31,7 +31,6 @@ describe('ClothingItem Form Service', () => {
             status: expect.any(Object),
             lastWorn: expect.any(Object),
             image: expect.any(Object),
-            event: expect.any(Object),
             outfits: expect.any(Object),
             owner: expect.any(Object),
           })
@@ -55,7 +54,6 @@ describe('ClothingItem Form Service', () => {
             status: expect.any(Object),
             lastWorn: expect.any(Object),
             image: expect.any(Object),
-            event: expect.any(Object),
             outfits: expect.any(Object),
             owner: expect.any(Object),
           })

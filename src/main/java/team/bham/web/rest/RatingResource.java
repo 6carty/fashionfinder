@@ -156,14 +156,6 @@ public class RatingResource {
                 .filter(rating -> rating.getTrendingOutfit() == null)
                 .collect(Collectors.toList());
         }
-
-        if ("outfit-is-null".equals(filter)) {
-            log.debug("REST request to get all Ratings where outfit is null");
-            return StreamSupport
-                .stream(ratingRepository.findAll().spliterator(), false)
-                .filter(rating -> rating.getOutfit() == null)
-                .collect(Collectors.toList());
-        }
         log.debug("REST request to get all Ratings");
         return ratingRepository.findAll();
     }

@@ -59,6 +59,7 @@
     <include file="config/liquibase/changelog/20240307132329_added_entity_constraints_ClothingPic.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240308150658_added_entity_constraints_OutfitPic.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240303123219_added_entity_constraints_Event.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240303123226_added_entity_constraints_Rating.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

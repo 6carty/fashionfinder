@@ -104,12 +104,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="event.id">
-            <div class="d-flex">
-              <span>Event</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="outfit.id">
             <div class="d-flex">
               <span>Outfit</span>
@@ -149,11 +143,6 @@
               />
             </a>
             <span *ngIf="clothingItem.image">{{ clothingItem.imageContentType }}, {{ byteSize(clothingItem.image) }}</span>
-          </td>
-          <td>
-            <div *ngIf="clothingItem.event">
-              <a [routerLink]="['/event', clothingItem.event.id, 'view']">{{ clothingItem.event.id }}</a>
-            </div>
           </td>
           <td>
             <span *ngFor="let outfit of clothingItem.outfits; let last = last">

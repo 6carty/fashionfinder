@@ -44,6 +44,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="outfit.id">
+            <div class="d-flex">
+              <span>Outfit</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -53,6 +59,11 @@
             <a [routerLink]="['/rating', rating.id, 'view']">{{ rating.id }}</a>
           </td>
           <td>{{ rating.rating }}</td>
+          <td>
+            <div *ngIf="rating.outfit">
+              <a [routerLink]="['/outfit', rating.outfit.id, 'view']">{{ rating.outfit.id }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/rating', rating.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

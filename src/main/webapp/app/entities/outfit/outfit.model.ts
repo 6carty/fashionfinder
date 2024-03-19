@@ -1,5 +1,4 @@
 import dayjs from 'dayjs/esm';
-import { IRating } from 'app/entities/rating/rating.model';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { IClothingItem } from 'app/entities/clothing-item/clothing-item.model';
 import { Occasion } from 'app/entities/enumerations/occasion.model';
@@ -12,7 +11,6 @@ export interface IOutfit {
   occasion?: Occasion | null;
   image?: string | null;
   imageContentType?: string | null;
-  rating?: Pick<IRating, 'id'> | null;
   creator?: Pick<IUserProfile, 'id'> | null;
   clothingItems?: Pick<IClothingItem, 'id'>[] | null;
 }

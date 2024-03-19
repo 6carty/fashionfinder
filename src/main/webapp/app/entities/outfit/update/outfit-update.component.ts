@@ -10,11 +10,12 @@ import { OutfitService } from '../service/outfit.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { IRating } from 'app/entities/rating/rating.model';
-import { RatingService } from 'app/entities/rating/service/rating.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 import { Occasion } from 'app/entities/enumerations/occasion.model';
+import { RatingService } from '../../rating/service/rating.service';
+import contains from '@popperjs/core/lib/dom-utils/contains';
+import { IRating, NewRating } from '../../rating/rating.model';
 
 @Component({
   selector: 'jhi-outfit-update',
@@ -25,7 +26,6 @@ export class OutfitUpdateComponent implements OnInit {
   outfit: IOutfit | null = null;
   occasionValues = Object.keys(Occasion);
 
-  ratingsCollection: IRating[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: OutfitFormGroup = this.outfitFormService.createOutfitFormGroup();
@@ -35,13 +35,11 @@ export class OutfitUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected outfitService: OutfitService,
     protected outfitFormService: OutfitFormService,
-    protected ratingService: RatingService,
     protected userProfileService: UserProfileService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected ratingService: RatingService
   ) {}
-
-  compareRating = (o1: IRating | null, o2: IRating | null): boolean => this.ratingService.compareRating(o1, o2);
 
   compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
@@ -81,6 +79,30 @@ export class OutfitUpdateComponent implements OnInit {
     }
   }
 
+  createAssociatedRating(): void {
+    this.outfitService.query().subscribe(outfit => {
+      const outfits = outfit.body;
+      if (outfits) {
+        const out = outfits[outfits.length - 1];
+        const newRating: IRating | NewRating = {
+          id: null,
+          rating: 0,
+          outfit: out,
+        };
+        this.ratingService.create(newRating).subscribe({
+          next: () => {
+            console.log('Rating created successfully.');
+            // Handle success if needed
+          },
+          error: err => {
+            console.error('Error creating rating:', err);
+            // Handle error if needed
+          },
+        });
+      }
+    });
+  }
+
   previousState(): void {
     window.history.back();
   }
@@ -89,8 +111,25 @@ export class OutfitUpdateComponent implements OnInit {
     this.isSaving = true;
     const outfit = this.outfitFormService.getOutfit(this.editForm);
     if (outfit.id !== null) {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+      outfit.description = outfit.description?.split(',')[0];
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
+
       this.subscribeToSaveResponse(this.outfitService.update(outfit));
     } else {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
       this.subscribeToSaveResponse(this.outfitService.create(outfit));
     }
   }
@@ -103,6 +142,7 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
+    this.createAssociatedRating();
     this.previousState();
   }
 
@@ -118,7 +158,6 @@ export class OutfitUpdateComponent implements OnInit {
     this.outfit = outfit;
     this.outfitFormService.resetForm(this.editForm, outfit);
 
-    this.ratingsCollection = this.ratingService.addRatingToCollectionIfMissing<IRating>(this.ratingsCollection, outfit.rating);
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
       outfit.creator
@@ -126,12 +165,6 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.ratingService
-      .query({ filter: 'outfit-is-null' })
-      .pipe(map((res: HttpResponse<IRating[]>) => res.body ?? []))
-      .pipe(map((ratings: IRating[]) => this.ratingService.addRatingToCollectionIfMissing<IRating>(ratings, this.outfit?.rating)))
-      .subscribe((ratings: IRating[]) => (this.ratingsCollection = ratings));
-
     this.userProfileService
       .query()
       .pipe(map((res: HttpResponse<IUserProfile[]>) => res.body ?? []))

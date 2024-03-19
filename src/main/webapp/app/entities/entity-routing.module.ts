@@ -99,6 +99,21 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Leaderboards' },
         loadChildren: () => import('./leaderboard/leaderboard.module').then(m => m.LeaderboardModule),
       },
+      {
+        path: 'weather',
+        data: { pageTitle: 'Weathers' },
+        loadChildren: () => import('./weather/weather.module').then(m => m.WeatherModule),
+      },
+      {
+        path: 'clothing-pic',
+        data: { pageTitle: 'ClothingPics' },
+        loadChildren: () => import('./clothing-pic/clothing-pic.module').then(m => m.ClothingPicModule),
+      },
+      {
+        path: 'outfit-pic',
+        data: { pageTitle: 'OutfitPics' },
+        loadChildren: () => import('./outfit-pic/outfit-pic.module').then(m => m.OutfitPicModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
