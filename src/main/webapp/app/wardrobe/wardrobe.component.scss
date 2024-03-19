@@ -3,6 +3,7 @@
   position: relative;
   min-height: 75vh;
 }
+
 .rectangle-display {
   position: absolute;
   left: 25vw;
@@ -72,6 +73,10 @@
   position: absolute;
   left: 0.75vh;
   top: 0.75vh;
+}
+
+.grid-container {
+  display: inline-grid;
 }
 
 .table-clothes {

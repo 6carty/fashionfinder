@@ -17,6 +17,7 @@ export class WardrobeComponent implements OnInit {
   currentUser: any;
   highestId: any;
   tempvalue: any;
+  selectedItems: { id: number; isChecked: boolean }[] = [];
 
   formData = {
     name: '',

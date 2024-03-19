@@ -4,14 +4,12 @@
     <div class="rectangle-displayContent">
       <button [routerLink]="['/clothing-item/new']">add new item</button>
       <div class="apply-filter-button">apply filters</div>
-      <div class="filter-item">
-        <input type="checkbox" id="filter-color-red" />
-        <label for="filter-color-red">Red</label>
-      </div>
+
       <div class="filter-item">
         <input type="checkbox" id="filter-color-blue" />
         <label for="filter-color-blue">Red</label>
       </div>
+
       <div class="filter-item">
         <input type="checkbox" id="filter-color-green" />
         <label for="filter-color-green">Red</label>
@@ -20,28 +18,12 @@
   </div>
   <div class="rectangle-display">
     <div class="rectangle-displayContent">
-      <table class="table-clothes">
-        <caption>
-          Clothing items
-        </caption>
-        <thead>
-          <th>Name</th>
-          <th>Occasion</th>
-          <th>Colour</th>
-        </thead>
-        <tfoot>
-          <tr>
-            <td colspan="3">Currently a test</td>
-          </tr>
-        </tfoot>
-        <tbody *ngFor="let item of recievedData">
-          <tr>
-            <th>{{ item.name }}</th>
-            <td>{{ item.style }}</td>
-            <td>{{ item.colour }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="grid-container" *ngFor="let item of recievedData; let i = index">
+        <div class="filter-item">
+          <input type="checkbox" id="{{ item.id }}" ngModel="selectedItems[i].isChecked" />
+          <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
+        </div>
+      </div>
     </div>
   </div>
 </div>
