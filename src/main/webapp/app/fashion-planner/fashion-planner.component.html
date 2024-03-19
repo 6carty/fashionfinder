@@ -31,16 +31,14 @@
             </span>
             | {{ event.dateTime | date: 'h:mm a' | lowercase }}
             <span *ngIf="event.endTime"> - {{ event.endTime | date: 'h:mm a' | lowercase }}</span> <br />
-            <div *ngIf="event.location">{{ event.location }}</div>
+            <div *ngIf="event.location" style="font-size: 90%">{{ event.location }}</div>
           </div>
         </div>
         <div class="custom-card" *ngIf="event.outfit != null" (click)="viewClothing(event.outfit.id)">
           <span style="font-weight: bold"> {{ event.outfit.name }} <br /> </span>
           {{ event.outfit.occasion | titlecase }} outfit
         </div>
-        <div class="custom-card-3" *ngIf="!event.outfit" (click)="viewEvent(event.id)">
-          <fa-icon icon="plus"></fa-icon> Select an outfit
-        </div>
+        <div class="custom-card-3" *ngIf="!event.outfit">No outfit selected</div>
       </div>
     </div>
     <ng-template #noEvents>

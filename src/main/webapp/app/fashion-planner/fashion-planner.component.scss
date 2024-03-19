@@ -70,7 +70,7 @@
   border: #555555;
   padding: 8px;
   backdrop-filter: blur(20px);
-  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
+  //box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
   background-color: rgba(150, 150, 150, 0.1);
   text-align: left;
   border-radius: 10px;
@@ -90,8 +90,7 @@
 .custom-card:hover,
 .custom-card-2:hover,
 .btn-primary:hover,
-.clothingCard:hover,
-.custom-card-3:hover {
+.clothingCard:hover {
   cursor: pointer;
   box-shadow: 0 5px 25px rgba(129, 124, 124, 0.4);
   transition-duration: 0.2s;

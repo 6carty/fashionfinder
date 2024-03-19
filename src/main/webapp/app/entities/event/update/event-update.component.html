@@ -91,6 +91,17 @@
         >
           <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
         </button>
+
+        <button
+          type="submit"
+          (click)="delete(event)"
+          class="btn btn-danger btn-primary"
+          data-cy="entityDeleteButton"
+          *ngIf="editForm.controls.id.value !== null"
+        >
+          <fa-icon icon="times"></fa-icon>
+          <span class="d-none d-md-inline">Delete</span>
+        </button>
       </div>
     </form>
   </div>
