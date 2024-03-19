@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 //import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
 import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
-import { NewClothingItem } from '../entities/clothing-item/clothing-item.model';
+import { IClothingItem, NewClothingItem } from '../entities/clothing-item/clothing-item.model';
 import { Status } from '../entities/enumerations/status.model';
 import { ClothingType } from '../entities/enumerations/clothing-type.model';
-import dayjs from 'dayjs/esm';
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
+import { OutfitService } from '../entities/outfit/service/outfit.service';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -18,6 +22,11 @@ export class WardrobeComponent implements OnInit {
   highestId: any;
   tempvalue: any;
   selectedItems: { id: number; isChecked: boolean }[] = [];
+  newClothingItem: any;
+  isSaving = false;
+  clothingItem: IClothingItem | null = null;
+  clothingTypeValues = Object.keys(ClothingType);
+  statusValues = Object.keys(Status);
 
   formData = {
     name: '',
@@ -27,6 +36,8 @@ export class WardrobeComponent implements OnInit {
   constructor(private clothingItemService: ClothingItemService) {}
 
   ngOnInit(): void {
+    //this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem))
+
     this.fetchClothingitem();
   }
 
@@ -43,5 +54,25 @@ export class WardrobeComponent implements OnInit {
     this.recievedData.unsubscribe();
   }
 
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IClothingItem>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    this.previousState();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
+
+  previousState(): void {}
   addnewitem(): void {}
 }
