@@ -7,9 +7,16 @@ import { AccountService } from 'app/core/auth/account.service';
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  isDarkMode: boolean = false;
+
+  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {
+    // Check local storage for dark mode preference on initialization
+    const savedMode = localStorage.getItem('darkMode');
+    this.isDarkMode = savedMode === 'true';
+  }
 
   ngOnInit(): void {
     // try to log in automatically
@@ -20,6 +27,18 @@ export class MainComponent implements OnInit {
         this.updateTitle();
       }
     });
+
+    // Initialize dark mode from local storage if present
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode) {
+      this.isDarkMode = savedMode === 'true';
+    }
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    // Save the preference
+    localStorage.setItem('darkMode', this.isDarkMode.toString());
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

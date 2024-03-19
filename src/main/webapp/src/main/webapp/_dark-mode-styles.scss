@@ -1,0 +1,9 @@
+/* Assuming .dark-mode is added to the body or a main container when dark mode is active */
+.dark-mode {
+  color: #ffffff; /* Sets default text color for dark mode */
+}
+
+/* Specific classes for different text elements if needed */
+.dark-mode .dark-mode-text {
+  color: #cccccc; /* Lighter text color */
+}

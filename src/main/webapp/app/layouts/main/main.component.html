@@ -1,6 +1,7 @@
 <jhi-page-ribbon></jhi-page-ribbon>
 
-<div style="background-image: url('../../../content/images/noisy-gradients-2.png'); min-height: 100vh">
+<!-- Updated the div to use class binding -->
+<div [ngClass]="isDarkMode ? 'dark-mode-bg' : 'light-mode-bg'" style="min-height: 100vh">
   <div>
     <router-outlet name="navbar"></router-outlet>
   </div>
@@ -12,4 +13,7 @@
 
     <jhi-footer></jhi-footer>
   </div>
+
+  <!-- Button to toggle dark mode, for demonstration -->
+  <button (click)="toggleDarkMode()">Toggle Dark Mode</button>
 </div>
