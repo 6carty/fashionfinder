@@ -7,8 +7,6 @@ import { ClothingType } from '../entities/enumerations/clothing-type.model';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
-import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
-import { OutfitService } from '../entities/outfit/service/outfit.service';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -27,6 +25,7 @@ export class WardrobeComponent implements OnInit {
   clothingItem: IClothingItem | null = null;
   clothingTypeValues = Object.keys(ClothingType);
   statusValues = Object.keys(Status);
+  userInput: any;
 
   formData = {
     name: '',
@@ -54,6 +53,20 @@ export class WardrobeComponent implements OnInit {
     this.recievedData.unsubscribe();
   }
 
+  onCreateItemButtonClick() {
+    const inputElement = document.getElementById('clothingItemNameField') as HTMLInputElement;
+    this.userInput = inputElement.value;
+
+    const clothingItem: NewClothingItem = {
+      id: null,
+      name: this.userInput,
+      status: Status.NOTFORSALE,
+      type: ClothingType.OTHERS,
+    };
+
+    this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem));
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IClothingItem>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -62,7 +75,8 @@ export class WardrobeComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.previousState();
+    this.fetchClothingitem();
+    window.location.reload();
   }
 
   protected onSaveError(): void {

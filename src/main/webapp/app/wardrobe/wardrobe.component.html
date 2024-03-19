@@ -5,15 +5,8 @@
       <button [routerLink]="['/clothing-item/new']">add new item</button>
       <div class="apply-filter-button">apply filters</div>
 
-      <div class="filter-item">
-        <input type="checkbox" id="filter-color-blue" />
-        <label for="filter-color-blue">Red</label>
-      </div>
-
-      <div class="filter-item">
-        <input type="checkbox" id="filter-color-green" />
-        <label for="filter-color-green">Red</label>
-      </div>
+      <input type="text" id="clothingItemNameField" />
+      <button (click)="onCreateItemButtonClick()">submit item name</button>
     </div>
   </div>
   <div class="rectangle-display">
