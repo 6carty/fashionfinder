@@ -5,13 +5,15 @@
 }
 
 .rectangle-display {
-  position: absolute;
-  left: 25vw;
+  position: relative;
+  left: 5vw;
   top: 5vh;
+  padding-left: 5vw;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.5vh;
   height: 70vh;
-  width: 70vw;
+  width: 40vw;
+  transition-duration: 0.4s;
 }
 
 .filter-item {
@@ -37,13 +39,15 @@
 }
 
 .rectangle-filter {
-  position: absolute;
-  left: 2.5vw;
+  padding-left: 5vw;
+  position: relative;
+  left: 5vw;
   top: 5vh;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.5vh;
   height: 70vh;
   width: 20vw;
+  transition-duration: 0.4s;
 }
 
 .rectangle-displayContent {
@@ -59,6 +63,7 @@
   border-radius: 1.75vh;
   width: 17.5vw;
   height: 5vh;
+  top: 5px;
   transition-duration: 0.4s;
   &:hover {
     background-color: #aabdcc;
@@ -77,48 +82,4 @@
 
 .grid-container {
   display: inline-grid;
-}
-
-.table-clothes {
-  width: 65vw;
-  height: 65vh;
-  top: 2.5vh;
-  left: 2.5vw;
-  caption {
-    color: black;
-    text-align: center;
-  }
-  thead {
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    th {
-      text-align: center;
-      padding: 10px;
-      color: black;
-      border: 1px solid black;
-    }
-  }
-  tbody {
-    tr {
-      border-bottom: 1px solid black;
-    }
-    td {
-      padding: 10px;
-      border: 1px solid black;
-    }
-    th {
-      padding-left: 10px;
-      border: 1px solid black;
-    }
-  }
-  tfoot {
-    color: black;
-    border-bottom: 2px solid black;
-    tr {
-      td {
-        padding: 10px;
-        border: 1px solid black;
-      }
-    }
-  }
 }

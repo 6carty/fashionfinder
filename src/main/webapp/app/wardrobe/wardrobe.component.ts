@@ -26,6 +26,7 @@ export class WardrobeComponent implements OnInit {
   clothingTypeValues = Object.keys(ClothingType);
   statusValues = Object.keys(Status);
   userInput: any;
+  userInput2: any;
 
   formData = {
     name: '',
@@ -57,24 +58,28 @@ export class WardrobeComponent implements OnInit {
     const inputElement = document.getElementById('clothingItemNameField') as HTMLInputElement;
     this.userInput = inputElement.value;
 
+    const inputElement2 = document.getElementById('clothingItemDescriptionField') as HTMLInputElement;
+    this.userInput2 = inputElement2.value;
+
     const clothingItem: NewClothingItem = {
       id: null,
       name: this.userInput,
+      description: this.userInput2,
       status: Status.NOTFORSALE,
       type: ClothingType.OTHERS,
     };
 
-    this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem));
+    this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IClothingItem>>): void {
+  protected subscribeToSaveResponseClothing(result: Observable<HttpResponse<IClothingItem>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
+      next: () => this.onSaveSuccessClothing(),
       error: () => this.onSaveError(),
     });
   }
 
-  protected onSaveSuccess(): void {
+  protected onSaveSuccessClothing(): void {
     this.fetchClothingitem();
     window.location.reload();
   }

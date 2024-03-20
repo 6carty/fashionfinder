@@ -1,22 +1,31 @@
-<p>wardrobe works!</p>
 <div class="display-wardrobe">
   <div class="rectangle-filter">
     <div class="rectangle-displayContent">
       <button [routerLink]="['/clothing-item/new']">add new item</button>
       <div class="apply-filter-button">apply filters</div>
-
+      <h4>name</h4>
       <input type="text" id="clothingItemNameField" />
-      <button (click)="onCreateItemButtonClick()">submit item name</button>
+      <h4>description</h4>
+      <input type="text" id="clothingItemDescriptionField" />
+      <div class="apply-filter-button" (click)="onCreateItemButtonClick()">create new clothing item</div>
     </div>
   </div>
+
   <div class="rectangle-display">
     <div class="rectangle-displayContent">
+      <h1>Your Clothes</h1>
       <div class="grid-container" *ngFor="let item of recievedData; let i = index">
         <div class="filter-item">
           <input type="checkbox" id="{{ item.id }}" ngModel="selectedItems[i].isChecked" />
           <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="rectangle-filter">
+    <div class="rectangle-displayContent">
+      <h1>Your Outfits</h1>
     </div>
   </div>
 </div>
