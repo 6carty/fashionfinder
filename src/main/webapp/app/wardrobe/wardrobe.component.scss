@@ -5,6 +5,7 @@
 }
 
 .dropdown-new-item {
+  transition: all 0.4s ease;
   position: relative;
   display: inline-block;
   background-color: #bbcedd;
@@ -17,22 +18,27 @@
 }
 
 .dropdown-new-item-content {
-  display: none;
+  transition: all 0.4s ease;
+  overflow: hidden;
   position: absolute;
+  height: 0vh;
+  border-radius: 0vh;
   top: 5.1vh;
   left: -5px;
   background-color: rgba(87, 87, 87, 0.5);
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  padding: 1.25vh;
-  border-radius: 1.25vh;
-  transition-duration: 0.4s;
+  padding-top: 0px;
+  padding-left: 1.25vh;
+  padding-right: 1.25vh;
   backdrop-filter: blur(10px);
 }
 
 .dropdown-new-item:hover .dropdown-new-item-content {
-  transition-duration: 0.1s;
-  display: block;
+  transition: height 0.4s ease;
+  border-radius: 1.25vh;
+  padding: 1.25vh;
+  height: 60vh;
 }
 
 .grid-container-large {
