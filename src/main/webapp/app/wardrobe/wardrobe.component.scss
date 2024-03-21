@@ -4,6 +4,43 @@
   min-height: 75vh;
 }
 
+.dropdown-new-item {
+  position: relative;
+  display: inline-block;
+  background-color: #bbcedd;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 1.75vh;
+  width: 17.5vw;
+  height: 5vh;
+  top: 5px;
+}
+
+.dropdown-new-item-content {
+  display: none;
+  position: absolute;
+  top: 5.1vh;
+  left: -5px;
+  background-color: rgba(87, 87, 87, 0.5);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 1.25vh;
+  border-radius: 1.25vh;
+  transition-duration: 0.4s;
+  backdrop-filter: blur(10px);
+}
+
+.dropdown-new-item:hover .dropdown-new-item-content {
+  transition-duration: 0.1s;
+  display: block;
+}
+
+.grid-container-large {
+  display: grid;
+  grid-template-areas: 'left middle middle right';
+  grid-column-gap: 2.5vw;
+}
+
 .rectangle-display {
   position: relative;
   left: 5vw;
@@ -16,12 +53,14 @@
   transition-duration: 0.4s;
 }
 
-.filter-item {
-  margin: 5px; /* Adjust margins as needed */
+.clothing-item-box {
+  margin: 5px;
 
   label {
     display: block;
-    padding: 5px 10px; /* Adjust padding as needed */
+    padding: 5px 10px;
+    height: 15vh;
+    width: 15vh;
     background-color: #eee;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -33,7 +72,7 @@
     display: none;
 
     &:checked + label {
-      background-color: #ccc; /* Change background color on check */
+      background-color: #ccc;
     }
   }
 }
@@ -82,4 +121,5 @@
 
 .grid-container {
   display: inline-grid;
+  grid-column-gap: 5vh;
 }
