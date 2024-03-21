@@ -42,11 +42,12 @@
               <input type="text" id="clothingItemBrandField" />
               <h5>material</h5>
               <input type="text" id="clothingItemMaterialField" />
-
+              <br />
               <div class="apply-filter-button" (click)="onCreateItemButtonClick()"><h5>create new clothing item</h5></div>
             </div>
           </div>
-          <br /><br />
+
+          <br />
           <div class="apply-filter-button"><h5>apply filters</h5></div>
         </div>
       </div>
@@ -55,7 +56,8 @@
     <div class="rectangle-display">
       <div class="rectangle-displayContent">
         <h1>Your Clothes</h1>
-        <div class="grid-container" *ngFor="let item of recievedData; let i = index">
+
+        <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
           <div class="clothing-item-box">
             <input type="checkbox" id="{{ item.id }}" ngModel="selectedItems[i].isChecked" />
             <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
@@ -67,6 +69,13 @@
     <div class="rectangle-filter">
       <div class="rectangle-displayContent">
         <h1>Your Outfits</h1>
+
+        <div class="grid-container" *ngFor="let item of outfitReceivedData">
+          <div class="outfit-box">
+            <input type="checkbox" id="{{ item.id }}" />
+            <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
+          </div>
+        </div>
       </div>
     </div>
   </div>

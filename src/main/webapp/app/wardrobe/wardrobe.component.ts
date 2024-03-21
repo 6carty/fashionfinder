@@ -7,6 +7,8 @@ import { ClothingType } from '../entities/enumerations/clothing-type.model';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
+import { OutfitService } from '../entities/outfit/service/outfit.service';
+import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -14,7 +16,8 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./wardrobe.component.scss'],
 })
 export class WardrobeComponent implements OnInit {
-  recievedData: any;
+  clothingReceivedData: any;
+  outfitReceivedData: any;
   ownerId: any;
   currentUser: any;
   highestId: any;
@@ -33,25 +36,28 @@ export class WardrobeComponent implements OnInit {
     occasion: '',
     colour: '',
   };
-  constructor(private clothingItemService: ClothingItemService) {}
+  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
 
   ngOnInit(): void {
     //this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem))
-
-    this.fetchClothingitem();
+    this.fetchClothes();
   }
 
-  fetchClothingitem() {
-    const request = {
-      include: ['owner'],
-
-      // Add filters, pagination, sorting options here
-    };
+  fetchClothes() {
     this.clothingItemService.query('include.owner').subscribe(clothingItems => {
-      this.recievedData = clothingItems.body;
+      this.clothingReceivedData = clothingItems.body;
+      this.fetchOutfits();
     });
 
-    this.recievedData.unsubscribe();
+    this.clothingReceivedData.unsubscribe();
+  }
+
+  fetchOutfits() {
+    this.outfitService.query('include.owner').subscribe(outfits => {
+      this.outfitReceivedData = outfits.body;
+    });
+
+    this.outfitReceivedData.unsubscribe();
   }
 
   onCreateItemButtonClick() {
@@ -80,7 +86,8 @@ export class WardrobeComponent implements OnInit {
   }
 
   protected onSaveSuccessClothing(): void {
-    this.fetchClothingitem();
+    this.fetchClothes();
+    this.fetchOutfits();
     window.location.reload();
   }
 
@@ -91,7 +98,4 @@ export class WardrobeComponent implements OnInit {
   protected onSaveFinalize(): void {
     this.isSaving = false;
   }
-
-  previousState(): void {}
-  addnewitem(): void {}
 }
