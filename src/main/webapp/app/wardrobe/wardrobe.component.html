@@ -60,7 +60,7 @@
         <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
           <div class="clothing-item-box">
             <input type="checkbox" id="{{ item.id }}" ngModel="selectedItems[i].isChecked" />
-            <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
+            <label for="{{ item.id }}">{{ item.name?.toString() }} &#10; &#13; description: {{ item.description?.toString() }} </label>
           </div>
         </div>
       </div>
