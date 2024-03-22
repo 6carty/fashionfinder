@@ -1,3 +1,36 @@
+.text-xxlarge-center {
+  margin: 14px 14px 5px;
+  color: aliceblue;
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+.text-xlarge {
+  margin: 14px;
+  color: aliceblue;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.text-med {
+  margin: 14px;
+  color: aliceblue;
+  font-size: medium;
+  font-weight: lighter;
+  //padding-bottom: 20px;
+}
+
+.text-med-center {
+  margin-top: 5px;
+  margin-bottom: 40px;
+  color: aliceblue;
+  font-size: medium;
+  font-weight: lighter;
+  text-align: center;
+  //padding-bottom: 20px;
+}
+
 .display-analytics {
   display: flex;
   position: relative;
@@ -16,36 +49,48 @@
     display: flex;
   }
 
+  @mixin translucent-bg($color, $alpha) {
+    background-color: rgba($color, $alpha);
+  }
+
   .examplePane1 {
-    background-color: rgba(87, 87, 87, 0.5);
+    //background-color: lightsteelblue;
+    @include translucent-bg(white, 0.3);
     border-radius: 25px;
     min-height: 338px;
     max-height: min-content;
     width: 235px;
     margin-right: 20px;
+    backdrop-filter: blur(10px);
   }
 
   .examplePane2 {
-    background-color: rgba(87, 87, 87, 0.5);
+    //background-color: lightsteelblue;
+    @include translucent-bg(white, 0.3);
     border-radius: 25px;
     min-height: 338px;
-    min-width: 235px;
+    //min-width: 235px;
+    min-width: min-content;
     margin-right: 20px;
     margin-bottom: 20px;
+    backdrop-filter: blur(10px);
   }
 
   .examplePane3 {
-    background-color: rgba(87, 87, 87, 0.5);
+    //background-color: lightsteelblue;
+    @include translucent-bg(white, 0.3);
     border-radius: 25px;
     //min-height: 338px;
     height: min-content;
+    min-height: 200px;
     width: 250px;
     margin-right: 20px;
+    backdrop-filter: blur(10px);
   }
 
   .exampleImg {
     margin: 14px 54px 14px 14px;
-    background-color: white;
+    background-color: aliceblue;
     cursor: pointer;
     &:hover {
       background-color: lightgrey;
@@ -58,7 +103,7 @@
   .exampleImg2 {
     display: inline-block;
     margin: 14px 54px 14px 14px;
-    background-color: white;
+    background-color: aliceblue;
     cursor: pointer;
     &:hover {
       background-color: lightgrey;
@@ -66,20 +111,5 @@
     height: 200px;
     width: 200px;
     border-radius: 25px;
-  }
-
-  .text-xlarge {
-    margin: 14px;
-    color: white;
-    font-size: x-large;
-    font-weight: bold;
-  }
-
-  .text-med {
-    margin: 14px;
-    color: white;
-    font-size: medium;
-    font-weight: lighter;
-    //padding-bottom: 20px;
   }
 }
