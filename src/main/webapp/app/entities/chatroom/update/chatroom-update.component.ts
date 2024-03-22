@@ -1,15 +1,14 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { ChatroomFormService, ChatroomFormGroup } from './chatroom-form.service';
 import { IChatroom } from '../chatroom.model';
 import { ChatroomService } from '../service/chatroom.service';
-import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-chatroom-update',
@@ -19,16 +18,18 @@ export class ChatroomUpdateComponent implements OnInit {
   isSaving = false;
   chatroom: IChatroom | null = null;
 
+  usersSharedCollection: IUser[] = [];
+
   editForm: ChatroomFormGroup = this.chatroomFormService.createChatroomFormGroup();
 
   constructor(
-    protected dataUtils: DataUtils,
-    protected eventManager: EventManager,
     protected chatroomService: ChatroomService,
     protected chatroomFormService: ChatroomFormService,
-    protected elementRef: ElementRef,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ chatroom }) => {
@@ -36,32 +37,9 @@ export class ChatroomUpdateComponent implements OnInit {
       if (chatroom) {
         this.updateForm(chatroom);
       }
+
+      this.loadRelationshipsOptions();
     });
-  }
-
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
-  }
-
-  openFile(base64String: string, contentType: string | null | undefined): void {
-    this.dataUtils.openFile(base64String, contentType);
-  }
-
-  setFileData(event: Event, field: string, isImage: boolean): void {
-    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('teamprojectApp.error', { message: err.message })),
-    });
-  }
-
-  clearInputImage(field: string, fieldContentType: string, idInput: string): void {
-    this.editForm.patchValue({
-      [field]: null,
-      [fieldContentType]: null,
-    });
-    if (idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
-      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
-    }
   }
 
   previousState(): void {
@@ -100,5 +78,23 @@ export class ChatroomUpdateComponent implements OnInit {
   protected updateForm(chatroom: IChatroom): void {
     this.chatroom = chatroom;
     this.chatroomFormService.resetForm(this.editForm, chatroom);
+
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(
+      this.usersSharedCollection,
+      chatroom.creator,
+      chatroom.recipient
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(
+        map((users: IUser[]) =>
+          this.userService.addUserToCollectionIfMissing<IUser>(users, this.chatroom?.creator, this.chatroom?.recipient)
+        )
+      )
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }

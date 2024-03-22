@@ -22,8 +22,6 @@ export class ExchangeRequestService {
     return this.http.post<IExchangeRequest>(this.resourceUrl, exchangeRequest, { observe: 'response' });
   }
 
-
-
   update(exchangeRequest: IExchangeRequest): Observable<EntityResponseType> {
     return this.http.put<IExchangeRequest>(`${this.resourceUrl}/${this.getExchangeRequestIdentifier(exchangeRequest)}`, exchangeRequest, {
       observe: 'response',

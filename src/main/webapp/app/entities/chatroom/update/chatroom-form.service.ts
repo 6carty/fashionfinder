@@ -14,14 +14,13 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ChatroomFormGroupInput = IChatroom | PartialWithRequiredKeyOf<NewChatroom>;
 
-type ChatroomFormDefaults = Pick<NewChatroom, 'id' | 'userProfiles'>;
+type ChatroomFormDefaults = Pick<NewChatroom, 'id'>;
 
 type ChatroomFormGroupContent = {
   id: FormControl<IChatroom['id'] | NewChatroom['id']>;
   name: FormControl<IChatroom['name']>;
-  icon: FormControl<IChatroom['icon']>;
-  iconContentType: FormControl<IChatroom['iconContentType']>;
-  userProfiles: FormControl<IChatroom['userProfiles']>;
+  creator: FormControl<IChatroom['creator']>;
+  recipient: FormControl<IChatroom['recipient']>;
 };
 
 export type ChatroomFormGroup = FormGroup<ChatroomFormGroupContent>;
@@ -44,9 +43,8 @@ export class ChatroomFormService {
       name: new FormControl(chatroomRawValue.name, {
         validators: [Validators.required],
       }),
-      icon: new FormControl(chatroomRawValue.icon),
-      iconContentType: new FormControl(chatroomRawValue.iconContentType),
-      userProfiles: new FormControl(chatroomRawValue.userProfiles ?? []),
+      creator: new FormControl(chatroomRawValue.creator),
+      recipient: new FormControl(chatroomRawValue.recipient),
     });
   }
 
@@ -67,7 +65,6 @@ export class ChatroomFormService {
   private getFormDefaults(): ChatroomFormDefaults {
     return {
       id: null,
-      userProfiles: [],
     };
   }
 }

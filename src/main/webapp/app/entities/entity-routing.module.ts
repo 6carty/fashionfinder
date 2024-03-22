@@ -114,6 +114,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'OutfitPics' },
         loadChildren: () => import('./outfit-pic/outfit-pic.module').then(m => m.OutfitPicModule),
       },
+      {
+        path: 'chat-message',
+        data: { pageTitle: 'ChatMessages' },
+        loadChildren: () => import('./chat-message/chat-message.module').then(m => m.ChatMessageModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

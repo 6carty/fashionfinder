@@ -20,28 +20,33 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_icon">Icon</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('iconContentType')!.value + ';base64,' + editForm.get('icon')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('icon')!.value"
-              alt="chatroom image"
-            />
-            <div *ngIf="editForm.get('icon')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start">{{ editForm.get('iconContentType')!.value }}, {{ byteSize(editForm.get('icon')!.value!) }}</span>
-              <button
-                type="button"
-                (click)="clearInputImage('icon', 'iconContentType', 'file_icon')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
-            </div>
-            <input type="file" id="file_icon" data-cy="icon" (change)="setFileData($event, 'icon', true)" accept="image/*" />
-          </div>
-          <input type="hidden" class="form-control" name="icon" id="field_icon" data-cy="icon" formControlName="icon" />
-          <input type="hidden" class="form-control" name="iconContentType" id="field_iconContentType" formControlName="iconContentType" />
+          <label class="form-label" for="field_creator">Creator</label>
+          <select
+            class="form-control"
+            id="field_creator"
+            data-cy="creator"
+            name="creator"
+            formControlName="creator"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_recipient">Recipient</label>
+          <select
+            class="form-control"
+            id="field_recipient"
+            data-cy="recipient"
+            name="recipient"
+            formControlName="recipient"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
         </div>
       </div>
 

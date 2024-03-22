@@ -18,14 +18,13 @@
         <dd>
           <span>{{ chatroom.name }}</span>
         </dd>
-        <dt><span>Icon</span></dt>
+        <dt><span>Creator</span></dt>
         <dd>
-          <div *ngIf="chatroom.icon">
-            <a (click)="openFile(chatroom.icon, chatroom.iconContentType)">
-              <img [src]="'data:' + chatroom.iconContentType + ';base64,' + chatroom.icon" style="max-width: 100%" alt="chatroom image" />
-            </a>
-            {{ chatroom.iconContentType }}, {{ byteSize(chatroom.icon) }}
-          </div>
+          <span>{{ chatroom.creator?.id }}</span>
+        </dd>
+        <dt><span>Recipient</span></dt>
+        <dd>
+          <span>{{ chatroom.recipient?.id }}</span>
         </dd>
       </dl>
 

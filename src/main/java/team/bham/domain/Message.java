@@ -41,7 +41,7 @@ public class Message implements Serializable {
     private String messageImageContentType;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "chatrooms", "userProfiles" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "chatMessages", "creator", "recipient" }, allowSetters = true)
     private Chatroom chatroom;
 
     @ManyToOne

@@ -1,0 +1,20 @@
+entity Chatroom {
+    name String required
+}
+
+entity ChatMessage {
+    content TextBlob required,
+    timestamp Instant required,
+    image ImageBlob
+}
+
+relationship ManyToOne {
+    Chatroom{creator} to User,
+    Chatroom{recipient} to User,
+    ChatMessage{sender} to User
+}
+
+relationship OneToMany {
+    Chatroom{chatMessages} to ChatMessage{chatroom}
+}
+

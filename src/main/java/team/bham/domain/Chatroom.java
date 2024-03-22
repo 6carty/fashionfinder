@@ -30,40 +30,16 @@ public class Chatroom implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Lob
-    @Column(name = "icon")
-    private byte[] icon;
-
-    @Column(name = "icon_content_type")
-    private String iconContentType;
-
     @OneToMany(mappedBy = "chatroom")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "chatroom", "userProfile" }, allowSetters = true)
-    private Set<Message> chatrooms = new HashSet<>();
+    @JsonIgnoreProperties(value = { "sender", "chatroom" }, allowSetters = true)
+    private Set<ChatMessage> chatMessages = new HashSet<>();
 
-    @ManyToMany(mappedBy = "chatrooms")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(
-        value = {
-            "user",
-            "posts",
-            "comments",
-            "likes",
-            "clothingItems",
-            "outfits",
-            "messages",
-            "exchangeRequests",
-            "purchaseListings",
-            "saleListings",
-            "fashionTips",
-            "userMilestones",
-            "chatrooms",
-            "calendar",
-        },
-        allowSetters = true
-    )
-    private Set<UserProfile> userProfiles = new HashSet<>();
+    @ManyToOne
+    private User creator;
+
+    @ManyToOne
+    private User recipient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -93,91 +69,60 @@ public class Chatroom implements Serializable {
         this.name = name;
     }
 
-    public byte[] getIcon() {
-        return this.icon;
+    public Set<ChatMessage> getChatMessages() {
+        return this.chatMessages;
     }
 
-    public Chatroom icon(byte[] icon) {
-        this.setIcon(icon);
-        return this;
-    }
-
-    public void setIcon(byte[] icon) {
-        this.icon = icon;
-    }
-
-    public String getIconContentType() {
-        return this.iconContentType;
-    }
-
-    public Chatroom iconContentType(String iconContentType) {
-        this.iconContentType = iconContentType;
-        return this;
-    }
-
-    public void setIconContentType(String iconContentType) {
-        this.iconContentType = iconContentType;
-    }
-
-    public Set<Message> getChatrooms() {
-        return this.chatrooms;
-    }
-
-    public void setChatrooms(Set<Message> messages) {
-        if (this.chatrooms != null) {
-            this.chatrooms.forEach(i -> i.setChatroom(null));
+    public void setChatMessages(Set<ChatMessage> chatMessages) {
+        if (this.chatMessages != null) {
+            this.chatMessages.forEach(i -> i.setChatroom(null));
         }
-        if (messages != null) {
-            messages.forEach(i -> i.setChatroom(this));
+        if (chatMessages != null) {
+            chatMessages.forEach(i -> i.setChatroom(this));
         }
-        this.chatrooms = messages;
+        this.chatMessages = chatMessages;
     }
 
-    public Chatroom chatrooms(Set<Message> messages) {
-        this.setChatrooms(messages);
+    public Chatroom chatMessages(Set<ChatMessage> chatMessages) {
+        this.setChatMessages(chatMessages);
         return this;
     }
 
-    public Chatroom addChatroom(Message message) {
-        this.chatrooms.add(message);
-        message.setChatroom(this);
+    public Chatroom addChatMessages(ChatMessage chatMessage) {
+        this.chatMessages.add(chatMessage);
+        chatMessage.setChatroom(this);
         return this;
     }
 
-    public Chatroom removeChatroom(Message message) {
-        this.chatrooms.remove(message);
-        message.setChatroom(null);
+    public Chatroom removeChatMessages(ChatMessage chatMessage) {
+        this.chatMessages.remove(chatMessage);
+        chatMessage.setChatroom(null);
         return this;
     }
 
-    public Set<UserProfile> getUserProfiles() {
-        return this.userProfiles;
+    public User getCreator() {
+        return this.creator;
     }
 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        if (this.userProfiles != null) {
-            this.userProfiles.forEach(i -> i.removeChatroom(this));
-        }
-        if (userProfiles != null) {
-            userProfiles.forEach(i -> i.addChatroom(this));
-        }
-        this.userProfiles = userProfiles;
+    public void setCreator(User user) {
+        this.creator = user;
     }
 
-    public Chatroom userProfiles(Set<UserProfile> userProfiles) {
-        this.setUserProfiles(userProfiles);
+    public Chatroom creator(User user) {
+        this.setCreator(user);
         return this;
     }
 
-    public Chatroom addUserProfile(UserProfile userProfile) {
-        this.userProfiles.add(userProfile);
-        userProfile.getChatrooms().add(this);
-        return this;
+    public User getRecipient() {
+        return this.recipient;
     }
 
-    public Chatroom removeUserProfile(UserProfile userProfile) {
-        this.userProfiles.remove(userProfile);
-        userProfile.getChatrooms().remove(this);
+    public void setRecipient(User user) {
+        this.recipient = user;
+    }
+
+    public Chatroom recipient(User user) {
+        this.setRecipient(user);
         return this;
     }
 
@@ -206,8 +151,6 @@ public class Chatroom implements Serializable {
         return "Chatroom{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", icon='" + getIcon() + "'" +
-            ", iconContentType='" + getIconContentType() + "'" +
             "}";
     }
 }

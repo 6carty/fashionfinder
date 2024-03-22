@@ -1,11 +1,10 @@
-import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
+import { IUser } from 'app/entities/user/user.model';
 
 export interface IChatroom {
   id: number;
   name?: string | null;
-  icon?: string | null;
-  iconContentType?: string | null;
-  userProfiles?: Pick<IUserProfile, 'id'>[] | null;
+  creator?: Pick<IUser, 'id'> | null;
+  recipient?: Pick<IUser, 'id'> | null;
 }
 
 export type NewChatroom = Omit<IChatroom, 'id'> & { id: null };

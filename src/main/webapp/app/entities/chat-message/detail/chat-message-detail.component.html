@@ -1,0 +1,59 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="chatMessage">
+      <h2 data-cy="chatMessageDetailsHeading"><span>Chat Message</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ chatMessage.id }}</span>
+        </dd>
+        <dt><span>Content</span></dt>
+        <dd>
+          <span>{{ chatMessage.content }}</span>
+        </dd>
+        <dt><span>Timestamp</span></dt>
+        <dd>
+          <span>{{ chatMessage.timestamp | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="chatMessage.image">
+            <a (click)="openFile(chatMessage.image, chatMessage.imageContentType)">
+              <img
+                [src]="'data:' + chatMessage.imageContentType + ';base64,' + chatMessage.image"
+                style="max-width: 100%"
+                alt="chatMessage image"
+              />
+            </a>
+            {{ chatMessage.imageContentType }}, {{ byteSize(chatMessage.image) }}
+          </div>
+        </dd>
+        <dt><span>Sender</span></dt>
+        <dd>
+          <span>{{ chatMessage.sender?.id }}</span>
+        </dd>
+        <dt><span>Chatroom</span></dt>
+        <dd>
+          <div *ngIf="chatMessage.chatroom">
+            <a [routerLink]="['/chatroom', chatMessage.chatroom.id, 'view']">{{ chatMessage.chatroom.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/chat-message', chatMessage.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

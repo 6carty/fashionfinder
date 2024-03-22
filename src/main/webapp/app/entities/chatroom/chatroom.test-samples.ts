@@ -6,21 +6,17 @@ export const sampleWithRequiredData: IChatroom = {
 };
 
 export const sampleWithPartialData: IChatroom = {
-  id: 42501,
-  name: 'Incredible',
-  icon: '../fake-data/blob/hipster.png',
-  iconContentType: 'unknown',
+  id: 72709,
+  name: 'Wooden Assurance',
 };
 
 export const sampleWithFullData: IChatroom = {
-  id: 72618,
-  name: 'deliverables connecting',
-  icon: '../fake-data/blob/hipster.png',
-  iconContentType: 'unknown',
+  id: 42345,
+  name: 'Sports Steel quantifying',
 };
 
 export const sampleWithNewData: NewChatroom = {
-  name: 'Refined',
+  name: 'Indiana program',
   id: null,
 };
 

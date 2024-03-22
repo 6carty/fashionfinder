@@ -10,6 +10,9 @@ import { ChatroomFormService } from './chatroom-form.service';
 import { ChatroomService } from '../service/chatroom.service';
 import { IChatroom } from '../chatroom.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { ChatroomUpdateComponent } from './chatroom-update.component';
 
 describe('Chatroom Management Update Component', () => {
@@ -18,6 +21,7 @@ describe('Chatroom Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let chatroomFormService: ChatroomFormService;
   let chatroomService: ChatroomService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +44,48 @@ describe('Chatroom Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     chatroomFormService = TestBed.inject(ChatroomFormService);
     chatroomService = TestBed.inject(ChatroomService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call User query and add missing value', () => {
       const chatroom: IChatroom = { id: 456 };
+      const creator: IUser = { id: 82190 };
+      chatroom.creator = creator;
+      const recipient: IUser = { id: 81454 };
+      chatroom.recipient = recipient;
+
+      const userCollection: IUser[] = [{ id: 95584 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [creator, recipient];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ chatroom });
       comp.ngOnInit();
 
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const chatroom: IChatroom = { id: 456 };
+      const creator: IUser = { id: 38546 };
+      chatroom.creator = creator;
+      const recipient: IUser = { id: 4646 };
+      chatroom.recipient = recipient;
+
+      activatedRoute.data = of({ chatroom });
+      comp.ngOnInit();
+
+      expect(comp.usersSharedCollection).toContain(creator);
+      expect(comp.usersSharedCollection).toContain(recipient);
       expect(comp.chatroom).toEqual(chatroom);
     });
   });
@@ -120,6 +155,18 @@ describe('Chatroom Management Update Component', () => {
       expect(chatroomService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

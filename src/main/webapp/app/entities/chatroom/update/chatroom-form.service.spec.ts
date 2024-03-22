@@ -21,8 +21,8 @@ describe('Chatroom Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             name: expect.any(Object),
-            icon: expect.any(Object),
-            userProfiles: expect.any(Object),
+            creator: expect.any(Object),
+            recipient: expect.any(Object),
           })
         );
       });
@@ -34,8 +34,8 @@ describe('Chatroom Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             name: expect.any(Object),
-            icon: expect.any(Object),
-            userProfiles: expect.any(Object),
+            creator: expect.any(Object),
+            recipient: expect.any(Object),
           })
         );
       });

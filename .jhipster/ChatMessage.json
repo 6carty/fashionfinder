@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20240322022024",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chat_message",
+  "fields": [
+    {
+      "fieldName": "content",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "timestamp",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ChatMessage",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "sender",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "chatroom",
+      "otherEntityRelationshipName": "chatMessages",
+      "relationshipName": "chatroom",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

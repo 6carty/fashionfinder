@@ -34,8 +34,6 @@ export class ExchangeRequestComponent implements OnInit {
     this.load();
   }
 
-
-
   delete(exchangeRequest: IExchangeRequest): void {
     const modalRef = this.modalService.open(ExchangeRequestDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.exchangeRequest = exchangeRequest;

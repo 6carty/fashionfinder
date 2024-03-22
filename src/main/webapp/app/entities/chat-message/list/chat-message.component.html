@@ -1,0 +1,131 @@
+<div>
+  <h2 id="page-heading" data-cy="ChatMessageHeading">
+    <span>Chat Messages</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-chat-message"
+        [routerLink]="['/chat-message/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Chat Message </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="chatMessages?.length === 0">
+    <span>No Chat Messages found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="chatMessages && chatMessages.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="content">
+            <div class="d-flex">
+              <span>Content</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="timestamp">
+            <div class="d-flex">
+              <span>Timestamp</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="image">
+            <div class="d-flex">
+              <span>Image</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sender.id">
+            <div class="d-flex">
+              <span>Sender</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="chatroom.id">
+            <div class="d-flex">
+              <span>Chatroom</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chatMessage of chatMessages; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/chat-message', chatMessage.id, 'view']">{{ chatMessage.id }}</a>
+          </td>
+          <td>{{ chatMessage.content }}</td>
+          <td>{{ chatMessage.timestamp | formatMediumDatetime }}</td>
+          <td>
+            <a *ngIf="chatMessage.image" (click)="openFile(chatMessage.image, chatMessage.imageContentType)">
+              <img
+                [src]="'data:' + chatMessage.imageContentType + ';base64,' + chatMessage.image"
+                style="max-height: 30px"
+                alt="chatMessage image"
+              />
+            </a>
+            <span *ngIf="chatMessage.image">{{ chatMessage.imageContentType }}, {{ byteSize(chatMessage.image) }}</span>
+          </td>
+          <td>
+            {{ chatMessage.sender?.id }}
+          </td>
+          <td>
+            <div *ngIf="chatMessage.chatroom">
+              <a [routerLink]="['/chatroom', chatMessage.chatroom.id, 'view']">{{ chatMessage.chatroom.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/chat-message', chatMessage.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/chat-message', chatMessage.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(chatMessage)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

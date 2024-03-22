@@ -118,7 +118,7 @@ public class UserProfile implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "chatroom_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "chatrooms", "userProfiles" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "chatMessages", "creator", "recipient" }, allowSetters = true)
     private Set<Chatroom> chatrooms = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "userProfile" }, allowSetters = true)
@@ -600,13 +600,11 @@ public class UserProfile implements Serializable {
 
     public UserProfile addChatroom(Chatroom chatroom) {
         this.chatrooms.add(chatroom);
-        chatroom.getUserProfiles().add(this);
         return this;
     }
 
     public UserProfile removeChatroom(Chatroom chatroom) {
         this.chatrooms.remove(chatroom);
-        chatroom.getUserProfiles().remove(this);
         return this;
     }
 

@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Chatroom;
@@ -9,4 +10,10 @@ import team.bham.domain.Chatroom;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ChatroomRepository extends JpaRepository<Chatroom, Long> {}
+public interface ChatroomRepository extends JpaRepository<Chatroom, Long> {
+    @Query("select chatroom from Chatroom chatroom where chatroom.creator.login = ?#{principal.username}")
+    List<Chatroom> findByCreatorIsCurrentUser();
+
+    @Query("select chatroom from Chatroom chatroom where chatroom.recipient.login = ?#{principal.username}")
+    List<Chatroom> findByRecipientIsCurrentUser();
+}

@@ -128,12 +128,6 @@ public class ChatroomResource {
                 if (chatroom.getName() != null) {
                     existingChatroom.setName(chatroom.getName());
                 }
-                if (chatroom.getIcon() != null) {
-                    existingChatroom.setIcon(chatroom.getIcon());
-                }
-                if (chatroom.getIconContentType() != null) {
-                    existingChatroom.setIconContentType(chatroom.getIconContentType());
-                }
 
                 return existingChatroom;
             })

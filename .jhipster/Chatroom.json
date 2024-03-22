@@ -9,11 +9,6 @@
       "fieldName": "name",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "icon",
-      "fieldType": "byte[]",
-      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
@@ -23,18 +18,20 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityField": "name",
-      "otherEntityName": "message",
+      "otherEntityName": "chatMessage",
       "otherEntityRelationshipName": "chatroom",
-      "relationshipName": "chatroom",
+      "relationshipName": "chatMessages",
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "userProfile",
-      "otherEntityRelationshipName": "chatroom",
-      "ownerSide": false,
-      "relationshipName": "userProfile",
-      "relationshipType": "many-to-many"
+      "otherEntityName": "user",
+      "relationshipName": "creator",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "recipient",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

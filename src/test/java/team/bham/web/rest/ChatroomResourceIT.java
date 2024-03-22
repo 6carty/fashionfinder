@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.Chatroom;
 import team.bham.repository.ChatroomRepository;
@@ -32,11 +31,6 @@ class ChatroomResourceIT {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final byte[] DEFAULT_ICON = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_ICON = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_ICON_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_ICON_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/chatrooms";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -62,7 +56,7 @@ class ChatroomResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Chatroom createEntity(EntityManager em) {
-        Chatroom chatroom = new Chatroom().name(DEFAULT_NAME).icon(DEFAULT_ICON).iconContentType(DEFAULT_ICON_CONTENT_TYPE);
+        Chatroom chatroom = new Chatroom().name(DEFAULT_NAME);
         return chatroom;
     }
 
@@ -73,7 +67,7 @@ class ChatroomResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Chatroom createUpdatedEntity(EntityManager em) {
-        Chatroom chatroom = new Chatroom().name(UPDATED_NAME).icon(UPDATED_ICON).iconContentType(UPDATED_ICON_CONTENT_TYPE);
+        Chatroom chatroom = new Chatroom().name(UPDATED_NAME);
         return chatroom;
     }
 
@@ -96,8 +90,6 @@ class ChatroomResourceIT {
         assertThat(chatroomList).hasSize(databaseSizeBeforeCreate + 1);
         Chatroom testChatroom = chatroomList.get(chatroomList.size() - 1);
         assertThat(testChatroom.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testChatroom.getIcon()).isEqualTo(DEFAULT_ICON);
-        assertThat(testChatroom.getIconContentType()).isEqualTo(DEFAULT_ICON_CONTENT_TYPE);
     }
 
     @Test
@@ -147,9 +139,7 @@ class ChatroomResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(chatroom.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].iconContentType").value(hasItem(DEFAULT_ICON_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].icon").value(hasItem(Base64Utils.encodeToString(DEFAULT_ICON))));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
     @Test
@@ -164,9 +154,7 @@ class ChatroomResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(chatroom.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.iconContentType").value(DEFAULT_ICON_CONTENT_TYPE))
-            .andExpect(jsonPath("$.icon").value(Base64Utils.encodeToString(DEFAULT_ICON)));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
 
     @Test
@@ -188,7 +176,7 @@ class ChatroomResourceIT {
         Chatroom updatedChatroom = chatroomRepository.findById(chatroom.getId()).get();
         // Disconnect from session so that the updates on updatedChatroom are not directly saved in db
         em.detach(updatedChatroom);
-        updatedChatroom.name(UPDATED_NAME).icon(UPDATED_ICON).iconContentType(UPDATED_ICON_CONTENT_TYPE);
+        updatedChatroom.name(UPDATED_NAME);
 
         restChatroomMockMvc
             .perform(
@@ -203,8 +191,6 @@ class ChatroomResourceIT {
         assertThat(chatroomList).hasSize(databaseSizeBeforeUpdate);
         Chatroom testChatroom = chatroomList.get(chatroomList.size() - 1);
         assertThat(testChatroom.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testChatroom.getIcon()).isEqualTo(UPDATED_ICON);
-        assertThat(testChatroom.getIconContentType()).isEqualTo(UPDATED_ICON_CONTENT_TYPE);
     }
 
     @Test
@@ -275,8 +261,6 @@ class ChatroomResourceIT {
         Chatroom partialUpdatedChatroom = new Chatroom();
         partialUpdatedChatroom.setId(chatroom.getId());
 
-        partialUpdatedChatroom.icon(UPDATED_ICON).iconContentType(UPDATED_ICON_CONTENT_TYPE);
-
         restChatroomMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedChatroom.getId())
@@ -290,8 +274,6 @@ class ChatroomResourceIT {
         assertThat(chatroomList).hasSize(databaseSizeBeforeUpdate);
         Chatroom testChatroom = chatroomList.get(chatroomList.size() - 1);
         assertThat(testChatroom.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testChatroom.getIcon()).isEqualTo(UPDATED_ICON);
-        assertThat(testChatroom.getIconContentType()).isEqualTo(UPDATED_ICON_CONTENT_TYPE);
     }
 
     @Test
@@ -306,7 +288,7 @@ class ChatroomResourceIT {
         Chatroom partialUpdatedChatroom = new Chatroom();
         partialUpdatedChatroom.setId(chatroom.getId());
 
-        partialUpdatedChatroom.name(UPDATED_NAME).icon(UPDATED_ICON).iconContentType(UPDATED_ICON_CONTENT_TYPE);
+        partialUpdatedChatroom.name(UPDATED_NAME);
 
         restChatroomMockMvc
             .perform(
@@ -321,8 +303,6 @@ class ChatroomResourceIT {
         assertThat(chatroomList).hasSize(databaseSizeBeforeUpdate);
         Chatroom testChatroom = chatroomList.get(chatroomList.size() - 1);
         assertThat(testChatroom.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testChatroom.getIcon()).isEqualTo(UPDATED_ICON);
-        assertThat(testChatroom.getIconContentType()).isEqualTo(UPDATED_ICON_CONTENT_TYPE);
     }
 
     @Test

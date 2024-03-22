@@ -44,9 +44,15 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="icon">
+          <th scope="col" jhiSortBy="creator.id">
             <div class="d-flex">
-              <span>Icon</span>
+              <span>Creator</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recipient.id">
+            <div class="d-flex">
+              <span>Recipient</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -60,10 +66,10 @@
           </td>
           <td>{{ chatroom.name }}</td>
           <td>
-            <a *ngIf="chatroom.icon" (click)="openFile(chatroom.icon, chatroom.iconContentType)">
-              <img [src]="'data:' + chatroom.iconContentType + ';base64,' + chatroom.icon" style="max-height: 30px" alt="chatroom image" />
-            </a>
-            <span *ngIf="chatroom.icon">{{ chatroom.iconContentType }}, {{ byteSize(chatroom.icon) }}</span>
+            {{ chatroom.creator?.id }}
+          </td>
+          <td>
+            {{ chatroom.recipient?.id }}
           </td>
           <td class="text-end">
             <div class="btn-group">
