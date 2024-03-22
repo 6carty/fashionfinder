@@ -36,6 +36,7 @@ import { SustainabilityComponent } from './sustainability/sustainability.compone
 import { CommunitySideNavComponent } from './community-side-nav/community-side-nav.component';
 import { CommunityFeedComponent } from './community-feed/community-feed.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
     CommunitySideNavComponent,
     CommunityFeedComponent,
     AnalyticsComponent,
+    PreferencesComponent,
   ],
   bootstrap: [MainComponent],
 })

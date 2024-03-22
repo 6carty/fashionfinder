@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
-
+import { DarkModeService } from 'app/shared/dark-mode.service';
 import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
@@ -12,10 +12,15 @@ import { AccountService } from 'app/core/auth/account.service';
 export class MainComponent implements OnInit {
   isDarkMode: boolean = false;
 
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {
-    // Check local storage for dark mode preference on initialization
-    const savedMode = localStorage.getItem('darkMode');
-    this.isDarkMode = savedMode === 'true';
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+    private darkModeService: DarkModeService
+  ) {
+    this.darkModeService.darkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
   }
 
   ngOnInit(): void {
@@ -36,9 +41,7 @@ export class MainComponent implements OnInit {
   }
 
   toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    // Save the preference
-    localStorage.setItem('darkMode', this.isDarkMode.toString());
+    this.darkModeService.toggleDarkMode();
   }
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {

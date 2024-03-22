@@ -456,6 +456,12 @@
               </a>
             </li>
             <li *ngSwitchCase="true">
+              <a class="dropdown-item" routerLink="/preferences" routerLinkActive="active" (click)="collapseNavbar()" data-cy="preferences">
+                <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
+                <span>Preferences</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="true">
               <a
                 class="dropdown-item"
                 routerLink="account/password"

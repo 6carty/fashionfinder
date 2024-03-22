@@ -15,6 +15,7 @@ import { MixAndMatchComponent } from './mix-and-match/mix-and-match.component';
 import { WardrobeComponent } from './wardrobe/wardrobe.component';
 import { SustainabilityComponent } from './sustainability/sustainability.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,10 @@ import { AnalyticsComponent } from './analytics/analytics.component';
         {
           path: 'analytics',
           component: AnalyticsComponent,
+        },
+        {
+          path: 'preferences',
+          component: PreferencesComponent,
         },
         navbarRoute,
         ...errorRoute,
