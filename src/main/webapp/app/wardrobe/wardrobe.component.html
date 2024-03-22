@@ -69,6 +69,23 @@
     <div class="rectangle-filter">
       <div class="rectangle-displayContent">
         <h1>Your Outfits</h1>
+        <div class="dropdown-new-item">
+          <h5>create new outfit</h5>
+          <div class="dropdown-new-item-content-outfit">
+            <h5>NAME</h5>
+            <input type="text" id="OutfitNameField" />
+            <h5>OCCASION</h5>
+            <select id="OutfitOccasionField">
+              <option>formal</option>
+              <option>business</option>
+              <option>casual</option>
+              <option>sports</option>
+            </select>
+            <br /><br />
+            <div class="apply-filter-button" (click)="onCreateOutfitButtonClick()"><h5>create new outfit</h5></div>
+          </div>
+        </div>
+        <br /><br />
 
         <div class="grid-container" *ngFor="let item of outfitReceivedData">
           <div class="outfit-box">

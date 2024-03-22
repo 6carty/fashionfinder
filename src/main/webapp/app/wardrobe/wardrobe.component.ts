@@ -9,6 +9,7 @@ import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
+import { Occasion } from '../entities/enumerations/occasion.model';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -78,7 +79,26 @@ export class WardrobeComponent implements OnInit {
     this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
   }
 
+  onCreateOutfitButtonClick() {
+    const inputElement = document.getElementById('OutfitNameField') as HTMLInputElement;
+    this.userInput = inputElement.value;
+
+    const outfit: NewOutfit = {
+      id: null,
+      name: this.userInput,
+      occasion: Occasion.BUSINESS,
+    };
+
+    this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
+  }
   protected subscribeToSaveResponseClothing(result: Observable<HttpResponse<IClothingItem>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccessClothing(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected subscribeToSaveResponseOutfit(result: Observable<HttpResponse<IOutfit>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccessClothing(),
       error: () => this.onSaveError(),
@@ -87,7 +107,6 @@ export class WardrobeComponent implements OnInit {
 
   protected onSaveSuccessClothing(): void {
     this.fetchClothes();
-    this.fetchOutfits();
     window.location.reload();
   }
 

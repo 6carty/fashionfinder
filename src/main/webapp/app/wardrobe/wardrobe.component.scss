@@ -41,6 +41,30 @@
   height: 60vh;
 }
 
+.dropdown-new-item-content-outfit {
+  transition: all 0.4s ease;
+  overflow: hidden;
+  position: absolute;
+  height: 0vh;
+  border-radius: 0vh;
+  top: 5.1vh;
+  left: -5px;
+  background-color: rgba(87, 87, 87, 0.5);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding-top: 0px;
+  padding-left: 1.25vh;
+  padding-right: 1.25vh;
+  backdrop-filter: blur(10px);
+}
+
+.dropdown-new-item:hover .dropdown-new-item-content-outfit {
+  transition: height 0.4s ease;
+  border-radius: 1.25vh;
+  padding: 1.25vh;
+  height: 40vh;
+}
+
 .grid-container-large {
   display: grid;
   grid-template-areas: 'left middle middle right';
