@@ -38,18 +38,21 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="caption">
-            <div class="d-flex">
-              <span>Caption</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+
           <th scope="col" jhiSortBy="image">
             <div class="d-flex">
               <span>Image</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+
+          <th scope="col" jhiSortBy="caption">
+            <div class="d-flex">
+              <span>Caption</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+
           <th scope="col" jhiSortBy="createdDate">
             <div class="d-flex">
               <span>Created Date</span>
@@ -79,16 +82,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let post of posts; trackBy: trackId" data-cy="entityTable">
+          <!--        [hidden]="post.author?.id !== 1101"-->
           <td>
             <a [routerLink]="['/post', post.id, 'view']">{{ post.id }}</a>
           </td>
-          <td>{{ post.caption }}</td>
+
           <td>
             <a *ngIf="post.image" (click)="openFile(post.image, post.imageContentType)">
               <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" style="max-height: 30px" alt="post image" />
             </a>
-            <span *ngIf="post.image">{{ post.imageContentType }}, {{ byteSize(post.image) }}</span>
+            <!--[puts the file path of the image]  <span *ngIf="post.image">{{ post.imageContentType }}, {{ byteSize(post.image) }}</span>-->
           </td>
+
+          <td>{{ post.caption }}</td>
           <td>{{ post.createdDate | formatMediumDate }}</td>
           <td>{{ post.editedDate | formatMediumDate }}</td>
           <td>{{ post.totalLikes }}</td>
