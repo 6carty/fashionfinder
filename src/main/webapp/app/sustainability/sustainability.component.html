@@ -9,8 +9,8 @@
   <title>Sustainable Shopping for Clothes</title>
 </head>
 
-<div class="grid">
-  <div class="column" style="background-color:#aaa;">
+<div class="grid1">
+  <div class="column">
     <h2 style="text-align: center">"Regeneration"</h2>
     <p style="text-align: center">We are committed to enhancing the well-being of our planet and its people.</p>
     <ol>
@@ -53,7 +53,7 @@
       </li>
     </ol>
   </div>
-  <div class="column" style="background-color:#bbb;">
+  <div class="column">
     <h2 style="text-align: center">How can I help the earth by doing this?<hr style="height: 2px" ></h2>
     <ol>
       <li>
@@ -92,32 +92,192 @@
 
     </ol>
   </div>
-  <div class="column" style="background-color:#ccc;">
+  <div class="column">
+    <p>Something here</p>
+  </div>
+</div>
+
+<div class="ExchangeRequest"  >
+  <div class="ExchangeRequestGrid">
     <div class="headingText">
       <h2 style="text-align: center">Now it's your chance to save the Earth!</h2>
       <p style="text-align: center">Click the buttons below to exchange your clothes with the community.</p>
     </div>
+    <div class="ButtonContainer">
+      <button class="BuySellButton" [routerLink]="['/clothing-item/new']">add new item</button>
+      <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">exchange</button>
+    </div>
 
-    <button class="BuySellButton" [routerLink]="['/clothing-item/new']">add new item</button>
-    <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">exchange</button>
+
+
+
+
 
     <div class="ExchangeRequestDetail" >
+
       <h3>Latest Exchange Requests</h3>
-      <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
-        <div *ngIf="exchangeRequest">
-          <p>ID: {{ exchangeRequest.id }}</p>
-          <p>Offering Item: {{ exchangeRequest.offeringItem }}</p>
-          <p>Requested Item: {{ exchangeRequest.requestedItem }}</p>
-          <p>Requester ID: {{ exchangeRequest.requester?.id }}</p>
-        <!-- Add more details as needed -->
+      <span *ngIf="!account"> Sign in to see the latest requests </span>
+      <span *ngIf="account"> Here are all the requests</span>
+      <div class="grid-container">
+        <div class="grid-item-header">ID</div>
+        <div class="grid-item-header">Offering Item</div>
+        <div class="grid-item-header">Requested Item</div>
+        <div class="grid-item-header">Requester ID</div>
+
+        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
+
+          <div class="grid-item">{{ exchangeRequest.id }}</div>
+          <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>
+          <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>
+          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
+        </ng-container>
       </div>
-      <div *ngIf="!exchangeRequest">
-        <p>No exchange request details available.</p>
-      </div>
+    </div>
+    <div class="Other-user-exchange-request">
+      <h3>Other user exchange request</h3>
+      <div class="grid-container">
+        <div class="grid-item-header">ID</div>
+        <div class="grid-item-header">Offering Item</div>
+        <div class="grid-item-header">Requested Item</div>
+        <div class="grid-item-header">Requester ID</div>
+        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
+          <div class="grid-item">{{ exchangeRequest.id }}</div>
+          <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>
+          <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>
+          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
+        </ng-container>
       </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+<!--        <div class="grid-item" style="grid-column: 1;">-->
+<!--          <strong>ID</strong>-->
+<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.id }}</div>-->
+<!--            <div *ngIf="!exchangeRequest">-->
+<!--              <p>No exchange request details available.</p>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="grid-item" style="grid-column: 2;">-->
+<!--          <strong>Offering Item</strong>-->
+<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.offeringItem }}</div>-->
+<!--            <div *ngIf="!exchangeRequest">-->
+<!--              <p>No exchange request details available.</p>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="grid-item" style="grid-column: 3;">-->
+<!--          <strong>Requested Item</strong>-->
+<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.requestedItem }}</div>-->
+<!--            <div *ngIf="!exchangeRequest">-->
+<!--              <p>No exchange request details available.</p>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="grid-item" style="grid-column: 4;">-->
+<!--          <strong>Requester ID</strong>-->
+<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.requester?.id }}</div>-->
+<!--            <div *ngIf="!exchangeRequest">-->
+<!--              <p>No exchange request details available.</p>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+
+
+<!--        <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)" class="grid-item">-->
+<!--          <div *ngIf="exchangeRequest">-->
+<!--            <span style="margin-right: 10px">ID: {{ exchangeRequest.id }}</span>-->
+<!--            <span style="margin-right: 10px"> Offering Item: {{ exchangeRequest.offeringItem }}</span>-->
+<!--            <span style="margin-right: 10px"> Requested Item: {{ exchangeRequest.requestedItem }}</span>-->
+<!--            <span style="margin-right: 10px"> Requester ID: {{ exchangeRequest.requester?.id }}</span>-->
+<!--            &lt;!&ndash; Add more details as needed &ndash;&gt;-->
+<!--          </div>-->
+<!--          <div *ngIf="!exchangeRequest">-->
+<!--            <p>No exchange request details available.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+
+
+
+<!--        <div class="another-grid-item">1</div>-->
+<!--        <div class="another-grid-item">2</div>-->
+<!--        <div class="another-grid-item">3</div>-->
+<!--        <div class="another-grid-item">4</div>-->
+<!--        <div class="another-grid-item">5</div>-->
+<!--        <div class="another-grid-item">6</div>-->
+<!--        <div class="another-grid-item">7</div>-->
+<!--        <div class="another-grid-item">8</div>-->
+<!--        <div class="another-grid-item">9</div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="grid-container">-->
+<!--      <div class="grid-item-header">ID</div>-->
+<!--      <div class="grid-item-header">Offering Item</div>-->
+<!--      <div class="grid-item-header">Requested Item</div>-->
+<!--      <div class="grid-item-header">Requester ID</div>-->
+
+<!--      <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--        <div class="grid-item">{{ exchangeRequest.id }}</div>-->
+<!--        <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>-->
+<!--        <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>-->
+<!--        <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
+<!--      </ng-container>-->
+
+
+
+
+
+
+
+      <!--        <div class="grid-item">1</div>-->
+      <!--        <div class="grid-item">2</div>-->
+      <!--        <div class="grid-item">3</div>-->
+      <!--        <div class="grid-item">4</div>-->
+      <!--        <div class="grid-item">5</div>-->
+      <!--        <div class="grid-item">6</div>-->
+      <!--        <div class="grid-item">7</div>-->
+      <!--        <div class="grid-item">8</div>-->
+      <!--        <div class="grid-item">9</div>-->
+
+
+
+
+
+<!--      <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--        <div *ngIf="exchangeRequest">-->
+<!--          <span style="margin-right: 10px">ID: {{ exchangeRequest.id }}</span>-->
+<!--          <span style="margin-right: 10px"> Offering Item: {{ exchangeRequest.offeringItem }}</span>-->
+<!--          <span style="margin-right: 10px"> Requested Item: {{ exchangeRequest.requestedItem }}</span>-->
+<!--          <span style="margin-right: 10px"> Requester ID: {{ exchangeRequest.requester?.id }}</span>-->
+<!--          &lt;!&ndash; Add more details as needed &ndash;&gt;-->
+<!--        </div>-->
+<!--        <div *ngIf="!exchangeRequest">-->
+<!--          <p>No exchange request details available.</p>-->
+<!--        </div>-->
+<!--      </div>-->
+
 
 
 
