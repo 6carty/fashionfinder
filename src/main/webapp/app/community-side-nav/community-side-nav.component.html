@@ -1,13 +1,15 @@
 <!-- sidebar.component.html -->
 <div class="user-details">
-  <!-- Profile Picture -->
-  <div class="profile-picture">
-    <img src="content/images/jhipster_family_member_0_head-192.png" alt="Profile Picture" class="circle-image" />
-  </div>
-  <!-- Display Name -->
-  <div class="display-name">
-    <h5>Joseph White</h5>
-    <p class="text-muted">@josephwhite02</p>
+  <div *ngIf="account">
+    <!-- Profile Picture -->
+    <div class="profile-picture">
+      <img src="{{ userProfile?.profilePicture }}" alt="Profile Picture" class="circle-image" />
+    </div>
+    <!-- Display Name -->
+    <div class="display-name">
+      <h6>{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h6>
+      <p class="text-muted">@{{ userProfile?.user }}</p>
+    </div>
   </div>
 
   <div class="sidebar">
@@ -39,6 +41,7 @@
         <span class="stat-value"><h4>238</h4></span>
       </a>
     </div>
+
     <!-- Button for Uploads -->
     <button class="post-btn" [routerLink]="['/post/new']">
       <b>Create Post</b>

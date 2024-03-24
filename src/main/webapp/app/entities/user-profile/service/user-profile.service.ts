@@ -27,7 +27,7 @@ export type EntityArrayResponseType = HttpResponse<IUserProfile[]>;
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/user-profiles');
-
+  protected userProfile: IUserProfile | null = null;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(userProfile: NewUserProfile): Observable<EntityResponseType> {
@@ -72,6 +72,9 @@ export class UserProfileService {
     return userProfile.id;
   }
 
+  getUserProfile(): IUserProfile | null {
+    return this.userProfile;
+  }
   compareUserProfile(o1: Pick<IUserProfile, 'id'> | null, o2: Pick<IUserProfile, 'id'> | null): boolean {
     return o1 && o2 ? this.getUserProfileIdentifier(o1) === this.getUserProfileIdentifier(o2) : o1 === o2;
   }
