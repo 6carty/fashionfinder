@@ -98,13 +98,11 @@ entity Calendar {
 entity FashionTip {
     title1 String required
     description1 String
-    title2 String
-    description2 String
 }
 
 entity ExchangeRequest {
-    offeringItem Long required
-    requestedItem Long required
+    image ImageBlob
+    description String required
 }
 
 entity PurchaseListing {
@@ -170,6 +168,7 @@ relationship ManyToOne {
     Event{outfit(name)} to Outfit
     UserMilestone to MilestoneType{type}
     Message to Chatroom{chatroom(name)}
+    ExchangeRequest{ClothingItem(name)} to ClothingItem
 }
 
 relationship OneToMany {

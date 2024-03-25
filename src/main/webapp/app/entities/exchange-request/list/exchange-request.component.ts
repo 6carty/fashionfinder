@@ -7,6 +7,7 @@ import { IExchangeRequest } from '../exchange-request.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, ExchangeRequestService } from '../service/exchange-request.service';
 import { ExchangeRequestDeleteDialogComponent } from '../delete/exchange-request-delete-dialog.component';
+import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class ExchangeRequestComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
+    protected dataUtils: DataUtils,
     protected modalService: NgbModal
   ) {}
 
@@ -32,6 +34,14 @@ export class ExchangeRequestComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 
   delete(exchangeRequest: IExchangeRequest): void {
@@ -91,6 +101,7 @@ export class ExchangeRequestComponent implements OnInit {
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject = {
+      eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.exchangeRequestService.query(queryObject).pipe(tap(() => (this.isLoading = false)));

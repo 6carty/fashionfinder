@@ -18,8 +18,10 @@ type ExchangeRequestFormDefaults = Pick<NewExchangeRequest, 'id'>;
 
 type ExchangeRequestFormGroupContent = {
   id: FormControl<IExchangeRequest['id'] | NewExchangeRequest['id']>;
-  offeringItem: FormControl<IExchangeRequest['offeringItem']>;
-  requestedItem: FormControl<IExchangeRequest['requestedItem']>;
+  image: FormControl<IExchangeRequest['image']>;
+  imageContentType: FormControl<IExchangeRequest['imageContentType']>;
+  description: FormControl<IExchangeRequest['description']>;
+  clothingItem: FormControl<IExchangeRequest['clothingItem']>;
   requester: FormControl<IExchangeRequest['requester']>;
 };
 
@@ -40,12 +42,12 @@ export class ExchangeRequestFormService {
           validators: [Validators.required],
         }
       ),
-      offeringItem: new FormControl(exchangeRequestRawValue.offeringItem, {
+      image: new FormControl(exchangeRequestRawValue.image),
+      imageContentType: new FormControl(exchangeRequestRawValue.imageContentType),
+      description: new FormControl(exchangeRequestRawValue.description, {
         validators: [Validators.required],
       }),
-      requestedItem: new FormControl(exchangeRequestRawValue.requestedItem, {
-        validators: [Validators.required],
-      }),
+      clothingItem: new FormControl(exchangeRequestRawValue.clothingItem),
       requester: new FormControl(exchangeRequestRawValue.requester),
     });
   }

@@ -2,21 +2,30 @@ package team.bham.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import team.bham.IntegrationTest;
 import team.bham.domain.ExchangeRequest;
 import team.bham.repository.ExchangeRequestRepository;
@@ -25,15 +34,18 @@ import team.bham.repository.ExchangeRequestRepository;
  * Integration tests for the {@link ExchangeRequestResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ExchangeRequestResourceIT {
 
-    private static final Long DEFAULT_OFFERING_ITEM = 1L;
-    private static final Long UPDATED_OFFERING_ITEM = 2L;
+    private static final byte[] DEFAULT_IMAGE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGE_CONTENT_TYPE = "image/png";
 
-    private static final Long DEFAULT_REQUESTED_ITEM = 1L;
-    private static final Long UPDATED_REQUESTED_ITEM = 2L;
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/exchange-requests";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -43,6 +55,9 @@ class ExchangeRequestResourceIT {
 
     @Autowired
     private ExchangeRequestRepository exchangeRequestRepository;
+
+    @Mock
+    private ExchangeRequestRepository exchangeRequestRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -59,7 +74,10 @@ class ExchangeRequestResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ExchangeRequest createEntity(EntityManager em) {
-        ExchangeRequest exchangeRequest = new ExchangeRequest().offeringItem(DEFAULT_OFFERING_ITEM).requestedItem(DEFAULT_REQUESTED_ITEM);
+        ExchangeRequest exchangeRequest = new ExchangeRequest()
+            .image(DEFAULT_IMAGE)
+            .imageContentType(DEFAULT_IMAGE_CONTENT_TYPE)
+            .description(DEFAULT_DESCRIPTION);
         return exchangeRequest;
     }
 
@@ -70,7 +88,10 @@ class ExchangeRequestResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ExchangeRequest createUpdatedEntity(EntityManager em) {
-        ExchangeRequest exchangeRequest = new ExchangeRequest().offeringItem(UPDATED_OFFERING_ITEM).requestedItem(UPDATED_REQUESTED_ITEM);
+        ExchangeRequest exchangeRequest = new ExchangeRequest()
+            .image(UPDATED_IMAGE)
+            .imageContentType(UPDATED_IMAGE_CONTENT_TYPE)
+            .description(UPDATED_DESCRIPTION);
         return exchangeRequest;
     }
 
@@ -94,8 +115,9 @@ class ExchangeRequestResourceIT {
         List<ExchangeRequest> exchangeRequestList = exchangeRequestRepository.findAll();
         assertThat(exchangeRequestList).hasSize(databaseSizeBeforeCreate + 1);
         ExchangeRequest testExchangeRequest = exchangeRequestList.get(exchangeRequestList.size() - 1);
-        assertThat(testExchangeRequest.getOfferingItem()).isEqualTo(DEFAULT_OFFERING_ITEM);
-        assertThat(testExchangeRequest.getRequestedItem()).isEqualTo(DEFAULT_REQUESTED_ITEM);
+        assertThat(testExchangeRequest.getImage()).isEqualTo(DEFAULT_IMAGE);
+        assertThat(testExchangeRequest.getImageContentType()).isEqualTo(DEFAULT_IMAGE_CONTENT_TYPE);
+        assertThat(testExchangeRequest.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -120,29 +142,10 @@ class ExchangeRequestResourceIT {
 
     @Test
     @Transactional
-    void checkOfferingItemIsRequired() throws Exception {
+    void checkDescriptionIsRequired() throws Exception {
         int databaseSizeBeforeTest = exchangeRequestRepository.findAll().size();
         // set the field null
-        exchangeRequest.setOfferingItem(null);
-
-        // Create the ExchangeRequest, which fails.
-
-        restExchangeRequestMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(exchangeRequest))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<ExchangeRequest> exchangeRequestList = exchangeRequestRepository.findAll();
-        assertThat(exchangeRequestList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkRequestedItemIsRequired() throws Exception {
-        int databaseSizeBeforeTest = exchangeRequestRepository.findAll().size();
-        // set the field null
-        exchangeRequest.setRequestedItem(null);
+        exchangeRequest.setDescription(null);
 
         // Create the ExchangeRequest, which fails.
 
@@ -168,8 +171,26 @@ class ExchangeRequestResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(exchangeRequest.getId().intValue())))
-            .andExpect(jsonPath("$.[*].offeringItem").value(hasItem(DEFAULT_OFFERING_ITEM.intValue())))
-            .andExpect(jsonPath("$.[*].requestedItem").value(hasItem(DEFAULT_REQUESTED_ITEM.intValue())));
+            .andExpect(jsonPath("$.[*].imageContentType").value(hasItem(DEFAULT_IMAGE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].image").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGE))))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllExchangeRequestsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(exchangeRequestRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restExchangeRequestMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(exchangeRequestRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllExchangeRequestsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(exchangeRequestRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restExchangeRequestMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(exchangeRequestRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -184,8 +205,9 @@ class ExchangeRequestResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(exchangeRequest.getId().intValue()))
-            .andExpect(jsonPath("$.offeringItem").value(DEFAULT_OFFERING_ITEM.intValue()))
-            .andExpect(jsonPath("$.requestedItem").value(DEFAULT_REQUESTED_ITEM.intValue()));
+            .andExpect(jsonPath("$.imageContentType").value(DEFAULT_IMAGE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.image").value(Base64Utils.encodeToString(DEFAULT_IMAGE)))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -207,7 +229,7 @@ class ExchangeRequestResourceIT {
         ExchangeRequest updatedExchangeRequest = exchangeRequestRepository.findById(exchangeRequest.getId()).get();
         // Disconnect from session so that the updates on updatedExchangeRequest are not directly saved in db
         em.detach(updatedExchangeRequest);
-        updatedExchangeRequest.offeringItem(UPDATED_OFFERING_ITEM).requestedItem(UPDATED_REQUESTED_ITEM);
+        updatedExchangeRequest.image(UPDATED_IMAGE).imageContentType(UPDATED_IMAGE_CONTENT_TYPE).description(UPDATED_DESCRIPTION);
 
         restExchangeRequestMockMvc
             .perform(
@@ -221,8 +243,9 @@ class ExchangeRequestResourceIT {
         List<ExchangeRequest> exchangeRequestList = exchangeRequestRepository.findAll();
         assertThat(exchangeRequestList).hasSize(databaseSizeBeforeUpdate);
         ExchangeRequest testExchangeRequest = exchangeRequestList.get(exchangeRequestList.size() - 1);
-        assertThat(testExchangeRequest.getOfferingItem()).isEqualTo(UPDATED_OFFERING_ITEM);
-        assertThat(testExchangeRequest.getRequestedItem()).isEqualTo(UPDATED_REQUESTED_ITEM);
+        assertThat(testExchangeRequest.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testExchangeRequest.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
+        assertThat(testExchangeRequest.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test
@@ -295,7 +318,7 @@ class ExchangeRequestResourceIT {
         ExchangeRequest partialUpdatedExchangeRequest = new ExchangeRequest();
         partialUpdatedExchangeRequest.setId(exchangeRequest.getId());
 
-        partialUpdatedExchangeRequest.offeringItem(UPDATED_OFFERING_ITEM);
+        partialUpdatedExchangeRequest.image(UPDATED_IMAGE).imageContentType(UPDATED_IMAGE_CONTENT_TYPE);
 
         restExchangeRequestMockMvc
             .perform(
@@ -309,8 +332,9 @@ class ExchangeRequestResourceIT {
         List<ExchangeRequest> exchangeRequestList = exchangeRequestRepository.findAll();
         assertThat(exchangeRequestList).hasSize(databaseSizeBeforeUpdate);
         ExchangeRequest testExchangeRequest = exchangeRequestList.get(exchangeRequestList.size() - 1);
-        assertThat(testExchangeRequest.getOfferingItem()).isEqualTo(UPDATED_OFFERING_ITEM);
-        assertThat(testExchangeRequest.getRequestedItem()).isEqualTo(DEFAULT_REQUESTED_ITEM);
+        assertThat(testExchangeRequest.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testExchangeRequest.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
+        assertThat(testExchangeRequest.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -325,7 +349,7 @@ class ExchangeRequestResourceIT {
         ExchangeRequest partialUpdatedExchangeRequest = new ExchangeRequest();
         partialUpdatedExchangeRequest.setId(exchangeRequest.getId());
 
-        partialUpdatedExchangeRequest.offeringItem(UPDATED_OFFERING_ITEM).requestedItem(UPDATED_REQUESTED_ITEM);
+        partialUpdatedExchangeRequest.image(UPDATED_IMAGE).imageContentType(UPDATED_IMAGE_CONTENT_TYPE).description(UPDATED_DESCRIPTION);
 
         restExchangeRequestMockMvc
             .perform(
@@ -339,8 +363,9 @@ class ExchangeRequestResourceIT {
         List<ExchangeRequest> exchangeRequestList = exchangeRequestRepository.findAll();
         assertThat(exchangeRequestList).hasSize(databaseSizeBeforeUpdate);
         ExchangeRequest testExchangeRequest = exchangeRequestList.get(exchangeRequestList.size() - 1);
-        assertThat(testExchangeRequest.getOfferingItem()).isEqualTo(UPDATED_OFFERING_ITEM);
-        assertThat(testExchangeRequest.getRequestedItem()).isEqualTo(UPDATED_REQUESTED_ITEM);
+        assertThat(testExchangeRequest.getImage()).isEqualTo(UPDATED_IMAGE);
+        assertThat(testExchangeRequest.getImageContentType()).isEqualTo(UPDATED_IMAGE_CONTENT_TYPE);
+        assertThat(testExchangeRequest.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

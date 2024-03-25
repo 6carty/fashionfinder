@@ -20,8 +20,9 @@ describe('ExchangeRequest Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            offeringItem: expect.any(Object),
-            requestedItem: expect.any(Object),
+            image: expect.any(Object),
+            description: expect.any(Object),
+            clothingItem: expect.any(Object),
             requester: expect.any(Object),
           })
         );
@@ -33,8 +34,9 @@ describe('ExchangeRequest Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            offeringItem: expect.any(Object),
-            requestedItem: expect.any(Object),
+            image: expect.any(Object),
+            description: expect.any(Object),
+            clothingItem: expect.any(Object),
             requester: expect.any(Object),
           })
         );

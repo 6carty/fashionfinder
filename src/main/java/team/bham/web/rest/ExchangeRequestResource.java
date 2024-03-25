@@ -126,11 +126,14 @@ public class ExchangeRequestResource {
         Optional<ExchangeRequest> result = exchangeRequestRepository
             .findById(exchangeRequest.getId())
             .map(existingExchangeRequest -> {
-                if (exchangeRequest.getOfferingItem() != null) {
-                    existingExchangeRequest.setOfferingItem(exchangeRequest.getOfferingItem());
+                if (exchangeRequest.getImage() != null) {
+                    existingExchangeRequest.setImage(exchangeRequest.getImage());
                 }
-                if (exchangeRequest.getRequestedItem() != null) {
-                    existingExchangeRequest.setRequestedItem(exchangeRequest.getRequestedItem());
+                if (exchangeRequest.getImageContentType() != null) {
+                    existingExchangeRequest.setImageContentType(exchangeRequest.getImageContentType());
+                }
+                if (exchangeRequest.getDescription() != null) {
+                    existingExchangeRequest.setDescription(exchangeRequest.getDescription());
                 }
 
                 return existingExchangeRequest;
@@ -146,12 +149,17 @@ public class ExchangeRequestResource {
     /**
      * {@code GET  /exchange-requests} : get all the exchangeRequests.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of exchangeRequests in body.
      */
     @GetMapping("/exchange-requests")
-    public List<ExchangeRequest> getAllExchangeRequests() {
+    public List<ExchangeRequest> getAllExchangeRequests(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ExchangeRequests");
-        return exchangeRequestRepository.findAll();
+        if (eagerload) {
+            return exchangeRequestRepository.findAllWithEagerRelationships();
+        } else {
+            return exchangeRequestRepository.findAll();
+        }
     }
 
     /**
@@ -163,7 +171,7 @@ public class ExchangeRequestResource {
     @GetMapping("/exchange-requests/{id}")
     public ResponseEntity<ExchangeRequest> getExchangeRequest(@PathVariable Long id) {
         log.debug("REST request to get ExchangeRequest : {}", id);
-        Optional<ExchangeRequest> exchangeRequest = exchangeRequestRepository.findById(id);
+        Optional<ExchangeRequest> exchangeRequest = exchangeRequestRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(exchangeRequest);
     }
 

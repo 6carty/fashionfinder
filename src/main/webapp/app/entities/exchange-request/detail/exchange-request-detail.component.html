@@ -14,13 +14,28 @@
         <dd>
           <span>{{ exchangeRequest.id }}</span>
         </dd>
-        <dt><span>Offering Item</span></dt>
+        <dt><span>Image</span></dt>
         <dd>
-          <span>{{ exchangeRequest.offeringItem }}</span>
+          <div *ngIf="exchangeRequest.image">
+            <a (click)="openFile(exchangeRequest.image, exchangeRequest.imageContentType)">
+              <img
+                [src]="'data:' + exchangeRequest.imageContentType + ';base64,' + exchangeRequest.image"
+                style="max-width: 100%"
+                alt="exchangeRequest image"
+              />
+            </a>
+            {{ exchangeRequest.imageContentType }}, {{ byteSize(exchangeRequest.image) }}
+          </div>
         </dd>
-        <dt><span>Requested Item</span></dt>
+        <dt><span>Description</span></dt>
         <dd>
-          <span>{{ exchangeRequest.requestedItem }}</span>
+          <span>{{ exchangeRequest.description }}</span>
+        </dd>
+        <dt><span>Clothing Item</span></dt>
+        <dd>
+          <div *ngIf="exchangeRequest.clothingItem">
+            <a [routerLink]="['/clothing-item', exchangeRequest.clothingItem.id, 'view']">{{ exchangeRequest.clothingItem.name }}</a>
+          </div>
         </dd>
         <dt><span>Requester</span></dt>
         <dd>

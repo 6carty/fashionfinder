@@ -38,15 +38,21 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="offeringItem">
+          <th scope="col" jhiSortBy="image">
             <div class="d-flex">
-              <span>Offering Item</span>
+              <span>Image</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="requestedItem">
+          <th scope="col" jhiSortBy="description">
             <div class="d-flex">
-              <span>Requested Item</span>
+              <span>Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="clothingItem.name">
+            <div class="d-flex">
+              <span>Clothing Item</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -64,8 +70,22 @@
           <td>
             <a [routerLink]="['/exchange-request', exchangeRequest.id, 'view']">{{ exchangeRequest.id }}</a>
           </td>
-          <td>{{ exchangeRequest.offeringItem }}</td>
-          <td>{{ exchangeRequest.requestedItem }}</td>
+          <td>
+            <a *ngIf="exchangeRequest.image" (click)="openFile(exchangeRequest.image, exchangeRequest.imageContentType)">
+              <img
+                [src]="'data:' + exchangeRequest.imageContentType + ';base64,' + exchangeRequest.image"
+                style="max-height: 30px"
+                alt="exchangeRequest image"
+              />
+            </a>
+            <span *ngIf="exchangeRequest.image">{{ exchangeRequest.imageContentType }}, {{ byteSize(exchangeRequest.image) }}</span>
+          </td>
+          <td>{{ exchangeRequest.description }}</td>
+          <td>
+            <div *ngIf="exchangeRequest.clothingItem">
+              <a [routerLink]="['/clothing-item', exchangeRequest.clothingItem.id, 'view']">{{ exchangeRequest.clothingItem.name }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="exchangeRequest.requester">
               <a [routerLink]="['/user-profile', exchangeRequest.requester.id, 'view']">{{ exchangeRequest.requester.id }}</a>

@@ -13,14 +13,6 @@
     {
       "fieldName": "description1",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "title2",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "description2",
-      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

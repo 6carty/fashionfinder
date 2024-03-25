@@ -24,13 +24,20 @@ public class ExchangeRequest implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "offering_item", nullable = false)
-    private Long offeringItem;
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
+    @Column(name = "image_content_type")
+    private String imageContentType;
 
     @NotNull
-    @Column(name = "requested_item", nullable = false)
-    private Long requestedItem;
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "outfits", "owner" }, allowSetters = true)
+    private ClothingItem clothingItem;
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -69,30 +76,56 @@ public class ExchangeRequest implements Serializable {
         this.id = id;
     }
 
-    public Long getOfferingItem() {
-        return this.offeringItem;
+    public byte[] getImage() {
+        return this.image;
     }
 
-    public ExchangeRequest offeringItem(Long offeringItem) {
-        this.setOfferingItem(offeringItem);
+    public ExchangeRequest image(byte[] image) {
+        this.setImage(image);
         return this;
     }
 
-    public void setOfferingItem(Long offeringItem) {
-        this.offeringItem = offeringItem;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
-    public Long getRequestedItem() {
-        return this.requestedItem;
+    public String getImageContentType() {
+        return this.imageContentType;
     }
 
-    public ExchangeRequest requestedItem(Long requestedItem) {
-        this.setRequestedItem(requestedItem);
+    public ExchangeRequest imageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
         return this;
     }
 
-    public void setRequestedItem(Long requestedItem) {
-        this.requestedItem = requestedItem;
+    public void setImageContentType(String imageContentType) {
+        this.imageContentType = imageContentType;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public ExchangeRequest description(String description) {
+        this.setDescription(description);
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ClothingItem getClothingItem() {
+        return this.clothingItem;
+    }
+
+    public void setClothingItem(ClothingItem clothingItem) {
+        this.clothingItem = clothingItem;
+    }
+
+    public ExchangeRequest clothingItem(ClothingItem clothingItem) {
+        this.setClothingItem(clothingItem);
+        return this;
     }
 
     public UserProfile getRequester() {
@@ -132,8 +165,9 @@ public class ExchangeRequest implements Serializable {
     public String toString() {
         return "ExchangeRequest{" +
             "id=" + getId() +
-            ", offeringItem=" + getOfferingItem() +
-            ", requestedItem=" + getRequestedItem() +
+            ", image='" + getImage() + "'" +
+            ", imageContentType='" + getImageContentType() + "'" +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

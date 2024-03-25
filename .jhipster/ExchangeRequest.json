@@ -6,13 +6,13 @@
   "entityTableName": "exchange_request",
   "fields": [
     {
-      "fieldName": "offeringItem",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     },
     {
-      "fieldName": "requestedItem",
-      "fieldType": "Long",
+      "fieldName": "description",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -22,6 +22,12 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "clothingItem",
+      "relationshipName": "clothingItem",
+      "relationshipType": "many-to-one"
+    },
     {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "exchangeRequests",

@@ -1,9 +1,12 @@
+import { IClothingItem } from 'app/entities/clothing-item/clothing-item.model';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 
 export interface IExchangeRequest {
   id: number;
-  offeringItem?: number | null;
-  requestedItem?: number | null;
+  image?: string | null;
+  imageContentType?: string | null;
+  description?: string | null;
+  clothingItem?: Pick<IClothingItem, 'id' | 'name'> | null;
   requester?: Pick<IUserProfile, 'id'> | null;
 }
 

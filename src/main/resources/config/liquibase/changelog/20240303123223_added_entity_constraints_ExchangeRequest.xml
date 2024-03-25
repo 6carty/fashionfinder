@@ -8,6 +8,12 @@
     -->
     <changeSet id="20240303123223-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="clothing_item_id"
+                                 baseTableName="exchange_request"
+                                 constraintName="fk_exchange_request__clothing_item_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="clothing_item"/>
+
         <addForeignKeyConstraint baseColumnNames="requester_id"
                                  baseTableName="exchange_request"
                                  constraintName="fk_exchange_request__requester_id"

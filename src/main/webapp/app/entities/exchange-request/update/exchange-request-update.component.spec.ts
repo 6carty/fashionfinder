@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { ExchangeRequestFormService } from './exchange-request-form.service';
 import { ExchangeRequestService } from '../service/exchange-request.service';
 import { IExchangeRequest } from '../exchange-request.model';
+import { IClothingItem } from 'app/entities/clothing-item/clothing-item.model';
+import { ClothingItemService } from 'app/entities/clothing-item/service/clothing-item.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 
@@ -20,6 +22,7 @@ describe('ExchangeRequest Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let exchangeRequestFormService: ExchangeRequestFormService;
   let exchangeRequestService: ExchangeRequestService;
+  let clothingItemService: ClothingItemService;
   let userProfileService: UserProfileService;
 
   beforeEach(() => {
@@ -43,12 +46,35 @@ describe('ExchangeRequest Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     exchangeRequestFormService = TestBed.inject(ExchangeRequestFormService);
     exchangeRequestService = TestBed.inject(ExchangeRequestService);
+    clothingItemService = TestBed.inject(ClothingItemService);
     userProfileService = TestBed.inject(UserProfileService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call ClothingItem query and add missing value', () => {
+      const exchangeRequest: IExchangeRequest = { id: 456 };
+      const clothingItem: IClothingItem = { id: 85687 };
+      exchangeRequest.clothingItem = clothingItem;
+
+      const clothingItemCollection: IClothingItem[] = [{ id: 85330 }];
+      jest.spyOn(clothingItemService, 'query').mockReturnValue(of(new HttpResponse({ body: clothingItemCollection })));
+      const additionalClothingItems = [clothingItem];
+      const expectedCollection: IClothingItem[] = [...additionalClothingItems, ...clothingItemCollection];
+      jest.spyOn(clothingItemService, 'addClothingItemToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ exchangeRequest });
+      comp.ngOnInit();
+
+      expect(clothingItemService.query).toHaveBeenCalled();
+      expect(clothingItemService.addClothingItemToCollectionIfMissing).toHaveBeenCalledWith(
+        clothingItemCollection,
+        ...additionalClothingItems.map(expect.objectContaining)
+      );
+      expect(comp.clothingItemsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call UserProfile query and add missing value', () => {
       const exchangeRequest: IExchangeRequest = { id: 456 };
       const requester: IUserProfile = { id: 64855 };
@@ -73,12 +99,15 @@ describe('ExchangeRequest Management Update Component', () => {
 
     it('Should update editForm', () => {
       const exchangeRequest: IExchangeRequest = { id: 456 };
+      const clothingItem: IClothingItem = { id: 13560 };
+      exchangeRequest.clothingItem = clothingItem;
       const requester: IUserProfile = { id: 2537 };
       exchangeRequest.requester = requester;
 
       activatedRoute.data = of({ exchangeRequest });
       comp.ngOnInit();
 
+      expect(comp.clothingItemsSharedCollection).toContain(clothingItem);
       expect(comp.userProfilesSharedCollection).toContain(requester);
       expect(comp.exchangeRequest).toEqual(exchangeRequest);
     });
@@ -153,6 +182,16 @@ describe('ExchangeRequest Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareClothingItem', () => {
+      it('Should forward to clothingItemService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(clothingItemService, 'compareClothingItem');
+        comp.compareClothingItem(entity, entity2);
+        expect(clothingItemService.compareClothingItem).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareUserProfile', () => {
       it('Should forward to userProfileService', () => {
         const entity = { id: 123 };
