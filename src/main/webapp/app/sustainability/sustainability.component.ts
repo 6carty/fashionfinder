@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ExchangeRequestService} from "../entities/exchange-request/service/exchange-request.service";
 import { IExchangeRequest} from "../entities/exchange-request/exchange-request.model";
-import { AccountService} from "../core/auth/account.service";
+import { ProfileService } from '../layouts/profiles/profile.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from '../core/auth/account.model';
+
+
+
 
 @Component({
   selector: 'jhi-sustainability',
@@ -10,21 +15,30 @@ import { AccountService} from "../core/auth/account.service";
 })
 export class SustainabilityComponent implements OnInit {
   latestExchangeRequests: IExchangeRequest [] = [];
-  account: any;
+  account: Account | null = null;
+  selectedExchangeRequest: IExchangeRequest | null = null;
+
+  // latestUserExchangeRequests: IExchangeRequest[] = [];
+  // latestOtherExchangeRequests: IExchangeRequest[] = [];
 
 
-  constructor(private exchangeRequestService: ExchangeRequestService, private accountService: AccountService) {}
+  constructor(
+    private exchangeRequestService: ExchangeRequestService,
+    private accountService: AccountService,
+
+  ) {}
 
   ngOnInit(): void {
-    // Fetch and sort exchange request data
-    this.fetchAndSortLatestExchangeRequests();
-    // Fetch current user's account information
-    this.accountService.identity().subscribe(account => {
+    // Fetch exchange request data
+    this.fetchLatestExchangeRequests();
+
+    this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
     });
   }
 
-  fetchAndSortLatestExchangeRequests(): void {
+
+  fetchLatestExchangeRequests(): void {
     this.exchangeRequestService.query().subscribe((response) => {
       this.latestExchangeRequests = response.body || [];
       // Sort the latestExchangeRequests array in descending order based on the ID
@@ -33,6 +47,147 @@ export class SustainabilityComponent implements OnInit {
       this.latestExchangeRequests = this.latestExchangeRequests.slice(0, 5);
     });
   }
+
+  selectItem(exchangeRequest: IExchangeRequest): void {
+    this.selectedExchangeRequest = exchangeRequest;
+  }
+
+  confirmExchange(): void {
+    if (this.selectedExchangeRequest) {
+      // Implement logic to handle the exchange confirmation
+      console.log("Exchange confirmed for:", this.selectedExchangeRequest);
+      // Clear the selected item after confirmation
+      this.selectedExchangeRequest = null;
+    }
+  }
+
+  openPopup(): void {
+    document.getElementById('popup')!.style.display = 'block';
+  }
+  closePopup(): void {
+    document.getElementById('popup')!.style.display = 'none';
+  }
+
+  clearSelection(): void {
+    // Reset any selection logic here
+    this.selectedExchangeRequest = null;
+  }
+}
+
+
+// ngOnInit(): void {
+  //   // Fetch and sort exchange request data
+  //   this.fetchAndSortLatestExchangeRequests();
+  //   this.accountService.identity().subscribe(account => {
+  //     if (account) {
+  //       this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
+  //         // Retrieve the current user's profile ID
+  //         this.currentUserId = currentUserProfile.id;
+  //         this.filterExchangeRequests();
+  //       });
+  //     }
+  //   });
+  // }
+
+  // fetchAndSortLatestExchangeRequests(): void {
+  //   this.exchangeRequestService.query().subscribe((response) => {
+  //     const responseData: IExchangeRequest[] = response.body || [];
+  //     // Sort the responseData array in descending order based on the ID
+  //     responseData.sort((a, b) => b.id - a.id);
+  //     // Ensure only the latest 5 items are displayed
+  //     this.latestExchangeRequests = responseData.slice(0, 5);
+  //     this.filterExchangeRequests();
+  //   });
+  // }
+
+  // filterExchangeRequests(): void {
+  //   if (this.currentUserId) {
+  //     this.latestUserExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id === this.currentUserId);
+  //     this.latestOtherExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id !== this.currentUserId);
+  //   }
+  // }
+
+  // fetchAndSortLatestExchangeRequests(): void {
+  //   // Fetch exchange request data
+  //   this.exchangeRequestService.query().subscribe((response) => {
+  //     const responseData: IExchangeRequest[] = response.body || [];
+  //     // Sort the responseData array in descending order based on the ID
+  //     responseData.sort((a, b) => b.id - a.id);
+  //     // Ensure only the latest 5 items are displayed
+  //     this.latestExchangeRequests = responseData.slice(0, 5);
+  //
+  //     // Fetch current user's profile
+  //     this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
+  //       // Retrieve the current user's profile ID
+  //       const currentUserId = currentUserProfile.id;
+  //
+  //       console.log('Current User ID:', currentUserId);
+  //
+  //
+  //       // Filter exchange requests based on current user's profile ID
+  //       this.latestUserExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id === currentUserId);
+  //       this.latestOtherExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id !== currentUserId);
+  //     });
+  //   });
+  // }
+  //
+
+  // fetchAndSortLatestExchangeRequests(): void {
+  //   this.exchangeRequestService.query().subscribe((response) => {
+  //     const responseData: IExchangeRequest[] = response.body || [];
+  //     // Sort the responseData array in descending order based on the ID
+  //     responseData.sort((a, b) => b.id - a.id);
+  //     // Ensure only the latest 5 items are displayed
+  //     this.latestExchangeRequests = responseData.slice(0, 5);
+  //   });
+  //
+  //     // Fetch current user's profile
+  //     this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
+  //       // Retrieve the current user's profile ID
+  //       const currentUserId = currentUserProfile.id;
+  //
+  //       // Filter exchange requests based on current user's profile ID
+  //       this.latestUserExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id === currentUserId);
+  //       this.latestOtherExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id !== currentUserId);
+  //     });
+  //   });
+  // }
+
+
+  // fetchAndSortLatestExchangeRequests(): void {
+  //   this.exchangeRequestService.query().subscribe((response) => {
+  //     const latestExchangeRequests: IExchangeRequest[] = response.body || [];
+  //     // Sort the latestExchangeRequests array in descending order based on the ID
+  //     latestExchangeRequests.sort((a, b) => b.id - a.id);
+  //     // Ensure only the latest 5 items are displayed
+  //     const slicedExchangeRequests = latestExchangeRequests.slice(0, 5);
+  //
+  //     // Fetch current user's profile ID
+  //     this.accountService.identity().subscribe(account => {
+  //       // @ts-ignore
+  //       const currentUserId = account?.id;
+  //
+  //       if (currentUserId) {
+  //         this.userProfileService.find(currentUserId).subscribe((userProfile: IUserProfile) => {
+  //           // Filter exchange requests based on current user's profile ID
+  //           if (userProfile) {
+  //             this.latestUserExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id === userProfile.id);
+  //             this.latestOtherExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id !== userProfile.id);
+  //           }
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+  // fetchAndSortLatestExchangeRequests(): void {
+  //   this.exchangeRequestService.query().subscribe((response) => {
+  //     this.latestExchangeRequests = response.body || [];
+  //     // Sort the latestExchangeRequests array in descending order based on the ID
+  //     this.latestExchangeRequests.sort((a, b) => b.id - a.id);
+  //     // Ensure only the latest 5 items are displayed
+  //     this.latestExchangeRequests = this.latestExchangeRequests.slice(0, 5);
+  //   });
+  // }
 
   // ngOnInit(): void {
   //   // Fetch exchange request data
@@ -50,4 +205,5 @@ export class SustainabilityComponent implements OnInit {
   //     this.latestExchangeRequests = this.latestExchangeRequests.slice(0, 5);
   //   });
   // }
-}
+
+

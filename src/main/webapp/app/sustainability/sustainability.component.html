@@ -104,52 +104,109 @@
       <p style="text-align: center">Click the buttons below to exchange your clothes with the community.</p>
     </div>
     <div class="ButtonContainer">
-      <button class="BuySellButton" [routerLink]="['/clothing-item/new']">add new item</button>
-      <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">exchange</button>
+      <button class="BuySellButton" [routerLink]="['/clothing-item/new']">Add new item</button>
+      <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
     </div>
 
 
-
-
+    <div class="d-flex">
+      <span *ngIf="!account"> Sign in to see the latest requests </span>
+      <span *ngIf="account"> Here are all the requests</span>
+    </div>
 
 
     <div class="ExchangeRequestDetail" >
-
       <h3>Latest Exchange Requests</h3>
-      <span *ngIf="!account"> Sign in to see the latest requests </span>
-      <span *ngIf="account"> Here are all the requests</span>
-      <div class="grid-container">
-        <div class="grid-item-header">ID</div>
-        <div class="grid-item-header">Offering Item</div>
-        <div class="grid-item-header">Requested Item</div>
-        <div class="grid-item-header">Requester ID</div>
+        <div class="grid-container">
+          <div class="grid-item-header">Clothing Item</div>
+          <div class="grid-item-header">Description</div>
+          <div class="grid-item-header">Image</div>
+          <div class="grid-item-header">Requester ID</div>
+          <div class="grid-item-header">Select</div>
+          <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
+            <div class="grid-item">{{ exchangeRequest.clothingItem?.name}}</div>
+            <div class="grid-item">{{ exchangeRequest.description }}</div>
+            <div class="grid-item">
+              <img [src]="'data:image/png;base64,' + exchangeRequest.image" alt="Exchange Request Image" style="max-width: 400px; max-height: 100px;">
+            </div>
+            <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
+            <div class="grid-item">
+              <input type="radio" name="selectedItem" (change)="selectItem(exchangeRequest)">
+            </div>
+          </ng-container>
+        </div>
+      <div class="button" *ngIf="account">
+        <!-- Button for canceling the choice the exchange -->
+        <button [disabled]="!selectedExchangeRequest" (click)="clearSelection()" class="cancel-button">Cancel</button>
+        <!-- Button for confirming the exchange -->
+        <button [disabled]="!selectedExchangeRequest" (click)="openPopup()" class="confirm-button">Confirm Exchange</button>
 
-        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
+      </div>
+      </div>
 
-          <div class="grid-item">{{ exchangeRequest.id }}</div>
-<!--          <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>-->
-          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
-        </ng-container>
-      </div>
-    </div>
-    <div class="Other-user-exchange-request">
-      <h3>Other user exchange request</h3>
-      <div class="grid-container">
-        <div class="grid-item-header">ID</div>
-        <div class="grid-item-header">Offering Item</div>
-        <div class="grid-item-header">Requested Item</div>
-        <div class="grid-item-header">Requester ID</div>
-        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">
-          <div class="grid-item">{{ exchangeRequest.id }}</div>
-<!--          <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>-->
-          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
-        </ng-container>
-      </div>
+<!--      <button (click)="openPopup()">Open Popup</button>-->
+
+      <!-- The popup window -->
+
+
     </div>
   </div>
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close" (click)="closePopup()">&times;</span> <!-- Button to close the popup -->
+    <h2>Popup Title</h2>
+    <p>Popup message goes here.</p>
+  </div>
 </div>
+<!--      <div class="grid-container">-->
+<!--        <div class="grid-item-header">Clothing Item</div>-->
+<!--        <div class="grid-item-header">Description</div>-->
+<!--        <div class="grid-item-header">Image</div>-->
+<!--        <div class="grid-item-header">Requester ID</div>-->
+<!--        <div class="grid-item-header">Select</div>-->
+<!--        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--          <div class="grid-item">{{ exchangeRequest.clothingItem?.name}}</div>-->
+<!--          <div class="grid-item">{{ exchangeRequest.description }}</div>-->
+<!--          <div class="grid-item">-->
+<!--            <img [src]="'data:image/png;base64,' + exchangeRequest.image" alt="Exchange Request Image" style="max-width: 400px; max-height: 100px;">-->
+<!--          </div>-->
+<!--          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
+<!--          <div class="grid-item">-->
+<!--            <input type="radio" name="selectedItem" (change)="selectItem(exchangeRequest)">-->
+<!--          </div>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--      <div class="button">-->
+<!--        <span *ngIf="!account">-->
+<!--          &lt;!&ndash; Button for canceling the choice the exchange &ndash;&gt;-->
+<!--          <button [disabled]="!selectedExchangeRequest" (click)="clearSelection()" class="cancel-button">Cancel</button>-->
+<!--          &lt;!&ndash; Button for confirming the exchange &ndash;&gt;-->
+<!--          <button [disabled]="!selectedExchangeRequest" (click)="confirmExchange()" class="confirm-button">Confirm Exchange</button>-->
+<!--        </span>-->
+
+<!--      </div>-->
+
+
+
+
+<!--    <div class="Other-user-exchange-request">-->
+<!--      <h3>Other user exchange request</h3>-->
+<!--      <div class="grid-container">-->
+<!--        <div class="grid-item-header">Clothing Item</div>-->
+<!--        <div class="grid-item-header">Description</div>-->
+<!--        <div class="grid-item-header">Image</div>-->
+<!--        <div class="grid-item-header">Requester ID</div>-->
+<!--        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
+<!--          <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>-->
+<!--          <div class="grid-item">{{ exchangeRequest.description }}</div>-->
+<!--          <div class="grid-item">-->
+<!--            <img [src]="'data:image/png;base64,' + exchangeRequest.image" alt="Exchange Request Image" style="max-width: 400px; max-height: 100px;">-->
+<!--          </div>-->
+<!--          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--    </div>-->
+
 
 
 
