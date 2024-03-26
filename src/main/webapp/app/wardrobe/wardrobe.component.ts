@@ -29,8 +29,9 @@ export class WardrobeComponent implements OnInit {
   clothingItem: IClothingItem | null = null;
   clothingTypeValues = Object.keys(ClothingType);
   statusValues = Object.keys(Status);
-  userInput: any;
-  userInput2: any;
+  userInputName: any;
+  userInputDescription: any;
+  userInputPhoto: any;
 
   formData = {
     name: '',
@@ -62,35 +63,61 @@ export class WardrobeComponent implements OnInit {
   }
 
   onCreateItemButtonClick() {
-    const inputElement = document.getElementById('clothingItemNameField') as HTMLInputElement;
-    this.userInput = inputElement.value;
+    const inputElementName = document.getElementById('clothingItemNameField') as HTMLInputElement;
+    this.userInputName = inputElementName.value;
 
-    const inputElement2 = document.getElementById('clothingItemDescriptionField') as HTMLInputElement;
-    this.userInput2 = inputElement2.value;
+    const inputElementDescription = document.getElementById('clothingItemDescriptionField') as HTMLInputElement;
+    this.userInputDescription = inputElementDescription.value;
 
-    const clothingItem: NewClothingItem = {
-      id: null,
-      name: this.userInput,
-      description: this.userInput2,
-      status: Status.NOTFORSALE,
-      type: ClothingType.OTHERS,
-    };
+    const inputElementPhoto = document.getElementById('clothingItemPhoto') as HTMLInputElement;
 
-    this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
+    if (inputElementPhoto.files) {
+      const selectedFile = inputElementPhoto.files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === 'string') {
+          var base64result = reader.result.split(',')[1];
+          this.userInputPhoto = base64result;
+        } else {
+          this.userInputPhoto = null;
+        }
+
+        const clothingItem: NewClothingItem = {
+          id: null,
+          name: this.userInputName,
+          description: this.userInputDescription,
+          status: Status.NOTFORSALE,
+          type: ClothingType.OTHERS,
+        };
+
+        if (inputElementPhoto.files) {
+          clothingItem.imageContentType = inputElementPhoto.files[0].type;
+          clothingItem.image = this.userInputPhoto;
+        }
+
+        this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
+      };
+
+      if (selectedFile) {
+        reader.readAsDataURL(selectedFile);
+      }
+    }
   }
 
   onCreateOutfitButtonClick() {
     const inputElement = document.getElementById('OutfitNameField') as HTMLInputElement;
-    this.userInput = inputElement.value;
+    this.userInputName = inputElement.value;
 
     const outfit: NewOutfit = {
       id: null,
-      name: this.userInput,
+      name: this.userInputName,
       occasion: Occasion.BUSINESS,
     };
 
     this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
   }
+
   protected subscribeToSaveResponseClothing(result: Observable<HttpResponse<IClothingItem>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccessClothing(),
