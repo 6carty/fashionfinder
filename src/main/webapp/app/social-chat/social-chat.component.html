@@ -13,20 +13,33 @@
     </div>
     <div class="search-bar">
       <div class="center">
-        <button class="add-btn" [routerLink]="['/chatroom/new']">
-          <h4>Create New Chatroom</h4>
-        </button>
+        <div class="dropdown-new-item">
+          <span><h5>Create New Chatroom</h5></span>
+          <div class="dropdown-new-item-content">
+            <h5>Chatroom Name</h5>
+            <input type="text" id="chatroomField" />
+            <h5>Creator</h5>
+            <input type="number" id="creatorField" />
+            <h5>Recipient</h5>
+            <input type="number" id="recipientField" />
+            <br /><br />
+            <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()"><h5>Create new chatroom</h5></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="chatrooms-list">
       <h3>Chatrooms</h3>
       <ul class="chatroom-items">
-        <li *ngFor="let chatroom of chatrooms" [class.selected]="chatroom === selectedChatroom">
+        <li *ngFor="let chatroom of chatroomReceivedData">
           <div class="chatroom-item">
-            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image" />
+            <!--            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image"/>-->
             <div class="chatroom-info">
-              <div class="chatroom-name">{{ chatroom.name }}</div>
-              <div class="chatroom-last-message">{{ chatroom.lastMessage }}</div>
+              <div class="chatroom-name">
+                {{ chatroom.name }}
+                <span>{{ chatroom.name }}</span>
+              </div>
+              <!--              <div class="chatroom-last-message">{{ chatroom.lastMessage }}</div>-->
             </div>
           </div>
         </li>

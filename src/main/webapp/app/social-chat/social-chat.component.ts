@@ -1,8 +1,19 @@
 // In social-chat.component.ts
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 import { Account } from '../core/auth/account.model';
 import { AccountService } from '../core/auth/account.service';
+import { Status } from '../entities/enumerations/status.model';
+import { ChatroomService } from '../entities/chatroom/service/chatroom.service';
+import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
+import { IClothingItem, NewClothingItem } from '../entities/clothing-item/clothing-item.model';
+import { ClothingType } from '../entities/enumerations/clothing-type.model';
+import { getUserIdentifier } from '../entities/user/user.model';
+import { IUser } from 'app/entities/user/user.model';
+import { IOutfit } from '../entities/outfit/outfit.model';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -12,6 +23,69 @@ import { AccountService } from '../core/auth/account.service';
 export class SocialChatComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
+  chatroomReceivedData: any;
+  isSaving = false;
+  userInput: any;
+  userInput2: any;
+  userInput3: any;
+  currentUser: any;
+
+  constructor(
+    private accountService: AccountService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private chatroomService: ChatroomService
+  ) {}
+
+  fetchChatrooms(): void {
+    this.chatroomService.query().subscribe(
+      (response: HttpResponse<IChatroom[]>) => {
+        this.chatroomReceivedData = response.body || [];
+      },
+      error => {
+        console.error('There was an error fetching chatrooms:', error);
+      }
+    );
+  }
+
+  onCreateChatroomButtonClick() {
+    const inputElement = document.getElementById('chatroomField') as HTMLInputElement;
+    this.userInput = inputElement.value;
+
+    const inputElement2 = document.getElementById('creatorField') as HTMLInputElement;
+    this.userInput2 = inputElement2.value;
+
+    const inputElement3 = document.getElementById('recipientField') as HTMLInputElement;
+    this.userInput3 = inputElement3.value;
+
+    const chatrooms: NewChatroom = {
+      id: null,
+      name: this.userInput,
+      creator: { id: parseInt(this.userInput2, 10) },
+      recipient: { id: parseInt(this.userInput3, 10) },
+    };
+
+    this.subscribeToSaveResponseChatroom(this.chatroomService.create(chatrooms));
+  }
+
+  protected subscribeToSaveResponseChatroom(result: Observable<HttpResponse<IChatroom>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccessChatroom(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccessChatroom(): void {
+    this.fetchChatrooms();
+    window.location.reload();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
 
   messages = [
     { text: 'Hey, how are you', isSent: true, time: '12:50' },
@@ -45,13 +119,12 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     image: 'content/images/jhipster_family_member_1_head-192.png', // Replace with actual image path
   };
 
-  constructor(private accountService: AccountService, private changeDetectorRef: ChangeDetectorRef) {}
-
   ngOnInit(): void {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
       // Trigger change detection manually
       this.changeDetectorRef.detectChanges();
+      this.fetchChatrooms();
 
       // Load chat partner data when intializing component
       // this.loadCurrentChatPartner();
@@ -74,6 +147,9 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.accountSubscription) {
       this.accountSubscription.unsubscribe();
+    }
+    if (this.chatroomReceivedData) {
+      this.chatroomReceivedData.unsubscribe();
     }
   }
 }
