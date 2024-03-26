@@ -102,20 +102,61 @@ export class WardrobeComponent implements OnInit {
       if (selectedFile) {
         reader.readAsDataURL(selectedFile);
       }
+    } else {
+      const clothingItem: NewClothingItem = {
+        id: null,
+        name: this.userInputName,
+        description: this.userInputDescription,
+        status: Status.NOTFORSALE,
+        type: ClothingType.OTHERS,
+      };
+      this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
     }
   }
 
   onCreateOutfitButtonClick() {
-    const inputElement = document.getElementById('OutfitNameField') as HTMLInputElement;
-    this.userInputName = inputElement.value;
+    const inputElementName = document.getElementById('OutfitNameField') as HTMLInputElement;
+    this.userInputName = inputElementName.value;
 
-    const outfit: NewOutfit = {
-      id: null,
-      name: this.userInputName,
-      occasion: Occasion.BUSINESS,
-    };
+    const inputElementPhoto = document.getElementById('outfitPhoto') as HTMLInputElement;
 
-    this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
+    if (inputElementPhoto.files) {
+      const selectedFile = inputElementPhoto.files[0];
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === 'string') {
+          var base64result = reader.result.split(',')[1];
+          this.userInputPhoto = base64result;
+        } else {
+          this.userInputPhoto = null;
+        }
+
+        const outfit: NewOutfit = {
+          id: null,
+          name: this.userInputName,
+          occasion: Occasion.BUSINESS,
+        };
+        if (inputElementPhoto.files) {
+          outfit.image = this.userInputPhoto;
+          outfit.imageContentType = inputElementPhoto.files[0].type;
+        }
+
+        this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
+      };
+
+      if (selectedFile) {
+        reader.readAsDataURL(selectedFile);
+      }
+    } else {
+      const outfit: NewOutfit = {
+        id: null,
+        name: this.userInputName,
+        occasion: Occasion.BUSINESS,
+      };
+
+      this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
+    }
   }
 
   protected subscribeToSaveResponseClothing(result: Observable<HttpResponse<IClothingItem>>): void {
