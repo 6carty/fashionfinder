@@ -9,11 +9,8 @@ import { AccountService } from '../core/auth/account.service';
 import { Status } from '../entities/enumerations/status.model';
 import { ChatroomService } from '../entities/chatroom/service/chatroom.service';
 import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
-import { IClothingItem, NewClothingItem } from '../entities/clothing-item/clothing-item.model';
-import { ClothingType } from '../entities/enumerations/clothing-type.model';
 import { getUserIdentifier } from '../entities/user/user.model';
 import { IUser } from 'app/entities/user/user.model';
-import { IOutfit } from '../entities/outfit/outfit.model';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -23,6 +20,7 @@ import { IOutfit } from '../entities/outfit/outfit.model';
 export class SocialChatComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
+  private chatroomsSubscription: Subscription | null = null;
   chatroomReceivedData: any;
   isSaving = false;
   userInput: any;
@@ -37,7 +35,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   ) {}
 
   fetchChatrooms(): void {
-    this.chatroomService.query().subscribe(
+    this.chatroomsSubscription = this.chatroomService.query().subscribe(
       (response: HttpResponse<IChatroom[]>) => {
         this.chatroomReceivedData = response.body || [];
       },
@@ -122,7 +120,6 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
-      // Trigger change detection manually
       this.changeDetectorRef.detectChanges();
       this.fetchChatrooms();
 
@@ -148,8 +145,8 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     if (this.accountSubscription) {
       this.accountSubscription.unsubscribe();
     }
-    if (this.chatroomReceivedData) {
-      this.chatroomReceivedData.unsubscribe();
+    if (this.chatroomsSubscription) {
+      this.chatroomsSubscription.unsubscribe();
     }
   }
 }

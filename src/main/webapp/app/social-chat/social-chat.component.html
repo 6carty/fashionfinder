@@ -14,17 +14,23 @@
     <div class="search-bar">
       <div class="center">
         <div class="dropdown-new-item">
-          <span><h5>Create New Chatroom</h5></span>
-          <div class="dropdown-new-item-content">
-            <h5>Chatroom Name</h5>
-            <input type="text" id="chatroomField" />
-            <h5>Creator</h5>
-            <input type="number" id="creatorField" />
-            <h5>Recipient</h5>
-            <input type="number" id="recipientField" />
-            <br /><br />
-            <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()"><h5>Create new chatroom</h5></div>
-          </div>
+          <span *ngIf="account">
+            <h5>Create New Chatroom</h5>
+            <div class="dropdown-new-item-content">
+              <h5>Chatroom Name</h5>
+              <input type="text" id="chatroomField" />
+              <h5>Creator</h5>
+              <input type="number" id="creatorField" />
+              <h5>Recipient</h5>
+              <input type="number" id="recipientField" />
+              <br /><br />
+              <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()"><h5>Create new chatroom</h5></div>
+            </div>
+          </span>
+
+          <button [routerLink]="['/login']">
+            <span *ngIf="!account"> Sign in to start chatting </span>
+          </button>
         </div>
       </div>
     </div>
