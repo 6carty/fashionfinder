@@ -37,6 +37,7 @@ type EventFormGroupContent = {
   dateTime: FormControl<EventFormRawValue['dateTime']>;
   endTime: FormControl<EventFormRawValue['endTime']>;
   outfit: FormControl<EventFormRawValue['outfit']>;
+  creator: FormControl<EventFormRawValue['creator']>;
 };
 
 export type EventFormGroup = FormGroup<EventFormGroupContent>;
@@ -65,6 +66,7 @@ export class EventFormService {
       }),
       endTime: new FormControl(eventRawValue.endTime),
       outfit: new FormControl(eventRawValue.outfit),
+      creator: new FormControl(eventRawValue.creator),
     });
   }
 

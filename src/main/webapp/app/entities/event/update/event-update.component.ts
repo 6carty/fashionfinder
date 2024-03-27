@@ -9,6 +9,8 @@ import { IEvent } from '../event.model';
 import { EventService } from '../service/event.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
+import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
+import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 
 @Component({
   selector: 'jhi-event-update',
@@ -19,6 +21,7 @@ export class EventUpdateComponent implements OnInit {
   event: IEvent | null = null;
 
   outfitsSharedCollection: IOutfit[] = [];
+  userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: EventFormGroup = this.eventFormService.createEventFormGroup();
 
@@ -26,10 +29,13 @@ export class EventUpdateComponent implements OnInit {
     protected eventService: EventService,
     protected eventFormService: EventFormService,
     protected outfitService: OutfitService,
+    protected userProfileService: UserProfileService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
+
+  compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
@@ -80,6 +86,10 @@ export class EventUpdateComponent implements OnInit {
     this.eventFormService.resetForm(this.editForm, event);
 
     this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(this.outfitsSharedCollection, event.outfit);
+    this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
+      this.userProfilesSharedCollection,
+      event.creator
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -88,5 +98,15 @@ export class EventUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))
       .pipe(map((outfits: IOutfit[]) => this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(outfits, this.event?.outfit)))
       .subscribe((outfits: IOutfit[]) => (this.outfitsSharedCollection = outfits));
+
+    this.userProfileService
+      .query()
+      .pipe(map((res: HttpResponse<IUserProfile[]>) => res.body ?? []))
+      .pipe(
+        map((userProfiles: IUserProfile[]) =>
+          this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(userProfiles, this.event?.creator)
+        )
+      )
+      .subscribe((userProfiles: IUserProfile[]) => (this.userProfilesSharedCollection = userProfiles));
   }
 }
