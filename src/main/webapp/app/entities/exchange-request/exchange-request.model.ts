@@ -7,6 +7,7 @@ export interface IExchangeRequest {
   imageContentType?: string | null;
   description?: string | null;
   clothingItem?: Pick<IClothingItem, 'id' | 'name'> | null;
+  creater?: Pick<IUserProfile, 'id'> | null;
   requester?: Pick<IUserProfile, 'id'> | null;
 }
 

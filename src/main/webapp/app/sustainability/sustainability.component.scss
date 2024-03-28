@@ -364,10 +364,12 @@ button:active.clear-button {
   background-color: #0056b3; /* Darker blue color */
 }
 
+.error-container,
 .tick-container {
   margin-bottom: 20px; /* Add some space below the tick image */
 }
 
+.error-container img,
 .tick-container img {
   width: 100px; /* Set the width of the tick image */
 

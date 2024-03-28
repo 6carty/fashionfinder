@@ -14,6 +14,7 @@ export class SustainabilityComponent implements OnInit {
   latestExchangeRequests: IExchangeRequest[] = [];
   account: Account | null = null;
   selectedExchangeRequest: IExchangeRequest | null = null;
+  showErrorPopup = false;
 
   // latestUserExchangeRequests: IExchangeRequest[] = [];
   // latestOtherExchangeRequests: IExchangeRequest[] = [];
@@ -41,14 +42,22 @@ export class SustainabilityComponent implements OnInit {
 
   selectItem(exchangeRequest: IExchangeRequest): void {
     this.selectedExchangeRequest = exchangeRequest;
+    // Check if creator ID and requester ID are the same
   }
 
   confirmExchange(): void {
     if (this.selectedExchangeRequest) {
       // Implement logic to handle the exchange confirmation
-      console.log('Exchange confirmed for:', this.selectedExchangeRequest.clothingItem);
-      this.closePopup(); // Close the first popup
-      this.openSecondPopup(); // Open the second popup when exchange is confirmed
+      if (this.selectedExchangeRequest.creater?.id === this.selectedExchangeRequest.requester?.id) {
+        this.showErrorPopup = true; // Show the error popup
+        this.openErrorPopup();
+        this.closePopup();
+      } else {
+        console.log('Exchange confirmed for:', this.selectedExchangeRequest.clothingItem);
+        this.closePopup(); // Close the first popup
+        this.openSecondPopup(); // Open the second popup when exchange is confirmed
+      }
+
       // Clear the selected item after confirmation
       this.selectedExchangeRequest = null;
     }
@@ -66,6 +75,10 @@ export class SustainabilityComponent implements OnInit {
     document.getElementById('popup')!.style.display = 'block';
   }
 
+  openErrorPopup(): void {
+    document.getElementById('error-popup')!.style.display = 'block';
+  }
+
   closePopup(): void {
     document.getElementById('popup')!.style.display = 'none';
   }
@@ -79,7 +92,7 @@ export class SustainabilityComponent implements OnInit {
   }
 
   closeThirdPopup(): void {
-    document.getElementById('third-popup')!.style.display = 'none';
+    document.getElementById('error-popup')!.style.display = 'none';
   }
 
   reloadPageToSeeLatestChoice(): void {

@@ -169,6 +169,8 @@ relationship ManyToOne {
     UserMilestone to MilestoneType{type}
     Message to Chatroom{chatroom(name)}
     ExchangeRequest{ClothingItem(name)} to ClothingItem
+    ExchangeRequest{creater} to UserProfile
+    ExchangeRequest{requester} to UserProfile
 }
 
 relationship OneToMany {
@@ -178,7 +180,6 @@ relationship OneToMany {
     UserProfile{ClothingItems} to ClothingItem{owner}
     UserProfile{outfits} to Outfit{creator}
     UserProfile to Message
-    UserProfile{exchangeRequests} to ExchangeRequest{requester}
     UserProfile{purchaseListings} to PurchaseListing{seller}
     UserProfile{saleListings} to SaleListing{seller}
     UserProfile{fashionTips} to FashionTip{author}

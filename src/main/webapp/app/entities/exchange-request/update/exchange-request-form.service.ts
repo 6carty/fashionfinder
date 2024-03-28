@@ -22,6 +22,7 @@ type ExchangeRequestFormGroupContent = {
   imageContentType: FormControl<IExchangeRequest['imageContentType']>;
   description: FormControl<IExchangeRequest['description']>;
   clothingItem: FormControl<IExchangeRequest['clothingItem']>;
+  creater: FormControl<IExchangeRequest['creater']>;
   requester: FormControl<IExchangeRequest['requester']>;
 };
 
@@ -48,6 +49,7 @@ export class ExchangeRequestFormService {
         validators: [Validators.required],
       }),
       clothingItem: new FormControl(exchangeRequestRawValue.clothingItem),
+      creater: new FormControl(exchangeRequestRawValue.creater),
       requester: new FormControl(exchangeRequestRawValue.requester),
     });
   }

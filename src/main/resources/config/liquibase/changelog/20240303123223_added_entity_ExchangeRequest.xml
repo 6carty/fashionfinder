@@ -26,6 +26,9 @@
             <column name="clothing_item_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="creater_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="requester_id" type="bigint">
                 <constraints nullable="true" />
             </column>

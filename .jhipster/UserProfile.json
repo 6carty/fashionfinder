@@ -83,12 +83,6 @@
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "exchangeRequest",
-      "otherEntityRelationshipName": "requester",
-      "relationshipName": "exchangeRequests",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "purchaseListing",
       "otherEntityRelationshipName": "seller",
       "relationshipName": "purchaseListings",

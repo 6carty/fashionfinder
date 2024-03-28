@@ -30,7 +30,11 @@
     },
     {
       "otherEntityName": "userProfile",
-      "otherEntityRelationshipName": "exchangeRequests",
+      "relationshipName": "creater",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
       "relationshipName": "requester",
       "relationshipType": "many-to-one"
     }

@@ -49,11 +49,33 @@ public class ExchangeRequest implements Serializable {
             "clothingItems",
             "outfits",
             "messages",
-            "exchangeRequests",
             "purchaseListings",
             "saleListings",
             "fashionTips",
             "userMilestones",
+            "events",
+            "chatrooms",
+            "calendar",
+        },
+        allowSetters = true
+    )
+    private UserProfile creater;
+
+    @ManyToOne
+    @JsonIgnoreProperties(
+        value = {
+            "user",
+            "posts",
+            "comments",
+            "likes",
+            "clothingItems",
+            "outfits",
+            "messages",
+            "purchaseListings",
+            "saleListings",
+            "fashionTips",
+            "userMilestones",
+            "events",
             "chatrooms",
             "calendar",
         },
@@ -125,6 +147,19 @@ public class ExchangeRequest implements Serializable {
 
     public ExchangeRequest clothingItem(ClothingItem clothingItem) {
         this.setClothingItem(clothingItem);
+        return this;
+    }
+
+    public UserProfile getCreater() {
+        return this.creater;
+    }
+
+    public void setCreater(UserProfile userProfile) {
+        this.creater = userProfile;
+    }
+
+    public ExchangeRequest creater(UserProfile userProfile) {
+        this.setCreater(userProfile);
         return this;
     }
 

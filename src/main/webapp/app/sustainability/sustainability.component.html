@@ -123,11 +123,11 @@
         <div class="grid-item-header">Clothing Item</div>
         <div class="grid-item-header">Description</div>
         <div class="grid-item-header">Image</div>
-        <div class="grid-item-header">Requester ID</div>
+        <div class="grid-item-header">Description</div>
         <div class="grid-item-header">Select</div>
         <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 5)">
           <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>
-          <div class="grid-item">{{ exchangeRequest.description }}</div>
+          <div class="grid-item">{{ exchangeRequest.creater?.id }}</div>
           <div class="grid-item">
             <img
               [src]="'data:image/png;base64,' + exchangeRequest.image"
@@ -179,10 +179,10 @@
   </div>
 </div>
 
-<div id="error-popup" class="popup">
+<div id="error-popup" class="popup" *ngIf="showErrorPopup">
   <div class="popup-content">
-    <span class="close" (click)="closeSecondPopup()">&times;</span>
-    <div class="tick-container">
+    <span class="close" (click)="closeThirdPopup()">&times;</span>
+    <div class="error-container">
       <img src="/content/images/error-message.png" alt="Error message Image" />
     </div>
     <h2>Error</h2>
