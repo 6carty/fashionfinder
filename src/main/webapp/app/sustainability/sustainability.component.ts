@@ -6,8 +6,6 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 
 
-
-
 @Component({
   selector: 'jhi-sustainability',
   templateUrl: './sustainability.component.html',
@@ -17,6 +15,9 @@ export class SustainabilityComponent implements OnInit {
   latestExchangeRequests: IExchangeRequest [] = [];
   account: Account | null = null;
   selectedExchangeRequest: IExchangeRequest | null = null;
+
+
+
 
   // latestUserExchangeRequests: IExchangeRequest[] = [];
   // latestOtherExchangeRequests: IExchangeRequest[] = [];
@@ -55,23 +56,77 @@ export class SustainabilityComponent implements OnInit {
   confirmExchange(): void {
     if (this.selectedExchangeRequest) {
       // Implement logic to handle the exchange confirmation
-      console.log("Exchange confirmed for:", this.selectedExchangeRequest);
+      console.log("Exchange confirmed for:", this.selectedExchangeRequest.clothingItem);
+      this.closePopup(); // Close the first popup
+      this.openSecondPopup(); // Open the second popup when exchange is confirmed
+
       // Clear the selected item after confirmation
       this.selectedExchangeRequest = null;
+
     }
+  }
+
+
+  cancelExchange(): void {
+    // Implement logic to cancel the exchange
+    console.log("Exchange canceled!");
+
+    // Close the popup
+    this.closePopup();
   }
 
   openPopup(): void {
     document.getElementById('popup')!.style.display = 'block';
   }
+
   closePopup(): void {
     document.getElementById('popup')!.style.display = 'none';
   }
 
-  clearSelection(): void {
-    // Reset any selection logic here
-    this.selectedExchangeRequest = null;
+  openSecondPopup(): void {
+    document.getElementById('second-popup')!.style.display = 'block';
   }
+
+  closeSecondPopup(): void {
+    document.getElementById('second-popup')!.style.display = 'none';
+  }
+
+  closeThirdPopup(): void {
+    document.getElementById('third-popup')!.style.display = 'none';
+  }
+
+  reloadPageToSeeLatestChoice(): void {
+    window.location.reload();
+  }
+
+
+
+
+  // back(): void {
+  //   // Implement the logic to go back
+  //   window.history.back();
+  // }
+
+  // openSecondPopup(): void {
+  //   document.getElementById('secondPopup')!.style.display = 'block';
+  // }
+
+
+
+  // proceed(): void {
+  //
+  //   if (window.confirm("Do you really want to leave?")) {
+  //     window.open("exit.html", "Thanks for Visiting!");
+  //   }
+
+    // const result = confirm("Are you sure you want to proceed?");
+    // if (result) {
+    //   // User clicked OK, proceed with action
+    //   // For example, navigate to another page or perform some operation
+    //   this.openSecondPopup();
+    // } else {
+    //   // User clicked Cancel, do nothing or handle accordingly
+    // }
 }
 
 

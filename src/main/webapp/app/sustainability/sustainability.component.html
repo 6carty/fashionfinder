@@ -104,7 +104,7 @@
       <p style="text-align: center">Click the buttons below to exchange your clothes with the community.</p>
     </div>
     <div class="ButtonContainer">
-      <button class="BuySellButton" [routerLink]="['/clothing-item/new']">Add new item</button>
+      <button class="BuySellButton" [routerLink]="['/wardrobe']">Add new item to wardrobe</button>
       <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
     </div>
 
@@ -137,27 +137,61 @@
         </div>
       <div class="button" *ngIf="account">
         <!-- Button for canceling the choice the exchange -->
-        <button [disabled]="!selectedExchangeRequest" (click)="clearSelection()" class="cancel-button">Cancel</button>
+        <button  (click)="reloadPageToSeeLatestChoice()" class="clear-button">Clear Selection</button>
         <!-- Button for confirming the exchange -->
         <button [disabled]="!selectedExchangeRequest" (click)="openPopup()" class="confirm-button">Confirm Exchange</button>
 
       </div>
-      </div>
+    </div>
 
 <!--      <button (click)="openPopup()">Open Popup</button>-->
 
       <!-- The popup window -->
-
-
     </div>
   </div>
-<div id="popup" class="popup">
+<div id="popup" class="popup" >
   <div class="popup-content">
     <span class="close" (click)="closePopup()">&times;</span> <!-- Button to close the popup -->
-    <h2>Popup Title</h2>
-    <p>Popup message goes here.</p>
+    <h2>Confirm this exchange?</h2>
+    <p>The item you are going to exchange is created {{selectedExchangeRequest?.clothingItem?.name}} by </p>
+    <button class="confirm-button" (click)="confirmExchange()">Yes</button>
+    <button class="cancel-button" (click)="cancelExchange()">No</button>
   </div>
 </div>
+
+<div id="second-popup" class="popup">
+  <div class="popup-content">
+    <span class="close" (click)="closeThirdPopup()">&times;</span>
+    <div class="tick-container">
+      <img src="/content/images/GreenTick.png" alt="Green Tick Image">
+    </div>
+    <h2>THis is an error</h2>
+    <p>Your request has been proceeded</p>
+  </div>
+</div>
+
+<div id="error-popup" class="popup">
+  <div class="popup-content">
+    <span class="close" (click)="closeSecondPopup()">&times;</span>
+    <div class="tick-container">
+      <img src="/content/images/GreenTick.png" alt="Green Tick Image">
+    </div>
+    <h2>Thank you!</h2>
+    <p>Your request has been proceeded</p>
+  </div>
+</div>
+
+<!--    <div class="button-container">-->
+<!--      <button class="popup-button" (click)="proceed()">Back</button>-->
+<!--      <button class="popup-button" (click)="back()">Proceed</button>-->
+<!--      <div class="second-popup-content" *ngIf="proceed()">-->
+<!--        <h2>This works!</h2>-->
+<!--        <p>Continue</p>-->
+<!--      </div>-->
+
+<!--    </div>-->
+
+
 <!--      <div class="grid-container">-->
 <!--        <div class="grid-item-header">Clothing Item</div>-->
 <!--        <div class="grid-item-header">Description</div>-->
