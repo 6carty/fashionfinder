@@ -11,18 +11,17 @@
   font-size: 50px;
   font-family: 'Playfair Display';
   color: white;
-  background-image: url("/content/images/SustainableBanner.png");
+  background-image: url('/content/images/SustainableBanner.png');
   //background-image: url("https://img.businessoffashion.com/resizer/AUhhVIFVu0pPpTb0pY_eQKuMf38=/1440x0/filters:format(png):quality(70)/cloudfront-eu-central-1.images.arcpublishing.com/businessoffashion/75XJGRKJXJGTDBF34AZFTDUDDA.png");
 }
 
-.column{
+.column {
   box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-
 // Define variables
-$primary-color: #4CAF50;
+$primary-color: #4caf50;
 $hover-color: #45a049;
 
 // Styles
@@ -30,14 +29,12 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.Paragraph{
+.Paragraph {
   font-size: 16px;
-
 }
 .quote {
   font-size: 18px;
 }
-
 
 .grid1 {
   display: grid;
@@ -55,7 +52,7 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(5, auto);
-  background-color: #2196F3;
+  background-color: #2196f3;
   padding: 10px;
 }
 .grid-item {
@@ -75,16 +72,14 @@ body {
   margin-bottom: 5px;
 }
 
-
-
-.another-grid-container{
+.another-grid-container {
   display: grid;
   grid-template-columns: repeat(4, auto);
-  background-color: #2196F3;
+  background-color: #2196f3;
   padding: 10px;
 }
 
-.another-grid-item{
+.another-grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
@@ -92,9 +87,7 @@ body {
   text-align: left;
 }
 
-
-
-.ExchangeRequest{
+.ExchangeRequest {
   display: block;
   justify-content: space-evenly;
   width: 100%;
@@ -111,22 +104,17 @@ body {
   width: 100%;
   height: auto;
   //border: 1px solid;
-
 }
-
-
-
 
 .quote {
   font-size: 20px;
   font-style: italic;
 }
 
-.ButtonContainer{
+.ButtonContainer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
 }
 
 button {
@@ -189,6 +177,7 @@ button {
   display: inline;
 }
 
+.DirectSocialChat,
 .ExchangeButton {
   display: block;
   box-sizing: border-box;
@@ -201,11 +190,13 @@ button {
   transition: transform 0.1s ease;
 }
 
+button:hover.DirectSocialChat,
 button:hover.ExchangeButton {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
 
+button:active.DirectSocialChat,
 button:active.ExchangeButton {
   /* Push the button downwards when pressed */
   transform: translateY(0);
@@ -234,7 +225,6 @@ button:active.ExchangeButton {
 //  box-shadow: 0 0 0 0 black;
 //};
 
-
 //.ExchangeButton{
 //  background-color: #04AA6D; /* Green */
 //  border: none;
@@ -260,7 +250,7 @@ button:active.ExchangeButton {
 //}
 
 .confirm-button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   border: none;
   color: white;
   padding: 10px 20px;
@@ -384,8 +374,6 @@ button:active.clear-button {
   height: 100px; /* Set the height of the tick image */
 }
 
-
-
 /* Close button */
 .close {
   color: #aaa;
@@ -400,16 +388,3 @@ button:active.clear-button {
   text-decoration: none;
   cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
