@@ -85,11 +85,14 @@
             formControlName="creator"
             [compareWith]="compareUserProfile"
           >
-            <option [ngValue]="null"></option>
+            <option *ngIf="editForm.get(['creator'])!.value == null" [ngValue]="null" selected></option>
             <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
               {{ userProfileOption.id }}
             </option>
           </select>
+        </div>
+        <div *ngIf="editForm.get(['creator'])!.invalid && (editForm.get(['creator'])!.dirty || editForm.get(['creator'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['creator'])?.errors?.required"> This field is required. </small>
         </div>
       </div>
 

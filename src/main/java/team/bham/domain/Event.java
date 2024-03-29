@@ -43,7 +43,8 @@ public class Event implements Serializable {
     @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Outfit outfit;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(
         value = {
             "user",
@@ -53,7 +54,6 @@ public class Event implements Serializable {
             "clothingItems",
             "outfits",
             "messages",
-            "exchangeRequests",
             "purchaseListings",
             "saleListings",
             "fashionTips",

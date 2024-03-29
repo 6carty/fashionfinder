@@ -66,7 +66,9 @@ export class EventFormService {
       }),
       endTime: new FormControl(eventRawValue.endTime),
       outfit: new FormControl(eventRawValue.outfit),
-      creator: new FormControl(eventRawValue.creator),
+      creator: new FormControl(eventRawValue.creator, {
+        validators: [Validators.required],
+      }),
     });
   }
 
