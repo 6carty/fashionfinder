@@ -19,10 +19,11 @@
             <div class="dropdown-new-item-content">
               <h5>Chatroom Name</h5>
               <input type="text" id="chatroomField" />
-              <h5>Creator</h5>
-              <input type="number" id="creatorField" />
-              <h5>Recipient</h5>
-              <input type="number" id="recipientField" />
+
+              <!-- Remove Creator Input as it's no longer needed -->
+              <h5>Recipient Login</h5>
+              <input type="text" id="recipientField" placeholder="Enter recipient login" />
+
               <br /><br />
               <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()"><h5>Create new chatroom</h5></div>
             </div>
@@ -42,7 +43,6 @@
             <!--            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image"/>-->
             <div class="chatroom-info">
               <div class="chatroom-name">
-                {{ chatroom.name }}
                 <span>{{ chatroom.name }}</span>
               </div>
               <!--              <div class="chatroom-last-message">{{ chatroom.lastMessage }}</div>-->

@@ -11,6 +11,7 @@ import { ChatroomService } from '../entities/chatroom/service/chatroom.service';
 import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
 import { getUserIdentifier } from '../entities/user/user.model';
 import { IUser } from 'app/entities/user/user.model';
+import { UserManagementService } from '../admin/user-management/service/user-management.service';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -31,7 +32,8 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   constructor(
     private accountService: AccountService,
     private changeDetectorRef: ChangeDetectorRef,
-    private chatroomService: ChatroomService
+    private chatroomService: ChatroomService,
+    private userManagementService: UserManagementService
   ) {}
 
   fetchChatrooms(): void {
@@ -46,23 +48,52 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   }
 
   onCreateChatroomButtonClick() {
-    const inputElement = document.getElementById('chatroomField') as HTMLInputElement;
-    this.userInput = inputElement.value;
+    const chatroomInputElement = document.getElementById('chatroomField') as HTMLInputElement;
+    const recipientLoginElement = document.getElementById('recipientField') as HTMLInputElement;
 
-    const inputElement2 = document.getElementById('creatorField') as HTMLInputElement;
-    this.userInput2 = inputElement2.value;
+    this.userInput = chatroomInputElement.value;
+    this.userInput3 = recipientLoginElement.value;
 
-    const inputElement3 = document.getElementById('recipientField') as HTMLInputElement;
-    this.userInput3 = inputElement3.value;
+    if (this.account?.login) {
+      // First, find the ID of the currently logged-in user using their login.
+      this.userManagementService.find(this.account.login).subscribe({
+        next: creatorUser => {
+          // Check if the user and the user's ID is not null
+          if (creatorUser?.id != null) {
+            this.findRecipientAndCreateChatroom(this.userInput, creatorUser.id, this.userInput3);
+          } else {
+            console.error(`No user found with login ${this.account?.login}`);
+          }
+        },
+        error: error => {
+          console.error('There was an error finding the creator user by login:', error);
+        },
+      });
+    } else {
+      console.error('No account is currently logged in, or the account does not have a login.');
+    }
+  }
 
-    const chatrooms: NewChatroom = {
-      id: null,
-      name: this.userInput,
-      creator: { id: parseInt(this.userInput2, 10) },
-      recipient: { id: parseInt(this.userInput3, 10) },
-    };
+  findRecipientAndCreateChatroom(chatroomName: string, creatorId: number, recipientLogin: string): void {
+    this.userManagementService.find(recipientLogin).subscribe({
+      next: recipientUser => {
+        if (recipientUser?.id != null) {
+          const chatroom: NewChatroom = {
+            id: null,
+            name: chatroomName,
+            creator: { id: creatorId },
+            recipient: { id: recipientUser.id },
+          };
 
-    this.subscribeToSaveResponseChatroom(this.chatroomService.create(chatrooms));
+          this.subscribeToSaveResponseChatroom(this.chatroomService.create(chatroom));
+        } else {
+          console.error(`No user found with login ${recipientLogin}`);
+        }
+      },
+      error: error => {
+        console.error(`There was an error finding user by login ${recipientLogin}:`, error);
+      },
+    });
   }
 
   protected subscribeToSaveResponseChatroom(result: Observable<HttpResponse<IChatroom>>): void {
