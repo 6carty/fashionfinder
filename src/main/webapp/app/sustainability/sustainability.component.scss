@@ -20,6 +20,11 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+.YoutubeContainer {
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 // Define variables
 $primary-color: #4caf50;
 $hover-color: #45a049;
@@ -152,18 +157,6 @@ button:active.BuySellButton {
   transform: translateY(0);
 }
 
-//.BuySellButton {
-//  padding: 10px 15px;
-//  margin-top: 10px;
-//  background: $primary-color;
-//  color: white;
-//  text-decoration: none;
-//
-//  &:hover {
-//    background: $hover-color;
-//  }
-//}
-
 button {
   /* Variables */
   --button_radius: 0.75em;
@@ -177,6 +170,7 @@ button {
   display: inline;
 }
 
+.UserProfileButton,
 .DirectSocialChat,
 .ExchangeButton {
   display: block;
@@ -190,12 +184,14 @@ button {
   transition: transform 0.1s ease;
 }
 
+button:hover.UserProfileButton,
 button:hover.DirectSocialChat,
 button:hover.ExchangeButton {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
 
+button:active.UserProfileButton,
 button:active.DirectSocialChat,
 button:active.ExchangeButton {
   /* Push the button downwards when pressed */
@@ -376,6 +372,12 @@ button:active.clear-button {
   height: 100px; /* Set the height of the tick image */
 }
 
+.QuestionMark-container img {
+  width: 100px; /* Set the width of the tick image */
+
+  height: 100px; /* Set the height of the tick image */
+}
+
 /* Close button */
 .close {
   color: #aaa;
@@ -390,3 +392,48 @@ button:active.clear-button {
   text-decoration: none;
   cursor: pointer;
 }
+
+.video-columns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column2 {
+  width: calc(33.33% - 10px); /* Each column takes up one-third of the container width */
+  margin-right: 10px;
+}
+
+.column:last-child {
+  margin-right: 0; /* Remove right margin from the last column */
+}
+
+.video {
+  margin-bottom: 10px;
+}
+
+.description {
+  padding: 10px;
+  //border: 1px solid #ccc;
+}
+
+//
+//
+//.video-container {
+//  margin-bottom: 20px;
+//}
+//
+//.video-container iframe {
+//  width: 30%; /* Adjust the width as needed */
+//  height: 315px; /* Adjust the height as needed */
+//}
+//
+//.video-title {
+//  font-size: 20px;
+//  font-weight: bold;
+//  margin-bottom: 10px;
+//}
+//
+//.video-description {
+//  font-size: 16px;
+//  margin-bottom: 20px;
+//}

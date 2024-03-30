@@ -97,7 +97,30 @@
     </ol>
   </div>
   <div class="column">
-    <p>Something here</p>
+    <p>Some YouTube Videos here</p>
+  </div>
+</div>
+
+<div class="ExchangeRequest">
+  <div class="YoutubeContainer">
+    <div class="video-columns">
+      <div class="column2" *ngFor="let video of videos">
+        <div class="video">
+          <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="description">
+          <h3>{{ video.snippet.title }}</h3>
+          <p>{{ video.snippet.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!--    <div class="video-container" *ngFor="let video of videos">-->
+    <!--      <h3 class="video-title">{{ video.snippet.title }}</h3>-->
+    <!--      <p>Video ID: {{ video.id.videoId }}</p> &lt;!&ndash; Add this line &ndash;&gt;-->
+    <!--      <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" allowfullscreen></iframe>-->
+    <!--      <p class="video-description">{{ video.snippet.description }}</p>-->
+    <!--    </div>-->
   </div>
 </div>
 
@@ -105,9 +128,12 @@
   <div class="ExchangeRequestGrid">
     <div class="headingText">
       <h2 style="text-align: center">Now it's your chance to save the Earth!</h2>
-      <p style="text-align: center">Click the buttons below to exchange your clothes with the community.</p>
+      <p style="text-align: center">
+        Create your User Profile first and Click the buttons below to exchange your clothes with the community.
+      </p>
     </div>
     <div class="ButtonContainer">
+      <button class="UserProfileButton" [routerLink]="['/user-profile/new']">New User-profile</button>
       <button class="BuySellButton" [routerLink]="['/wardrobe']">Add new item to wardrobe</button>
       <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
     </div>
@@ -157,6 +183,9 @@
 <div id="popup" class="popup">
   <div class="popup-content">
     <span class="close" (click)="closePopup()">&times;</span>
+    <div class="QuestionMark-container">
+      <img src="/content/images/question.gif" alt="question mark Image" />
+    </div>
     <!-- Button to close the popup -->
     <h2>Confirm this exchange?</h2>
     <p>The item you are going to exchange for {{ selectedExchangeRequest?.clothingItem?.name }} by</p>

@@ -4,6 +4,8 @@ import { IExchangeRequest } from '../entities/exchange-request/exchange-request.
 import { ProfileService } from '../layouts/profiles/profile.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
+import { YoutubeService } from './YouTubeApi/youtube.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'jhi-sustainability',
@@ -15,11 +17,17 @@ export class SustainabilityComponent implements OnInit {
   account: Account | null = null;
   selectedExchangeRequest: IExchangeRequest | null = null;
   showErrorPopup = false;
+  videos: any[] = [];
 
   // latestUserExchangeRequests: IExchangeRequest[] = [];
   // latestOtherExchangeRequests: IExchangeRequest[] = [];
 
-  constructor(private exchangeRequestService: ExchangeRequestService, private accountService: AccountService) {}
+  constructor(
+    private exchangeRequestService: ExchangeRequestService,
+    private accountService: AccountService,
+    private youtubeService: YoutubeService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     // Fetch exchange request data
@@ -27,6 +35,16 @@ export class SustainabilityComponent implements OnInit {
 
     this.accountService.getAuthenticationState().subscribe(account => {
       this.account = account;
+    });
+
+    this.youtubeService.getFashionGuideVideos().subscribe((response: any) => {
+      this.videos = response.items.map((video: any) => ({
+        ...video,
+        snippet: {
+          ...video.snippet,
+          title: this.decodeHtmlEntity(video.snippet.title), // Decode HTML entities in title
+        },
+      }));
     });
   }
 
@@ -97,6 +115,16 @@ export class SustainabilityComponent implements OnInit {
 
   reloadPageToSeeLatestChoice(): void {
     window.location.reload();
+  }
+
+  decodeHtmlEntity(text: string): string {
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = text;
+    return textArea.value;
+  }
+
+  getSafeUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   // back(): void {
