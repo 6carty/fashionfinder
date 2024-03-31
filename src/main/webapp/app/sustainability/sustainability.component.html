@@ -96,10 +96,46 @@
       </p>
     </ol>
   </div>
-  <div class="column">
-    <p>Some YouTube Videos here</p>
+  <!--  <div class="column">-->
+  <!--    <h3 style="text-align: center;">If you get some ideas, why not share them here?</h3>-->
+  <!--    <button class="FashionTipsButton" [routerLink]="['/user-profile/new']">Fashion Tips-->
+
+  <!--    </button>-->
+  <!--  </div>-->
+</div>
+
+<div class="ExchangeRequest">
+  <div class="YoutubeContainer">
+    <div class="video-slider-container">
+      <div class="ExternalResource-Title">
+        <h3 style="margin-left: 10px">More on sustainable fashion</h3>
+        <hr />
+        <p>Here are some YouTube videos that provides more information on sustainable fashion</p>
+      </div>
+      <div class="video-slider">
+        <div class="video-slide" *ngFor="let video of videos">
+          <div class="video">
+            <iframe
+              width="300"
+              height="300"
+              [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="description">
+            <h3>{{ video.snippet.title }}</h3>
+            <p>{{ video.snippet.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--    <button class="arrow left-arrow" (click)="slidePrevious()">&lt;</button>-->
+    <!--    <button class="arrow right-arrow" (click)="slideNext()">&gt;</button>-->
   </div>
 </div>
+
+<!--
 
 <div class="ExchangeRequest">
   <div class="YoutubeContainer">
@@ -115,14 +151,15 @@
       </div>
     </div>
 
-    <!--    <div class="video-container" *ngFor="let video of videos">-->
-    <!--      <h3 class="video-title">{{ video.snippet.title }}</h3>-->
-    <!--      <p>Video ID: {{ video.id.videoId }}</p> &lt;!&ndash; Add this line &ndash;&gt;-->
-    <!--      <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" allowfullscreen></iframe>-->
-    <!--      <p class="video-description">{{ video.snippet.description }}</p>-->
-    <!--    </div>-->
+    &lt;!&ndash;    <div class="video-container" *ngFor="let video of videos">&ndash;&gt;
+    &lt;!&ndash;      <h3 class="video-title">{{ video.snippet.title }}</h3>&ndash;&gt;
+    &lt;!&ndash;      <p>Video ID: {{ video.id.videoId }}</p> &lt;!&ndash; Add this line &ndash;&gt;&ndash;&gt;
+    &lt;!&ndash;      <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" allowfullscreen></iframe>&ndash;&gt;
+    &lt;!&ndash;      <p class="video-description">{{ video.snippet.description }}</p>&ndash;&gt;
+    &lt;!&ndash;    </div>&ndash;&gt;
   </div>
 </div>
+-->
 
 <div class="ExchangeRequest">
   <div class="ExchangeRequestGrid">
@@ -134,7 +171,7 @@
     </div>
     <div class="ButtonContainer">
       <button class="UserProfileButton" [routerLink]="['/user-profile/new']">New User-profile</button>
-      <button class="BuySellButton" [routerLink]="['/wardrobe']">Add new item to wardrobe</button>
+      <button class="BuySellButton" [routerLink]="['/wardrobe']">Add item to wardrobe</button>
       <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
     </div>
 

@@ -22,8 +22,6 @@ describe('FashionTip Form Service', () => {
             id: expect.any(Object),
             title1: expect.any(Object),
             description1: expect.any(Object),
-            title2: expect.any(Object),
-            description2: expect.any(Object),
             author: expect.any(Object),
           })
         );
@@ -37,8 +35,6 @@ describe('FashionTip Form Service', () => {
             id: expect.any(Object),
             title1: expect.any(Object),
             description1: expect.any(Object),
-            title2: expect.any(Object),
-            description2: expect.any(Object),
             author: expect.any(Object),
           })
         );

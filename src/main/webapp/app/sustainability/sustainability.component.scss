@@ -1,7 +1,7 @@
 .TitleBox {
   width: 100%;
   height: 100px;
-  border: 0.5px solid rgba(26, 25, 25, 0.12);
+  //border: 0.5px solid rgba(26, 25, 25, 0.12);
   padding: 10px;
   margin: 10px;
   //background-color: #e2a417;
@@ -44,7 +44,7 @@ body {
 .grid1 {
   display: grid;
   grid-auto-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   margin-top: 20px;
   border: #555555;
   padding: 20px;
@@ -170,6 +170,7 @@ button {
   display: inline;
 }
 
+.FashionTipsButton,
 .UserProfileButton,
 .DirectSocialChat,
 .ExchangeButton {
@@ -184,6 +185,7 @@ button {
   transition: transform 0.1s ease;
 }
 
+button:hover.FashionTipsButton,
 button:hover.UserProfileButton,
 button:hover.DirectSocialChat,
 button:hover.ExchangeButton {
@@ -191,6 +193,7 @@ button:hover.ExchangeButton {
   transform: translateY(-0.33em);
 }
 
+button:active.FashionTipsButton,
 button:active.UserProfileButton,
 button:active.DirectSocialChat,
 button:active.ExchangeButton {
@@ -398,9 +401,17 @@ button:active.clear-button {
   justify-content: space-between;
 }
 
+.video-slide,
 .column2 {
   width: calc(33.33% - 10px); /* Each column takes up one-third of the container width */
   margin-right: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px -8px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Align items vertically */
 }
 
 .column:last-child {
@@ -408,12 +419,28 @@ button:active.clear-button {
 }
 
 .video {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .description {
+  flex: 1; /* Allow the description to fill the available space */
+  max-width: 50%; /* Set a maximum width for the description */
+  margin-left: 10px; /* Add some spacing between the video and description */
+  //max-width: 100%;
+  word-wrap: break-word;
   padding: 10px;
-  //border: 1px solid #ccc;
+
+  border: 1px solid #ccc;
+}
+
+.description h3 {
+  font-size: 30px;
+  margin-bottom: 10px; /* Add some spacing below the title */
+}
+
+.description p {
+  word-wrap: break-word; /* Allow long words to break */
 }
 
 //
@@ -437,3 +464,32 @@ button:active.clear-button {
 //  font-size: 16px;
 //  margin-bottom: 20px;
 //}
+
+.video-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Optional: Smooth scrolling on iOS */
+}
+
+.video-slide {
+  flex: 0 0 auto;
+  margin-right: 20px; /* Adjust spacing between slides */
+  scroll-snap-align: start;
+}
+
+.video-slide iframe {
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+/* Optional: Hide horizontal scrollbar */
+.video-slider::-webkit-scrollbar {
+  display: flex;
+}
+
+.video-slider-container {
+  position: relative;
+  overflow-x: auto; /* Add horizontal scrollbar */
+  white-space: nowrap; /* Keep slides in a single line */
+}

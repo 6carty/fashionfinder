@@ -43,7 +43,6 @@ export class NavbarComponent implements OnInit {
       this.account = account;
     });
   }
-
   collapseNavbar(): void {
     this.isNavbarCollapsed = true;
   }

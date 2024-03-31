@@ -20,8 +20,6 @@ type FashionTipFormGroupContent = {
   id: FormControl<IFashionTip['id'] | NewFashionTip['id']>;
   title1: FormControl<IFashionTip['title1']>;
   description1: FormControl<IFashionTip['description1']>;
-  title2: FormControl<IFashionTip['title2']>;
-  description2: FormControl<IFashionTip['description2']>;
   author: FormControl<IFashionTip['author']>;
 };
 
@@ -46,8 +44,6 @@ export class FashionTipFormService {
         validators: [Validators.required],
       }),
       description1: new FormControl(fashionTipRawValue.description1),
-      title2: new FormControl(fashionTipRawValue.title2),
-      description2: new FormControl(fashionTipRawValue.description2),
       author: new FormControl(fashionTipRawValue.author),
     });
   }

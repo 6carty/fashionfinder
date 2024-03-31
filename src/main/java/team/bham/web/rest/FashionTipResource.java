@@ -131,12 +131,6 @@ public class FashionTipResource {
                 if (fashionTip.getDescription1() != null) {
                     existingFashionTip.setDescription1(fashionTip.getDescription1());
                 }
-                if (fashionTip.getTitle2() != null) {
-                    existingFashionTip.setTitle2(fashionTip.getTitle2());
-                }
-                if (fashionTip.getDescription2() != null) {
-                    existingFashionTip.setDescription2(fashionTip.getDescription2());
-                }
 
                 return existingFashionTip;
             })

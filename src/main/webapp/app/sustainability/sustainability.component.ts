@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ExchangeRequestService } from '../entities/exchange-request/service/exchange-request.service';
 import { IExchangeRequest } from '../entities/exchange-request/exchange-request.model';
 import { ProfileService } from '../layouts/profiles/profile.service';
@@ -26,7 +26,8 @@ export class SustainabilityComponent implements OnInit {
     private exchangeRequestService: ExchangeRequestService,
     private accountService: AccountService,
     private youtubeService: YoutubeService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -126,6 +127,42 @@ export class SustainabilityComponent implements OnInit {
   getSafeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
+
+  // slidePrevious(): void {
+  //   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
+  //   if (slider) {
+  //     // Get the width of one video slide
+  //     const slideWidth = slider.offsetWidth;
+  //     // Scroll left by the width of one video slide
+  //     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft - slideWidth);
+  //   }
+  // }
+  //
+  // slideNext(): void {
+  //   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
+  //   if (slider) {
+  //     // Get the width of one video slide
+  //     const slideWidth = slider.offsetWidth;
+  //     // Scroll right by the width of one video slide
+  //     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft + slideWidth);
+  //   }
+  // }
+
+  // slidePrevious(): void {
+  //   const slider = document.querySelector('.video-slider-container');
+  //   if (slider) {
+  //     // Scroll left by the width of one video slide
+  //     slider.scrollLeft -= slider.clientWidth;
+  //   }
+  // }
+  //
+  // slideNext(): void {
+  //   const slider = document.querySelector('.video-slider-container');
+  //   if (slider) {
+  //     // Scroll right by the width of one video slide
+  //     slider.scrollLeft += slider.clientWidth;
+  //   }
+  // }
 
   // back(): void {
   //   // Implement the logic to go back

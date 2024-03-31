@@ -50,18 +50,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="title2">
-            <div class="d-flex">
-              <span>Title 2</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="description2">
-            <div class="d-flex">
-              <span>Description 2</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="author.id">
             <div class="d-flex">
               <span>Author</span>
@@ -78,8 +66,6 @@
           </td>
           <td>{{ fashionTip.title1 }}</td>
           <td>{{ fashionTip.description1 }}</td>
-          <td>{{ fashionTip.title2 }}</td>
-          <td>{{ fashionTip.description2 }}</td>
           <td>
             <div *ngIf="fashionTip.author">
               <a [routerLink]="['/user-profile', fashionTip.author.id, 'view']">{{ fashionTip.author.id }}</a>
