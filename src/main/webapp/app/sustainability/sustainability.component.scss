@@ -409,8 +409,6 @@ button:active.clear-button {
   overflow: hidden;
   box-shadow: 0 6px 30px -8px rgba(0, 0, 0, 0.3);
   margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex; /* Use flexbox for layout */
   align-items: center; /* Align items vertically */
 }
 
@@ -422,48 +420,6 @@ button:active.clear-button {
   display: flex;
   flex-direction: column;
 }
-
-.description {
-  flex: 1; /* Allow the description to fill the available space */
-  max-width: 50%; /* Set a maximum width for the description */
-  margin-left: 10px; /* Add some spacing between the video and description */
-  //max-width: 100%;
-  word-wrap: break-word;
-  padding: 10px;
-
-  border: 1px solid #ccc;
-}
-
-.description h3 {
-  font-size: 30px;
-  margin-bottom: 10px; /* Add some spacing below the title */
-}
-
-.description p {
-  word-wrap: break-word; /* Allow long words to break */
-}
-
-//
-//
-//.video-container {
-//  margin-bottom: 20px;
-//}
-//
-//.video-container iframe {
-//  width: 30%; /* Adjust the width as needed */
-//  height: 315px; /* Adjust the height as needed */
-//}
-//
-//.video-title {
-//  font-size: 20px;
-//  font-weight: bold;
-//  margin-bottom: 10px;
-//}
-//
-//.video-description {
-//  font-size: 16px;
-//  margin-bottom: 20px;
-//}
 
 .video-slider {
   display: flex;
