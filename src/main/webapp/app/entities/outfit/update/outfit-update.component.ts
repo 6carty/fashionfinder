@@ -10,9 +10,15 @@ import { OutfitService } from '../service/outfit.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 import { Occasion } from 'app/entities/enumerations/occasion.model';
+import { AccountService } from '../../../core/auth/account.service';
+import { RatingService } from '../../rating/service/rating.service';
+import { IRating, NewRating } from '../../rating/rating.model';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-outfit-update',
@@ -20,9 +26,14 @@ import { Occasion } from 'app/entities/enumerations/occasion.model';
 })
 export class OutfitUpdateComponent implements OnInit {
   isSaving = false;
-  outfit: IOutfit | null = null;
+  outfit: IOutfit | null | undefined = null;
+  outfitName: string | undefined | null = null;
+  active: String | undefined = '';
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
   occasionValues = Object.keys(Occasion);
 
+  usersSharedCollection: IUser[] = [];
   userProfilesSharedCollection: IUserProfile[] = [];
 
   editForm: OutfitFormGroup = this.outfitFormService.createOutfitFormGroup();
@@ -32,10 +43,15 @@ export class OutfitUpdateComponent implements OnInit {
     protected eventManager: EventManager,
     protected outfitService: OutfitService,
     protected outfitFormService: OutfitFormService,
+    protected userService: UserService,
     protected userProfileService: UserProfileService,
     protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
+    protected ratingService: RatingService
   ) {}
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
@@ -47,6 +63,18 @@ export class OutfitUpdateComponent implements OnInit {
       }
 
       this.loadRelationshipsOptions();
+    });
+    this.accountService.getAuthenticationState().subscribe(account => {
+      this.active = account?.login;
+      if (this.active) {
+        this.userService.query().subscribe(usersResponse => {
+          this.users = usersResponse.body;
+          if (this.users) {
+            this.user = this.users.find(user => user.login === this.active);
+            console.log('The user is currently', this.user);
+          }
+        });
+      }
     });
   }
 
@@ -83,8 +111,27 @@ export class OutfitUpdateComponent implements OnInit {
     this.isSaving = true;
     const outfit = this.outfitFormService.getOutfit(this.editForm);
     if (outfit.id !== null) {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+      outfit.description = outfit.description?.split(',')[0];
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
+
       this.subscribeToSaveResponse(this.outfitService.update(outfit));
     } else {
+      const selectedWeatherTags: string[] = [];
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('input[name="weather"]:checked');
+      checkboxes.forEach(function (checkbox) {
+        selectedWeatherTags.push(checkbox.value);
+      });
+
+      // Set the collected string as the value for the weather attribute
+      outfit.description = outfit.description + ',' + selectedWeatherTags.join(','); // Join the tags into a comma-separated string
+      outfit.userCreated = this.user;
+      this.outfitName = outfit.name;
       this.subscribeToSaveResponse(this.outfitService.create(outfit));
     }
   }
@@ -97,6 +144,27 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
+    this.outfitService.query().subscribe(outfittable => {
+      const outfit = outfittable.body?.find(ouftit => this.outfitName === ouftit.name);
+      console.log('is a rating getting created as intended', this.outfit);
+      const newRating: IRating | NewRating = {
+        id: null,
+        outfit: outfit,
+        ratedAt: dayjs(),
+        userRated: this.user,
+      };
+      this.ratingService.create(newRating).subscribe({
+        next: () => {
+          console.log('Rating created successfully.');
+          // Handle success if needed
+        },
+        error: err => {
+          console.error('Error creating rating:', err);
+          // Handle error if needed
+        },
+      });
+    });
+
     this.previousState();
   }
 
@@ -112,6 +180,7 @@ export class OutfitUpdateComponent implements OnInit {
     this.outfit = outfit;
     this.outfitFormService.resetForm(this.editForm, outfit);
 
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, outfit.userCreated);
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
       outfit.creator
@@ -119,6 +188,12 @@ export class OutfitUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.outfit?.userCreated)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
+
     this.userProfileService
       .query()
       .pipe(map((res: HttpResponse<IUserProfile[]>) => res.body ?? []))

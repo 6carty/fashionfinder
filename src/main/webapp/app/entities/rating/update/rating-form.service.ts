@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import dayjs from 'dayjs/esm';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IRating, NewRating } from '../rating.model';
 
 /**
@@ -14,12 +16,24 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type RatingFormGroupInput = IRating | PartialWithRequiredKeyOf<NewRating>;
 
-type RatingFormDefaults = Pick<NewRating, 'id'>;
+/**
+ * Type that converts some properties for forms.
+ */
+type FormValueOf<T extends IRating | NewRating> = Omit<T, 'ratedAt'> & {
+  ratedAt?: string | null;
+};
+
+type RatingFormRawValue = FormValueOf<IRating>;
+
+type NewRatingFormRawValue = FormValueOf<NewRating>;
+
+type RatingFormDefaults = Pick<NewRating, 'id' | 'ratedAt'>;
 
 type RatingFormGroupContent = {
-  id: FormControl<IRating['id'] | NewRating['id']>;
-  rating: FormControl<IRating['rating']>;
-  outfit: FormControl<IRating['outfit']>;
+  id: FormControl<RatingFormRawValue['id'] | NewRating['id']>;
+  ratedAt: FormControl<RatingFormRawValue['ratedAt']>;
+  userRated: FormControl<RatingFormRawValue['userRated']>;
+  outfit: FormControl<RatingFormRawValue['outfit']>;
 };
 
 export type RatingFormGroup = FormGroup<RatingFormGroupContent>;
@@ -27,10 +41,10 @@ export type RatingFormGroup = FormGroup<RatingFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class RatingFormService {
   createRatingFormGroup(rating: RatingFormGroupInput = { id: null }): RatingFormGroup {
-    const ratingRawValue = {
+    const ratingRawValue = this.convertRatingToRatingRawValue({
       ...this.getFormDefaults(),
       ...rating,
-    };
+    });
     return new FormGroup<RatingFormGroupContent>({
       id: new FormControl(
         { value: ratingRawValue.id, disabled: true },
@@ -39,19 +53,20 @@ export class RatingFormService {
           validators: [Validators.required],
         }
       ),
-      rating: new FormControl(ratingRawValue.rating, {
+      ratedAt: new FormControl(ratingRawValue.ratedAt, {
         validators: [Validators.required],
       }),
+      userRated: new FormControl(ratingRawValue.userRated),
       outfit: new FormControl(ratingRawValue.outfit),
     });
   }
 
   getRating(form: RatingFormGroup): IRating | NewRating {
-    return form.getRawValue() as IRating | NewRating;
+    return this.convertRatingRawValueToRating(form.getRawValue() as RatingFormRawValue | NewRatingFormRawValue);
   }
 
   resetForm(form: RatingFormGroup, rating: RatingFormGroupInput): void {
-    const ratingRawValue = { ...this.getFormDefaults(), ...rating };
+    const ratingRawValue = this.convertRatingToRatingRawValue({ ...this.getFormDefaults(), ...rating });
     form.reset(
       {
         ...ratingRawValue,
@@ -61,8 +76,27 @@ export class RatingFormService {
   }
 
   private getFormDefaults(): RatingFormDefaults {
+    const currentTime = dayjs();
+
     return {
       id: null,
+      ratedAt: currentTime,
+    };
+  }
+
+  private convertRatingRawValueToRating(rawRating: RatingFormRawValue | NewRatingFormRawValue): IRating | NewRating {
+    return {
+      ...rawRating,
+      ratedAt: dayjs(rawRating.ratedAt, DATE_TIME_FORMAT),
+    };
+  }
+
+  private convertRatingToRatingRawValue(
+    rating: IRating | (Partial<NewRating> & RatingFormDefaults)
+  ): RatingFormRawValue | PartialWithRequiredKeyOf<NewRatingFormRawValue> {
+    return {
+      ...rating,
+      ratedAt: rating.ratedAt ? rating.ratedAt.format(DATE_TIME_FORMAT) : undefined,
     };
   }
 }

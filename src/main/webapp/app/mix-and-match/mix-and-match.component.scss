@@ -168,7 +168,8 @@
         border-radius: 25px;
       }
     }
-    scrollbar for firstimgline div.first-image-line,
+    //scrollbar for firstimgline
+    div.first-image-line,
     div.second-image-line {
       //background-color: #333;
       overflow-x: auto;
@@ -185,6 +186,16 @@
   border-radius: 25px;
   background-size: cover;
   background-position: center;
+
+  //margin-right: 54px;
+  //height: 200px;
+  width: 160px;
+  //width: 160px;
+  //border-radius: 25px;
+  //background-size: cover;
+  //background-position: center;
+  background-color: white;
+  grid-column-start: 1;
 }
 
 .outfitbt svg {
@@ -197,7 +208,9 @@
   border: none;
   background-color: transparent;
   padding: 0;
+  position: absolute;
   margin-left: 120px;
+  grid-column-start: 1;
 }
 
 .outfitbt:focus {
@@ -206,4 +219,20 @@
 .outfitbt fa-icon {
   font-size: 24px;
   //margin-bottom: 10px;
+}
+.image-container {
+  //position: gri;
+  display: grid;
+}
+.outfit-image-3 {
+  //margin-right: 20px;
+  margin-right: 54px;
+  height: 200px;
+  width: 160px;
+  //width: 160px;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+  background-color: white;
+  grid-column-start: 1;
 }

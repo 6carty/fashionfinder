@@ -75,11 +75,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./rating/rating.module').then(m => m.RatingModule),
       },
       {
-        path: 'trending-outfit',
-        data: { pageTitle: 'TrendingOutfits' },
-        loadChildren: () => import('./trending-outfit/trending-outfit.module').then(m => m.TrendingOutfitModule),
-      },
-      {
         path: 'post',
         data: { pageTitle: 'Posts' },
         loadChildren: () => import('./post/post.module').then(m => m.PostModule),
@@ -98,21 +93,6 @@ import { RouterModule } from '@angular/router';
         path: 'leaderboard',
         data: { pageTitle: 'Leaderboards' },
         loadChildren: () => import('./leaderboard/leaderboard.module').then(m => m.LeaderboardModule),
-      },
-      {
-        path: 'weather',
-        data: { pageTitle: 'Weathers' },
-        loadChildren: () => import('./weather/weather.module').then(m => m.WeatherModule),
-      },
-      {
-        path: 'clothing-pic',
-        data: { pageTitle: 'ClothingPics' },
-        loadChildren: () => import('./clothing-pic/clothing-pic.module').then(m => m.ClothingPicModule),
-      },
-      {
-        path: 'outfit-pic',
-        data: { pageTitle: 'OutfitPics' },
-        loadChildren: () => import('./outfit-pic/outfit-pic.module').then(m => m.OutfitPicModule),
       },
       {
         path: 'chat-message',

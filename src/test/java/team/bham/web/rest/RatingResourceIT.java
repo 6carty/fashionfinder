@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -29,8 +31,8 @@ import team.bham.repository.RatingRepository;
 @WithMockUser
 class RatingResourceIT {
 
-    private static final Double DEFAULT_RATING = 1D;
-    private static final Double UPDATED_RATING = 2D;
+    private static final Instant DEFAULT_RATED_AT = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_RATED_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/ratings";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -56,7 +58,7 @@ class RatingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Rating createEntity(EntityManager em) {
-        Rating rating = new Rating().rating(DEFAULT_RATING);
+        Rating rating = new Rating().ratedAt(DEFAULT_RATED_AT);
         return rating;
     }
 
@@ -67,7 +69,7 @@ class RatingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Rating createUpdatedEntity(EntityManager em) {
-        Rating rating = new Rating().rating(UPDATED_RATING);
+        Rating rating = new Rating().ratedAt(UPDATED_RATED_AT);
         return rating;
     }
 
@@ -89,7 +91,7 @@ class RatingResourceIT {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeCreate + 1);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testRating.getRatedAt()).isEqualTo(DEFAULT_RATED_AT);
     }
 
     @Test
@@ -112,10 +114,10 @@ class RatingResourceIT {
 
     @Test
     @Transactional
-    void checkRatingIsRequired() throws Exception {
+    void checkRatedAtIsRequired() throws Exception {
         int databaseSizeBeforeTest = ratingRepository.findAll().size();
         // set the field null
-        rating.setRating(null);
+        rating.setRatedAt(null);
 
         // Create the Rating, which fails.
 
@@ -139,7 +141,7 @@ class RatingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rating.getId().intValue())))
-            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())));
+            .andExpect(jsonPath("$.[*].ratedAt").value(hasItem(DEFAULT_RATED_AT.toString())));
     }
 
     @Test
@@ -154,7 +156,7 @@ class RatingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(rating.getId().intValue()))
-            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING.doubleValue()));
+            .andExpect(jsonPath("$.ratedAt").value(DEFAULT_RATED_AT.toString()));
     }
 
     @Test
@@ -176,7 +178,7 @@ class RatingResourceIT {
         Rating updatedRating = ratingRepository.findById(rating.getId()).get();
         // Disconnect from session so that the updates on updatedRating are not directly saved in db
         em.detach(updatedRating);
-        updatedRating.rating(UPDATED_RATING);
+        updatedRating.ratedAt(UPDATED_RATED_AT);
 
         restRatingMockMvc
             .perform(
@@ -190,7 +192,7 @@ class RatingResourceIT {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeUpdate);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testRating.getRatedAt()).isEqualTo(UPDATED_RATED_AT);
     }
 
     @Test
@@ -261,7 +263,7 @@ class RatingResourceIT {
         Rating partialUpdatedRating = new Rating();
         partialUpdatedRating.setId(rating.getId());
 
-        partialUpdatedRating.rating(UPDATED_RATING);
+        partialUpdatedRating.ratedAt(UPDATED_RATED_AT);
 
         restRatingMockMvc
             .perform(
@@ -275,7 +277,7 @@ class RatingResourceIT {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeUpdate);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testRating.getRatedAt()).isEqualTo(UPDATED_RATED_AT);
     }
 
     @Test
@@ -290,7 +292,7 @@ class RatingResourceIT {
         Rating partialUpdatedRating = new Rating();
         partialUpdatedRating.setId(rating.getId());
 
-        partialUpdatedRating.rating(UPDATED_RATING);
+        partialUpdatedRating.ratedAt(UPDATED_RATED_AT);
 
         restRatingMockMvc
             .perform(
@@ -304,7 +306,7 @@ class RatingResourceIT {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeUpdate);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testRating.getRatedAt()).isEqualTo(UPDATED_RATED_AT);
     }
 
     @Test

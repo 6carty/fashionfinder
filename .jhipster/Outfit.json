@@ -43,6 +43,11 @@
       "relationshipType": "one-to-many"
     },
     {
+      "otherEntityName": "user",
+      "relationshipName": "userCreated",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "outfits",
       "relationshipName": "creator",

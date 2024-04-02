@@ -12,12 +12,39 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_rating">Rating</label>
-          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
-          <div *ngIf="editForm.get('rating')!.invalid && (editForm.get('rating')!.dirty || editForm.get('rating')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('rating')?.errors?.required"> This field is required. </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('rating')?.errors?.number"> This field should be a number. </small>
+          <label class="form-label" for="field_ratedAt">Rated At</label>
+          <div class="d-flex">
+            <input
+              id="field_ratedAt"
+              data-cy="ratedAt"
+              type="datetime-local"
+              class="form-control"
+              name="ratedAt"
+              formControlName="ratedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
           </div>
+          <div *ngIf="editForm.get('ratedAt')!.invalid && (editForm.get('ratedAt')!.dirty || editForm.get('ratedAt')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('ratedAt')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('ratedAt')?.errors?.datetimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_userRated">User Rated</label>
+          <select
+            class="form-control"
+            id="field_userRated"
+            data-cy="userRated"
+            name="userRated"
+            formControlName="userRated"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
         </div>
 
         <div class="row mb-3">

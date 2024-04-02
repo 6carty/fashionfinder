@@ -9,6 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { OutfitFormService } from './outfit-form.service';
 import { OutfitService } from '../service/outfit.service';
 import { IOutfit } from '../outfit.model';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 
@@ -20,6 +23,7 @@ describe('Outfit Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let outfitFormService: OutfitFormService;
   let outfitService: OutfitService;
+  let userService: UserService;
   let userProfileService: UserProfileService;
 
   beforeEach(() => {
@@ -43,12 +47,35 @@ describe('Outfit Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     outfitFormService = TestBed.inject(OutfitFormService);
     outfitService = TestBed.inject(OutfitService);
+    userService = TestBed.inject(UserService);
     userProfileService = TestBed.inject(UserProfileService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call User query and add missing value', () => {
+      const outfit: IOutfit = { id: 456 };
+      const userCreated: IUser = { id: 25627 };
+      outfit.userCreated = userCreated;
+
+      const userCollection: IUser[] = [{ id: 41234 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [userCreated];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ outfit });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call UserProfile query and add missing value', () => {
       const outfit: IOutfit = { id: 456 };
       const creator: IUserProfile = { id: 86561 };
@@ -73,12 +100,15 @@ describe('Outfit Management Update Component', () => {
 
     it('Should update editForm', () => {
       const outfit: IOutfit = { id: 456 };
+      const userCreated: IUser = { id: 25405 };
+      outfit.userCreated = userCreated;
       const creator: IUserProfile = { id: 80256 };
       outfit.creator = creator;
 
       activatedRoute.data = of({ outfit });
       comp.ngOnInit();
 
+      expect(comp.usersSharedCollection).toContain(userCreated);
       expect(comp.userProfilesSharedCollection).toContain(creator);
       expect(comp.outfit).toEqual(outfit);
     });
@@ -153,6 +183,16 @@ describe('Outfit Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareUserProfile', () => {
       it('Should forward to userProfileService', () => {
         const entity = { id: 123 };

@@ -39,6 +39,10 @@
             {{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}
           </div>
         </dd>
+        <dt><span>User Created</span></dt>
+        <dd>
+          <span>{{ outfit.userCreated?.id }}</span>
+        </dd>
         <dt><span>Creator</span></dt>
         <dd>
           <div *ngIf="outfit.creator">
