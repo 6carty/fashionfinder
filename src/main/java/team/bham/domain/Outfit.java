@@ -52,8 +52,11 @@ public class Outfit implements Serializable {
 
     @OneToMany(mappedBy = "outfit")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "trendingOutfit", "outfit" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userRated", "outfit" }, allowSetters = true)
     private Set<Rating> ratings = new HashSet<>();
+
+    @ManyToOne
+    private User userCreated;
 
     @ManyToOne
     @JsonIgnoreProperties(
@@ -65,11 +68,11 @@ public class Outfit implements Serializable {
             "clothingItems",
             "outfits",
             "messages",
-            "exchangeRequests",
             "purchaseListings",
             "saleListings",
             "fashionTips",
             "userMilestones",
+            "events",
             "chatrooms",
             "calendar",
         },
@@ -203,6 +206,19 @@ public class Outfit implements Serializable {
     public Outfit removeRatings(Rating rating) {
         this.ratings.remove(rating);
         rating.setOutfit(null);
+        return this;
+    }
+
+    public User getUserCreated() {
+        return this.userCreated;
+    }
+
+    public void setUserCreated(User user) {
+        this.userCreated = user;
+    }
+
+    public Outfit userCreated(User user) {
+        this.setUserCreated(user);
         return this;
     }
 

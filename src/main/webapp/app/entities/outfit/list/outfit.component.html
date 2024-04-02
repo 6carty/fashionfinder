@@ -68,6 +68,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="userCreated.id">
+            <div class="d-flex">
+              <span>User Created</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="creator.id">
             <div class="d-flex">
               <span>Creator</span>
@@ -91,6 +97,9 @@
               <img [src]="'data:' + outfit.imageContentType + ';base64,' + outfit.image" style="max-height: 30px" alt="outfit image" />
             </a>
             <span *ngIf="outfit.image">{{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}</span>
+          </td>
+          <td>
+            {{ outfit.userCreated?.id }}
           </td>
           <td>
             <div *ngIf="outfit.creator">

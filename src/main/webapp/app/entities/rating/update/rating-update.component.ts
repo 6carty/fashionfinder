@@ -7,6 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { RatingFormService, RatingFormGroup } from './rating-form.service';
 import { IRating } from '../rating.model';
 import { RatingService } from '../service/rating.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
@@ -18,6 +20,7 @@ export class RatingUpdateComponent implements OnInit {
   isSaving = false;
   rating: IRating | null = null;
 
+  usersSharedCollection: IUser[] = [];
   outfitsSharedCollection: IOutfit[] = [];
 
   editForm: RatingFormGroup = this.ratingFormService.createRatingFormGroup();
@@ -25,9 +28,12 @@ export class RatingUpdateComponent implements OnInit {
   constructor(
     protected ratingService: RatingService,
     protected ratingFormService: RatingFormService,
+    protected userService: UserService,
     protected outfitService: OutfitService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   compareOutfit = (o1: IOutfit | null, o2: IOutfit | null): boolean => this.outfitService.compareOutfit(o1, o2);
 
@@ -79,10 +85,17 @@ export class RatingUpdateComponent implements OnInit {
     this.rating = rating;
     this.ratingFormService.resetForm(this.editForm, rating);
 
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, rating.userRated);
     this.outfitsSharedCollection = this.outfitService.addOutfitToCollectionIfMissing<IOutfit>(this.outfitsSharedCollection, rating.outfit);
   }
 
   protected loadRelationshipsOptions(): void {
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.rating?.userRated)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
+
     this.outfitService
       .query()
       .pipe(map((res: HttpResponse<IOutfit[]>) => res.body ?? []))

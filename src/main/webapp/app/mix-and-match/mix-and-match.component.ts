@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { fetchWeatherApi } from 'openmeteo';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
+import { RatingService } from '../entities/rating/service/rating.service';
+import { IOutfit } from '../entities/outfit/outfit.model';
+import { IRating, NewRating } from '../entities/rating/rating.model';
+import dayjs from 'dayjs/esm';
+import { IUser } from '../entities/user/user.model';
+import { UserService } from '../entities/user/user.service';
+import { AccountService } from '../core/auth/account.service';
+import { EMPTY, Observable, switchMap } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-mix-and-match',
@@ -18,11 +27,14 @@ export class MixAndMatchComponent implements OnInit {
   currentWeatherDescription: string = '';
   currentHourHumidity: number | undefined;
   currentHourPrecipitation: number | undefined;
+  currentHourWindSpeed: number | undefined;
   weatherData: any;
   outfitImages: any;
+  // trendingOutfit: any;
   filterResults: any;
   placeholders: number[] = [];
-  weathers: string[] = [];
+  placeholders2: number[] = [1, 2, 3, 4, 5];
+  activeRecommendedFilters: string[] = [];
   styles: string[] = [];
   outfit: any;
   activeFilters: string[] = [];
@@ -31,34 +43,180 @@ export class MixAndMatchComponent implements OnInit {
   searchTerm: string = '';
   likedStates: boolean[] = [];
   showAlternate: boolean[] = [];
-  constructor(private outfitService: OutfitService) {}
+  likeOccurence: { outfit: IOutfit; ratingCount: number }[] = [];
+  active: String | undefined = '';
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
+
+  constructor(
+    private outfitService: OutfitService,
+    private ratingService: RatingService,
+    protected userService: UserService,
+    protected accountService: AccountService
+  ) {
+    this.accountService
+      .getAuthenticationState()
+      .pipe(
+        filter(account => !!account?.login), // Filter out falsy accounts
+        switchMap(account => {
+          if (account) this.active = account.login;
+          return this.userService.query();
+        }),
+        switchMap(usersResponse => {
+          this.users = usersResponse.body;
+          if (this.users) {
+            this.user = this.users.find(user => user.login === this.active);
+            console.log('The user is currently', this.user);
+            return this.fetchWeatherData(); // Call fetchWeatherData after user data is obtained
+          }
+          return EMPTY; // If user data is not available, return an empty observable
+        })
+      )
+      .subscribe(() => {
+        this.fetchOufit().subscribe(() => {
+          this.populateLikedStates();
+        }); // Call fetchOutfit after user data is obtained
+      });
+  }
 
   ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
     setInterval(() => {
       this.getCurrentDateTime(); // Call the method every second
     }, 1000);
-    this.fetchWeatherData();
+    // this.fetchWeatherData();
     setInterval(() => {
       this.getCurrentHourData();
     }, 3600000);
-    this.fetchOufit();
+    // this.fetchOufit();
+    // setTimeout(()  =>{
+    //   this.populateLikedStates();
+    // }, 3000);
     setInterval(() => {
       this.getActiveFilters();
     }, 1000);
   }
   likeOutfit(i: number): void {
+    const outfitId = this.likeOccurence[i].outfit.id;
+    this.ratingService.query().subscribe(ratingtable => {
+      const ratings = ratingtable.body;
+      const rating = ratings?.filter(rating => rating.outfit?.id === outfitId && rating.userRated?.id === this.user?.id);
+      // console.log('Rating', rating);
+      if (rating && rating[0] !== undefined) {
+        console.log('Rating', rating[0]);
+        this.ratingService.delete(rating[0].id).subscribe();
+      } else {
+        const ratedAt = dayjs();
+        const newRating: IRating | NewRating = {
+          id: null,
+          outfit: this.likeOccurence[i].outfit,
+          ratedAt: ratedAt,
+          userRated: this.user,
+        };
+        this.ratingService.create(newRating).subscribe({
+          next: () => {
+            console.log('Rating created successfully.');
+            // Handle success if needed
+          },
+          error: err => {
+            console.error('Error creating rating:', err);
+            // Handle error if needed
+          },
+        });
+      }
+    });
     this.likedStates[i] = !this.likedStates[i];
   }
-  fetchOufit(): void {
-    this.outfitService.query().subscribe(outfit => {
-      this.outfit = outfit.body;
-      // this.outfitImages =outfit.body.image
-      this.outfitImages = this.outfit.map(
-        (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
-      );
-      const remaining = 5 - this.outfitImages.length;
-      this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
+  fetchOufit(): Observable<void> {
+    return new Observable<void>(observer => {
+      //working on this bit
+      const observables = this.outfitService.query().subscribe(outfit => {
+        this.outfit = outfit.body;
+        // this.outfitImages =outfit.body.image
+        var filterUserOutfits = this.outfit?.filter((userOwned: IOutfit) => {
+          if (userOwned.userCreated) {
+            return userOwned.userCreated.id === this.user?.id;
+          }
+          // If creator is null, exclude it from the filtered list
+          return false;
+        });
+        console.log('activeRecommendedFilters', this.activeRecommendedFilters.length);
+        console.log('activeRecommendedFilter', this.activeRecommendedFilters);
+
+        this.activeRecommendedFilters.forEach(filter => {
+          if (
+            filter === 'Sunny' ||
+            filter === 'Rainy' ||
+            filter === 'Windy' ||
+            filter === 'Cold' ||
+            filter === 'Hot' ||
+            filter === 'Snowy'
+          ) {
+            filterUserOutfits = filterUserOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
+          }
+        });
+
+        this.outfitImages = filterUserOutfits
+          .slice(0, 5)
+          .map(
+            (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
+          );
+        const remaining = 5 - this.outfitImages.length;
+        this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
+
+        for (const soleOutfit of this.outfit) {
+          this.ratingService.query().subscribe(ratingTable => {
+            const ratings = ratingTable.body;
+            if (ratings && ratings.length > 0) {
+              const soleOutfitRatings = ratings.filter(rating => rating.outfit?.id === soleOutfit.id); // Filter ratings based on outfit ID
+              if (soleOutfitRatings) {
+                const ratingCount = soleOutfitRatings.length;
+                if (ratingCount) {
+                  const newItem = { outfit: soleOutfit, ratingCount };
+                  let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
+                  if (index === -1) {
+                    index = this.likeOccurence.length;
+                  }
+                  this.likeOccurence.splice(index, 0, newItem);
+                }
+                console.log('fetch LIKE occurence length', this.likeOccurence.length);
+              }
+            }
+          });
+        }
+        observables.unsubscribe();
+        observer.next(); // Notify observers that the asynchronous operation is complete
+        observer.complete();
+      });
+    });
+  }
+
+  insertSorted(array: { outfit: IOutfit; ratingCount: number }[], newItem: { outfit: IOutfit; ratingCount: number }): void {
+    let index = array.findIndex(item => item.ratingCount < newItem.ratingCount);
+    if (index === -1) {
+      index = array.length;
+    }
+    array.splice(index, 0, newItem);
+    //currently working on this
+  }
+  fetchRecommendedOutfits(): void {}
+  async populateLikedStates(): Promise<void> {
+    // this.likedStates =[];
+
+    console.log('like occurence is this long', this.likeOccurence.length);
+    this.likeOccurence.forEach(likeOccurence => {
+      this.ratingService.query().subscribe(ratingTable => {
+        const likeOccurenceLikes = ratingTable.body?.filter(
+          rating => likeOccurence.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
+        );
+        console.log('have you personally liked this trending outfit', likeOccurenceLikes);
+        if (likeOccurenceLikes && likeOccurenceLikes.length > 0) {
+          this.likedStates.push(true);
+          console.log('LikesStates', this.likedStates);
+        } else {
+          this.likedStates.push(false);
+        }
+      });
     });
   }
   fetchFilteredOutfit(): void {
@@ -128,7 +286,6 @@ export class MixAndMatchComponent implements OnInit {
     this.filterResults = this.filterOutfits.map(
       (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
     );
-    this.likedStates = Array(this.filterResults.length).fill(false);
   }
   showAlternateContent(index: number) {
     this.showAlternate[index] = true;
@@ -204,6 +361,10 @@ export class MixAndMatchComponent implements OnInit {
   }
   getActiveFilters() {
     var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
+    `if (!formalElement) {
+      // console.error("FormalCheck element not found");
+      return;
+    }`;
     var businessElement = <HTMLInputElement>document.getElementById('BusinessCheck');
     var casualElement = <HTMLInputElement>document.getElementById('CasualCheck');
     var sportElement = <HTMLInputElement>document.getElementById('SportCheck');
@@ -247,11 +408,6 @@ export class MixAndMatchComponent implements OnInit {
         this.fetchFilteredOutfit();
       }
     }
-    // if (activeFilters.length === 0) {
-    //   this.allfiltersOff = true;
-    // } else {
-    //   this.allfiltersOff = false;
-    // }
   }
   clearFilterSelections() {
     var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
@@ -302,16 +458,31 @@ export class MixAndMatchComponent implements OnInit {
       this.currentHourHumidity = this.weatherData.hourly.relativeHumidity2m[currentIndex];
       this.currentHourPrecipitation = this.weatherData.hourly.precipitation[currentIndex];
       this.currentWeatherDescription = this.getWeatherDescription(this.weatherData.hourly.weatherCode[currentIndex]);
+      this.currentHourWindSpeed = this.weatherData.hourly.windSpeed10m[currentIndex];
+      if (this.currentHourTemperature > 10) {
+        this.activeRecommendedFilters.push('Cold');
+      } else if (this.currentHourTemperature > 25) {
+        this.activeRecommendedFilters.push('Hot');
+      }
+      if (this.currentHourWindSpeed) {
+        if (this.currentHourWindSpeed > 25) {
+          this.activeRecommendedFilters.push('Windy');
+        }
+      }
     } else {
       console.error('Weather data not available for the current hour.');
     }
   }
   getWeatherDescription(weatherCode: number): string {
     switch (weatherCode) {
-      case 0:
+      case 0: {
+        this.activeRecommendedFilters.push('Sunny');
         return 'Clear Sky';
-      case 1:
+      }
+      case 1: {
+        this.activeRecommendedFilters.push('Sunny');
         return 'Mainly clear';
+      }
       case 2:
         return 'Partly Cloudy';
       case 3:
@@ -330,40 +501,72 @@ export class MixAndMatchComponent implements OnInit {
         return 'Light freezing drizzle';
       case 57:
         return 'Dense freezing drizzle';
-      case 61:
+      case 61: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Slight rain';
-      case 63:
+      }
+      case 63: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Moderate rain';
-      case 65:
+      }
+      case 65: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Heavy rain';
-      case 66:
+      }
+      case 66: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Light freezing rain';
+      }
       case 67:
         return 'Heavy freezing rain';
-      case 71:
+      case 71: {
+        this.activeRecommendedFilters.push('Snowy');
         return 'Slight snow fall';
-      case 73:
+      }
+      case 73: {
+        this.activeRecommendedFilters.push('Snowy');
         return 'Moderate snow fall';
-      case 75:
+      }
+      case 75: {
+        this.activeRecommendedFilters.push('Snowy');
         return 'Heavy snow fall';
+      }
       case 77:
         return 'Snow grains';
-      case 80:
+      case 80: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Slight rain showers';
-      case 81:
+      }
+      case 81: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Moderate rain showers';
-      case 82:
+      }
+      case 82: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Violent rain showers';
-      case 85:
+      }
+      case 85: {
+        this.activeRecommendedFilters.push('Snowy');
         return 'Slight snow showers';
-      case 86:
+      }
+      case 86: {
+        this.activeRecommendedFilters.push('Snowy');
         return 'Heavy snow showers';
-      case 95:
+      }
+      case 95: {
+        this.activeRecommendedFilters.push('Rainy');
         return 'Thunderstorm: Slight or moderate';
-      case 96:
+      }
+      case 96: {
+        this.activeRecommendedFilters.push('Rainy');
+        this.activeRecommendedFilters.push('Snowy');
         return 'Thunderstorm with slight hail';
-      case 99:
+      }
+      case 99: {
+        this.activeRecommendedFilters.push('Rainy');
+        this.activeRecommendedFilters.push('Snowy');
         return 'Thunderstorm with heavy hail';
+      }
       default:
         return 'Unknown weather code: ' + weatherCode; // Handle unknown codes
     }

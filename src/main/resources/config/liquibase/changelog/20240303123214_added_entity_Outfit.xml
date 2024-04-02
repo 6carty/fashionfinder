@@ -32,6 +32,9 @@
             <column name="image_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="user_created_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="creator_id" type="bigint">
                 <constraints nullable="true" />
             </column>

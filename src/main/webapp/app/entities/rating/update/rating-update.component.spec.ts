@@ -9,6 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { RatingFormService } from './rating-form.service';
 import { RatingService } from '../service/rating.service';
 import { IRating } from '../rating.model';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
 
@@ -20,6 +23,7 @@ describe('Rating Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let ratingFormService: RatingFormService;
   let ratingService: RatingService;
+  let userService: UserService;
   let outfitService: OutfitService;
 
   beforeEach(() => {
@@ -43,12 +47,35 @@ describe('Rating Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     ratingFormService = TestBed.inject(RatingFormService);
     ratingService = TestBed.inject(RatingService);
+    userService = TestBed.inject(UserService);
     outfitService = TestBed.inject(OutfitService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call User query and add missing value', () => {
+      const rating: IRating = { id: 456 };
+      const userRated: IUser = { id: 61636 };
+      rating.userRated = userRated;
+
+      const userCollection: IUser[] = [{ id: 65711 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [userRated];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ rating });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call Outfit query and add missing value', () => {
       const rating: IRating = { id: 456 };
       const outfit: IOutfit = { id: 29956 };
@@ -73,12 +100,15 @@ describe('Rating Management Update Component', () => {
 
     it('Should update editForm', () => {
       const rating: IRating = { id: 456 };
+      const userRated: IUser = { id: 36480 };
+      rating.userRated = userRated;
       const outfit: IOutfit = { id: 28331 };
       rating.outfit = outfit;
 
       activatedRoute.data = of({ rating });
       comp.ngOnInit();
 
+      expect(comp.usersSharedCollection).toContain(userRated);
       expect(comp.outfitsSharedCollection).toContain(outfit);
       expect(comp.rating).toEqual(rating);
     });
@@ -153,6 +183,16 @@ describe('Rating Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareOutfit', () => {
       it('Should forward to outfitService', () => {
         const entity = { id: 123 };
