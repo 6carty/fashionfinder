@@ -56,7 +56,7 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(6, auto);
   background-color: #2196f3;
   padding: 10px;
 }
@@ -79,7 +79,7 @@ body {
 
 .another-grid-container {
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(6, auto);
   background-color: #2196f3;
   padding: 10px;
 }

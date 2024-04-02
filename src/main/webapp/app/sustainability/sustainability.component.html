@@ -180,18 +180,21 @@
         <div class="grid-item-header">Clothing Item</div>
         <div class="grid-item-header">Description</div>
         <div class="grid-item-header">Image</div>
-        <div class="grid-item-header">Description</div>
+        <div class="grid-item-header">Creater</div>
+        <div class="grid-item-header">Requester</div>
         <div class="grid-item-header">Select</div>
-        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 5)">
+        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 5); let i = index">
           <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>
-          <div class="grid-item">{{ exchangeRequest.creater?.id }}</div>
+          <div class="grid-item">{{ exchangeRequest.description }}</div>
           <div class="grid-item">
             <img
               [src]="'data:image/png;base64,' + exchangeRequest.image"
               alt="Exchange Request Image"
               style="max-width: 400px; max-height: 100px"
+              [routerLink]="['/exchange-request', latestExchangeRequests[i].id, 'view']"
             />
           </div>
+          <div class="grid-item">{{ exchangeRequest.creater?.id }}</div>
           <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
           <div class="grid-item">
             <input type="radio" name="selectedItem" (change)="selectItem(exchangeRequest)" />
