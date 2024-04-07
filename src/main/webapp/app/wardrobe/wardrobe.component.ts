@@ -10,6 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -17,18 +18,10 @@ import { Occasion } from '../entities/enumerations/occasion.model';
   styleUrls: ['./wardrobe.component.scss'],
 })
 export class WardrobeComponent implements OnInit {
-  clothingReceivedData: any;
+  clothingReceivedData: IClothingItem[] | null = null;
   outfitReceivedData: any;
-  ownerId: any;
-  currentUser: any;
-  highestId: any;
-  tempvalue: any;
-  selectedItems: { id: number; isChecked: boolean }[] = [];
-  newClothingItem: any;
   isSaving = false;
   clothingItem: IClothingItem | null = null;
-  clothingTypeValues = Object.keys(ClothingType);
-  statusValues = Object.keys(Status);
   userInputName: any;
   userInputDescription: any;
   userInputPhoto: any;
@@ -38,7 +31,7 @@ export class WardrobeComponent implements OnInit {
     occasion: '',
     colour: '',
   };
-  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
+  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService, private router: Router) {}
 
   ngOnInit(): void {
     //this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem))
@@ -50,8 +43,6 @@ export class WardrobeComponent implements OnInit {
       this.clothingReceivedData = clothingItems.body;
       this.fetchOutfits();
     });
-
-    this.clothingReceivedData.unsubscribe();
   }
 
   fetchOutfits() {
@@ -168,7 +159,7 @@ export class WardrobeComponent implements OnInit {
 
   protected subscribeToSaveResponseOutfit(result: Observable<HttpResponse<IOutfit>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccessClothing(),
+      next: () => this.onSaveSuccessOutfit(),
       error: () => this.onSaveError(),
     });
   }
@@ -176,6 +167,9 @@ export class WardrobeComponent implements OnInit {
   protected onSaveSuccessClothing(): void {
     this.fetchClothes();
     window.location.reload();
+  }
+  protected onSaveSuccessOutfit(): void {
+    this.router.navigate(['/outfit-edit']);
   }
 
   protected onSaveError(): void {
