@@ -16,6 +16,7 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
 import { SustainabilityComponent } from './sustainability/sustainability.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,10 @@ import { PreferencesComponent } from './preferences/preferences.component';
         {
           path: 'preferences',
           component: PreferencesComponent,
+        },
+        {
+          path: 'outfit-edit',
+          component: OutfitEditComponent,
         },
         navbarRoute,
         ...errorRoute,

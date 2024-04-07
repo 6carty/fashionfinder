@@ -38,6 +38,7 @@ import { CommunityFeedComponent } from './community-feed/community-feed.componen
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { YoutubeComponent } from './sustainability/YouTubeApi/youtube.component';
+import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { YoutubeComponent } from './sustainability/YouTubeApi/youtube.component'
     AnalyticsComponent,
     PreferencesComponent,
     YoutubeComponent,
+    OutfitEditComponent,
   ],
   bootstrap: [MainComponent],
 })
