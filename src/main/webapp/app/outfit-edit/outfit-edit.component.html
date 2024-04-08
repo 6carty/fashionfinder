@@ -1,19 +1,29 @@
 <div class="display-page">
   <div class="display-grid">
     <div class="name-box">
-      <h6>NAME</h6>
-      <h1>{{ outfitToEdit?.name }}</h1>
+      <div class="offset">
+        <div class="text-center">NAME : {{ outfitToEdit?.name }}</div>
+      </div>
     </div>
     <div class="description-box">
-      <h6>DESCRIPTION</h6>
-      <h1>{{ outfitToEdit?.description }}</h1>
+      <div class="offset">
+        <div class="text-center">DESCRIPTION : {{ outfitToEdit?.description }}</div>
+      </div>
     </div>
     <div class="date-box">
-      <h6>LAST WORN</h6>
-      <h1>{{ outfitToEdit?.date }}</h1>
+      <div class="offset">
+        <div class="text-center">LAST WORN: {{ outfitToEdit?.date }}</div>
+      </div>
+    </div>
+    <div class="likes-box">
+      <div class="offset">
+        <div class="text-center">OCCASION: {{ outfitToEdit?.occasion }}</div>
+      </div>
     </div>
     <div class="image-box">
-      <b>{{ outfitToEdit?.image }}</b>
+      <div class="text-center">
+        <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
+      </div>
     </div>
   </div>
 </div>

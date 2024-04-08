@@ -6,8 +6,24 @@
 
 .display-grid {
   display: inline-grid;
-  grid-template-areas: 'left middle-left middle-right right';
+  grid-template-areas: 'left middle-left middle middle-right right';
   grid-column-gap: 2.5vw;
+}
+
+.text-center {
+  display: flex;
+  width: auto;
+  height: auto;
+  top: auto;
+  bottom: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.offset {
+  position: relative;
+  padding: 1.25vh;
 }
 
 .name-box {
@@ -43,5 +59,14 @@
   border-radius: 3.5vh;
   height: 20vw;
   width: 20vw;
+  transition-duration: 0.4s;
+}
+
+.likes-box {
+  position: relative;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  height: 10vh;
+  width: 15vw;
   transition-duration: 0.4s;
 }
