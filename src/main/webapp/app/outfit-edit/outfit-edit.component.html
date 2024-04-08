@@ -2,12 +2,14 @@
   <div class="display-grid">
     <div class="name-box">
       <div class="offset">
-        <div class="text-center">NAME : {{ outfitToEdit?.name }}</div>
+        <div class="text-center"><h4>NAME:</h4></div>
+        <textarea type="text" class="text-center" id="Name" rows="2">{{ outfitToEdit?.name }}</textarea>
       </div>
     </div>
     <div class="description-box">
       <div class="offset">
-        <div class="text-center">DESCRIPTION : {{ outfitToEdit?.description }}</div>
+        <div class="text-center"><h4>DESCRIPTION:</h4></div>
+        <textarea type="text" class="text-center" id="Description" rows="5">{{ outfitToEdit?.description }}</textarea>
       </div>
     </div>
     <div class="date-box">
@@ -18,6 +20,12 @@
     <div class="likes-box">
       <div class="offset">
         <div class="text-center">OCCASION: {{ outfitToEdit?.occasion }}</div>
+        <select value="{{ outfitToEdit?.occasion }}" id="Occasion">
+          <option>FORMAL</option>
+          <option>BUSINESS</option>
+          <option>CASUAL</option>
+          <option>SPORTS</option>
+        </select>
       </div>
     </div>
     <div class="image-box">
@@ -29,21 +37,35 @@
 
   <div class="display-grid-clothing" id="clothing-grid">
     <div class="clothing-display-box">
-      <div class="offset" *ngFor="let clothingItem of this.clothingReceivedData">
-        <button class="clothing-box" (click)="clothingItemPicked(clothingItem)">
-          <b>{{ clothingItem.name }}</b>
-        </button>
+      <div class="offset">
+        <h2>Your Clothes</h2>
+        <div class="scrollable-area">
+          <div class="grid-container" *ngFor="let clothingItem of this.clothingReceivedData">
+            <button class="clothing-box" (click)="clothingItemPicked(clothingItem)">
+              <img
+                src="data:image/{{ clothingItem.imageContentType }};charset=utf-8;base64,{{ clothingItem.image }}"
+                alt="{{ clothingItem.name }}"
+              />
+            </button>
+          </div>
+        </div>
       </div>
-      <b>{{ this.clothingReceivedData }}</b>
     </div>
 
     <div class="clothing-display-box">
-      <div class="offset" *ngFor="let selectedClothingItem of this.clothesChosen">
-        <div class="clothing-box">
-          <b>{{ selectedClothingItem.name }}</b>
+      <div class="offset">
+        <h2>Clothes for this outfit</h2>
+        <div class="scrollable-area">
+          <div class="grid-container" *ngFor="let selectedClothingItem of this.clothesChosen; trackBy: trackByClothingId">
+            <button class="clothing-box" (click)="clothingItemRemoved(selectedClothingItem)">
+              <img
+                src="data:image/{{ selectedClothingItem.imageContentType }};charset=utf-8;base64,{{ selectedClothingItem.image }}"
+                alt="{{ selectedClothingItem.name }}"
+              />
+            </button>
+          </div>
         </div>
       </div>
-      <b>{{ this.clothesChosen }}</b>
     </div>
   </div>
 </div>

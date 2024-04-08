@@ -19,7 +19,7 @@ export class OutfitEditComponent implements OnInit {
   clothingReceivedData: IClothingItem[] | null = null;
   outfitReceivedData: IOutfit[] | null = null;
   outfitToEdit: IOutfit | null = null;
-  clothesChosen: IClothingItem[] | null = null;
+  clothesChosen: IClothingItem[] = [];
   public show = true;
 
   constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
@@ -48,25 +48,28 @@ export class OutfitEditComponent implements OnInit {
     });
   }
 
-  clothingItemPicked(clothingItem: IClothingItem) {
+  trackByClothingId(index: number, clothingItem: IClothingItem): number {
+    return clothingItem.id;
+  }
+
+  clothingItemPicked(clothingItemChosen: IClothingItem) {
     var inArrayAlready: boolean = false;
     if (this.clothingReceivedData) {
-      for (let clothingItems of this.clothingReceivedData) {
-        if (clothingItem.id == clothingItems.id) {
+      for (let clothingItem of this.clothesChosen) {
+        if (clothingItemChosen.id == clothingItem.id) {
           inArrayAlready = true;
         }
       }
       if (inArrayAlready) {
-        this.clothesChosen?.push(clothingItem);
       } else {
-        this.clothesChosen?.push(clothingItem);
+        this.clothesChosen?.push(clothingItemChosen);
       }
-
-      this.reload();
     }
   }
-  reload() {
-    this.show = false;
-    setTimeout(() => (this.show = true));
+
+  clothingItemRemoved(clothingItemChosen: IClothingItem) {
+    if (this.clothesChosen) {
+      this.clothesChosen = this.clothesChosen.filter(obj => obj !== clothingItemChosen);
+    }
   }
 }

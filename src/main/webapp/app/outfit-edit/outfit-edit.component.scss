@@ -15,7 +15,7 @@
   position: absolute;
   top: 22.5vh;
   display: inline-grid;
-  grid-template-areas: 'left middle right';
+  grid-template-areas: 'left right';
   grid-column-gap: 2.5vw;
 }
 
@@ -28,6 +28,17 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+textarea {
+  display: flex;
+  width: auto;
+  height: auto;
+  top: auto;
+  bottom: auto;
+  border: 2px solid #cccccc;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .offset {
@@ -62,6 +73,24 @@
   transition-duration: 0.4s;
 }
 
+.grid-container {
+  display: inline-grid;
+  grid-column-gap: 5vh;
+}
+
+img {
+  display: flex;
+  width: 120%;
+  height: 120%;
+  object-fit: contain;
+}
+
+.scrollable-area {
+  max-height: 40vh;
+  overflow-y: scroll;
+  contain: paint;
+}
+
 .image-box {
   position: relative;
   background-color: rgba(87, 87, 87, 0.5);
@@ -89,7 +118,7 @@
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.5vh;
   height: 50vh;
-  width: 25vw;
+  width: 32.5vw;
   transition-duration: 0.4s;
 }
 
@@ -97,7 +126,13 @@
   position: relative;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.5vh;
-  height: 10vw;
-  width: 10vw;
+  height: 7.5vw;
+  width: 7.5vw;
   transition-duration: 0.4s;
+  padding: 1.25vh;
+  margin: 1.25vh;
+  contain: paint;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
