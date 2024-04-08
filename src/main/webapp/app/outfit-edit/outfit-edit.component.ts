@@ -19,6 +19,8 @@ export class OutfitEditComponent implements OnInit {
   clothingReceivedData: IClothingItem[] | null = null;
   outfitReceivedData: IOutfit[] | null = null;
   outfitToEdit: IOutfit | null = null;
+  clothesChosen: IClothingItem[] | null = null;
+  public show = true;
 
   constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService) {}
 
@@ -44,5 +46,27 @@ export class OutfitEditComponent implements OnInit {
         }
       }
     });
+  }
+
+  clothingItemPicked(clothingItem: IClothingItem) {
+    var inArrayAlready: boolean = false;
+    if (this.clothingReceivedData) {
+      for (let clothingItems of this.clothingReceivedData) {
+        if (clothingItem.id == clothingItems.id) {
+          inArrayAlready = true;
+        }
+      }
+      if (inArrayAlready) {
+        this.clothesChosen?.push(clothingItem);
+      } else {
+        this.clothesChosen?.push(clothingItem);
+      }
+
+      this.reload();
+    }
+  }
+  reload() {
+    this.show = false;
+    setTimeout(() => (this.show = true));
   }
 }

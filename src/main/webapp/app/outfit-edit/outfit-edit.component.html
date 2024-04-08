@@ -26,4 +26,24 @@
       </div>
     </div>
   </div>
+
+  <div class="display-grid-clothing" id="clothing-grid">
+    <div class="clothing-display-box">
+      <div class="offset" *ngFor="let clothingItem of this.clothingReceivedData">
+        <button class="clothing-box" (click)="clothingItemPicked(clothingItem)">
+          <b>{{ clothingItem.name }}</b>
+        </button>
+      </div>
+      <b>{{ this.clothingReceivedData }}</b>
+    </div>
+
+    <div class="clothing-display-box">
+      <div class="offset" *ngFor="let selectedClothingItem of this.clothesChosen">
+        <div class="clothing-box">
+          <b>{{ selectedClothingItem.name }}</b>
+        </div>
+      </div>
+      <b>{{ this.clothesChosen }}</b>
+    </div>
+  </div>
 </div>
