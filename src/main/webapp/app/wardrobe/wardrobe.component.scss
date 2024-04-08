@@ -83,52 +83,46 @@
   transition-duration: 0.4s;
 }
 
-.outfit-box {
-  margin: 5px;
-
-  label {
-    display: block;
-    padding: 5px 10px;
-    height: 15vh;
-    width: 15vh;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  input[type='checkbox'] {
-    display: none;
-
-    &:checked + label {
-      background-color: #ccc;
-    }
-  }
+.offset {
+  position: relative;
+  padding: 1.25vh;
 }
 
-.clothing-item-box {
-  margin: 5px;
+.outfit-box {
+  position: relative;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  padding: 1.25vh;
+  height: 7.5vw;
+  width: 7.5vw;
+  transition-duration: 0.4s;
+  margin: 1.25vh;
+  contain: paint;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  label {
-    display: block;
-    padding: 5px 10px;
-    height: 15vh;
-    width: 15vh;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: none;
-  }
+img {
+  display: flex;
+  width: 120%;
+  height: 120%;
+  object-fit: contain;
+}
 
-  input[type='checkbox'] {
-    display: none;
-
-    &:checked + label {
-      background-color: #ccc;
-    }
-  }
+.clothing-box {
+  position: relative;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  height: 7.5vw;
+  width: 7.5vw;
+  transition-duration: 0.4s;
+  padding: 1.25vh;
+  margin: 1.25vh;
+  contain: paint;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rectangle-filter {
@@ -147,6 +141,12 @@
   position: absolute;
   left: 1.75vh;
   top: 1.75vh;
+}
+
+.scrollable-area {
+  max-height: 60vh;
+  overflow-y: scroll;
+  contain: paint;
 }
 
 .apply-filter-button {

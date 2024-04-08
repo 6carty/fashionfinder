@@ -69,6 +69,10 @@
   height: 20vw;
   width: 20vw;
   transition-duration: 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  contain: paint;
 }
 
 .likes-box {

@@ -61,11 +61,13 @@
     <div class="rectangle-display">
       <div class="rectangle-displayContent">
         <h1>Your Clothes</h1>
-
-        <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
-          <div class="clothing-item-box">
-            <input type="checkbox" id="{{ item.id }}" ngModel="selectedItems[i].isChecked" />
-            <label for="{{ item.id }}">{{ item.name?.toString() }} &#10; &#13; description: {{ item.description?.toString() }} </label>
+        <div class="scrollable-area">
+          <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
+            <div class="clothing-item-box">
+              <div class="clothing-box">
+                <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -95,11 +97,11 @@
           </div>
         </div>
         <br /><br />
-
-        <div class="grid-container" *ngFor="let item of outfitReceivedData">
-          <div class="outfit-box">
-            <input type="checkbox" id="{{ item.id }}" />
-            <label for="{{ item.id }}">{{ item.name?.toString() }}</label>
+        <div class="scrollable-area">
+          <div class="grid-container" *ngFor="let item of outfitReceivedData">
+            <button class="outfit-box">
+              <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
+            </button>
           </div>
         </div>
       </div>
