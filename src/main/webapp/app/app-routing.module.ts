@@ -17,6 +17,7 @@ import { SustainabilityComponent } from './sustainability/sustainability.compone
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
+import { UserGalleryComponent } from './user-gallery/user-gallery.component';
 
 @NgModule({
   imports: [
@@ -81,6 +82,10 @@ import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
         {
           path: 'outfit-edit',
           component: OutfitEditComponent,
+        },
+        {
+          path: 'user-gallery',
+          component: UserGalleryComponent,
         },
         navbarRoute,
         ...errorRoute,
