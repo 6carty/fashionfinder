@@ -59,7 +59,7 @@
 
     <div class="clothing-display-box">
       <div class="offset">
-        <h2>Clothes for this outfit</h2>
+        <h2>Clothes for this outfit <b>(required)</b></h2>
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let selectedClothingItem of this.clothesChosen; trackBy: trackByClothingId">
             <button class="clothing-box" (click)="clothingItemRemoved(selectedClothingItem)">

@@ -34,7 +34,6 @@ export class WardrobeComponent implements OnInit {
   constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService, private router: Router) {}
 
   ngOnInit(): void {
-    //this.subscribeToSaveResponse(this.clothingItemService.create(clothingItem))
     this.fetchClothes();
   }
 
