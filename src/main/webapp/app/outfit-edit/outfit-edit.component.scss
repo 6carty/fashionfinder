@@ -9,6 +9,7 @@
   display: inline-grid;
   grid-template-areas: 'left middle-left middle middle-right right';
   grid-column-gap: 2.5vw;
+  grid-row-gap: -2.5vw;
 }
 
 .display-grid-clothing {
@@ -104,7 +105,7 @@ img {
   contain: paint;
 }
 
-.likes-box {
+.occasion-box {
   position: relative;
   background-color: rgba(87, 87, 87, 0.5);
   border-radius: 3.5vh;
@@ -135,4 +136,22 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.save-button {
+  position: relative;
+  background-color: #97c294;
+  border-radius: 3.5vh;
+  width: 20vw;
+  height: 7.5vw;
+  transition-duration: 0.4s;
+  grid-column: 5;
+  grid-row: 2;
+  &:hover {
+    background-color: #b4d3b2;
+  }
+  &:active {
+    transition-duration: 0s;
+    background-color: #78b075;
+  }
 }

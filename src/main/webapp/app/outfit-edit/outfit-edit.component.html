@@ -17,7 +17,7 @@
         <div class="text-center">LAST WORN: {{ outfitToEdit?.date }}</div>
       </div>
     </div>
-    <div class="likes-box">
+    <div class="occasion-box">
       <div class="offset">
         <div class="text-center">OCCASION: {{ outfitToEdit?.occasion }}</div>
         <select value="{{ outfitToEdit?.occasion }}" id="Occasion">
@@ -29,10 +29,15 @@
       </div>
     </div>
     <div class="image-box">
+      <span>
+        File Upload
+        <input type="file" id="outfitPhoto" accept="image/*" />
+      </span>
       <div class="text-center">
         <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
       </div>
     </div>
+    <button class="save-button" (click)="saveButtonPressed()">SAVE</button>
   </div>
 
   <div class="display-grid-clothing" id="clothing-grid">
