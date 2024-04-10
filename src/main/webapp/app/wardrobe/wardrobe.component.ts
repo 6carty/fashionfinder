@@ -168,7 +168,9 @@ export class WardrobeComponent implements OnInit {
     window.location.reload();
   }
   protected onSaveSuccessOutfit(): void {
-    this.router.navigate(['/outfit-edit']);
+    this.router.navigate(['/outfit-edit'], {
+      queryParams: { id: '-1' },
+    });
   }
 
   protected onSaveError(): void {

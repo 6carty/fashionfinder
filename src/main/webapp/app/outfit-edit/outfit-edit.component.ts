@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 //import { ClothingItemService } from '../entities/clothing-item/service/clothing-item.service';
 import { ClothingItemService, EntityArrayResponseType } from '../entities/clothing-item/service/clothing-item.service';
 import { IClothingItem, NewClothingItem } from '../entities/clothing-item/clothing-item.model';
@@ -16,6 +16,7 @@ import { SortService } from '../shared/sort/sort.service';
 import { ClothingItemDeleteDialogComponent } from '../entities/clothing-item/delete/clothing-item-delete-dialog.component';
 import { DataUtils } from '../core/util/data-util.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-outfit-edit',
@@ -23,6 +24,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./outfit-edit.component.scss'],
 })
 export class OutfitEditComponent implements OnInit {
+  @Input() givenId: number = -1;
   clothingReceivedData: IClothingItem[] | null = null;
   outfitReceivedData: IOutfit[] | null = null;
   outfitToEdit: IOutfit | null = null;
@@ -52,6 +54,9 @@ export class OutfitEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.givenId = params.id;
+    });
     //this.load();
     this.fetchClothes();
   }
@@ -59,6 +64,7 @@ export class OutfitEditComponent implements OnInit {
   fetchClothes() {
     const queryObject = {
       eagerload: true,
+      // IMPORTANT (god why the fuck does jhipster have nothing about this in their docs)
       // needed to get the data of which outfits the item belongs to
     };
 
@@ -71,23 +77,42 @@ export class OutfitEditComponent implements OnInit {
   fetchOutfits() {
     this.outfitService.query('include.creator, include.clothingItems').subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
-      var outfitData = this.outfitReceivedData;
-      var clothingData = this.clothingReceivedData;
-      var outfit: IOutfit;
-      if (outfitData && clothingData) {
-        for (let clothingItem of clothingData) {
-          if (clothingItem.outfits != null) {
-            for (outfit of outfitData) {
-              for (let outfitID of clothingItem.outfits) {
-                if (outfitID.id == outfit.id) {
-                  outfitData = outfitData.filter(obj => obj != outfit);
+      if (this.givenId == -1) {
+        var outfitData = this.outfitReceivedData;
+        var clothingData = this.clothingReceivedData;
+        var outfit: IOutfit;
+        if (outfitData && clothingData) {
+          for (let clothingItem of clothingData) {
+            if (clothingItem.outfits != null) {
+              for (outfit of outfitData) {
+                for (let outfitID of clothingItem.outfits) {
+                  if (outfitID.id == outfit.id) {
+                    outfitData = outfitData.filter(obj => obj != outfit);
+                  }
                 }
               }
             }
           }
+          if (outfitData?.length != 0) {
+            this.outfitToEdit = outfitData[0];
+          }
         }
-        if (outfitData?.length != 0) {
-          this.outfitToEdit = outfitData[0];
+      }
+      if (this.givenId != -1 && this.outfitReceivedData) {
+        for (let outfit of this.outfitReceivedData) {
+          if (this.givenId == outfit.id) {
+            this.outfitToEdit = outfit;
+          }
+        }
+      }
+      if (this.clothingReceivedData && this.outfitToEdit) {
+        for (let clothingItem of this.clothingReceivedData) {
+          if (clothingItem.outfits)
+            for (let itemId of clothingItem.outfits) {
+              if (itemId.id == this.outfitToEdit.id) {
+                this.clothesChosen.push(clothingItem);
+              }
+            }
         }
       }
     });
