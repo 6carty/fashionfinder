@@ -143,6 +143,14 @@ export class OutfitEditComponent implements OnInit {
     }
   }
 
+  deleteButtonPressed() {
+    if (this.outfitToEdit != null) {
+      this.outfitService.delete(this.outfitToEdit.id).subscribe(() => {
+        this.router.navigate(['/wardrobe']);
+      });
+    }
+  }
+
   saveButtonPressed() {
     if (this.clothesChosen.length == 0) {
       return;

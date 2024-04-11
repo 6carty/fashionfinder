@@ -28,6 +28,15 @@
         </select>
       </div>
     </div>
+    <div class="save-delete-grid">
+      <div class="save-button" (click)="saveButtonPressed()">
+        <div class="text-center">SAVE</div>
+      </div>
+
+      <div class="delete-button" (click)="deleteButtonPressed()">
+        <div class="text-center">DELETE</div>
+      </div>
+    </div>
     <div class="image-box">
       <span>
         File Upload
@@ -37,7 +46,6 @@
         <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
       </div>
     </div>
-    <button class="save-button" (click)="saveButtonPressed()">SAVE</button>
   </div>
 
   <div class="display-grid-clothing" id="clothing-grid">

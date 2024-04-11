@@ -19,14 +19,14 @@
     <textarea type="text" class="text-center" id="Colour" rows="1">{{ clothingItemToEdit?.colour }}</textarea>
   </div>
 
-  <div class="image-box">
-    <span>
-      <img
-        src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
-        alt="your outfit"
-      />
-      <input type="file" id="Photo" accept="image/*" />
-    </span>
+  <div class="save-delete-grid">
+    <div class="save-button" (click)="saveButtonPressed()">
+      <div class="text-center">SAVE</div>
+    </div>
+
+    <div class="delete-button" (click)="deleteButtonPressed()">
+      <div class="text-center">DELETE</div>
+    </div>
   </div>
 
   <div class="detail-box">
@@ -49,7 +49,13 @@
     <div class="text-center">{{ clothingItemToEdit?.lastWorn }}</div>
   </div>
 
-  <div class="save-button" (click)="saveButtonPressed()">
-    <div class="text-center">SAVE</div>
+  <div class="image-box">
+    <span>
+      <img
+        src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
+        alt="your outfit"
+      />
+      <input type="file" id="Photo" accept="image/*" />
+    </span>
   </div>
 </div>

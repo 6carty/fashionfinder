@@ -15,7 +15,7 @@ import { ASC, DEFAULT_SORT_DATA, DESC, ITEM_DELETED_EVENT, SORT } from '../confi
 import { SortService } from '../shared/sort/sort.service';
 import { ClothingItemDeleteDialogComponent } from '../entities/clothing-item/delete/clothing-item-delete-dialog.component';
 import { DataUtils } from '../core/util/data-util.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpParams } from '@angular/common/http';
 
 @Component({
@@ -69,6 +69,14 @@ export class ClothingItemEditComponent implements OnInit {
         }
       }
     });
+  }
+
+  deleteButtonPressed() {
+    if (this.clothingItemToEdit != null) {
+      this.clothingItemService.delete(this.clothingItemToEdit.id).subscribe(() => {
+        this.router.navigate(['/wardrobe']);
+      });
+    }
   }
 
   saveButtonPressed() {

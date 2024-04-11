@@ -6,6 +6,14 @@
   grid-template-areas: 'left middle-left middle middle-right right';
 }
 
+.save-delete-grid {
+  position: relative;
+  display: inline-grid;
+  grid-column-gap: 1vw;
+  grid-row-gap: 2.5vw;
+  grid-template-areas: 'left right';
+}
+
 .detail-box {
   position: relative;
   background-color: rgba(87, 87, 87, 0.5);
@@ -61,16 +69,30 @@ textarea {
   position: relative;
   background-color: #97c294;
   border-radius: 3.5vh;
-  width: 20vw;
-  height: 7.5vw;
+  width: 9.5vw;
+  height: 20vh;
   transition-duration: 0.4s;
-  grid-column: 5;
-  grid-row: 2;
   &:hover {
     background-color: #b4d3b2;
   }
   &:active {
     transition-duration: 0s;
     background-color: #78b075;
+  }
+}
+
+.delete-button {
+  position: relative;
+  background-color: #ff392e;
+  border-radius: 3.5vh;
+  width: 9.5vw;
+  height: 20vh;
+  transition-duration: 0.4s;
+  &:hover {
+    background-color: #ff6961;
+  }
+  &:active {
+    transition-duration: 0s;
+    background-color: #c30900;
   }
 }
