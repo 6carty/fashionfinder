@@ -30,10 +30,11 @@ export class MixAndMatchComponent implements OnInit {
   currentHourWindSpeed: number | undefined;
   weatherData: any;
   outfitImages: any;
+  alloutfitImage: any;
   // trendingOutfit: any;
   filterResults: any;
   placeholders: number[] = [];
-  placeholders2: number[] = [1, 2, 3, 4, 5];
+  placeholders2: any;
   activeRecommendedFilters: string[] = [];
   styles: string[] = [];
   outfit: any;
@@ -47,6 +48,8 @@ export class MixAndMatchComponent implements OnInit {
   active: String | undefined = '';
   users: IUser[] | null = null;
   user: IUser | undefined = undefined;
+  seeallview: boolean = false;
+  returnalluser: any;
   constructor(
     private outfitService: OutfitService,
     private ratingService: RatingService,
@@ -103,7 +106,7 @@ export class MixAndMatchComponent implements OnInit {
     }, 1000);
   }
   likeOutfit(i: number): void {
-    const outfitId = this.likeOccurence[i].outfit.id;
+    const outfitId = i;
     this.ratingService.query().subscribe(ratingtable => {
       const ratings = ratingtable.body;
       const rating = ratings?.filter(rating => rating.outfit?.id === outfitId && rating.userRated?.id === this.user?.id);
@@ -146,6 +149,10 @@ export class MixAndMatchComponent implements OnInit {
           // If creator is null, exclude it from the filtered list
           return false;
         });
+        this.returnalluser = filterUserOutfits;
+        this.alloutfitImage = this.returnalluser.map(
+          (outfitPic: { imageContentType: string; image: string }) => 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
+        );
         console.log('activeRecommendedFilters', this.activeRecommendedFilters.length);
         console.log('activeRecommendedFilter', this.activeRecommendedFilters);
 
@@ -161,7 +168,6 @@ export class MixAndMatchComponent implements OnInit {
             filterUserOutfits = filterUserOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
           }
         });
-
         this.outfitImages = filterUserOutfits
           .slice(0, 5)
           .map(
@@ -188,11 +194,11 @@ export class MixAndMatchComponent implements OnInit {
                   this.populateLikedStates(sendToPopulate);
                 }
                 console.log('fetch LIKE occurence length', this.likeOccurence.length);
-                // console.log('fetch like occurence ', this.likeOccurence);
               }
             }
           });
         }
+
         observables.unsubscribe();
         observer.next(); // Notify observers that the asynchronous operation is complete
         observer.complete();
@@ -200,6 +206,30 @@ export class MixAndMatchComponent implements OnInit {
     });
   }
 
+  getRandomOutfits(outfits: any[], count: number): any[] {
+    const randomOutfits = [];
+    const outfitsCopy = [...outfits]; // Create a shallow copy of the outfits array
+
+    // Ensure that count doesn't exceed the length of the outfits array
+    count = Math.min(count, outfitsCopy.length);
+
+    // Randomly select count outfits from the outfits array
+    for (let i = 0; i < count; i++) {
+      const randomIndex = Math.floor(Math.random() * outfitsCopy.length);
+      randomOutfits.push(outfitsCopy[randomIndex]);
+      outfitsCopy.splice(randomIndex, 1); // Remove the selected outfit to avoid duplicates
+    }
+
+    return randomOutfits;
+    // const randomOutfits = [];
+    // while (count > 0 && outfits.length > 0) {
+    //   const randomIndex = Math.floor(Math.random() * outfits.length);
+    //   randomOutfits.push(outfits[randomIndex]);
+    //   outfits.splice(randomIndex, 1);
+    //   count--;
+    // }
+    // return randomOutfits;
+  }
   insertSorted(array: { outfit: IOutfit; ratingCount: number }[], newItem: { outfit: IOutfit; ratingCount: number }): void {
     let index = array.findIndex(item => item.ratingCount < newItem.ratingCount);
     if (index === -1) {
@@ -210,27 +240,98 @@ export class MixAndMatchComponent implements OnInit {
   }
   fetchRecommendedOutfits(): void {}
   populateLikedStates(likeOccurence: { outfit: IOutfit; ratingCount: number }[]): void {
-    // this.likedStates =[];
+    this.likedStates = [];
 
     console.log('like occurence is this long', likeOccurence.length);
-    likeOccurence.forEach(likeOccurence => {
-      this.ratingService.query().subscribe(ratingTable => {
-        const likeOccurenceLikes = ratingTable.body?.filter(
-          rating => likeOccurence.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
-        );
-        console.log('have you personally liked this trending outfit', likeOccurenceLikes);
-        if (likeOccurenceLikes && likeOccurenceLikes.length > 0) {
-          this.likedStates.push(true);
-          console.log('LikesStates', this.likedStates);
-        } else {
-          this.likedStates.push(false);
-        }
+
+    // Create an array of promises for each asynchronous request
+    const promises = likeOccurence.map(likeOccurenceItem => {
+      return new Promise<void>((resolve, reject) => {
+        this.ratingService.query().subscribe(ratingTable => {
+          const likeOccurenceLikes = ratingTable.body?.filter(
+            rating => likeOccurenceItem.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
+          );
+          console.log('have you personally liked this trending outfit', likeOccurenceLikes);
+          if (likeOccurenceLikes && likeOccurenceLikes.length > 0) {
+            this.likedStates.push(true);
+            console.log('LikesStates', this.likedStates);
+          } else {
+            this.likedStates.push(false);
+          }
+          resolve(); // Resolve the promise once the asynchronous operation is done
+        });
       });
     });
-    console.log('Like occurence content', this.likedStates);
+
+    // Wait for all promises to resolve
+    Promise.all(promises).then(() => {
+      const remainderTrending = 5 - this.likeOccurence.length;
+      console.log('remainder trending is being gotten', remainderTrending);
+      if (remainderTrending > 0) {
+        this.ratingService.query().subscribe(ratingTable => {
+          const ratings = ratingTable.body;
+          if (!ratings) {
+            this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
+          } else {
+            const noRatedOutfits = this.outfit.filter(
+              (soleOutfit: IOutfit) => !ratings.some(rating => rating.outfit?.id === soleOutfit.id)
+            );
+            console.log('is the not some filter on user outfit working?', noRatedOutfits);
+            this.placeholders2 = this.getRandomOutfits(noRatedOutfits, remainderTrending);
+            for (let i = 0; i < this.placeholders2.length; i++) {
+              this.likedStates.push(false);
+            }
+            console.log('getrandomoutfitmethodisworking?', this.placeholders2);
+          }
+        });
+      }
+      console.log('Like occurence content', this.likedStates);
+    });
+    // console.log('like occurence is this long', likeOccurence.length);
+    // likeOccurence.forEach(likeOccurence => {
+    //   this.ratingService.query().subscribe(ratingTable => {
+    //     const likeOccurenceLikes = ratingTable.body?.filter(
+    //       rating => likeOccurence.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
+    //     );
+    //     console.log('have you personally liked this trending outfit', likeOccurenceLikes);
+    //     if (likeOccurenceLikes && likeOccurenceLikes.length > 0) {
+    //       this.likedStates.push(true);
+    //       console.log('LikesStates', this.likedStates);
+    //     } else {
+    //       this.likedStates.push(false);
+    //     }
+    //   });
+    // });
+    //
+    //
+    // const remainderTrending = 5 - this.likeOccurence.length;
+    // console.log('remainder trending is being gotten', remainderTrending)
+    // if(remainderTrending>0){
+    //   this.ratingService.query().subscribe(ratingTable => {
+    //     const ratings = ratingTable.body;
+    //     if (!ratings ){ this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5)}
+    //     else{
+    //       const noRatedOutfits =this.outfit.filter((soleOutfit: IOutfit) => !ratings.some(rating => rating.outfit?.id === soleOutfit.id));
+    //       console.log('is the not some filter on user outfit working?', noRatedOutfits);
+    //       this.placeholders2 = this.getRandomOutfits( noRatedOutfits, remainderTrending);
+    //       for(let i = 0;  i <this.placeholders2.length; i++){
+    //         this.likedStates.push(false);
+    //       }
+    //       console.log('getrandomoutfitmethodisworking?', this.placeholders2);
+    //     }
+    //   })
+    // }
+    // console.log('Like occurence content', this.likedStates);
   }
   fetchFilteredOutfit(): void {
-    this.filterOutfits = this.outfit;
+    // this.filterOutfits = this.outfit;
+    this.filterOutfits = this.outfit?.filter((userOwned: IOutfit) => {
+      if (userOwned.userCreated) {
+        return userOwned.userCreated.id === this.user?.id;
+      }
+      // If creator is null, exclude it from the filtered list
+      return false;
+    });
     const today = new Date();
     this.activeFilters.forEach(filter => {
       if (filter === 'Formal' || filter === 'Business' || filter === 'Casual' || filter === 'Sports') {
@@ -306,7 +407,9 @@ export class MixAndMatchComponent implements OnInit {
   // ngAfterViewInit() {
   //   this.resetAlternateContent();
   // }
-
+  changeToSeeAll(): void {
+    this.seeallview = !this.seeallview;
+  }
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
