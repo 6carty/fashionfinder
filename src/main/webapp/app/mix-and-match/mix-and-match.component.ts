@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { fetchWeatherApi } from 'openmeteo';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { RatingService } from '../entities/rating/service/rating.service';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs/esm';
 import { IUser } from '../entities/user/user.model';
 import { UserService } from '../entities/user/user.service';
 import { AccountService } from '../core/auth/account.service';
-import { EMPTY, Observable, switchMap } from 'rxjs';
+import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -47,7 +47,6 @@ export class MixAndMatchComponent implements OnInit {
   active: String | undefined = '';
   users: IUser[] | null = null;
   user: IUser | undefined = undefined;
-
   constructor(
     private outfitService: OutfitService,
     private ratingService: RatingService,
@@ -71,10 +70,17 @@ export class MixAndMatchComponent implements OnInit {
           }
           return EMPTY; // If user data is not available, return an empty observable
         })
+        // switchMap(() => this.fetchOufit()), // Fetch outfit first
+        // switchMap(() => this.populateLikedStates())
+        // switchMap(() => this.fetchOufit()),
+        // tap(() =>{
+        //   this.populateLikedStates()
+        // })
+        // switchMap(() => this.populateLikedStates()),
       )
       .subscribe(() => {
         this.fetchOufit().subscribe(() => {
-          this.populateLikedStates();
+          // this.populateLikedStates();
         }); // Call fetchOutfit after user data is obtained
       });
   }
@@ -88,7 +94,7 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getCurrentHourData();
     }, 3600000);
-    // this.fetchOufit();
+    // this.fetchOufit().subscribe();
     // setTimeout(()  =>{
     //   this.populateLikedStates();
     // }, 3000);
@@ -178,8 +184,11 @@ export class MixAndMatchComponent implements OnInit {
                     index = this.likeOccurence.length;
                   }
                   this.likeOccurence.splice(index, 0, newItem);
+                  const sendToPopulate = this.likeOccurence;
+                  this.populateLikedStates(sendToPopulate);
                 }
                 console.log('fetch LIKE occurence length', this.likeOccurence.length);
+                // console.log('fetch like occurence ', this.likeOccurence);
               }
             }
           });
@@ -200,11 +209,11 @@ export class MixAndMatchComponent implements OnInit {
     //currently working on this
   }
   fetchRecommendedOutfits(): void {}
-  async populateLikedStates(): Promise<void> {
+  populateLikedStates(likeOccurence: { outfit: IOutfit; ratingCount: number }[]): void {
     // this.likedStates =[];
 
-    console.log('like occurence is this long', this.likeOccurence.length);
-    this.likeOccurence.forEach(likeOccurence => {
+    console.log('like occurence is this long', likeOccurence.length);
+    likeOccurence.forEach(likeOccurence => {
       this.ratingService.query().subscribe(ratingTable => {
         const likeOccurenceLikes = ratingTable.body?.filter(
           rating => likeOccurence.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
@@ -218,6 +227,7 @@ export class MixAndMatchComponent implements OnInit {
         }
       });
     });
+    console.log('Like occurence content', this.likedStates);
   }
   fetchFilteredOutfit(): void {
     this.filterOutfits = this.outfit;
@@ -290,6 +300,13 @@ export class MixAndMatchComponent implements OnInit {
   showAlternateContent(index: number) {
     this.showAlternate[index] = true;
   }
+  resetAlternateContent(index: number) {
+    this.showAlternate[index] = false;
+  }
+  // ngAfterViewInit() {
+  //   this.resetAlternateContent();
+  // }
+
   getCurrentDateTime(): void {
     const currentDate = new Date();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
