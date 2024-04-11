@@ -177,3 +177,17 @@ img {
   display: inline-grid;
   grid-column-gap: 5vh;
 }
+
+.filter-ticked {
+  height: 10px;
+  width: 10px;
+  color: #26282a;
+}
+
+.filter-not-ticked {
+  height: 10px;
+  width: 10px;
+  border-radius: 1px;
+  border-color: #26282a;
+  color: #cccccc;
+}

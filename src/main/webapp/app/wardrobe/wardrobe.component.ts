@@ -11,6 +11,7 @@ import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -61,7 +62,7 @@ export class WardrobeComponent implements OnInit {
 
     const inputElementPhoto = document.getElementById('clothingItemPhoto') as HTMLInputElement;
 
-    if (inputElementPhoto.files) {
+    if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
       const selectedFile = inputElementPhoto.files[0];
       const reader = new FileReader();
 
@@ -110,7 +111,7 @@ export class WardrobeComponent implements OnInit {
 
     const inputElementPhoto = document.getElementById('outfitPhoto') as HTMLInputElement;
 
-    if (inputElementPhoto.files) {
+    if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
       const selectedFile = inputElementPhoto.files[0];
       const reader = new FileReader();
 
@@ -126,6 +127,7 @@ export class WardrobeComponent implements OnInit {
           id: null,
           name: this.userInputName,
           occasion: Occasion.BUSINESS,
+          date: dayjs(),
         };
         if (inputElementPhoto.files) {
           outfit.image = this.userInputPhoto;
@@ -138,14 +140,6 @@ export class WardrobeComponent implements OnInit {
       if (selectedFile) {
         reader.readAsDataURL(selectedFile);
       }
-    } else {
-      const outfit: NewOutfit = {
-        id: null,
-        name: this.userInputName,
-        occasion: Occasion.BUSINESS,
-      };
-
-      this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
     }
   }
 

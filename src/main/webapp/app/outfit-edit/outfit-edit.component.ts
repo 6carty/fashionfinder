@@ -42,6 +42,8 @@ export class OutfitEditComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   isLoading = false;
+  deleting: boolean = false;
+  outfitId: number = 0;
 
   constructor(
     private clothingItemService: ClothingItemService,
@@ -144,11 +146,20 @@ export class OutfitEditComponent implements OnInit {
   }
 
   deleteButtonPressed() {
-    if (this.outfitToEdit != null) {
-      this.outfitService.delete(this.outfitToEdit.id).subscribe(() => {
-        this.router.navigate(['/wardrobe']);
-      });
+    if (this.outfitToEdit) {
+      this.outfitId = this.outfitToEdit.id;
     }
+
+    if (this.clothingReceivedData) {
+      for (let item of this.clothingReceivedData) {
+        if (item.outfits) {
+          item.outfits = item.outfits.filter(obj => obj.id !== this.outfitId);
+        }
+      }
+    }
+
+    this.deleting = true;
+    this.onSaveSuccessOutfit();
   }
 
   saveButtonPressed() {
@@ -206,6 +217,8 @@ export class OutfitEditComponent implements OnInit {
           name: this.inputElementName.value,
           occasion: this.inputElementOccasion.value,
           description: this.inputElementDescription.value,
+          date: this.outfitToEdit?.date,
+          creator: this.outfitToEdit?.creator,
         };
 
         if (inputElementPhoto.files) {
@@ -227,6 +240,8 @@ export class OutfitEditComponent implements OnInit {
         description: this.inputElementDescription.value,
         image: this.outfitToEdit?.image,
         imageContentType: this.outfitToEdit?.imageContentType,
+        date: this.outfitToEdit?.date,
+        creator: this.outfitToEdit?.creator,
       };
       this.subscribeToSaveResponseOutfit(this.outfitService.update(outfit));
     }
@@ -259,7 +274,19 @@ export class OutfitEditComponent implements OnInit {
       this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj !== clothingItem);
       this.subscribeToSaveResponseClothes(this.clothingItemService.update(clothingItem));
     } else {
-      window.location.reload();
+      if (this.deleting) {
+        if (this.outfitToEdit != null) {
+          this.outfitService.delete(this.outfitToEdit.id).subscribe(() => {
+            this.router.navigate(['/wardrobe']);
+          });
+        }
+      }
+      if (this.givenId == -1) {
+        this.router.navigate(['/wardrobe']);
+      }
+      if (!this.deleting && this.givenId != -1) {
+        window.location.reload();
+      }
     }
   }
 
