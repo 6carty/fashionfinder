@@ -64,9 +64,9 @@
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
             <div class="clothing-item-box">
-              <div class="clothing-box">
+              <button class="clothing-box" (click)="onClothingItemClicked(item.id)">
                 <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
         <br /><br />
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let item of outfitReceivedData">
-            <button class="outfit-box">
+            <button class="outfit-box" (click)="onOutfitClicked(item.id)">
               <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
             </button>
           </div>

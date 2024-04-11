@@ -149,6 +149,18 @@ export class WardrobeComponent implements OnInit {
     }
   }
 
+  onOutfitClicked(id: number) {
+    this.router.navigate(['/outfit-edit'], {
+      queryParams: { id: id },
+    });
+  }
+
+  onClothingItemClicked(id: number) {
+    this.router.navigate(['/clothing-item-edit'], {
+      queryParams: { id: id },
+    });
+  }
+
   protected subscribeToSaveResponseClothing(result: Observable<HttpResponse<IClothingItem>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccessClothing(),

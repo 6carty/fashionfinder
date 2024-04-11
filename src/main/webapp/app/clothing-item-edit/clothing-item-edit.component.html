@@ -1,0 +1,55 @@
+<div class="layout-grid">
+  <div class="detail-box">
+    <div class="text-center">NAME:</div>
+    <textarea type="text" class="text-center" id="Name" rows="2">{{ this.clothingItemToEdit?.name }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">DESCRIPTION:</div>
+    <textarea type="text" class="text-center" id="Description" rows="5">{{ this.clothingItemToEdit?.description }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">SIZE:</div>
+    <textarea type="text" class="text-center" id="ClothingSize" rows="1">{{ clothingItemToEdit?.clothingSize }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">COLOUR:</div>
+    <textarea type="text" class="text-center" id="Colour" rows="1">{{ clothingItemToEdit?.colour }}</textarea>
+  </div>
+
+  <div class="image-box">
+    <span>
+      <img
+        src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
+        alt="your outfit"
+      />
+      <input type="file" id="Photo" accept="image/*" />
+    </span>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">STYLE:</div>
+    <textarea type="text" class="text-center" id="Style" rows="1">{{ clothingItemToEdit?.style }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">BRAND:</div>
+    <textarea type="text" class="text-center" id="Brand" rows="1">{{ clothingItemToEdit?.brand }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">MATERIAL:</div>
+    <textarea type="text" class="text-center" id="Material" rows="1">{{ clothingItemToEdit?.material }}</textarea>
+  </div>
+
+  <div class="detail-box">
+    <div class="text-center">LAST WORN:</div>
+    <div class="text-center">{{ clothingItemToEdit?.lastWorn }}</div>
+  </div>
+
+  <div class="save-button" (click)="saveButtonPressed()">
+    <div class="text-center">SAVE</div>
+  </div>
+</div>

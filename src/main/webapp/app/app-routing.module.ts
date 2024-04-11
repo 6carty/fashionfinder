@@ -18,6 +18,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 import { UserGalleryComponent } from './user-gallery/user-gallery.component';
+import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
 
 @NgModule({
   imports: [
@@ -86,6 +87,10 @@ import { UserGalleryComponent } from './user-gallery/user-gallery.component';
         {
           path: 'user-gallery',
           component: UserGalleryComponent,
+        },
+        {
+          path: 'clothing-item-edit',
+          component: ClothingItemEditComponent,
         },
         navbarRoute,
         ...errorRoute,

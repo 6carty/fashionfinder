@@ -181,7 +181,7 @@ export class OutfitEditComponent implements OnInit {
 
     const inputElementPhoto = document.getElementById('outfitPhoto') as HTMLInputElement;
 
-    if (inputElementPhoto.files) {
+    if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
       const selectedFile = inputElementPhoto.files[0];
       const reader = new FileReader();
 
@@ -211,6 +211,16 @@ export class OutfitEditComponent implements OnInit {
       if (selectedFile) {
         reader.readAsDataURL(selectedFile);
       }
+    } else {
+      const outfit: IOutfit = {
+        id: this.id,
+        name: this.inputElementName.value,
+        occasion: this.inputElementOccasion.value,
+        description: this.inputElementDescription.value,
+        image: this.outfitToEdit?.image,
+        imageContentType: this.outfitToEdit?.imageContentType,
+      };
+      this.subscribeToSaveResponseOutfit(this.outfitService.update(outfit));
     }
   }
   protected subscribeToSaveResponseOutfit(result: Observable<HttpResponse<IOutfit>>): void {
