@@ -147,6 +147,7 @@
         background-size: cover;
         background-position: center;
         background-color: white;
+        cursor: pointer;
       }
       .first-line-img02 {
         background-color: white;
@@ -196,6 +197,7 @@
   //background-position: center;
   background-color: white;
   grid-column-start: 1;
+  cursor: pointer;
 }
 
 .outfitbt svg {
@@ -223,6 +225,7 @@
 .image-container {
   //position: gri;
   display: grid;
+  cursor: pointer;
 }
 .outfit-image-3 {
   //margin-right: 20px;
@@ -235,4 +238,5 @@
   background-position: center;
   background-color: white;
   grid-column-start: 1;
+  cursor: pointer;
 }
