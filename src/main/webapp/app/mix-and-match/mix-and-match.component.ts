@@ -10,6 +10,7 @@ import { UserService } from '../entities/user/user.service';
 import { AccountService } from '../core/auth/account.service';
 import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 @Component({
   selector: 'jhi-mix-and-match',
@@ -42,7 +43,7 @@ export class MixAndMatchComponent implements OnInit {
   filterOutfits: any;
   allfiltersOff: boolean = true;
   searchTerm: string = '';
-  likedStates: boolean[] = [];
+  likedStates: { rating: IRating[]; bool: Boolean }[] = [];
   showAlternate: boolean[] = [];
   likeOccurence: { outfit: IOutfit; ratingCount: number }[] = [];
   active: String | undefined = '';
@@ -116,9 +117,10 @@ export class MixAndMatchComponent implements OnInit {
         this.ratingService.delete(rating[0].id).subscribe();
       } else {
         const ratedAt = dayjs();
+        const addOutfit = this.outfit.find((outfit: IOutfit) => outfit.id === i);
         const newRating: IRating | NewRating = {
           id: null,
-          outfit: this.likeOccurence[i].outfit,
+          outfit: addOutfit,
           ratedAt: ratedAt,
           userRated: this.user,
         };
@@ -134,7 +136,7 @@ export class MixAndMatchComponent implements OnInit {
         });
       }
     });
-    this.likedStates[i] = !this.likedStates[i];
+    this.likedStates[i].bool = !this.likedStates[i].bool;
   }
   fetchOufit(): Observable<void> {
     return new Observable<void>(observer => {
@@ -240,10 +242,8 @@ export class MixAndMatchComponent implements OnInit {
   }
   fetchRecommendedOutfits(): void {}
   populateLikedStates(likeOccurence: { outfit: IOutfit; ratingCount: number }[]): void {
-    this.likedStates = [];
-
     console.log('like occurence is this long', likeOccurence.length);
-
+    this.likedStates = [];
     // Create an array of promises for each asynchronous request
     const promises = likeOccurence.map(likeOccurenceItem => {
       return new Promise<void>((resolve, reject) => {
@@ -251,12 +251,24 @@ export class MixAndMatchComponent implements OnInit {
           const likeOccurenceLikes = ratingTable.body?.filter(
             rating => likeOccurenceItem.outfit.id === rating.outfit?.id && rating.userRated?.id === this.user?.id
           );
-          console.log('have you personally liked this trending outfit', likeOccurenceLikes);
+          // this.likedStates = [];
+          // @ts-ignore
+          console.log('have you personally liked this trending outfit', likeOccurenceLikes.length);
           if (likeOccurenceLikes && likeOccurenceLikes.length > 0) {
-            this.likedStates.push(true);
-            console.log('LikesStates', this.likedStates);
+            const likedStateItem = {
+              rating: likeOccurenceLikes,
+              bool: true,
+            };
+            if (!this.likedStates.some(item => item.rating[0].id === likedStateItem.rating[0].id)) {
+              this.likedStates.push(likedStateItem);
+              console.log('LikesStates', this.likedStates);
+            }
           } else {
-            this.likedStates.push(false);
+            const likedStateItem = {
+              rating: [],
+              bool: false,
+            };
+            this.likedStates.push(likedStateItem);
           }
           resolve(); // Resolve the promise once the asynchronous operation is done
         });
@@ -279,7 +291,12 @@ export class MixAndMatchComponent implements OnInit {
             console.log('is the not some filter on user outfit working?', noRatedOutfits);
             this.placeholders2 = this.getRandomOutfits(noRatedOutfits, remainderTrending);
             for (let i = 0; i < this.placeholders2.length; i++) {
-              this.likedStates.push(false);
+              // this.likedStates.push(false);
+              const likedStateItem = {
+                rating: [],
+                bool: false,
+              };
+              this.likedStates.push(likedStateItem);
             }
             console.log('getrandomoutfitmethodisworking?', this.placeholders2);
           }
