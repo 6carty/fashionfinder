@@ -23,6 +23,14 @@ export class AnalyticsComponent implements OnInit {
   topOccasion: string = 'Unknown';
   numberOfExchanged: number = 0;
 
+  clothingReceivedData: IClothingItem[] | null = null;
+  outfitReceivedData: any;
+  isSaving = false;
+  clothingItem: IClothingItem | null = null;
+  userInputName: any;
+  userInputDescription: any;
+  userInputPhoto: any;
+
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
 
@@ -36,5 +44,31 @@ export class AnalyticsComponent implements OnInit {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
     });
+    this.fetchClothes();
+    this.assessVars();
+  }
+
+  fetchClothes() {
+    this.clothingItemService.query('include.owner').subscribe(clothingItems => {
+      this.clothingReceivedData = clothingItems.body;
+      this.fetchOutfits();
+    });
+  }
+
+  fetchOutfits() {
+    this.outfitService.query('include.owner').subscribe(outfits => {
+      this.outfitReceivedData = outfits.body;
+    });
+
+    this.outfitReceivedData.unsubscribe();
+  }
+
+  assessVars() {
+    if (!(typeof this.clothingReceivedData == undefined)) {
+      this.numberOfItems = <number>this.clothingReceivedData?.length;
+    }
+    if (!(typeof this.outfitReceivedData == undefined)) {
+      this.numberOfOutfits = <number>this.outfitReceivedData?.length;
+    }
   }
 }

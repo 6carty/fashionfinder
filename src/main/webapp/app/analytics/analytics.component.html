@@ -3,6 +3,10 @@
   <div class="text-xxlarge-center">Hi, {{ account.firstName }}</div>
   <div class="text-med-center">Let's have a look at your data</div>
 </div>
+<div *ngIf="!account">
+  <div class="text-xxlarge-center">Hi, new user!</div>
+  <div class="text-med-center">You're not signed in yet</div>
+</div>
 <div class="display-analytics">
   <div class="sideLeft">
     <div class="examplePane1">
