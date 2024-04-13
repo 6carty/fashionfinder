@@ -45,7 +45,6 @@ export class AnalyticsComponent implements OnInit {
       this.account = account;
     });
     this.fetchClothes();
-    this.assessVars();
   }
 
   fetchClothes() {
@@ -58,17 +57,45 @@ export class AnalyticsComponent implements OnInit {
   fetchOutfits() {
     this.outfitService.query('include.owner').subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
+      this.assessVars();
     });
 
     this.outfitReceivedData.unsubscribe();
   }
 
-  assessVars() {
-    if (!(typeof this.clothingReceivedData == undefined)) {
-      this.numberOfItems = <number>this.clothingReceivedData?.length;
+  assessVars(): void {
+    if (!(typeof this.clothingReceivedData == undefined || this.clothingReceivedData == null)) {
+      this.numberOfItems = <number>this.clothingReceivedData.length;
     }
-    if (!(typeof this.outfitReceivedData == undefined)) {
-      this.numberOfOutfits = <number>this.outfitReceivedData?.length;
+    if (!(typeof this.outfitReceivedData == undefined || this.outfitReceivedData == null)) {
+      this.numberOfOutfits = <number>this.outfitReceivedData.length;
+    }
+    var themeList: number[] = [0, 0, 0, 0];
+    for (var outfit of this.outfitReceivedData) {
+      switch (outfit?.occasion) {
+        case 'FORMAL':
+          themeList[0] += 1;
+          break;
+        case 'BUSINESS':
+          themeList[1] += 1;
+          break;
+        case 'CASUAL':
+          themeList[2] += 1;
+          break;
+        case 'SPORTS':
+          themeList[3] += 1;
+          break;
+        default:
+          break;
+      }
+    }
+    const returnList: string[] = ['FORMAL', 'BUSINESS', 'CASUAL', 'SPORTS'];
+    let max = 0;
+    for (let x = 0; x < 4; x++) {
+      if (themeList[x] > max) {
+        max = themeList[x];
+        this.topOccasion = returnList[x].toLowerCase();
+      }
     }
   }
 }
