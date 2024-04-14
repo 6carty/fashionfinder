@@ -11,6 +11,8 @@ import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
 import { Account } from '../core/auth/account.model';
 import { AccountService } from '../core/auth/account.service';
+import dayjs from 'dayjs/esm';
+import { dateComparator } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools';
 
 @Component({
   selector: 'jhi-analytics',
@@ -18,10 +20,11 @@ import { AccountService } from '../core/auth/account.service';
   styleUrls: ['./analytics.component.scss'],
 })
 export class AnalyticsComponent implements OnInit {
-  numberOfItems: number = 0;
-  numberOfOutfits: number = 0;
-  topOccasion: string = 'Unknown';
-  numberOfExchanged: number = 0;
+  numberOfItems = 0;
+  numberOfOutfits = 0;
+  topOccasion = 'Unknown';
+  numberOfExchanged = 0;
+  breakupItem: IClothingItem | null = null;
 
   clothingReceivedData: IClothingItem[] | null = null;
   outfitReceivedData: any;
@@ -66,6 +69,9 @@ export class AnalyticsComponent implements OnInit {
   assessVars(): void {
     if (!(typeof this.clothingReceivedData == undefined || this.clothingReceivedData == null)) {
       this.numberOfItems = <number>this.clothingReceivedData.length;
+      if (this.findBreakupItem()) {
+        this.breakupItem = this.findBreakupItem();
+      }
     }
     if (!(typeof this.outfitReceivedData == undefined || this.outfitReceivedData == null)) {
       this.numberOfOutfits = <number>this.outfitReceivedData.length;
@@ -97,5 +103,24 @@ export class AnalyticsComponent implements OnInit {
         this.topOccasion = returnList[x].toLowerCase();
       }
     }
+  }
+
+  findBreakupItem(): IClothingItem | null {
+    let dateWorn: dayjs.Dayjs;
+    let candidate: IClothingItem | null;
+    dateWorn = dayjs();
+    candidate = null;
+    const clothingReceivedData1 = this.clothingReceivedData;
+    if (clothingReceivedData1 != null) {
+      for (var item of clothingReceivedData1) {
+        if (item.lastWorn != null) {
+          if (!dateWorn.isBefore(item.lastWorn)) {
+            dateWorn = item.lastWorn;
+            candidate = item;
+          }
+        }
+      }
+    }
+    return candidate;
   }
 }
