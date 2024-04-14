@@ -20,6 +20,13 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active-l" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/diary" (click)="diary()">
+            <span>
+              <span>Diary</span>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active-l" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/wardrobe" (click)="wardrobe()">
             <span>
               <!--              <fa-icon icon="shirt"></fa-icon>-->

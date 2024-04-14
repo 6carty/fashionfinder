@@ -78,4 +78,8 @@ export class NavbarComponent implements OnInit {
   analytics(): void {
     this.router.navigate(['/analytics']);
   }
+
+  diary(): void {
+    this.router.navigate(['/diary']);
+  }
 }
