@@ -41,6 +41,7 @@ import { YoutubeComponent } from './sustainability/YouTubeApi/youtube.component'
 import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 import { UserGalleryComponent } from './user-gallery/user-gallery.component';
 import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
+import { DiaryComponent } from './diary/diary.component';
 
 @NgModule({
   imports: [
@@ -84,6 +85,7 @@ import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-ed
     OutfitEditComponent,
     UserGalleryComponent,
     ClothingItemEditComponent,
+    DiaryComponent,
   ],
   bootstrap: [MainComponent],
 })

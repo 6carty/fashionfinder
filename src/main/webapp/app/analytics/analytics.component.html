@@ -46,7 +46,13 @@
       <div class="examplePane3">
         <div class="text-xlarge">Time for a breakup?</div>
         <div class="text-med">Consider donating your unloved items, like this one</div>
-        <button class="exampleImg" [routerLink]="['/sustainability']"></button>
+        <button class="exampleImg" [routerLink]="['/sustainability']">
+          <img
+            src="data:image/{{ breakupItem.imageContentType }};charset=utf-8;base64,{{ breakupItem.image }}"
+            alt="{{ breakupItem.name }}"
+            *ngIf="breakupItem"
+          />
+        </button>
       </div>
     </div>
     <div class="leastWorn">
