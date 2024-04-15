@@ -146,8 +146,8 @@ public class ChatroomResource {
      */
     @GetMapping("/chatrooms")
     public List<Chatroom> getAllChatrooms() {
-        log.debug("REST request to get all Chatrooms");
-        return chatroomRepository.findAll();
+        log.debug("REST request to get all Chatrooms where current user is involved");
+        return chatroomRepository.findByCurrentUserInvolved();
     }
 
     /**

@@ -16,4 +16,11 @@ public interface ChatroomRepository extends JpaRepository<Chatroom, Long> {
 
     @Query("select chatroom from Chatroom chatroom where chatroom.recipient.login = ?#{principal.username}")
     List<Chatroom> findByRecipientIsCurrentUser();
+
+    @Query(
+        "select chatroom from Chatroom chatroom where chatroom.creator.login = ?#{principal.username} or chatroom.recipient.login = ?#{principal.username}"
+    )
+    List<Chatroom> findByCurrentUserInvolved();
+
+    List<Chatroom> findByCreatorIdOrRecipientId(Long creatorId, Long recipientId);
 }
