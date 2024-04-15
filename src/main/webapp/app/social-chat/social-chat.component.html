@@ -38,9 +38,10 @@
     <div class="chatrooms-list">
       <h3>Chatrooms</h3>
       <ul class="chatroom-items">
-        <li *ngFor="let chatroom of chatroomReceivedData">
+        <li *ngFor="let chatroom of chatroomReceivedData" (click)="selectChatroom(chatroom)">
           <div class="chatroom-item">
             <!--            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image"/>-->
+            <!-- Chatroom item content -->
             <div class="chatroom-info">
               <div class="chatroom-name">
                 <span>{{ chatroom.name }}</span>
@@ -57,10 +58,10 @@
   <div class="right-column">
     <div class="chat-header">
       <div class="chat-partner-info">
-        <img [src]="currentChatPartner.image" alt="Chat Partner" class="chat-partner-image" />
         <div>
-          <div class="chat-partner-name">{{ currentChatPartner.name }}</div>
-          <div class="chat-partner-last-seen">Last Seen {{ currentChatPartner.lastSeen | date: 'shortTime' }}</div>
+          <!-- Display selected chatroom's name -->
+          <div class="chat-partner-name" *ngIf="selectedChatroom">{{ selectedChatroom.name }}</div>
+          <!--          <div class="chat-partner-last-seen">Last Seen {{ currentChatPartner.lastSeen | date: 'shortTime' }}</div>-->
         </div>
       </div>
     </div>
@@ -76,8 +77,8 @@
     </div>
     <div class="message-input">
       <div class="message-input-container">
-        <input type="text" placeholder="Write" class="message-input-field" />
-        <button class="send-btn">
+        <input type="text" [(ngModel)]="newMessageContent" placeholder="Write" class="message-input-field" />
+        <button class="send-btn" (click)="sendMessage()">
           <img src="content/images/SendIcon.png" alt="Send" />
         </button>
       </div>

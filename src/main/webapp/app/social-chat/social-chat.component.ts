@@ -12,6 +12,9 @@ import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
 import { getUserIdentifier } from '../entities/user/user.model';
 import { IUser } from 'app/entities/user/user.model';
 import { UserManagementService } from '../admin/user-management/service/user-management.service';
+import { IChatMessage, NewChatMessage } from '../entities/chat-message/chat-message.model';
+import { ChatMessageService } from '../entities/chat-message/service/chat-message.service';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -22,7 +25,9 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
   private chatroomsSubscription: Subscription | null = null;
+  selectedChatroom: any;
   chatroomReceivedData: any;
+  newMessageContent: string = '';
   isSaving = false;
   userInput: any;
   userInput2: any;
@@ -33,7 +38,8 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private changeDetectorRef: ChangeDetectorRef,
     private chatroomService: ChatroomService,
-    private userManagementService: UserManagementService
+    private userManagementService: UserManagementService,
+    private chatMessageService: ChatMessageService
   ) {}
 
   fetchChatrooms(): void {
@@ -96,6 +102,52 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     });
   }
 
+  selectChatroom(chatroom: IChatroom): void {
+    this.selectedChatroom = chatroom;
+    // Since you now have the selected chatroom, you can also set up to load its messages here later
+    // For now, let's just log the selected chatroom
+    console.log('Selected Chatroom:', chatroom);
+  }
+
+  sendMessage(): void {
+    if (this.selectedChatroom && this.account?.login && this.newMessageContent.trim()) {
+      // Use the UserManagementService to find the user by login and get the ID
+      this.userManagementService.find(this.account.login).subscribe({
+        next: user => {
+          // 'user' is already of type IUser, so no need for 'userResponse.body'
+          if (user.id) {
+            // Directly use 'user.id'
+            const newMessage: NewChatMessage = {
+              id: null,
+              content: this.newMessageContent,
+              timestamp: dayjs(),
+              sender: { id: user.id }, // Use the ID from the user
+              chatroom: { id: this.selectedChatroom.id },
+            };
+
+            this.chatMessageService.create(newMessage).subscribe({
+              next: response => {
+                console.log('Message sent:', response.body);
+                this.newMessageContent = ''; // Clear the message input
+                // Refresh messages or add to list
+              },
+              error: error => {
+                console.error('Error sending message:', error);
+              },
+            });
+          } else {
+            console.error(`User with login ${this.account?.login} does not have an ID.`);
+          }
+        },
+        error: error => {
+          console.error('Error fetching user by login for message sending:', error);
+        },
+      });
+    } else {
+      console.error('Message content is empty or no chatroom/user is selected');
+    }
+  }
+
   protected subscribeToSaveResponseChatroom(result: Observable<HttpResponse<IChatroom>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccessChatroom(),
@@ -140,7 +192,6 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     { name: 'Hasaan Ahmed', lastMessage: 'Thanks', image: 'content/images/jhipster_family_member_3_head-192.png' },
     { name: 'Michael Joe', lastMessage: 'Where did you buy...', image: 'content/images/jhipster_family_member_2_head-192.png' },
   ];
-  selectedChatroom = null;
 
   currentChatPartner = {
     name: 'Sukhraj Mann',
