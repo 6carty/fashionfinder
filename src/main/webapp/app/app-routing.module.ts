@@ -19,6 +19,7 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 import { UserGalleryComponent } from './user-gallery/user-gallery.component';
 import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
+import { DiaryComponent } from './diary/diary.component';
 
 @NgModule({
   imports: [
@@ -91,6 +92,10 @@ import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-ed
         {
           path: 'clothing-item-edit',
           component: ClothingItemEditComponent,
+        },
+        {
+          path: 'diary',
+          component: DiaryComponent,
         },
         navbarRoute,
         ...errorRoute,
