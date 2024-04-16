@@ -1,5 +1,6 @@
 // In social-chat.component.ts
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
@@ -43,6 +44,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   currentUserId: number | undefined;
   private pollingSubscription: Subscription | null = null;
   private readonly pollingInterval = 5000; // Poll every 5 seconds
+  @ViewChild('messageContainer') private messageContainer: ElementRef | null = null;
 
   constructor(
     private accountService: AccountService,
@@ -144,6 +146,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
         console.error('There was an error fetching messages:', error);
       }
     );
+    this.scrollToBottom();
   }
 
   sendMessage(): void {
@@ -187,6 +190,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     } else {
       console.error('Message content is empty or no chatroom/user is selected');
     }
+    this.scrollToBottom();
   }
 
   startPollingMessages(chatroomId: number): void {
@@ -219,6 +223,20 @@ export class SocialChatComponent implements OnInit, OnDestroy {
       timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
       isSent: true,
     });
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    if (this.messageContainer) {
+      try {
+        this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Could not scroll to bottom: ', err);
+      }
+    }
   }
 
   protected subscribeToSaveResponseChatroom(result: Observable<HttpResponse<IChatroom>>): void {
