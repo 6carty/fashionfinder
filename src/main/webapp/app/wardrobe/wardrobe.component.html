@@ -10,13 +10,13 @@
               <input type="text" id="clothingItemNameField" autocomplete="off" />
               <h5>TYPE</h5>
               <select id="clothingItemTypeField">
-                <option>shirt</option>
-                <option>trousers</option>
-                <option>dress</option>
-                <option>hats</option>
-                <option>footwear</option>
-                <option>accessories</option>
-                <option>others</option>
+                <option>SHIRTS</option>
+                <option>SHOES</option>
+                <option>DRESS</option>
+                <option>TROUSERS</option>
+                <option>HATS</option>
+                <option>ACCESSORIES</option>
+                <option>OTHERS</option>
               </select>
               <h5>OCCASION</h5>
               <select id="clothingItemOccasionField">
@@ -52,7 +52,30 @@
           </div>
 
           <br />
-          <div class="apply-filter-button"><h5>apply filters</h5></div>
+          <button class="apply-filter-button" (click)="filterButtonPressed()"><h5>apply filters</h5></button>
+          <div class="grid-container-2">
+            <button class="filter-tick" (click)="filterSortAlphabetical = !filterSortAlphabetical">
+              <b *ngIf="filterSortAlphabetical">✓</b>
+              <b *ngIf="!filterSortAlphabetical">X</b>
+            </button>
+            <h5>SORT ALPHABETICALLY</h5>
+          </div>
+          <div class="grid-container-2">
+            <button class="filter-tick" (click)="filterSortType = !filterSortType">
+              <b *ngIf="filterSortType">✓</b>
+              <b *ngIf="!filterSortType">X</b>
+            </button>
+            <h5>SORT BY TYPE</h5>
+          </div>
+          <select id="clothingItemTypeFilter">
+            <option>SHIRTS</option>
+            <option>SHOES</option>
+            <option>DRESS</option>
+            <option>TROUSERS</option>
+            <option>HATS</option>
+            <option>ACCESSORIES</option>
+            <option>OTHERS</option>
+          </select>
         </div>
       </div>
     </div>
@@ -61,7 +84,7 @@
       <div class="rectangle-displayContent">
         <h1>Your Clothes</h1>
         <div class="scrollable-area">
-          <div class="grid-container" *ngFor="let item of clothingReceivedData; let i = index">
+          <div class="grid-container" *ngFor="let item of filteredItems; let i = index; trackBy: trackByClothingId">
             <div class="clothing-item-box">
               <button class="clothing-box" (click)="onClothingItemClicked(item.id)">
                 <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />

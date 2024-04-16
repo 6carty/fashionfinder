@@ -178,16 +178,17 @@ img {
   grid-column-gap: 5vh;
 }
 
-.filter-ticked {
-  height: 10px;
-  width: 10px;
-  color: #26282a;
+.grid-container-2 {
+  display: inline-grid;
+  grid-column-gap: 20px;
+  grid-template-areas: 'left right';
+  padding-bottom: 20px;
 }
 
-.filter-not-ticked {
-  height: 10px;
-  width: 10px;
-  border-radius: 1px;
+.filter-tick {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
   border-color: #26282a;
   color: #cccccc;
 }

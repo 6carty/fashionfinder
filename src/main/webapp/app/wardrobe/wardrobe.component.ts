@@ -10,7 +10,7 @@ import { finalize } from 'rxjs/operators';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import dayjs from 'dayjs/esm';
 
 @Component({
@@ -26,6 +26,16 @@ export class WardrobeComponent implements OnInit {
   userInputName: any;
   userInputDescription: any;
   userInputPhoto: any;
+  userInputType: ClothingType = ClothingType.OTHERS;
+  userInputOccasion: any;
+  userInputSize: any;
+  userInputBrand: any;
+  userInputMaterial: any;
+  filteredItems: IClothingItem[] = [];
+  filterType: ClothingType | null = null;
+  filterSortType: boolean = false;
+  filterSortAlphabetical: boolean = false;
+  filterSortSize: boolean = false;
 
   formData = {
     name: '',
@@ -38,9 +48,33 @@ export class WardrobeComponent implements OnInit {
     this.fetchClothes();
   }
 
+  trackByClothingId(index: number, clothingItem: IClothingItem): number {
+    return clothingItem.id;
+  }
+
+  filterButtonPressed() {
+    if (this.filterSortType && this.clothingReceivedData) {
+      const inputElementType = document.getElementById('clothingItemTypeFilter') as HTMLInputElement;
+      this.filteredItems = this.clothingReceivedData;
+      this.filteredItems = this.filteredItems.filter(obj => obj.type?.toString() == inputElementType.value);
+    } else {
+      if (this.clothingReceivedData) {
+        this.filteredItems = this.clothingReceivedData;
+      }
+    }
+
+    if (this.filterSortAlphabetical && this.clothingReceivedData) {
+      // @ts-ignore
+      this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  }
+
   fetchClothes() {
     this.clothingItemService.query('include.owner').subscribe(clothingItems => {
       this.clothingReceivedData = clothingItems.body;
+      if (this.clothingReceivedData) {
+        this.filteredItems = this.clothingReceivedData;
+      }
       this.fetchOutfits();
     });
   }
@@ -59,6 +93,29 @@ export class WardrobeComponent implements OnInit {
 
     const inputElementDescription = document.getElementById('clothingItemDescriptionField') as HTMLInputElement;
     this.userInputDescription = inputElementDescription.value;
+
+    const userType = (document.getElementById('clothingItemTypeField') as HTMLInputElement).value;
+    if (userType == 'SHIRTS') {
+      this.userInputType = ClothingType.SHIRTS;
+    }
+    if (userType == 'OTHERS') {
+      this.userInputType = ClothingType.OTHERS;
+    }
+    if (userType == 'HATS') {
+      this.userInputType = ClothingType.HATS;
+    }
+    if (userType == 'DRESS') {
+      this.userInputType = ClothingType.DRESS;
+    }
+    if (userType == 'SHOES') {
+      this.userInputType = ClothingType.SHOES;
+    }
+    if (userType == 'ACCESSORIES') {
+      this.userInputType = ClothingType.ACCESSORIES;
+    }
+    if (userType == 'TROUSERS') {
+      this.userInputType = ClothingType.TROUSERS;
+    }
 
     const inputElementPhoto = document.getElementById('clothingItemPhoto') as HTMLInputElement;
 
@@ -79,7 +136,7 @@ export class WardrobeComponent implements OnInit {
           name: this.userInputName,
           description: this.userInputDescription,
           status: Status.NOTFORSALE,
-          type: ClothingType.OTHERS,
+          type: this.userInputType,
         };
 
         if (inputElementPhoto.files) {
