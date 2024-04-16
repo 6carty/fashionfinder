@@ -71,10 +71,11 @@
       <div class="message" *ngFor="let message of messages">
         <div class="message-content" [ngClass]="{ sent: message.isSent, received: !message.isSent }">
           <span>{{ message.text }}</span>
-          <span class="message-time">{{ message.time }}</span>
+          <span class="message-time">{{ message.timestamp }}</span>
         </div>
       </div>
     </div>
+
     <div class="message-input">
       <div class="message-input-container">
         <input type="text" [(ngModel)]="newMessageContent" placeholder="Write" class="message-input-field" />
