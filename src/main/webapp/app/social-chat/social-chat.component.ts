@@ -118,11 +118,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     this.pollingSubscription?.unsubscribe(); // Stop any existing polling
     this.startPollingMessages(chatroom.id);
 
-    // Stop previous polling if any
-    if (this.pollingSubscription) {
-      this.pollingSubscription.unsubscribe();
-      this.pollingSubscription = null;
-    }
+    this.pollingSubscription?.unsubscribe();
 
     // Start polling for the selected chatroom
     this.startPollingMessages(chatroom.id);
@@ -132,12 +128,14 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     this.chatMessageService.queryByChatroomId(chatroomId).subscribe(
       (res: HttpResponse<IChatMessage[]>) => {
         if (res.body) {
-          this.messages =
-            res.body?.map(message => ({
+          this.messages = res.body
+            .map(message => ({
               text: message.content || '',
               timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
               isSent: message.sender?.id === this.currentUserId,
-            })) || [];
+              chatroomId: message.chatroom?.id,
+            }))
+            .filter(m => m.chatroomId === chatroomId);
 
           console.log(this.messages);
         }
@@ -199,13 +197,15 @@ export class SocialChatComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         (res: HttpResponse<IChatMessage[]>) => {
-          // Assuming that the backend service returns the messages sorted by timestamp
           this.messages =
-            res.body?.map(message => ({
-              text: message.content || '',
-              timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
-              isSent: message.sender?.id === this.currentUserId,
-            })) || [];
+            res.body
+              ?.map(message => ({
+                text: message.content || '',
+                timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
+                isSent: message.sender?.id === this.currentUserId,
+                chatroomId: message.chatroom?.id, // Assume there's a chatroom object with an ID
+              }))
+              .filter(m => m.chatroomId === chatroomId) || [];
         },
         error => {
           console.error('Error polling messages:', error);
