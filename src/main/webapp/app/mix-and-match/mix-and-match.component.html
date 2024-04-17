@@ -73,7 +73,6 @@
     <div class="second-image-line">
       <ng-container *ngFor="let item of likeOccurence; let i = index">
         <div class="image-container">
-          <!--          <div *ngIf="i < likeOccurence.length">-->
           <button class="outfitbt" (click)="likeOutfit(likeOccurence[i].outfit.id)">
             <fa-icon icon="heart" *ngIf="likedStates[i].bool"></fa-icon>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!likedStates[i].bool">
@@ -82,7 +81,6 @@
               />
             </svg>
           </button>
-          <!--          </div>-->
           <img
             class="outfit-image-3"
             [src]="'data:' + item.outfit.imageContentType + ';base64,' + item.outfit.image"
