@@ -4,12 +4,12 @@
   <div class="sidebar">
     <div user-details>
       <div class="profile-picture">
-        <img src="{{ myUserProfile?.profilePicture }}" alt="Profile Picture" class="circle-image" />
+        <img src="{{ currentProfile?.profilePicture }} " alt="Profile Picture" class="circle-image" />
       </div>
       <!-- Display Name -->
       <div class="display-name">
-        <h6>{{ account?.firstName }} {{ account?.lastName }}</h6>
-        <p class="text-muted">@{{ myUserProfile?.firstName }}</p>
+        <h6>{{ currentProfile?.firstName }} {{ currentProfile?.lastName }}</h6>
+        <p class="text-muted">@{{ account.login }}</p>
       </div>
     </div>
 

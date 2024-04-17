@@ -4,7 +4,6 @@ import { AccountService } from '../core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { IUserProfile } from '../entities/user-profile/user-profile.model';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
-import { IUser } from '../entities/user/user.model';
 import { UserManagementService } from '../admin/user-management/service/user-management.service';
 
 @Component({
@@ -14,10 +13,9 @@ import { UserManagementService } from '../admin/user-management/service/user-man
 })
 export class CommunitySideNavComponent implements OnInit {
   account: Account | null = null;
-  protected userProfileSubscription: Subscription | null = null;
-  myUserProfile: IUserProfile | null = null;
-  myUser: IUser | null = null;
-  userLogin: any;
+  allUserProfiles: Observable<IUserProfile[]> | null = null;
+  filteredProfile: IUserProfile[] | null = null;
+  currentProfile: IUserProfile | null = null;
   private accountSubscription: Subscription | null = null;
 
   // private user: IUser | null = null;
@@ -27,17 +25,15 @@ export class CommunitySideNavComponent implements OnInit {
     private userManagementService: UserManagementService
   ) {}
 
-  getUser(id: number): Observable<IUserProfile> {
-    return this.userProfileService.getUserProfileById(id);
-  }
-
   initialiseService(): void {
     if (this.account?.login) {
       this.userManagementService.find(this.account.login).subscribe({
         next: currentUser => {
           if (currentUser.id != null) {
-            this.getUser(currentUser.id).subscribe(userProfile => {
-              this.myUserProfile = userProfile;
+            this.allUserProfiles = this.userProfileService.getUserProfiles();
+            this.allUserProfiles.subscribe(userProfiles => {
+              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+              this.currentProfile = this.filteredProfile[0];
             });
           }
         },
