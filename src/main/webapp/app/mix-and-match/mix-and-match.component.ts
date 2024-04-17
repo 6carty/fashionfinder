@@ -51,6 +51,7 @@ export class MixAndMatchComponent implements OnInit {
   user: IUser | undefined = undefined;
   seeallview: boolean = false;
   returnalluser: any;
+  likeoccuencearray: any[] = [];
   constructor(
     private outfitService: OutfitService,
     private ratingService: RatingService,
@@ -83,9 +84,7 @@ export class MixAndMatchComponent implements OnInit {
         // switchMap(() => this.populateLikedStates()),
       )
       .subscribe(() => {
-        this.fetchOufit().subscribe(() => {
-          // this.populateLikedStates();
-        }); // Call fetchOutfit after user data is obtained
+        this.fetchOufit().subscribe(() => {}); // Call fetchOutfit after user data is obtained
       });
   }
 
@@ -105,6 +104,34 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getActiveFilters();
     }, 1000);
+    // if(this.likeOccurence.length ==0){
+    //   this.populateLikedStates(this.likeOccurence);
+    // }
+    // if(this.likeoccuencearray.length == 0){
+    //        const remainderTrending = 5;
+    //        console.log('made it here')
+    //        this.ratingService.query().subscribe(ratingTable => {
+    //          const ratings = ratingTable.body;
+    //          if (!ratings) {
+    //            this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
+    //          } else {
+    //            const noRatedOutfits = this.outfit.filter(
+    //              (soleOutfit: IOutfit) => !ratings.some(rating => rating.outfit?.id === soleOutfit.id)
+    //            );
+    //            console.log('is the not some filter on user outfit working?', noRatedOutfits);
+    //            this.placeholders2 = this.getRandomOutfits(noRatedOutfits, remainderTrending);
+    //            for (let i = 0; i < this.placeholders2.length; i++) {
+    //              // this.likedStates.push(false);
+    //              const likedStateItem = {
+    //                rating: [],
+    //                bool: false,
+    //              };
+    //              this.likedStates.push(likedStateItem);
+    //            }
+    //            console.log('getrandomoutfitmethodisworking?', this.placeholders2);
+    //          }
+    //        });
+    //      }else {}
   }
   likeOutfit(i: number): void {
     const outfitId = i;
@@ -189,24 +216,44 @@ export class MixAndMatchComponent implements OnInit {
             const ratings = ratingTable.body;
             if (ratings && ratings.length > 0) {
               const soleOutfitRatings = ratings.filter(rating => rating.outfit?.id === soleOutfit.id); // Filter ratings based on outfit ID
-              if (soleOutfitRatings) {
+              if (soleOutfitRatings && soleOutfitRatings.length > 0) {
                 const ratingCount = soleOutfitRatings.length;
-                if (ratingCount) {
-                  const newItem = { outfit: soleOutfit, ratingCount };
+                // console.log('what is the ratingcount', ratingCount)
+                const newItem = { outfit: soleOutfit, ratingCount };
+                const existingItemIndex = this.likeOccurence.findIndex(item => item.outfit.id === newItem.outfit.id);
+                console.log(existingItemIndex);
+                if (existingItemIndex !== -1) {
+                } else {
+                  // If the outfit is not in likeOccurence, add the new item
                   let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
+                  console.log('if index works', index);
                   if (index === -1) {
                     index = this.likeOccurence.length;
                   }
                   this.likeOccurence.splice(index, 0, newItem);
-                  const sendToPopulate = this.likeOccurence;
-                  this.populateLikedStates(sendToPopulate);
                 }
-                console.log('fetch LIKE occurence length', this.likeOccurence.length);
+                // this.likeOccurence.splice(index, 0, newItem);
+                const sendToPopulate = this.likeOccurence;
+                // this.likeoccuencearray.push(this.likeOccurence);
+                this.populateLikedStates(sendToPopulate);
+
+                // if (ratingCount) {
+                //   const newItem = { outfit: soleOutfit, ratingCount };
+                //   let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
+                //   if (index === -1) {
+                //     index = this.likeOccurence.length;
+                //   }
+                //   this.likeOccurence.splice(index, 0, newItem);
+                //   const sendToPopulate = this.likeOccurence;
+                //   this.likeoccuencearray.push(this.likeOccurence);
+                //   this.populateLikedStates(sendToPopulate);
+                // }
+                // console.log('fetch LIKE occurence length', this.likeOccurence.length);
               }
             }
           });
         }
-        this.populateLikedStates(this.likeOccurence);
+
         observables.unsubscribe();
         observer.next(); // Notify observers that the asynchronous operation is complete
         observer.complete();
