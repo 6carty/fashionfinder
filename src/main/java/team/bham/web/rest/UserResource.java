@@ -176,6 +176,12 @@ public class UserResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    @GetMapping("/users/id/{id}")
+    public ResponseEntity<AdminUserDTO> getUser(@PathVariable Long id) {
+        log.debug("REST request to get User by ID : {}", id);
+        return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesById(id));
+    }
+
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
     }

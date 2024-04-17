@@ -39,6 +39,6 @@ export class UserManagementService {
   }
 
   findUserById(id: number): Observable<IUser> {
-    return this.http.get<IUser>(`${this.resourceUrl}/${id}`);
+    return this.http.get<IUser>(`${this.resourceUrl}/id/${id}`);
   }
 }

@@ -18,6 +18,8 @@ import { ChatMessageService } from '../entities/chat-message/service/chat-messag
 import dayjs from 'dayjs/esm';
 import { interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -57,7 +59,28 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   fetchChatrooms(): void {
     this.chatroomsSubscription = this.chatroomService.query().subscribe(
       (response: HttpResponse<IChatroom[]>) => {
-        this.chatroomReceivedData = response.body || [];
+        const chatrooms = response.body || [];
+
+        // Map chatrooms to an array of observables fetching user's logins
+        const userLoginsRequests = chatrooms.map(chatroom => {
+          const otherUserId = chatroom.creator?.id !== this.currentUserId ? chatroom.creator?.id : chatroom.recipient?.id;
+          if (!otherUserId) {
+            return of({ login: 'Unknown' }); // if there's no other user ID
+          }
+          return this.userManagementService.findUserById(otherUserId).pipe(catchError(() => of({ login: 'Unknown' }))); // in case of error, return 'Unknown'
+        });
+
+        forkJoin(userLoginsRequests).subscribe(users => {
+          this.chatroomReceivedData = chatrooms.map((chatroom, index) => {
+            // Use the other user's login as the chatroom name
+            const otherUserLogin = users[index].login;
+            return {
+              ...chatroom,
+              name: otherUserLogin || 'Unknown',
+            };
+          });
+          this.changeDetectorRef.detectChanges(); // Trigger a view update
+        });
       },
       error => {
         console.error('There was an error fetching chatrooms:', error);
