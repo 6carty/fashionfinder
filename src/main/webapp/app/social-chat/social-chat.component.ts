@@ -282,14 +282,12 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
       this.changeDetectorRef.detectChanges();
-      this.fetchChatrooms();
-    });
 
-    this.accountService.identity().subscribe(account => {
-      this.account = account;
       if (account?.login) {
         this.userManagementService.find(account.login).subscribe(user => {
           this.currentUserId = user.id ?? undefined; // set to undefined if user.id is null
+          // Now fetch chatrooms after the current user's ID is known
+          this.fetchChatrooms();
         });
       }
     });

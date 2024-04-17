@@ -5,36 +5,40 @@
 <div class="chat-container">
   <!-- Left Column for User Info and Chatrooms -->
   <div class="left-column">
-    <div class="user-profile">
-      <!-- User profile section -->
-      <div *ngIf="account">
-        <h3>Welcome {{ account.login }}!</h3>
-      </div>
+    <!-- User profile section -->
+    <div class="user-profile" *ngIf="account">
+      <h3>Welcome {{ account.login }}!</h3>
     </div>
+
+    <!-- Search and create chatroom -->
     <div class="search-bar">
       <div class="center">
         <span *ngIf="account">
-          <input type="text" id="recipientField" placeholder="Enter recipient login" />
-          <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()"><h5>Create new chatroom</h5></div>
+          <input type="text" id="recipientField" placeholder="Enter recipient login" (keyup.enter)="onCreateChatroomButtonClick()" />
+          <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()">
+            <h5>Create new chatroom</h5>
+          </div>
         </span>
-
-        <button [routerLink]="['/login']">
-          <span *ngIf="!account"> Sign in to start chatting </span>
-        </button>
+        <button [routerLink]="['/login']" *ngIf="!account" class="button-focusable">Sign in to start chatting</button>
       </div>
     </div>
+
+    <!-- Chatrooms list -->
     <div class="chatrooms-list">
       <h3>Chatrooms</h3>
       <ul class="chatroom-items">
-        <li *ngFor="let chatroom of chatroomReceivedData" (click)="selectChatroom(chatroom)">
+        <li
+          *ngFor="let chatroom of chatroomReceivedData"
+          (click)="selectChatroom(chatroom)"
+          (keyup.enter)="selectChatroom(chatroom)"
+          tabindex="0"
+        >
           <div class="chatroom-item">
-            <!--            <img [src]="chatroom.image" alt="Chatroom Image" class="chatroom-image"/>-->
             <!-- Chatroom item content -->
             <div class="chatroom-info">
               <div class="chatroom-name">
                 <span>{{ chatroom.name }}</span>
               </div>
-              <!--              <div class="chatroom-last-message">{{ chatroom.lastMessage }}</div>-->
             </div>
           </div>
         </li>
@@ -53,9 +57,8 @@
         </div>
       </div>
     </div>
-    <div class="chat-messages" #messageContainer>
+    <div class="chat-messages" #messageContainer tabindex="0">
       <!-- Messages will go here -->
-
       <div class="message" *ngFor="let message of messages">
         <div class="message-content" [ngClass]="{ sent: message.isSent, received: !message.isSent }">
           <span>{{ message.text }}</span>
@@ -66,7 +69,7 @@
 
     <div class="message-input">
       <div class="message-input-container">
-        <input type="text" [(ngModel)]="newMessageContent" placeholder="Write" class="message-input-field" />
+        <input type="text" [(ngModel)]="newMessageContent" placeholder="Write" class="message-input-field" (keyup.enter)="sendMessage()" />
         <button class="send-btn" (click)="sendMessage()">
           <img src="content/images/SendIcon.png" alt="Send" />
         </button>
