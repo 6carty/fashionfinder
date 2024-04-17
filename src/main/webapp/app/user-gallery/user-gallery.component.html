@@ -1,1 +1,43 @@
-<p>user-gallery works!</p>
+<p>user-gallery works! length: {{ filteredPosts?.length }} id: {{ currentID }}</p>
+<tbody>
+  <tr *ngFor="let post of filteredPosts; trackBy: trackId" data-cy="entityTable">
+    <td>
+      <a [routerLink]="['/post', post.id, 'view']">{{ post.id }}</a>
+    </td>
+
+    <td>
+      <a *ngIf="post.image" (click)="openFile(post.image, post.imageContentType)">
+        <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" style="max-height: 30px" alt="post image" />
+      </a>
+      <!--[puts the file path of the image]  <span *ngIf="post.image">{{ post.imageContentType }}, {{ byteSize(post.image) }}</span>-->
+    </td>
+
+    <td>{{ post.caption }}</td>
+    <td>{{ post.createdDate | formatMediumDate }}</td>
+    <td>{{ post.editedDate | formatMediumDate }}</td>
+    <td>{{ post.totalLikes }}</td>
+    <td>
+      <div *ngIf="post.author">
+        <a [routerLink]="['/user-profile', post.author.id, 'view']">{{ post.author.id }}</a>
+      </div>
+    </td>
+    <td class="text-end">
+      <div class="btn-group">
+        <button type="submit" [routerLink]="['/post', post.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+          <fa-icon icon="eye"></fa-icon>
+          <span class="d-none d-md-inline">View</span>
+        </button>
+
+        <button type="submit" [routerLink]="['/post', post.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+          <fa-icon icon="pencil-alt"></fa-icon>
+          <span class="d-none d-md-inline">Edit</span>
+        </button>
+
+        <!--      <button type="submit" (click)="delete(post)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">-->
+        <!--        <fa-icon icon="times"></fa-icon>-->
+        <!--        <span class="d-none d-md-inline">Delete</span>-->
+        <!--      </button>-->
+      </div>
+    </td>
+  </tr>
+</tbody>

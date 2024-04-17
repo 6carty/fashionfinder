@@ -2,20 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { Subscription } from 'rxjs';
-import { AccountService } from '../../../core/auth/account.service';
-import { UserManagementService } from '../../../admin/user-management/service/user-management.service';
-import { UserProfileService } from '../../user-profile/service/user-profile.service';
 import { IPost } from '../post.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, PostService } from '../service/post.service';
 import { PostDeleteDialogComponent } from '../delete/post-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
 import { SortService } from 'app/shared/sort/sort.service';
-import { IUserProfile } from '../../user-profile/user-profile.model';
-import { NewChatroom } from '../../chatroom/chatroom.model';
-import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-post',
@@ -25,62 +17,23 @@ export class PostComponent implements OnInit {
   posts?: IPost[];
   isLoading = false;
 
-  currentProfile: IUserProfile | null = null;
-  accountSubscription: Subscription | null = null;
-  account: Account | null = null;
-  userProfiles: IUserProfile[] | null = null;
-  filteredEntity: IUserProfile[] | null = null;
   predicate = 'id';
   ascending = true;
-
   constructor(
     protected postService: PostService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal,
-    protected userProfileService: UserProfileService,
-    protected userManagementService: UserManagementService,
-    protected accountService: AccountService
+    protected modalService: NgbModal
   ) {}
 
   trackId = (_index: number, item: IPost): number => this.postService.getPostIdentifier(item);
 
   ngOnInit(): void {
     this.load();
-    this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
-      this.account = account;
-      this.loadUsers();
-    });
-  }
-  loadUsers(): void {
-    if (this.account) {
-      this.userManagementService.find(this.account.login).subscribe({
-        next: currentUser => {
-          this.loadUserProfiles();
-          this.filterData(currentUser.login);
-        },
-      });
-    }
-  }
-  loadUserProfiles(): void {
-    this.userProfileService.getUserProfiles().subscribe(data => {
-      this.userProfiles = data;
-    });
   }
 
-  filterData(userLogin: any): void {
-    if (this.userProfiles) {
-      this.filteredEntity = this.userProfiles.filter(entity => entity.user == userLogin);
-      if (this.filteredEntity && this.filteredEntity.length > 0) {
-        this.currentProfile = this.filteredEntity[0];
-        console.log(this.currentProfile);
-      } else {
-        console.log('filteredEntities is empty or undefined.');
-      }
-    }
-  }
   byteSize(base64String: string): string {
     return this.dataUtils.byteSize(base64String);
   }

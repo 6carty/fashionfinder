@@ -17,8 +17,6 @@ export class CommunitySideNavComponent implements OnInit {
   filteredProfile: IUserProfile[] | null = null;
   currentProfile: IUserProfile | null = null;
   private accountSubscription: Subscription | null = null;
-
-  // private user: IUser | null = null;
   constructor(
     private accountService: AccountService,
     private userProfileService: UserProfileService,
