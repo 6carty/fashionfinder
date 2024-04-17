@@ -28,6 +28,7 @@ export type EntityArrayResponseType = HttpResponse<IUserProfile[]>;
 export class UserProfileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/user-profiles');
   protected userProfile: IUserProfile | null = null;
+  protected userProfiles: IUserProfile[] = [];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(userProfile: NewUserProfile): Observable<EntityResponseType> {
@@ -72,9 +73,25 @@ export class UserProfileService {
     return userProfile.id;
   }
 
-  getUserProfile(): IUserProfile | null {
-    return this.userProfile;
+  getUserProfiles(): Observable<IUserProfile[]> {
+    return this.http.get<IUserProfile[]>(this.resourceUrl);
   }
+
+  getUserProfileById(id: number | undefined): Observable<IUserProfile> {
+    return this.http.get<RestUserProfile[]>(this.resourceUrl, { observe: 'response' }).pipe(
+      map(res => {
+        // @ts-ignore
+        this.userProfiles = res.body || [];
+        const userProfile = this.userProfiles.find(profile => profile.user === id);
+        if (userProfile) {
+          return userProfile;
+        } else {
+          throw new Error(`User profile with ID ${id} not found.`);
+        }
+      })
+    );
+  }
+
   compareUserProfile(o1: Pick<IUserProfile, 'id'> | null, o2: Pick<IUserProfile, 'id'> | null): boolean {
     return o1 && o2 ? this.getUserProfileIdentifier(o1) === this.getUserProfileIdentifier(o2) : o1 === o2;
   }
