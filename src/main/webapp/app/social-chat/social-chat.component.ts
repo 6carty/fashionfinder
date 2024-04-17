@@ -65,53 +65,49 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     );
   }
 
-  onCreateChatroomButtonClick() {
-    const chatroomInputElement = document.getElementById('chatroomField') as HTMLInputElement;
+  onCreateChatroomButtonClick(): void {
     const recipientLoginElement = document.getElementById('recipientField') as HTMLInputElement;
-
-    this.userInput = chatroomInputElement.value;
     this.userInput3 = recipientLoginElement.value;
 
     if (this.account?.login) {
-      // First, find the ID of the currently logged-in user using their login.
-      this.userManagementService.find(this.account.login).subscribe({
-        next: creatorUser => {
-          // Check if the user and the user's ID is not null
+      // Find the ID of the currently logged-in user using their login
+      this.userManagementService.find(this.account.login).subscribe(
+        creatorUser => {
           if (creatorUser?.id != null) {
-            this.findRecipientAndCreateChatroom(this.userInput, creatorUser.id, this.userInput3);
+            this.findRecipientAndCreateChatroom('chatroom', creatorUser.id, this.userInput3);
           } else {
             console.error(`No user found with login ${this.account?.login}`);
           }
         },
-        error: error => {
-          console.error('There was an error finding the creator user by login:', error);
-        },
-      });
+        error => {
+          console.error('Error finding the creator user by login:', error);
+        }
+      );
     } else {
       console.error('No account is currently logged in, or the account does not have a login.');
     }
   }
 
   findRecipientAndCreateChatroom(chatroomName: string, creatorId: number, recipientLogin: string): void {
-    this.userManagementService.find(recipientLogin).subscribe({
-      next: recipientUser => {
+    // Adjusted method to always set chatroom name to 'chatroom'
+    this.userManagementService.find(recipientLogin).subscribe(
+      recipientUser => {
         if (recipientUser?.id != null) {
           const chatroom: NewChatroom = {
             id: null,
-            name: chatroomName,
+            name: 'chatroom',
             creator: { id: creatorId },
             recipient: { id: recipientUser.id },
           };
-
           this.subscribeToSaveResponseChatroom(this.chatroomService.create(chatroom));
         } else {
           console.error(`No user found with login ${recipientLogin}`);
         }
       },
-      error: error => {
-        console.error(`There was an error finding user by login ${recipientLogin}:`, error);
-      },
-    });
+      error => {
+        console.error(`Error finding user by login ${recipientLogin}:`, error);
+      }
+    );
   }
 
   selectChatroom(chatroom: IChatroom): void {
