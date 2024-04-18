@@ -266,3 +266,12 @@
 
   box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.25); /* Soft blue outline */
 }
+
+.message-image {
+  max-width: 200px; /* Adjust the size as needed */
+  max-height: 200px; /* Adjust the size as needed */
+  cursor: pointer; /* Indicates that the image can be clicked */
+  border: 1px solid #ccc; /* Optional: adds a border around the image */
+  border-radius: 4px; /* Optional: rounds the corners of the image */
+  object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+}

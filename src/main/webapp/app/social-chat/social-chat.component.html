@@ -62,6 +62,13 @@
       <div class="message" *ngFor="let message of messages">
         <div class="message-content" [ngClass]="{ sent: message.isSent, received: !message.isSent }">
           <span>{{ message.text }}</span>
+          <img
+            *ngIf="message.image"
+            [src]="message.image"
+            class="message-image"
+            alt="Image message"
+            (click)="enlargeImage(message.image)"
+          />
           <span class="message-time">{{ message.timestamp }}</span>
         </div>
       </div>
@@ -69,7 +76,15 @@
 
     <div class="message-input">
       <div class="message-input-container">
-        <input type="text" [(ngModel)]="newMessageContent" placeholder="Write" class="message-input-field" (keyup.enter)="sendMessage()" />
+        <input #fileInput type="file" (change)="handleImageInput($event)" />
+        <input
+          #messageInput
+          type="text"
+          [(ngModel)]="newMessageContent"
+          placeholder="Write"
+          class="message-input-field"
+          (keyup.enter)="sendMessage()"
+        />
         <button class="send-btn" (click)="sendMessage()">
           <img src="content/images/SendIcon.png" alt="Send" />
         </button>
