@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123228"
+  },
   "applications": "*",
   "changelogDate": "20240303123228",
   "dto": "no",
@@ -39,14 +42,17 @@
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "posts",
       "relationshipName": "author",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "likes",
       "otherEntityRelationshipName": "post",
       "relationshipName": "likes",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

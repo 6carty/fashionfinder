@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123215"
+  },
   "applications": "*",
   "changelogDate": "20240303123215",
   "dto": "no",
@@ -31,14 +34,17 @@
       "otherEntityName": "chatroom",
       "otherEntityRelationshipName": "chatroom",
       "relationshipName": "chatroom",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "message",
       "relationshipName": "userProfile",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

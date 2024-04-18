@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-item-log-heading" data-cy="ItemLogCreateUpdateHeading">Create or edit a Item Log</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+        <div class="mb-3">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_date">Date</label>
+          <div class="d-flex">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="datetime-local"
+              class="form-control"
+              name="date"
+              formControlName="date"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)) {
+          <div>
+            @if (editForm.get('date')?.errors?.required) {
+            <small class="form-text text-danger">This field is required.</small>
+            }
+            <small class="form-text text-danger" [hidden]="!editForm.get('date')?.errors?.datetimelocal"
+              >This field should be a date and time.</small
+            >
+          </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_owner">Owner</label>
+          <select class="form-control" id="field_owner" data-cy="owner" name="owner" formControlName="owner" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            @for (userOption of usersSharedCollection; track $index) {
+            <option [ngValue]="userOption">{{ userOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_outfit">Outfit</label>
+          <select
+            class="form-control"
+            id="field_outfit"
+            data-cy="outfit"
+            name="outfit"
+            formControlName="outfit"
+            [compareWith]="compareOutfit"
+          >
+            <option [ngValue]="null"></option>
+            @for (outfitOption of outfitsSharedCollection; track $index) {
+            <option [ngValue]="outfitOption">{{ outfitOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

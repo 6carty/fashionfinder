@@ -1,0 +1,32 @@
+{
+  "annotations": {
+    "changelogDate": "20240418210322"
+  },
+  "applications": "*",
+  "entityTableName": "item_log",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "ItemLog",
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "owner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "outfit",
+      "relationshipName": "outfit",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipWithBuiltInEntity": true
+    }
+  ],
+  "searchEngine": "no"
+}
