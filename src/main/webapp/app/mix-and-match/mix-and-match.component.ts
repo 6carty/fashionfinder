@@ -30,7 +30,7 @@ export class MixAndMatchComponent implements OnInit {
   currentHourPrecipitation: number | undefined;
   currentHourWindSpeed: number | undefined;
   weatherData: any;
-  outfitImages: any;
+  outfitImages: any = [];
   alloutfitImage: any;
   // trendingOutfit: any;
   filterResults: any;
@@ -51,13 +51,44 @@ export class MixAndMatchComponent implements OnInit {
   user: IUser | undefined = undefined;
   seeallview: boolean = false;
   returnalluser: any;
-  likeoccuencearray: any[] = [];
+
   constructor(
     private outfitService: OutfitService,
     private ratingService: RatingService,
     protected userService: UserService,
     protected accountService: AccountService
   ) {
+    // this.accountService
+    //   .getAuthenticationState()
+    //   .pipe(
+    //     filter(account => !!account?.login), // Filter out falsy accounts
+    //     switchMap(account => {
+    //       if (account) this.active = account.login;
+    //       return this.userService.query();
+    //     }),
+    //     switchMap(usersResponse => {
+    //       this.users = usersResponse.body;
+    //       if (this.users) {
+    //         this.user = this.users.find(user => user.login === this.active);
+    //         console.log('The user is currently', this.user);
+    //         return this.fetchWeatherData(); // Call fetchWeatherData after user data is obtained
+    //       }
+    //       return EMPTY; // If user data is not available, return an empty observable
+    //     })
+    //     // switchMap(() => this.fetchOufit()), // Fetch outfit first
+    //     // switchMap(() => this.populateLikedStates())
+    //     // switchMap(() => this.fetchOufit()),
+    //     // tap(() =>{
+    //     //   this.populateLikedStates()
+    //     // })
+    //     // switchMap(() => this.populateLikedStates()),
+    //   )
+    //   .subscribe(() => {
+    //     this.fetchOufit().subscribe(() => {}); // Call fetchOutfit after user data is obtained
+    //   });
+  }
+
+  ngOnInit(): void {
     this.accountService
       .getAuthenticationState()
       .pipe(
@@ -86,9 +117,7 @@ export class MixAndMatchComponent implements OnInit {
       .subscribe(() => {
         this.fetchOufit().subscribe(() => {}); // Call fetchOutfit after user data is obtained
       });
-  }
 
-  ngOnInit(): void {
     this.getCurrentDateTime(); // Call the method initially
     setInterval(() => {
       this.getCurrentDateTime(); // Call the method every second
@@ -104,36 +133,8 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getActiveFilters();
     }, 1000);
-    // if(this.likeOccurence.length ==0){
-    //   this.populateLikedStates(this.likeOccurence);
-    // }
-    // if(this.likeoccuencearray.length == 0){
-    //        const remainderTrending = 5;
-    //        console.log('made it here')
-    //        this.ratingService.query().subscribe(ratingTable => {
-    //          const ratings = ratingTable.body;
-    //          if (!ratings) {
-    //            this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
-    //          } else {
-    //            const noRatedOutfits = this.outfit.filter(
-    //              (soleOutfit: IOutfit) => !ratings.some(rating => rating.outfit?.id === soleOutfit.id)
-    //            );
-    //            console.log('is the not some filter on user outfit working?', noRatedOutfits);
-    //            this.placeholders2 = this.getRandomOutfits(noRatedOutfits, remainderTrending);
-    //            for (let i = 0; i < this.placeholders2.length; i++) {
-    //              // this.likedStates.push(false);
-    //              const likedStateItem = {
-    //                rating: [],
-    //                bool: false,
-    //              };
-    //              this.likedStates.push(likedStateItem);
-    //            }
-    //            console.log('getrandomoutfitmethodisworking?', this.placeholders2);
-    //          }
-    //        });
-    //      }else {}
   }
-  likeOutfit(i: number): void {
+  likeOutfit(i: number, a: number): void {
     const outfitId = i;
     this.ratingService.query().subscribe(ratingtable => {
       const ratings = ratingtable.body;
@@ -163,7 +164,24 @@ export class MixAndMatchComponent implements OnInit {
         });
       }
     });
-    this.likedStates[i].bool = !this.likedStates[i].bool;
+    this.likedStates[a].bool = !this.likedStates[a].bool;
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   const button = document.querySelector('.outfitbt');
+    //   const icon1 = document.getElementById('icon1');
+    //   const icon2 = document.getElementById('icon2');
+    //
+    //   // button?.addEventListener('click', function() {
+    //   //   if(icon1 && icon2){
+    //   //     if (icon1?.style.display === 'none') {
+    //   //       icon1.style.display = 'inline';
+    //   //       icon2.style.display = 'none';
+    //   //     } else {
+    //   //       icon1.style.display = 'none';
+    //   //       icon2.style.display = 'inline';
+    //   //     }
+    //   //   }
+    //   // });
+    // });
   }
   fetchOufit(): Observable<void> {
     return new Observable<void>(observer => {
@@ -198,7 +216,7 @@ export class MixAndMatchComponent implements OnInit {
           }
         });
         if (filterUserOutfits.length == 0) {
-          console.log('if there are no user outfits that match the weather', this.alloutfitImage);
+          // console.log('if there are no user outfits that match the weather', this.alloutfitImage);
           this.outfitImages = this.alloutfitImage.slice(0, 5);
         } else {
           this.outfitImages = filterUserOutfits
@@ -216,7 +234,7 @@ export class MixAndMatchComponent implements OnInit {
             const ratings = ratingTable.body;
             if (ratings && ratings.length > 0) {
               const soleOutfitRatings = ratings.filter(rating => rating.outfit?.id === soleOutfit.id); // Filter ratings based on outfit ID
-              if (soleOutfitRatings && soleOutfitRatings.length > 0) {
+              if (soleOutfitRatings) {
                 const ratingCount = soleOutfitRatings.length;
                 // console.log('what is the ratingcount', ratingCount)
                 const newItem = { outfit: soleOutfit, ratingCount };
@@ -226,17 +244,18 @@ export class MixAndMatchComponent implements OnInit {
                 } else {
                   // If the outfit is not in likeOccurence, add the new item
                   let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
-                  console.log('if index works', index);
                   if (index === -1) {
                     index = this.likeOccurence.length;
                   }
-                  this.likeOccurence.splice(index, 0, newItem);
+                  if (newItem.ratingCount > 0) {
+                    this.likeOccurence.splice(index, 0, newItem);
+                  }
                 }
                 // this.likeOccurence.splice(index, 0, newItem);
                 const sendToPopulate = this.likeOccurence;
                 // this.likeoccuencearray.push(this.likeOccurence);
                 this.populateLikedStates(sendToPopulate);
-
+                console.log('should reach here at least', this.likeOccurence);
                 // if (ratingCount) {
                 //   const newItem = { outfit: soleOutfit, ratingCount };
                 //   let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
