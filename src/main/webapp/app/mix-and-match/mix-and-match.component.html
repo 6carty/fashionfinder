@@ -1,13 +1,13 @@
 <div class="display-5">
   <div class="non-img-boxes">
-    <div class="date-and-time">
-      <h5 class="date-txt">{{ currentDateStr }}</h5>
-      <h5>
-        <span class="time-txt">{{ currentTimeStr }} </span>
-        <span class="current-temp">{{ currentHourTemperature }} °C</span>
+    <div class="display-box" style="margin-bottom: 40px">
+      <h5 class="date-txt" style="padding-left: 12px">{{ currentDateStr }}</h5>
+      <h5 style="padding-left: 12px; padding-bottom: 5px">
+        <span>{{ currentTimeStr }} </span>
+        <span>{{ currentHourTemperature }} °C</span>
       </h5>
     </div>
-    <div class="filter-box">
+    <div class="display-box">
       <h4 class="filter-text">Filters</h4>
       <div class="topnav">
         <div class="search-container">
@@ -15,7 +15,7 @@
           <button type="submit"><fa-icon icon="magnifying-glass" [fixedWidth]="true"></fa-icon></button>
         </div>
       </div>
-      <div class="normal-filters">
+      <div class="normal-filters" style="color: black">
         <button class="occasion-Button" (click)="toggleOccasionDropdown()">
           <span class="Brandtxt">Occasion</span> <fa-icon class="plusbt" icon="plus"></fa-icon>
         </button>
@@ -50,27 +50,43 @@
         </div>
       </div>
 
-      <button class="clear-button" (click)="clearFilterSelections()">Clear All</button>
+      <button
+        class="button-primary"
+        (click)="clearFilterSelections()"
+        style="font-size: 15px; border: none; cursor: pointer; width: 100px; height: 29px; margin-left: 115px; margin-bottom: 30px"
+      >
+        Clear All
+      </button>
     </div>
   </div>
 
-  <div class="rectangle-4" *ngIf="allfiltersOff && !seeallview">
-    <h5 class="recommended-outfit-text">Recommended Outfits <button class="seeAllviewbt" (click)="changeToSeeAll()">see all</button></h5>
+  <div class="display-box" *ngIf="allfiltersOff && !seeallview" style="min-width: 1170px; height: 595.765px">
+    <h5 class="recommended-outfit-text">
+      Recommended Outfits <button class="button-primary" (click)="changeToSeeAll()" style="margin-left: 20px; border: none">See all</button>
+    </h5>
     <div class="first-image-line">
       <ng-container *ngFor="let image of outfitImages; let i = index">
-        <img
-          class="outfit-image"
-          [src]="image"
-          onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
-          [routerLink]="['/outfit', outfit[i].id, 'view']"
-        />
+        <a
+          [routerLink]="
+            recommendedfilterOutfit.length === 0
+              ? ['/outfit', returnalluser[i].id, 'view']
+              : ['/outfit', recommendedfilterOutfit[i].id, 'view']
+          "
+        >
+          <img
+            class="outfit-image"
+            [src]="image"
+            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
+          />
+          <!--             [routerLink]="['/outfit', returnalluser[i].id, 'view']"-->
+        </a>
       </ng-container>
       <ng-container *ngIf="this.outfitImages.length == 0">
         <div class="first-line-img02" *ngFor="let placeholder of placeholders; let i = index"></div>
       </ng-container>
     </div>
     <h5 class="trending-outfit-text">Trending Outfits</h5>
-    <div class="second-image-line">
+    <div class="second-image-line" style="padding-bottom: 30px; position: relative">
       <ng-container *ngFor="let item of likeOccurence; let i = index">
         <div class="image-container">
           <button class="outfitbt" (click)="likeOutfit(likeOccurence[i].outfit.id, i)">
@@ -81,12 +97,13 @@
               />
             </svg>
           </button>
-          <img
-            class="outfit-image-3"
-            [src]="'data:' + item.outfit.imageContentType + ';base64,' + item.outfit.image"
-            onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
-            [routerLink]="['/outfit', item.outfit.id, 'view']"
-          />
+          <a [routerLink]="['/outfit', item.outfit.id, 'view']">
+            <img
+              class="outfit-image-3"
+              [src]="'data:' + item.outfit.imageContentType + ';base64,' + item.outfit.image"
+              onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
+            />
+          </a>
         </div>
       </ng-container>
       <ng-container *ngIf="likeOccurence.length < 5">
@@ -115,40 +132,44 @@
                 />
               </svg>
             </button>
-
-            <img
-              class="outfit-image-3"
-              [src]="'data:' + item.imageContentType + ';base64,' + item.image"
-              onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
-              [routerLink]="['/outfit', item.id, 'view']"
-            />
+            <a [routerLink]="['/outfit', item.id, 'view']">
+              <img
+                class="outfit-image-3"
+                [src]="'data:' + item.imageContentType + ';base64,' + item.image"
+                onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
+              />
+            </a>
           </div>
         </div>
       </ng-container>
     </div>
   </div>
   <div *ngIf="allfiltersOff && this.seeallview">
+    <!--    <h5 class="recommended-outfit-text">Recommended Outfits </h5>-->
     <h5>
-      <button class="seeAllviewbt2" (click)="changeToSeeAll()">see less</button>
+      All outfits
+      <button class="button-primary" (click)="changeToSeeAll()" style="border: none; margin-left: 20px">See less</button>
     </h5>
 
     <ng-container *ngFor="let outfitpic of alloutfitImage; let i = index">
-      <img
-        class="outfit-image-2"
-        [src]="outfitpic"
-        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
-        [routerLink]="['/outfit', alloutfitImage[i].id, 'view']"
-      />
+      <a [routerLink]="['/outfit', alloutfitImage[i].id, 'view']">
+        <img
+          class="outfit-image-2"
+          [src]="outfitpic"
+          onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
+        />
+      </a>
     </ng-container>
   </div>
   <div class="filter-results" *ngIf="!allfiltersOff">
     <ng-container *ngFor="let outfitPic of filterResults; let i = index">
-      <img
-        class="outfit-image-2"
-        [src]="outfitPic"
-        onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
-        [routerLink]="['/outfit', filterOutfits[i].id, 'view']"
-      />
+      <a [routerLink]="['/outfit', filterOutfits[i].id, 'view']">
+        <img
+          class="outfit-image-2"
+          [src]="outfitPic"
+          onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Cpath d=\'M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z\'/%3E%3C/svg%3E';"
+        />
+      </a>
     </ng-container>
   </div>
 </div>
