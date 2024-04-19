@@ -575,7 +575,7 @@ export class MixAndMatchComponent implements OnInit {
       this.currentHourPrecipitation = this.weatherData.hourly.precipitation[currentIndex];
       this.currentWeatherDescription = this.getWeatherDescription(this.weatherData.hourly.weatherCode[currentIndex]);
       this.currentHourWindSpeed = this.weatherData.hourly.windSpeed10m[currentIndex];
-      if (this.currentHourTemperature > 10) {
+      if (this.currentHourTemperature < 12) {
         this.activeRecommendedFilters.push('Cold');
       } else if (this.currentHourTemperature > 25) {
         this.activeRecommendedFilters.push('Hot');
