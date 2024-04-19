@@ -1,10 +1,10 @@
 <div class="display-wardrobe">
   <div class="grid-container-large">
-    <div class="rectangle-filter">
+    <div class="display-box rectangle-filter">
       <div class="rectangle-displayContent">
         <div class="grid-container">
-          <div class="dropdown-new-item">
-            <span><h5>add new item</h5></span>
+          <div class="button-primary dropdown-new-item">
+            <span><h5 style="color: var(--button-text-color)">add new item</h5></span>
             <div class="dropdown-new-item-content">
               <h5>NAME</h5>
               <input type="text" id="clothingItemNameField" autocomplete="off" />
@@ -47,12 +47,16 @@
                 <input type="file" id="clothingItemPhoto" accept="image/*" />
               </span>
               <br /><br />
-              <div class="apply-filter-button" (click)="onCreateItemButtonClick()"><h5>create new clothing item</h5></div>
+              <div class="button-primary apply-filter-button" (click)="onCreateItemButtonClick()">
+                <h5 style="color: var(--button-text-color)">create new clothing item</h5>
+              </div>
             </div>
           </div>
 
           <br />
-          <button class="apply-filter-button" (click)="filterButtonPressed()"><h5>apply filters</h5></button>
+          <button class="button-primary apply-filter-button" (click)="filterButtonPressed()">
+            <h5 style="color: var(--button-text-color)">apply filters</h5>
+          </button>
           <div class="grid-container-2">
             <button class="filter-tick" (click)="filterSortAlphabetical = !filterSortAlphabetical">
               <b *ngIf="filterSortAlphabetical">✓</b>
@@ -80,13 +84,13 @@
       </div>
     </div>
 
-    <div class="rectangle-display">
+    <div class="display-box rectangle-display">
       <div class="rectangle-displayContent">
         <h1>Your Clothes</h1>
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let item of filteredItems; let i = index; trackBy: trackByClothingId">
             <div class="clothing-item-box">
-              <button class="clothing-box" (click)="onClothingItemClicked(item.id)">
+              <button class="clothing-box fill" (click)="onClothingItemClicked(item.id)">
                 <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
               </button>
             </div>
@@ -95,11 +99,11 @@
       </div>
     </div>
 
-    <div class="rectangle-filter">
+    <div class="display-box rectangle-filter">
       <div class="rectangle-displayContent">
         <h1>Your Outfits</h1>
-        <div class="dropdown-new-item">
-          <h5>create new outfit</h5>
+        <div class="button-primary dropdown-new-item">
+          <h5 style="color: var(--button-text-color)">create new outfit</h5>
           <div class="dropdown-new-item-content-outfit">
             <h5>NAME</h5>
             <input type="text" id="OutfitNameField" autocomplete="off" />
@@ -116,13 +120,15 @@
               <input type="file" id="outfitPhoto" accept="image/*" />
             </span>
             <br /><br />
-            <div class="apply-filter-button" (click)="onCreateOutfitButtonClick()"><h5>create new outfit</h5></div>
+            <div class="button-primary apply-filter-button" (click)="onCreateOutfitButtonClick()">
+              <h5 style="color: var(--button-text-color)">create new outfit</h5>
+            </div>
           </div>
         </div>
         <br /><br />
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let item of outfitReceivedData">
-            <button class="outfit-box" (click)="onOutfitClicked(item.id)">
+            <button class="outfit-box fill" (click)="onOutfitClicked(item.id)">
               <img src="data:image/{{ item.imageContentType }};charset=utf-8;base64,{{ item.image }}" alt="{{ item.name }}" />
             </button>
           </div>
