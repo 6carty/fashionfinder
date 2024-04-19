@@ -10,6 +10,7 @@ import { UserService } from '../entities/user/user.service';
 import { AccountService } from '../core/auth/account.service';
 import { EMPTY, Observable, switchMap } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { DarkModeService } from '../shared/dark-mode.service';
 
 @Component({
   selector: 'jhi-mix-and-match',
@@ -50,12 +51,14 @@ export class MixAndMatchComponent implements OnInit {
   user: IUser | undefined = undefined;
   seeallview: boolean = false;
   returnalluser: any;
+  darkmode: boolean = false;
 
   constructor(
     private outfitService: OutfitService,
     private ratingService: RatingService,
     protected userService: UserService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected darkModeService: DarkModeService
   ) {
     // this.accountService
     //   .getAuthenticationState()
@@ -121,6 +124,10 @@ export class MixAndMatchComponent implements OnInit {
     setInterval(() => {
       this.getActiveFilters();
     }, 1000);
+    this.darkModeService.darkMode$.subscribe((isdarkmode: boolean) => {
+      this.darkmode = isdarkmode;
+    });
+    console.log(this.darkmode);
   }
   likeOutfit(i: number, a: number): void {
     const outfitId = i;
@@ -181,8 +188,10 @@ export class MixAndMatchComponent implements OnInit {
           ) {
             filterUserOutfits = filterUserOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
             this.recommendedfilterOutfit = filterUserOutfits;
+            console.log('It filtered Something and that is', this.recommendedfilterOutfit);
           }
         });
+        console.log('what is it currently filtering to', this.activeRecommendedFilters);
         if (filterUserOutfits.length == 0) {
           this.outfitImages = this.alloutfitImage.slice(0, 10);
         } else {

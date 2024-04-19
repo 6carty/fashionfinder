@@ -1,27 +1,17 @@
 .display-5 {
   display: flex;
   position: relative;
-
   min-height: 74vh;
   .non-img-boxes {
     //flex: 1;
     margin-right: 20px;
+    color: inherit;
     .date-and-time {
       background-color: rgba(87, 87, 87, 0.5);
       //height: 61.752903907074966px;
       width: 235px;
       border-radius: 25px;
       margin-bottom: 40px;
-
-      .date-txt {
-        padding-top: 5px;
-        margin-left: 12px;
-      }
-      .time-txt,
-      .current-temp {
-        margin-left: 12px;
-        margin-bottom: 5px;
-      }
     }
     //.filter-box {
     //  background-color: rgba(87, 87, 87, 0.5);
@@ -59,6 +49,7 @@
       height: 29px;
       margin-left: 115px;
       margin-bottom: 30px;
+      color: inherit;
     }
     .clear-button:hover {
       background: #ccc;
@@ -70,6 +61,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      color: inherit;
       .date-Button,
       .weather-Button,
       .occasion-Button {
@@ -82,8 +74,10 @@
         width: 235px;
         height: 19px;
         margin-bottom: 6px;
+        color: inherit;
         .Brandtxt {
           margin-left: 20px;
+          color: inherit;
         }
         .plusbt {
           margin-right: 20px;
@@ -131,6 +125,7 @@
 .trending-outfit-text {
   margin-left: 62px;
   margin-top: 34.26px;
+  color: inherit;
 }
 .first-image-line,
 .second-image-line {
