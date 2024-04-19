@@ -1,6 +1,4 @@
-{{ filteredPosts?.length }} "123456"
-
-<ng-container *ngFor="let post of filteredPosts; let i = index; trackBy: trackId" class="post-container">
+<ng-container *ngFor="let post of feedPosts; let i = index; trackBy: trackId" class="post-container">
   <div class="my-feed">
     <div class="heading">
       <div class="user">
@@ -15,11 +13,11 @@
         <div class="post-user-info">
           <div class="username-text">
             <h5>
-              <b> username should be here </b>
+              <b>{{ feedUsername }} , {{ post.id }}</b>
             </h5>
           </div>
           <div class="post-info-text">
-            <small> location goes here, {{ post.createdDate }}</small>
+            <small> {{ post.createdDate }}</small>
           </div>
         </div>
       </div>
@@ -30,7 +28,7 @@
     </div>
 
     <div class="post">
-      <img src="{{ post.image }}" class="post-img" alt="Post Picture" />
+      <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" class="post-img" alt="Post Picture" />
     </div>
 
     <div class="action-buttons">
@@ -50,10 +48,10 @@
     </div>
 
     <div class="liked-by">
-      <p><b>123 others</b></p>
+      <h6>123 others</h6>
     </div>
     <div class="caption">
-      <p><b>USERNAME</b> INSERT CAPTION HERE</p>
+      <h5>{{ feedUsername }}: {{ post.caption }}</h5>
     </div>
     <div class="text-muted" [routerLink]="['/comment/new']">View all 20 comments</div>
   </div>
