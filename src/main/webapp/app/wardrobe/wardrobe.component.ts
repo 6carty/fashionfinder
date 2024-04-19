@@ -39,9 +39,9 @@ export class WardrobeComponent implements OnInit {
   userInputMaterial: any;
   filteredItems: IClothingItem[] = [];
   filterType: ClothingType | null = null;
-  filterSortType: boolean = false;
-  filterSortAlphabetical: boolean = false;
-  filterSortSize: boolean = false;
+  filterName: boolean = false;
+  filterBrand: boolean = false;
+  filterColour: boolean = false;
   users: IUser[] | null = null;
   user: IUser | undefined = undefined;
   userProfile: IUserProfile | undefined = undefined;
@@ -91,21 +91,18 @@ export class WardrobeComponent implements OnInit {
     return clothingItem.id;
   }
 
-  filterButtonPressed() {
-    if (this.filterSortType && this.clothingReceivedData) {
-      const inputElementType = document.getElementById('clothingItemTypeFilter') as HTMLInputElement;
-      this.filteredItems = this.clothingReceivedData;
-      this.filteredItems = this.filteredItems.filter(obj => obj.type?.toString() == inputElementType.value);
-    } else {
-      if (this.clothingReceivedData) {
-        this.filteredItems = this.clothingReceivedData;
-      }
-    }
+  filterNamePressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-    if (this.filterSortAlphabetical && this.clothingReceivedData) {
-      // @ts-ignore
-      this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
-    }
+  filterBrandPressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.brand.localeCompare(b.brand));
+  }
+  filterColourPressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.colour.localeCompare(b.colour));
   }
 
   fetchClothes() {

@@ -216,25 +216,16 @@ export class OutfitEditComponent implements OnInit {
     //making a list of updated clothes item to upload later
     if (this.outfitToEdit && this.clothingReceivedData) {
       var pickId: Pick<IOutfit, 'id'> = this.outfitToEdit;
-      for (let clothingItem of this.clothingReceivedData) {
-        if (clothingItem.outfits != null) {
-          clothingItem.outfits = clothingItem.outfits.filter(obj => obj !== pickId);
-        }
+
+      var counter = 0;
+      while (counter < this.clothingReceivedData.length) {
+        this.clothingReceivedData[0].outfits?.filter(obj => obj.id !== this.outfitId);
         for (let cloth of this.clothesChosen) {
-          if (cloth.id == clothingItem.id) {
-            this.clothesChosen = this.clothesChosen.filter(obj => obj !== cloth);
-            this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj !== clothingItem);
-
-            if (clothingItem.outfits == null) {
-              clothingItem.outfits = [];
-              clothingItem.outfits.push(pickId);
-            } else {
-              clothingItem.outfits.push(pickId);
-            }
-
-            this.clothingReceivedData.push(clothingItem);
+          if (this.clothingReceivedData[counter].id == cloth.id) {
+            this.clothingReceivedData[counter].outfits?.push(pickId);
           }
         }
+        counter += 1;
       }
     }
 
