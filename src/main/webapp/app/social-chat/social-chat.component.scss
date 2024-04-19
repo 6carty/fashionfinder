@@ -213,6 +213,8 @@
         border: none;
         background: transparent;
         margin-right: 10px;
+        margin-left: 10px;
+
         color: #000000; // White text color
 
         &::placeholder {
@@ -265,4 +267,32 @@
   outline: none; /* Removes the default outline */
 
   box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.25); /* Soft blue outline */
+}
+
+.message-image {
+  max-width: 200px;
+  max-height: 200px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.image-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-modal-content img {
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

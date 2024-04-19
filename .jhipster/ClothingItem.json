@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123213"
+  },
   "applications": "*",
   "changelogDate": "20240303123213",
   "dto": "no",
@@ -67,14 +70,17 @@
       "otherEntityRelationshipName": "clothingItem",
       "ownerSide": true,
       "relationshipName": "outfit",
+      "relationshipSide": "left",
       "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "clothingItems",
       "relationshipName": "owner",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

@@ -9,7 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { ItemLogFormService } from './item-log-form.service';
 import { ItemLogService } from '../service/item-log.service';
 import { IItemLog } from '../item-log.model';
-
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 import { IOutfit } from 'app/entities/outfit/outfit.model';

@@ -17,6 +17,12 @@ import { ClothingItemDeleteDialogComponent } from '../entities/clothing-item/del
 import { DataUtils } from '../core/util/data-util.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpParams } from '@angular/common/http';
+import { IUser } from '../entities/user/user.model';
+import { IUserProfile } from '../entities/user-profile/user-profile.model';
+import { Account } from '../core/auth/account.model';
+import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { AccountService } from '../core/auth/account.service';
+import { UserService } from '../entities/user/user.service';
 
 @Component({
   selector: 'jhi-outfit-edit',
@@ -44,6 +50,11 @@ export class OutfitEditComponent implements OnInit {
   isLoading = false;
   deleting: boolean = false;
   outfitId: number = 0;
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
+  userProfile: IUserProfile | undefined = undefined;
+  userProfilePick: Pick<IUserProfile, 'id'> | null = null;
+  active: Account | undefined = undefined;
 
   constructor(
     private clothingItemService: ClothingItemService,
@@ -52,15 +63,39 @@ export class OutfitEditComponent implements OnInit {
     protected sortService: SortService,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private userProfileService: UserProfileService,
+    private accountService: AccountService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.givenId = params.id;
+
+      this.accountService.identity().subscribe(account => {
+        if (account) this.active = account;
+
+        this.userService.query().subscribe(users => {
+          this.users = users.body;
+          if (this.users) this.user = this.users.find(user => user.login === this.active?.login);
+          if (this.user) {
+            const pickUser: Pick<IUser, 'id'> = this.user;
+            const queryObject = {
+              'user.equal': pickUser,
+            };
+            this.userProfileService.query(queryObject).subscribe(userProfile => {
+              if (userProfile.body) {
+                this.userProfile = userProfile.body[0];
+                this.userProfilePick = this.userProfile;
+              }
+
+              this.fetchClothes();
+            });
+          }
+        });
+      });
     });
-    //this.load();
-    this.fetchClothes();
   }
 
   fetchClothes() {
@@ -72,6 +107,8 @@ export class OutfitEditComponent implements OnInit {
 
     this.clothingItemService.query(queryObject).subscribe(clothingItems => {
       this.clothingReceivedData = clothingItems.body;
+      if (this.clothingReceivedData)
+        this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj.owner?.id == this.userProfile?.id);
       this.fetchOutfits();
     });
   }
@@ -79,6 +116,9 @@ export class OutfitEditComponent implements OnInit {
   fetchOutfits() {
     this.outfitService.query('include.creator, include.clothingItems').subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
+      if (this.outfitReceivedData) {
+        this.outfitReceivedData = this.outfitReceivedData.filter(obj => obj.creator?.id == this.userProfile?.id);
+      }
       if (this.givenId == -1) {
         var outfitData = this.outfitReceivedData;
         var clothingData = this.clothingReceivedData;

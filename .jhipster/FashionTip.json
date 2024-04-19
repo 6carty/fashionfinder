@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123222"
+  },
   "applications": "*",
   "changelogDate": "20240303123222",
   "dto": "no",
@@ -25,8 +28,10 @@
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "fashionTips",
       "relationshipName": "author",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

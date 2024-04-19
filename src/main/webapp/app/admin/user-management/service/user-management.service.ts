@@ -38,7 +38,7 @@ export class UserManagementService {
     return this.http.get<string[]>(this.applicationConfigService.getEndpointFor('api/authorities'));
   }
 
-  findUserById(id: number): Observable<IUser> {
+  findUserById(id: number | undefined): Observable<IUser> {
     return this.http.get<IUser>(`${this.resourceUrl}/id/${id}`);
   }
 }

@@ -47,6 +47,7 @@ public class ItemLogResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new itemLog, or with status {@code 400 (Bad Request)} if the itemLog has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
     @PostMapping("/item-logs")
     public ResponseEntity<ItemLog> createItemLog(@Valid @RequestBody ItemLog itemLog) throws URISyntaxException {
         log.debug("REST request to save ItemLog : {}", itemLog);
@@ -70,6 +71,7 @@ public class ItemLogResource {
      * or with status {@code 500 (Internal Server Error)} if the itemLog couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
     @PutMapping("/item-logs/{id}")
     public ResponseEntity<ItemLog> updateItemLog(
         @PathVariable(value = "id", required = false) final Long id,
@@ -105,6 +107,7 @@ public class ItemLogResource {
      * or with status {@code 500 (Internal Server Error)} if the itemLog couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
     @PatchMapping(value = "/item-logs/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ItemLog> partialUpdateItemLog(
         @PathVariable(value = "id", required = false) final Long id,
@@ -144,6 +147,7 @@ public class ItemLogResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of itemLogs in body.
      */
+
     @GetMapping("/item-logs")
     public List<ItemLog> getAllItemLogs() {
         log.debug("REST request to get all ItemLogs");
@@ -156,6 +160,7 @@ public class ItemLogResource {
      * @param id the id of the itemLog to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the itemLog, or with status {@code 404 (Not Found)}.
      */
+
     @GetMapping("/item-logs/{id}")
     public ResponseEntity<ItemLog> getItemLog(@PathVariable Long id) {
         log.debug("REST request to get ItemLog : {}", id);
@@ -169,6 +174,7 @@ public class ItemLogResource {
      * @param id the id of the itemLog to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+
     @DeleteMapping("/item-logs/{id}")
     public ResponseEntity<Void> deleteItemLog(@PathVariable Long id) {
         log.debug("REST request to delete ItemLog : {}", id);

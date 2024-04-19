@@ -1,58 +1,19 @@
 <div class="display-wardrobe">
   <div class="grid-container-large">
-    <div class="rectangle-filter">
+    <div class="display-box rectangle-filter">
       <div class="rectangle-displayContent">
         <div class="grid-container">
-          <div class="dropdown-new-item">
-            <span><h5>add new item</h5></span>
-            <div class="dropdown-new-item-content">
-              <h5>NAME</h5>
-              <input type="text" id="clothingItemNameField" autocomplete="off" />
-              <h5>TYPE</h5>
-              <select id="clothingItemTypeField">
-                <option>SHIRTS</option>
-                <option>SHOES</option>
-                <option>DRESS</option>
-                <option>TROUSERS</option>
-                <option>HATS</option>
-                <option>ACCESSORIES</option>
-                <option>OTHERS</option>
-              </select>
-              <h5>OCCASION</h5>
-              <select id="clothingItemOccasionField">
-                <option>casual</option>
-                <option>formal</option>
-                <option>party</option>
-                <option>smart casual</option>
-              </select>
-              <h5>DESCRIPTION</h5>
-              <input type="text" id="clothingItemDescriptionField" autocomplete="off" />
-              <h5>SIZE</h5>
-              <select id="clothingItemSizeField">
-                <option>XXS</option>
-                <option>XS</option>
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-                <option>XXL</option>
-                <option>other</option>
-              </select>
-              <h5>BRAND</h5>
-              <input type="text" id="clothingItemBrandField" autocomplete="off" />
-              <h5>material</h5>
-              <input type="text" id="clothingItemMaterialField" autocomplete="off" />
-              <h5>IMAGE</h5>
-              <span>
-                <input type="file" id="clothingItemPhoto" accept="image/*" />
-              </span>
-              <br /><br />
-              <div class="apply-filter-button" (click)="onCreateItemButtonClick()"><h5>create new clothing item</h5></div>
-            </div>
-          </div>
-
+          <button class="button-main dropdown-new-item" (click)="onCreateItemButtonClick()">
+            <span><h5 style="color: var(--button-text-color)">add new item</h5></span>
+          </button>
           <br />
-          <button class="apply-filter-button" (click)="filterButtonPressed()"><h5>apply filters</h5></button>
+          <button class="button-main dropdown-new-item" (click)="onCreateOutfitButtonClick()">
+            <span><h5 style="color: var(--button-text-color)">add new outfit</h5></span>
+          </button>
+          <br />
+          <button class="button-main apply-filter-button" (click)="filterButtonPressed()">
+            <h5 style="color: var(--button-text-color)">apply filters</h5>
+          </button>
           <div class="grid-container-2">
             <button class="filter-tick" (click)="filterSortAlphabetical = !filterSortAlphabetical">
               <b *ngIf="filterSortAlphabetical">✓</b>
@@ -80,7 +41,7 @@
       </div>
     </div>
 
-    <div class="rectangle-display">
+    <div class="display-box rectangle-display">
       <div class="rectangle-displayContent">
         <h1>Your Clothes</h1>
         <div class="scrollable-area">
@@ -95,30 +56,9 @@
       </div>
     </div>
 
-    <div class="rectangle-filter">
+    <div class="display-box rectangle-filter">
       <div class="rectangle-displayContent">
         <h1>Your Outfits</h1>
-        <div class="dropdown-new-item">
-          <h5>create new outfit</h5>
-          <div class="dropdown-new-item-content-outfit">
-            <h5>NAME</h5>
-            <input type="text" id="OutfitNameField" autocomplete="off" />
-            <h5>OCCASION</h5>
-            <select id="OutfitOccasionField">
-              <option>formal</option>
-              <option>business</option>
-              <option>casual</option>
-              <option>sports</option>
-            </select>
-            <h5>IMAGE</h5>
-            <span>
-              (required)
-              <input type="file" id="outfitPhoto" accept="image/*" />
-            </span>
-            <br /><br />
-            <div class="apply-filter-button" (click)="onCreateOutfitButtonClick()"><h5>create new outfit</h5></div>
-          </div>
-        </div>
         <br /><br />
         <div class="scrollable-area">
           <div class="grid-container" *ngFor="let item of outfitReceivedData">
