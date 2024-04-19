@@ -12,6 +12,8 @@ import { UserProfileService } from '../entities/user-profile/service/user-profil
 import { UserManagementService } from '../admin/user-management/service/user-management.service';
 import { AccountService } from '../core/auth/account.service';
 import { IUser } from '../entities/user/user.model';
+import { UserService } from '../entities/user/user.service';
+import { end } from '@popperjs/core';
 
 @Component({
   selector: 'jhi-community-feed',
@@ -20,18 +22,26 @@ import { IUser } from '../entities/user/user.model';
 })
 export class CommunityFeedComponent implements OnInit {
   allPosts: Observable<IPost[]> | null = null;
-  userProfiles: IUserProfile[] | null = null;
-  account: Account | null = null;
-  everyUser: Observable<IUserProfile[]> | null = null;
+  userSub: Observable<IUser[]> | null = null;
+  allUsers: IUser[] | null = null;
+  filteredUsers: IUser[] | null = null;
+
+  userProfileSub: Observable<IUserProfile[]> | null = null;
   allUserProfiles: IUserProfile[] | null = null;
-  feedUserProfile: IUserProfile[] | null = null;
-  feedUser: IUser | null = null;
-  feedUsername: string | null | undefined;
-  feedUserLocation: string | null | undefined;
   filteredProfile: IUserProfile[] | null = null;
-  filteredPosts: IPost[] | null = null;
+  feedUserProfile: IUserProfile[] | undefined;
   currentID: any;
+
+  account: Account | null = null;
   accountSubscription: Subscription | null = null;
+
+  feedUsername: any;
+  feedUserLocation: string | null | undefined;
+  feedUserID: any;
+  feedPosts: IPost[] | null = null;
+  feedUser: IUser[] | null = null;
+
+  someID: any;
 
   constructor(
     protected postService: PostService,
@@ -42,6 +52,7 @@ export class CommunityFeedComponent implements OnInit {
     protected modalService: NgbModal,
     protected userProfileService: UserProfileService,
     protected userManagementService: UserManagementService,
+    protected userService: UserService,
     protected accountService: AccountService
   ) {}
 
@@ -50,20 +61,47 @@ export class CommunityFeedComponent implements OnInit {
       this.userManagementService.find(this.account.login).subscribe({
         next: currentUser => {
           if (currentUser.id != null) {
-            this.everyUser = this.userProfileService.getUserProfiles();
-            this.everyUser.subscribe(userProfiles => {
-              this.allUserProfiles = userProfiles;
+            this.userProfileSub = this.userProfileService.getUserProfiles();
+            this.userProfileSub.subscribe(userProfiles => {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentID = this.filteredProfile[0].id;
-              this.allPosts = this.postService.getPosts();
-              this.allPosts.subscribe(currentUsersPosts => {
-                this.filteredPosts = currentUsersPosts.filter(post => post.author?.id !== this.currentID);
-              });
+              this.filterPosts();
             });
           }
         },
       });
     }
+  }
+
+  getPostAuthor(postAuthor: IPost): void {
+    if (this.userProfileSub) {
+      console.log('over here pls first');
+      this.userProfileSub.subscribe(userProfiles => {
+        const userProfile = userProfiles.find(profile => profile.id == postAuthor.author?.id); //postAuthor.author?.id
+        if (userProfile?.id) {
+          this.feedUserID = userProfile.user?.id;
+          // Now that we have the user profile, get the username
+          this.userService.getUsers().subscribe(users => {
+            const user = users.find(user => user.id == this.feedUserID);
+            if (user?.id) {
+              this.feedUsername = user.login;
+            }
+          });
+        }
+      });
+    }
+  }
+
+  filterPosts(): void {
+    this.allPosts = this.postService.getPosts();
+    this.allPosts.subscribe(currentUsersPosts => {
+      this.feedPosts = currentUsersPosts.filter(post => post.author?.id !== this.currentID);
+      if (this.feedPosts?.length) {
+        for (let i = 0; i < this.feedPosts.length; i++) {
+          this.getPostAuthor(this.feedPosts[i]);
+        }
+      }
+    });
   }
 
   openFile(base64String: string, contentType: string | null | undefined): void {

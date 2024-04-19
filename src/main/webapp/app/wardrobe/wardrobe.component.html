@@ -11,32 +11,19 @@
             <span><h5 style="color: var(--button-text-color)">add new outfit</h5></span>
           </button>
           <br />
-          <button class="button-main apply-filter-button" (click)="filterButtonPressed()">
-            <h5 style="color: var(--button-text-color)">apply filters</h5>
+
+          <h4>SORT ALPHABETICALLY BY:</h4>
+          <button class="button-main" (click)="filterNamePressed()" value="Name">
+            <b style="color: var(--button-text-color)">NAME</b>
           </button>
-          <div class="grid-container-2">
-            <button class="filter-tick" (click)="filterSortAlphabetical = !filterSortAlphabetical">
-              <b *ngIf="filterSortAlphabetical">✓</b>
-              <b *ngIf="!filterSortAlphabetical">X</b>
-            </button>
-            <h5>SORT ALPHABETICALLY</h5>
-          </div>
-          <div class="grid-container-2">
-            <button class="filter-tick" (click)="filterSortType = !filterSortType">
-              <b *ngIf="filterSortType">✓</b>
-              <b *ngIf="!filterSortType">X</b>
-            </button>
-            <h5>SORT BY TYPE</h5>
-          </div>
-          <select id="clothingItemTypeFilter">
-            <option>SHIRTS</option>
-            <option>SHOES</option>
-            <option>DRESS</option>
-            <option>TROUSERS</option>
-            <option>HATS</option>
-            <option>ACCESSORIES</option>
-            <option>OTHERS</option>
-          </select>
+          <br />
+          <button class="button-main" (click)="filterBrandPressed()" value="Name">
+            <b style="color: var(--button-text-color)">BRAND</b>
+          </button>
+          <br />
+          <button class="button-main" (click)="filterColourPressed()" value="Name">
+            <b style="color: var(--button-text-color)">COLOUR</b>
+          </button>
         </div>
       </div>
     </div>
