@@ -1,17 +1,28 @@
-.container .feed {
+.post-container {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+}
+
+.my-feed {
   padding: 10px;
   background: #595b5f;
   border-radius: 15px;
   font-size: 0.85rem;
   line-height: 0.5;
+  margin: 5px 5px 10px;
 }
-.info {
-  margin-top: 5px;
-}
+
 .heading {
   display: flex;
   justify-content: space-between;
 }
+
+.post-user-info {
+  margin-top: 5px;
+}
+
 .post-options-img {
   margin-top: 15px;
   width: 20px;
@@ -39,8 +50,7 @@
 }
 
 .post {
-  overflow: hidden;
-  margin: 0.7rem 0;
+  margin: 5px 0;
   max-height: 960px;
   max-width: 540px;
   width: auto;
@@ -58,7 +68,6 @@
   width: 30px;
   height: 30px;
   cursor: pointer;
-  margin-bottom: 10px;
 }
 
 .like-btn,
@@ -74,24 +83,6 @@
 .info {
   color: white;
 }
-
-//Styles for the images of ppl who have liked
-.liked-by {
-  display: flex;
-}
-//.liked-by span {
-//  width: 1.4rem;
-//  height: 1.4rem;
-//  display: block;
-//  border-radius: 50%;
-//  overflow: hidden;
-//  border: 2px solid white;
-//  margin-left: -0.6rem;
-//}
-//
-//.liked-by span:first-child {
-//  margin: 0;
-//}
 
 .caption p {
   color: white;
