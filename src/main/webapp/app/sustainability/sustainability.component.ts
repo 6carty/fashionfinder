@@ -127,67 +127,66 @@ export class SustainabilityComponent implements OnInit {
   getSafeUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
-
-  // slidePrevious(): void {
-  //   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
-  //   if (slider) {
-  //     // Get the width of one video slide
-  //     const slideWidth = slider.offsetWidth;
-  //     // Scroll left by the width of one video slide
-  //     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft - slideWidth);
-  //   }
-  // }
-  //
-  // slideNext(): void {
-  //   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
-  //   if (slider) {
-  //     // Get the width of one video slide
-  //     const slideWidth = slider.offsetWidth;
-  //     // Scroll right by the width of one video slide
-  //     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft + slideWidth);
-  //   }
-  // }
-
-  // slidePrevious(): void {
-  //   const slider = document.querySelector('.video-slider-container');
-  //   if (slider) {
-  //     // Scroll left by the width of one video slide
-  //     slider.scrollLeft -= slider.clientWidth;
-  //   }
-  // }
-  //
-  // slideNext(): void {
-  //   const slider = document.querySelector('.video-slider-container');
-  //   if (slider) {
-  //     // Scroll right by the width of one video slide
-  //     slider.scrollLeft += slider.clientWidth;
-  //   }
-  // }
-
-  // back(): void {
-  //   // Implement the logic to go back
-  //   window.history.back();
-  // }
-
-  // openSecondPopup(): void {
-  //   document.getElementById('secondPopup')!.style.display = 'block';
-  // }
-
-  // proceed(): void {
-  //
-  //   if (window.confirm("Do you really want to leave?")) {
-  //     window.open("exit.html", "Thanks for Visiting!");
-  //   }
-
-  // const result = confirm("Are you sure you want to proceed?");
-  // if (result) {
-  //   // User clicked OK, proceed with action
-  //   // For example, navigate to another page or perform some operation
-  //   this.openSecondPopup();
-  // } else {
-  //   // User clicked Cancel, do nothing or handle accordingly
-  // }
 }
+// slidePrevious(): void {
+//   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
+//   if (slider) {
+//     // Get the width of one video slide
+//     const slideWidth = slider.offsetWidth;
+//     // Scroll left by the width of one video slide
+//     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft - slideWidth);
+//   }
+// }
+//
+// slideNext(): void {
+//   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
+//   if (slider) {
+//     // Get the width of one video slide
+//     const slideWidth = slider.offsetWidth;
+//     // Scroll right by the width of one video slide
+//     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft + slideWidth);
+//   }
+// }
+
+// slidePrevious(): void {
+//   const slider = document.querySelector('.video-slider-container');
+//   if (slider) {
+//     // Scroll left by the width of one video slide
+//     slider.scrollLeft -= slider.clientWidth;
+//   }
+// }
+//
+// slideNext(): void {
+//   const slider = document.querySelector('.video-slider-container');
+//   if (slider) {
+//     // Scroll right by the width of one video slide
+//     slider.scrollLeft += slider.clientWidth;
+//   }
+// }
+
+// back(): void {
+//   // Implement the logic to go back
+//   window.history.back();
+// }
+
+// openSecondPopup(): void {
+//   document.getElementById('secondPopup')!.style.display = 'block';
+// }
+
+// proceed(): void {
+//
+//   if (window.confirm("Do you really want to leave?")) {
+//     window.open("exit.html", "Thanks for Visiting!");
+//   }
+
+// const result = confirm("Are you sure you want to proceed?");
+// if (result) {
+//   // User clicked OK, proceed with action
+//   // For example, navigate to another page or perform some operation
+//   this.openSecondPopup();
+// } else {
+//   // User clicked Cancel, do nothing or handle accordingly
+// }
 
 // ngOnInit(): void {
 //   // Fetch and sort exchange request data
