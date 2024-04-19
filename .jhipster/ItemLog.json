@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20240419183242",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "item_log",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ItemLog",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "owner",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "outfit",
+      "relationshipName": "outfit",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

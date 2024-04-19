@@ -1,0 +1,8 @@
+entity ItemLog {
+    date Instant required
+}
+
+relationship ManyToOne {
+    ItemLog{owner} to User
+    ItemLog{outfit} to Outfit
+}
