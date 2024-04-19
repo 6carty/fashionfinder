@@ -621,10 +621,10 @@ export class MixAndMatchComponent implements OnInit {
   }
   getActiveFilters() {
     var formalElement = <HTMLInputElement>document.getElementById('FormalCheck');
-    `if (!formalElement) {
+    if (!formalElement) {
       // console.error("FormalCheck element not found");
       return;
-    }`;
+    }
     var businessElement = <HTMLInputElement>document.getElementById('BusinessCheck');
     var casualElement = <HTMLInputElement>document.getElementById('CasualCheck');
     var sportElement = <HTMLInputElement>document.getElementById('SportCheck');
