@@ -12,25 +12,18 @@
         </div>
         <div class="post-user-info">
           <div class="username-text">
-            <h5>
-              <b>{{ feedUsername }} , {{ post.id }}</b>
-            </h5>
+            <h5>{{ feedUsername }}</h5>
           </div>
           <div class="post-info-text">
             <small> {{ post.createdDate }}</small>
           </div>
         </div>
       </div>
-      <div class="post-options">
-        <!--- include ellipses image, this is where you can report a post-->
-        <img src="/content/images/ellipses.png" class="post-options-img" alt="Options Image" />
-      </div>
     </div>
 
     <div class="post">
       <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" class="post-img" alt="Post Picture" />
     </div>
-
     <div class="action-buttons">
       <div class="interaction-buttons">
         <span><i class="/g"></i></span>
@@ -41,17 +34,17 @@
         <button class="comment-btn" [routerLink]="['/comment/new']">
           <img src="/content/images/comment.png" class="action-img" alt="Comment Icon" />
         </button>
-        <button class="share-btn" [routerLink]="['/share/new']">
-          <img src="/content/images/share.png" class="action-img" alt="Share Icon" />
-        </button>
       </div>
     </div>
 
     <div class="liked-by">
-      <h6>123 others</h6>
+      <h6>| Like count goes here | Likes</h6>
     </div>
     <div class="caption">
-      <h5>{{ feedUsername }}: {{ post.caption }}</h5>
+      <h5>
+        <b>{{ feedUsername }}</b
+        >{{ post.caption }}
+      </h5>
     </div>
     <div class="text-muted" [routerLink]="['/comment/new']">View all 20 comments</div>
   </div>
