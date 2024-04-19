@@ -9,13 +9,29 @@
     <div class="display-box description-box">
       <div class="offset">
         <div class="text-center"><span>DESCRIPTION:</span></div>
-        <textarea type="text" class="text-center" id="Description" rows="5">{{ outfitToEdit?.description }}</textarea>
+        <textarea type="text" class="text-center" id="Description" rows="5">{{ this.description }}</textarea>
       </div>
     </div>
-    <div class="display-box date-box">
+    <div class="display-box weather-box">
       <div class="offset">
         <div class="text-center">
-          <span>DATE MADE: {{ outfitToEdit?.date }}</span>
+          <input type="checkbox" id="sunny" [(ngModel)]="sunny" />
+          <label for="sunny"><h6>SUNNY</h6></label>
+          <br />
+          <input type="checkbox" id="rainy" [(ngModel)]="rainy" />
+          <label for="rainy"><h6>RAINY</h6></label>
+          <br />
+          <input type="checkbox" id="windy" [(ngModel)]="windy" />
+          <label for="windy"><h6>WINDY</h6></label>
+          <br />
+          <input type="checkbox" id="cold" [(ngModel)]="cold" />
+          <label for="cold"><h6>COLD</h6></label>
+          <br />
+          <input type="checkbox" id="hot" [(ngModel)]="hot" />
+          <label for="hot"><h6>HOT</h6></label>
+          <br />
+          <input type="checkbox" id="snowy" [(ngModel)]="snowy" />
+          <label for="snowy"><h6>SNOWY</h6></label>
         </div>
       </div>
     </div>
@@ -53,7 +69,7 @@
   </div>
 
   <div class="display-grid-clothing" id="clothing-grid">
-    <div class="clothing-display-box">
+    <div class="display-box clothing-display-box">
       <div class="offset">
         <h2>Your Clothes</h2>
         <div class="scrollable-area">

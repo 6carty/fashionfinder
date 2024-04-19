@@ -61,6 +61,7 @@ export class ClothingItemEditComponent implements OnInit {
   userProfile: IUserProfile | undefined = undefined;
   userProfilePick: Pick<IUserProfile, 'id'> | null = null;
   active: Account | undefined = undefined;
+  userProfiles: IUserProfile[] | undefined = undefined;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -79,7 +80,8 @@ export class ClothingItemEditComponent implements OnInit {
             };
             this.userProfileService.query(queryObject).subscribe(userProfile => {
               if (userProfile.body) {
-                this.userProfile = userProfile.body[0];
+                this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+                this.userProfile = this.userProfiles[0];
                 this.userProfilePick = this.userProfile;
               }
 

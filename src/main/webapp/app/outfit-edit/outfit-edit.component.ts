@@ -23,6 +23,7 @@ import { Account } from '../core/auth/account.model';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
 import { AccountService } from '../core/auth/account.service';
 import { UserService } from '../entities/user/user.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'jhi-outfit-edit',
@@ -39,11 +40,12 @@ export class OutfitEditComponent implements OnInit {
   clothingItems: IClothingItem[] = [];
   id: number = 0;
   inputElementName: any;
-  inputElementDescription: any;
+  inputElementDescription: string = '';
   userInputPhoto: any;
   isSaving = false;
   public show = true;
   inputElementOccasion: any;
+  description: string = '';
   date: any;
   predicate = 'id';
   ascending = true;
@@ -55,6 +57,13 @@ export class OutfitEditComponent implements OnInit {
   userProfile: IUserProfile | undefined = undefined;
   userProfilePick: Pick<IUserProfile, 'id'> | null = null;
   active: Account | undefined = undefined;
+  userProfiles: IUserProfile[] | undefined = undefined;
+  sunny: boolean = false;
+  rainy: boolean = false;
+  windy: boolean = false;
+  cold: boolean = false;
+  hot: boolean = false;
+  snowy: boolean = false;
 
   constructor(
     private clothingItemService: ClothingItemService,
@@ -86,7 +95,8 @@ export class OutfitEditComponent implements OnInit {
             };
             this.userProfileService.query(queryObject).subscribe(userProfile => {
               if (userProfile.body) {
-                this.userProfile = userProfile.body[0];
+                this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+                this.userProfile = this.userProfiles[0];
                 this.userProfilePick = this.userProfile;
               }
 
@@ -157,6 +167,31 @@ export class OutfitEditComponent implements OnInit {
             }
         }
       }
+      const fullDescription = this.outfitToEdit?.description;
+      if (fullDescription) {
+        const descriptionInParts = fullDescription.split(',');
+        this.description = descriptionInParts[0];
+        for (let part of descriptionInParts) {
+          if (part == 'sunny') {
+            this.sunny = true;
+          }
+          if (part == 'rainy') {
+            this.rainy = true;
+          }
+          if (part == 'windy') {
+            this.windy = true;
+          }
+          if (part == 'cold') {
+            this.cold = true;
+          }
+          if (part == 'hot') {
+            this.hot = true;
+          }
+          if (part == 'snowy') {
+            this.snowy = true;
+          }
+        }
+      }
     });
   }
 
@@ -207,7 +242,17 @@ export class OutfitEditComponent implements OnInit {
       return;
     }
     this.inputElementName = document.getElementById('Name') as HTMLInputElement;
-    this.inputElementDescription = document.getElementById('Description') as HTMLInputElement;
+    var writtenDescriptionElement = document.getElementById('Description') as HTMLInputElement;
+    var writtenDescription = writtenDescriptionElement.value;
+    writtenDescription = writtenDescription.split(',').join('');
+    this.inputElementDescription = this.inputElementDescription.concat(writtenDescription);
+    if (this.sunny) this.inputElementDescription = this.inputElementDescription.concat(',sunny');
+    if (this.rainy) this.inputElementDescription = this.inputElementDescription.concat(',rainy');
+    if (this.windy) this.inputElementDescription = this.inputElementDescription.concat(',windy');
+    if (this.cold) this.inputElementDescription = this.inputElementDescription.concat(',cold');
+    if (this.hot) this.inputElementDescription = this.inputElementDescription.concat(',hot');
+    if (this.snowy) this.inputElementDescription = this.inputElementDescription.concat(',snowy');
+
     this.inputElementOccasion = document.getElementById('Occasion') as HTMLInputElement;
     if (this.outfitToEdit) {
       this.id = this.outfitToEdit.id;
@@ -247,7 +292,7 @@ export class OutfitEditComponent implements OnInit {
           id: this.id,
           name: this.inputElementName.value,
           occasion: this.inputElementOccasion.value,
-          description: this.inputElementDescription.value,
+          description: this.inputElementDescription,
           date: this.outfitToEdit?.date,
           creator: this.outfitToEdit?.creator,
         };
@@ -268,7 +313,7 @@ export class OutfitEditComponent implements OnInit {
         id: this.id,
         name: this.inputElementName.value,
         occasion: this.inputElementOccasion.value,
-        description: this.inputElementDescription.value,
+        description: this.inputElementDescription,
         image: this.outfitToEdit?.image,
         imageContentType: this.outfitToEdit?.imageContentType,
         date: this.outfitToEdit?.date,

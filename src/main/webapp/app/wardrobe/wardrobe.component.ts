@@ -45,6 +45,7 @@ export class WardrobeComponent implements OnInit {
   users: IUser[] | null = null;
   user: IUser | undefined = undefined;
   userProfile: IUserProfile | undefined = undefined;
+  userProfiles: IUserProfile[] | null = null;
   userProfilePick: Pick<IUserProfile, 'id'> | null = null;
   active: Account | undefined = undefined;
 
@@ -76,7 +77,8 @@ export class WardrobeComponent implements OnInit {
           };
           this.userProfileService.query(queryObject).subscribe(userProfile => {
             if (userProfile.body) {
-              this.userProfile = userProfile.body[0];
+              this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+              this.userProfile = this.userProfiles[0];
               this.userProfilePick = this.userProfile;
             }
 
