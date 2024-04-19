@@ -45,27 +45,6 @@ export class CommunityFeedComponent implements OnInit {
     protected accountService: AccountService
   ) {}
 
-  getPostLocation(post: IPost): any {
-    if (this.everyUser) {
-      this.everyUser.subscribe(userProfiles => {
-        this.feedUserProfile = userProfiles.filter(profile => profile.user?.id == post.author);
-        return this.feedUserProfile[0].location;
-      });
-    }
-  }
-
-  getPostUsername(post: IPost): any {
-    if (this.everyUser)
-      this.everyUser.subscribe(userProfiles => {
-        this.feedUserProfile = userProfiles.filter(profile => profile.user?.id == post.author);
-        this.userManagementService.findUserById(this.feedUserProfile[0].user?.id).subscribe({
-          next: currentUser => {
-            return 1202020202;
-          },
-        });
-      });
-  }
-
   initialiseServicePost(): void {
     if (this.account?.login) {
       this.userManagementService.find(this.account.login).subscribe({
