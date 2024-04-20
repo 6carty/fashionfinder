@@ -1,10 +1,10 @@
 <ng-container *ngFor="let post of feedPosts; let i = index; trackBy: trackId" class="post-container">
   <div class="my-feed">
     <div class="heading">
-      <div class="user">
+      <div *ngFor="let currentAuthor of feedUsernames[i]" class="user">
         <div class="profile-photo">
           <img
-            src="/content/images/jhipster_family_member_2_head-192.png"
+            [src]="'data:' + currentAuthor.imageType + ';base64,' + currentAuthor.imageURL"
             alt="Profile Picture"
             class="image"
             [routerLink]="['/user-profile/']"
@@ -12,7 +12,7 @@
         </div>
         <div class="post-user-info">
           <div class="username-text">
-            <h5>{{ feedUsername }}</h5>
+            <h5>{{ currentAuthor.username }}</h5>
           </div>
           <div class="post-info-text">
             <small> {{ post.createdDate }}</small>
@@ -29,6 +29,7 @@
         <span><i class="/g"></i></span>
         <button class="like-btn" [routerLink]="['/likes/new']">
           <!-- onclick="changeImage()" -->
+
           <img id="like-img" src="/content/images/unliked.png" class="action-img" alt="Like Icon" />
         </button>
         <button class="comment-btn" [routerLink]="['/comment/new']">
@@ -40,12 +41,18 @@
     <div class="liked-by">
       <h6>| Like count goes here | Likes</h6>
     </div>
-    <div class="caption">
-      <h5>
-        <b>{{ feedUsername }}</b
-        >{{ post.caption }}
-      </h5>
-    </div>
-    <div class="text-muted" [routerLink]="['/comment/new']">View all 20 comments</div>
+    <ng-container *ngFor="let currentPost of everyPostsInfo[i]" class="postAuthorInfo">
+      <ng-container *ngFor="let currentAuthor of feedUsernames[i]" class="caption">
+        <h5>
+          <b>{{ currentAuthor.username }}</b> {{ post.caption }}
+        </h5>
+      </ng-container>
+      <div class="comments">
+        <h6>
+          <u>{{ currentPost.commentFrom }}</u> {{ currentPost.visibleComment }}
+        </h6>
+        <div class="text-muted" [routerLink]="['/comment/new']">View Comments</div>
+      </div>
+    </ng-container>
   </div>
 </ng-container>
