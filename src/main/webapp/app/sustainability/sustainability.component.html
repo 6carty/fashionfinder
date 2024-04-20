@@ -7,16 +7,13 @@
   </head>
   <div class="user-profile">
     <div *ngIf="account">
-      <h3>Welcome {{ account.firstName }} {{ account.lastName }}!</h3>
+      <h3>Welcome {{ account.login }}!</h3>
     </div>
   </div>
   <div style="text-align: center" class="TitleBox">
     <h2 style="color: antiquewhite">How To Sustainably Shop For Your Clothes?</h2>
   </div>
 
-  <!--<body>-->
-  <!--  <body>-->
-  <!--    <div class="SustainabilityContainer">-->
   <div class="grid1">
     <div class="display-box column">
       <h2 style="text-align: center; color: black">"Regeneration"</h2>
@@ -133,33 +130,6 @@
       <!--    <button class="arrow right-arrow" (click)="slideNext()">&gt;</button>-->
     </div>
   </div>
-
-  <!--
-
-  <div class="ExchangeRequest">
-    <div class="YoutubeContainer">
-      <div class="video-columns">
-        <div class="column2" *ngFor="let video of videos">
-          <div class="video">
-            <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div class="description">
-            <h3>{{ video.snippet.title }}</h3>
-            <p>{{ video.snippet.description }}</p>
-          </div>
-        </div>
-      </div>
-
-      &lt;!&ndash;    <div class="video-container" *ngFor="let video of videos">&ndash;&gt;
-      &lt;!&ndash;      <h3 class="video-title">{{ video.snippet.title }}</h3>&ndash;&gt;
-      &lt;!&ndash;      <p>Video ID: {{ video.id.videoId }}</p> &lt;!&ndash; Add this line &ndash;&gt;&ndash;&gt;
-      &lt;!&ndash;      <iframe [src]="getSafeUrl('https://www.youtube.com/embed/' + video.id.videoId)" allowfullscreen></iframe>&ndash;&gt;
-      &lt;!&ndash;      <p class="video-description">{{ video.snippet.description }}</p>&ndash;&gt;
-      &lt;!&ndash;    </div>&ndash;&gt;
-    </div>
-  </div>
-  -->
-
   <div class="display-box ExchangeRequest">
     <div class="display-box ExchangeRequestGrid">
       <div class="headingText">
@@ -186,7 +156,9 @@
           <li>Second add a new item into wardrobe.</li>
           <li>Third click on the exchange button to start swapping clothes!</li>
         </ol>
-        <p>Click on the creater or requester to see if it is correct.</p>
+        <p>Click on "Creater" to see if you are the correct user. Click on "Requester"</p>
+        <p>Welcome {{ account?.login }}!</p>
+
         <div class="grid-container" style="color: black">
           <div class="grid-item-header">Clothing Item</div>
           <div class="grid-item-header">Description</div>
@@ -195,8 +167,12 @@
           <div class="grid-item-header">Requester</div>
           <div class="grid-item-header">Select</div>
           <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 10); let i = index">
-            <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>
-            <div class="grid-item">{{ exchangeRequest.description }}</div>
+            <div class="grid-item" [routerLink]="['/exchange-request', latestExchangeRequests[i].id, 'view']">
+              {{ exchangeRequest.clothingItem?.name }}
+            </div>
+            <div class="grid-item" [routerLink]="['/exchange-request', latestExchangeRequests[i].id, 'view']">
+              {{ exchangeRequest.description }}
+            </div>
             <div class="grid-item">
               <img
                 [src]="'data:image/png;base64,' + exchangeRequest.image"
@@ -223,12 +199,10 @@
           <button [disabled]="!selectedExchangeRequest" (click)="openPopup()" class="confirm-button">Confirm Exchange</button>
         </div>
       </div>
-
-      <!--      <button (click)="openPopup()">Open Popup</button>-->
-
-      <!-- The popup window -->
     </div>
   </div>
+
+  <!-- The popup window -->
   <div id="popup" class="popup">
     <div class="popup-content">
       <span class="close" (click)="closePopup()">&times;</span>
@@ -237,7 +211,7 @@
       </div>
       <!-- Button to close the popup -->
       <h2 style="color: black">Confirm this exchange?</h2>
-      <p style="color: black">The item you are going to exchange for {{ selectedExchangeRequest?.clothingItem?.name }} by</p>
+      <p style="color: black">The item you are going to exchange for {{ selectedExchangeRequest?.clothingItem?.name }}</p>
       <button class="confirm-button" (click)="confirmExchange()">Yes</button>
       <button class="cancel-button" (click)="cancelExchange()">No</button>
     </div>
@@ -270,243 +244,3 @@
   <!--    </div>-->
   <!--  </body>-->
 </html>
-
-<!--    <div class="button-container">-->
-<!--      <button class="popup-button" (click)="proceed()">Back</button>-->
-<!--      <button class="popup-button" (click)="back()">Proceed</button>-->
-<!--      <div class="second-popup-content" *ngIf="proceed()">-->
-<!--        <h2>This works!</h2>-->
-<!--        <p>Continue</p>-->
-<!--      </div>-->
-
-<!--    </div>-->
-
-<!--      <div class="grid-container">-->
-<!--        <div class="grid-item-header">Clothing Item</div>-->
-<!--        <div class="grid-item-header">Description</div>-->
-<!--        <div class="grid-item-header">Image</div>-->
-<!--        <div class="grid-item-header">Requester ID</div>-->
-<!--        <div class="grid-item-header">Select</div>-->
-<!--        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--          <div class="grid-item">{{ exchangeRequest.clothingItem?.name}}</div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.description }}</div>-->
-<!--          <div class="grid-item">-->
-<!--            <img [src]="'data:image/png;base64,' + exchangeRequest.image" alt="Exchange Request Image" style="max-width: 400px; max-height: 100px;">-->
-<!--          </div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
-<!--          <div class="grid-item">-->
-<!--            <input type="radio" name="selectedItem" (change)="selectItem(exchangeRequest)">-->
-<!--          </div>-->
-<!--        </ng-container>-->
-<!--      </div>-->
-<!--      <div class="button">-->
-<!--        <span *ngIf="!account">-->
-<!--          &lt;!&ndash; Button for canceling the choice the exchange &ndash;&gt;-->
-<!--          <button [disabled]="!selectedExchangeRequest" (click)="clearSelection()" class="cancel-button">Cancel</button>-->
-<!--          &lt;!&ndash; Button for confirming the exchange &ndash;&gt;-->
-<!--          <button [disabled]="!selectedExchangeRequest" (click)="confirmExchange()" class="confirm-button">Confirm Exchange</button>-->
-<!--        </span>-->
-
-<!--      </div>-->
-
-<!--    <div class="Other-user-exchange-request">-->
-<!--      <h3>Other user exchange request</h3>-->
-<!--      <div class="grid-container">-->
-<!--        <div class="grid-item-header">Clothing Item</div>-->
-<!--        <div class="grid-item-header">Description</div>-->
-<!--        <div class="grid-item-header">Image</div>-->
-<!--        <div class="grid-item-header">Requester ID</div>-->
-<!--        <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--          <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.description }}</div>-->
-<!--          <div class="grid-item">-->
-<!--            <img [src]="'data:image/png;base64,' + exchangeRequest.image" alt="Exchange Request Image" style="max-width: 400px; max-height: 100px;">-->
-<!--          </div>-->
-<!--          <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
-<!--        </ng-container>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--        <div class="grid-item" style="grid-column: 1;">-->
-<!--          <strong>ID</strong>-->
-<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.id }}</div>-->
-<!--            <div *ngIf="!exchangeRequest">-->
-<!--              <p>No exchange request details available.</p>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="grid-item" style="grid-column: 2;">-->
-<!--          <strong>Offering Item</strong>-->
-<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.offeringItem }}</div>-->
-<!--            <div *ngIf="!exchangeRequest">-->
-<!--              <p>No exchange request details available.</p>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="grid-item" style="grid-column: 3;">-->
-<!--          <strong>Requested Item</strong>-->
-<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.requestedItem }}</div>-->
-<!--            <div *ngIf="!exchangeRequest">-->
-<!--              <p>No exchange request details available.</p>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="grid-item" style="grid-column: 4;">-->
-<!--          <strong>Requester ID</strong>-->
-<!--          <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--            <div *ngIf="exchangeRequest">{{ exchangeRequest.requester?.id }}</div>-->
-<!--            <div *ngIf="!exchangeRequest">-->
-<!--              <p>No exchange request details available.</p>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)" class="grid-item">-->
-<!--          <div *ngIf="exchangeRequest">-->
-<!--            <span style="margin-right: 10px">ID: {{ exchangeRequest.id }}</span>-->
-<!--            <span style="margin-right: 10px"> Offering Item: {{ exchangeRequest.offeringItem }}</span>-->
-<!--            <span style="margin-right: 10px"> Requested Item: {{ exchangeRequest.requestedItem }}</span>-->
-<!--            <span style="margin-right: 10px"> Requester ID: {{ exchangeRequest.requester?.id }}</span>-->
-<!--            &lt;!&ndash; Add more details as needed &ndash;&gt;-->
-<!--          </div>-->
-<!--          <div *ngIf="!exchangeRequest">-->
-<!--            <p>No exchange request details available.</p>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--        <div class="another-grid-item">1</div>-->
-<!--        <div class="another-grid-item">2</div>-->
-<!--        <div class="another-grid-item">3</div>-->
-<!--        <div class="another-grid-item">4</div>-->
-<!--        <div class="another-grid-item">5</div>-->
-<!--        <div class="another-grid-item">6</div>-->
-<!--        <div class="another-grid-item">7</div>-->
-<!--        <div class="another-grid-item">8</div>-->
-<!--        <div class="another-grid-item">9</div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="grid-container">-->
-<!--      <div class="grid-item-header">ID</div>-->
-<!--      <div class="grid-item-header">Offering Item</div>-->
-<!--      <div class="grid-item-header">Requested Item</div>-->
-<!--      <div class="grid-item-header">Requester ID</div>-->
-
-<!--      <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--        <div class="grid-item">{{ exchangeRequest.id }}</div>-->
-<!--        <div class="grid-item">{{ exchangeRequest.offeringItem }}</div>-->
-<!--        <div class="grid-item">{{ exchangeRequest.requestedItem }}</div>-->
-<!--        <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>-->
-<!--      </ng-container>-->
-
-<!--        <div class="grid-item">1</div>-->
-<!--        <div class="grid-item">2</div>-->
-<!--        <div class="grid-item">3</div>-->
-<!--        <div class="grid-item">4</div>-->
-<!--        <div class="grid-item">5</div>-->
-<!--        <div class="grid-item">6</div>-->
-<!--        <div class="grid-item">7</div>-->
-<!--        <div class="grid-item">8</div>-->
-<!--        <div class="grid-item">9</div>-->
-
-<!--      <div *ngFor="let exchangeRequest of latestExchangeRequests.slice(0,5)">-->
-<!--        <div *ngIf="exchangeRequest">-->
-<!--          <span style="margin-right: 10px">ID: {{ exchangeRequest.id }}</span>-->
-<!--          <span style="margin-right: 10px"> Offering Item: {{ exchangeRequest.offeringItem }}</span>-->
-<!--          <span style="margin-right: 10px"> Requested Item: {{ exchangeRequest.requestedItem }}</span>-->
-<!--          <span style="margin-right: 10px"> Requester ID: {{ exchangeRequest.requester?.id }}</span>-->
-<!--          &lt;!&ndash; Add more details as needed &ndash;&gt;-->
-<!--        </div>-->
-<!--        <div *ngIf="!exchangeRequest">-->
-<!--          <p>No exchange request details available.</p>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--<div class="Content">-->
-<!--  <div class="column" style="background-color:#aaa;">-->
-<!--    <h2 style="text-align: center">"Regeneration"</h2>-->
-<!--    <p style="text-align: center">We are committed to enhancing the well-being of our planet and its people.</p>-->
-<!--    <ol>-->
-<!--      <li> &lt;!&ndash;point1&ndash;&gt;-->
-<!--        Shop secondhand first<br>-->
-<!--        Buy pre-owned clothing from thrift shops, consignment shops, vintage sources, and online resale shops.-->
-<!--        <hr>-->
-<!--      </li>-->
-<!--      <li> &lt;!&ndash;point2&ndash;&gt;-->
-<!--        Buy fewer clothes<br>-->
-<!--        Buy clothes you know you will wear many times because they look good and fit well.-->
-<!--        You can mix and match items to create many different looks.-->
-<!--        Fewer, better-made clothes with the right accessories can give you a-->
-<!--        more sophisticated and stylish look than volumes of cheaper clothing.<br>-->
-<!--        <p style="font-weight: bold">-->
-<!--          Bonus: You’ll look better and find creativity in styling on your own-->
-<!--        </p>-->
-<!--        <hr>-->
-<!--      </li>-->
-
-<!--      <li> &lt;!&ndash;point3&ndash;&gt;-->
-<!--        Invest only in clothes you really like and need<br>-->
-<!--        Consider not what is being pushed at you by fashion designers but instead look at your own style-->
-<!--        and what you want to communicate.  Before you buy a new piece of clothing,-->
-<!--        consider if you have a similar piece in your wardrobe already.<br>-->
-<!--        <hr>-->
-<!--      </li>-->
-<!--      <li> &lt;!&ndash; point4&ndash;&gt;-->
-<!--        Shop locally<br>-->
-<!--        Buy from local shops for clothes, buy from local craftspeople to-->
-<!--        accessorize your outfits and use your neighborhood tailor for adjustments.-->
-<!--        <hr>-->
-<!--      </li>-->
-<!--      <li> &lt;!&ndash; point5&ndash;&gt;-->
-<!--        Go natural<br>-->
-<!--        Buy clothing made with natural fabric fibers instead of synthetic fabrics.-->
-<!--        Natural alternatives to synthetic fabrics include cotton, linen, bamboo, flax, jute, silk, wool, and alpaca.-->
-<!--        <hr>-->
-<!--      </li>-->
-<!--    </ol>-->
-<!--  </div>-->
-<!--  <div class="column" style="background-color:#bbb;">-->
-<!--    <h2 style="text-align: center">How can I help the earth by doing this?<hr style="height: 2px" ></h2>-->
-<!--    <ol>-->
-<!--      <li>-->
-<!--        Reducing impacts on the environment and waste from the overproduction of new merchandise. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Buying clothes locally reduces carbon emissions from shipping while supporting your local economy. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Reducing the amount of microplastics in rivers and oceans that come from-->
-<!--        synthetic fibers that shed during washing. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Taking business away from companies that pollute our-->
-<!--        planet in favor of ones that care about people and the Earth. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Taking business away from companies that pollute our-->
-<!--        planet in favor of ones that care about people and the Earth. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Playing a part in reducing the use of pesticides and herbicides as well as-->
-<!--        keeping the Earth’s water sources clean. <hr>-->
-<!--      </li>-->
-<!--      <li>-->
-<!--        Divert waste from landfills while having fun adding pieces to your wardrobe!<hr>-->
-<!--      </li>-->
-<!--    </ol>-->
-<!--  </div>-->
-<!--  <div class="column" style="background-color:#ccc;">-->
-<!--    <h2>Now it's your chance to save the Earth!</h2>-->
-<!--    <p>Some text..</p>-->
-<!--  </div>-->
-<!--</div>-->

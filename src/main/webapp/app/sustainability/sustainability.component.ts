@@ -6,6 +6,10 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { YoutubeService } from './YouTubeApi/youtube.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { UserManagementService } from '../admin/user-management/service/user-management.service';
+import { IUser } from '../admin/user-management/user-management.model';
+import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { IUserProfile } from '../entities/user-profile/user-profile.model';
 
 @Component({
   selector: 'jhi-sustainability',
@@ -18,16 +22,16 @@ export class SustainabilityComponent implements OnInit {
   selectedExchangeRequest: IExchangeRequest | null = null;
   showErrorPopup = false;
   videos: any[] = [];
-
-  // latestUserExchangeRequests: IExchangeRequest[] = [];
-  // latestOtherExchangeRequests: IExchangeRequest[] = [];
+  users: IUser[] = [];
+  userProfile: IUserProfile | null = null;
 
   constructor(
     private exchangeRequestService: ExchangeRequestService,
     private accountService: AccountService,
     private youtubeService: YoutubeService,
     private sanitizer: DomSanitizer,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userManagementService: UserManagementService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,12 @@ export class SustainabilityComponent implements OnInit {
         },
       }));
     });
+    this.loadUsers();
+  }
+  loadUsers(): void {
+    this.userManagementService.query().subscribe(response => {
+      this.users = response.body || [];
+    });
   }
 
   fetchLatestExchangeRequests(): void {
@@ -61,7 +71,6 @@ export class SustainabilityComponent implements OnInit {
 
   selectItem(exchangeRequest: IExchangeRequest): void {
     this.selectedExchangeRequest = exchangeRequest;
-    // Check if creator ID and requester ID are the same
   }
 
   confirmExchange(): void {
@@ -128,192 +137,3 @@ export class SustainabilityComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
-// slidePrevious(): void {
-//   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
-//   if (slider) {
-//     // Get the width of one video slide
-//     const slideWidth = slider.offsetWidth;
-//     // Scroll left by the width of one video slide
-//     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft - slideWidth);
-//   }
-// }
-//
-// slideNext(): void {
-//   const slider = document.querySelector('.video-slider-container') as HTMLElement | null;
-//   if (slider) {
-//     // Get the width of one video slide
-//     const slideWidth = slider.offsetWidth;
-//     // Scroll right by the width of one video slide
-//     this.renderer.setProperty(slider, 'scrollLeft', slider.scrollLeft + slideWidth);
-//   }
-// }
-
-// slidePrevious(): void {
-//   const slider = document.querySelector('.video-slider-container');
-//   if (slider) {
-//     // Scroll left by the width of one video slide
-//     slider.scrollLeft -= slider.clientWidth;
-//   }
-// }
-//
-// slideNext(): void {
-//   const slider = document.querySelector('.video-slider-container');
-//   if (slider) {
-//     // Scroll right by the width of one video slide
-//     slider.scrollLeft += slider.clientWidth;
-//   }
-// }
-
-// back(): void {
-//   // Implement the logic to go back
-//   window.history.back();
-// }
-
-// openSecondPopup(): void {
-//   document.getElementById('secondPopup')!.style.display = 'block';
-// }
-
-// proceed(): void {
-//
-//   if (window.confirm("Do you really want to leave?")) {
-//     window.open("exit.html", "Thanks for Visiting!");
-//   }
-
-// const result = confirm("Are you sure you want to proceed?");
-// if (result) {
-//   // User clicked OK, proceed with action
-//   // For example, navigate to another page or perform some operation
-//   this.openSecondPopup();
-// } else {
-//   // User clicked Cancel, do nothing or handle accordingly
-// }
-
-// ngOnInit(): void {
-//   // Fetch and sort exchange request data
-//   this.fetchAndSortLatestExchangeRequests();
-//   this.accountService.identity().subscribe(account => {
-//     if (account) {
-//       this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
-//         // Retrieve the current user's profile ID
-//         this.currentUserId = currentUserProfile.id;
-//         this.filterExchangeRequests();
-//       });
-//     }
-//   });
-// }
-
-// fetchAndSortLatestExchangeRequests(): void {
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     const responseData: IExchangeRequest[] = response.body || [];
-//     // Sort the responseData array in descending order based on the ID
-//     responseData.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     this.latestExchangeRequests = responseData.slice(0, 5);
-//     this.filterExchangeRequests();
-//   });
-// }
-
-// filterExchangeRequests(): void {
-//   if (this.currentUserId) {
-//     this.latestUserExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id === this.currentUserId);
-//     this.latestOtherExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id !== this.currentUserId);
-//   }
-// }
-
-// fetchAndSortLatestExchangeRequests(): void {
-//   // Fetch exchange request data
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     const responseData: IExchangeRequest[] = response.body || [];
-//     // Sort the responseData array in descending order based on the ID
-//     responseData.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     this.latestExchangeRequests = responseData.slice(0, 5);
-//
-//     // Fetch current user's profile
-//     this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
-//       // Retrieve the current user's profile ID
-//       const currentUserId = currentUserProfile.id;
-//
-//       console.log('Current User ID:', currentUserId);
-//
-//
-//       // Filter exchange requests based on current user's profile ID
-//       this.latestUserExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id === currentUserId);
-//       this.latestOtherExchangeRequests = this.latestExchangeRequests.filter(req => req.requester?.id !== currentUserId);
-//     });
-//   });
-// }
-//
-
-// fetchAndSortLatestExchangeRequests(): void {
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     const responseData: IExchangeRequest[] = response.body || [];
-//     // Sort the responseData array in descending order based on the ID
-//     responseData.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     this.latestExchangeRequests = responseData.slice(0, 5);
-//   });
-//
-//     // Fetch current user's profile
-//     this.userProfileService.getMyProfile().subscribe((currentUserProfile: IUserProfile) => {
-//       // Retrieve the current user's profile ID
-//       const currentUserId = currentUserProfile.id;
-//
-//       // Filter exchange requests based on current user's profile ID
-//       this.latestUserExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id === currentUserId);
-//       this.latestOtherExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id !== currentUserId);
-//     });
-//   });
-// }
-
-// fetchAndSortLatestExchangeRequests(): void {
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     const latestExchangeRequests: IExchangeRequest[] = response.body || [];
-//     // Sort the latestExchangeRequests array in descending order based on the ID
-//     latestExchangeRequests.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     const slicedExchangeRequests = latestExchangeRequests.slice(0, 5);
-//
-//     // Fetch current user's profile ID
-//     this.accountService.identity().subscribe(account => {
-//       // @ts-ignore
-//       const currentUserId = account?.id;
-//
-//       if (currentUserId) {
-//         this.userProfileService.find(currentUserId).subscribe((userProfile: IUserProfile) => {
-//           // Filter exchange requests based on current user's profile ID
-//           if (userProfile) {
-//             this.latestUserExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id === userProfile.id);
-//             this.latestOtherExchangeRequests = slicedExchangeRequests.filter(req => req.requester?.id !== userProfile.id);
-//           }
-//         });
-//       }
-//     });
-//   });
-// }
-// fetchAndSortLatestExchangeRequests(): void {
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     this.latestExchangeRequests = response.body || [];
-//     // Sort the latestExchangeRequests array in descending order based on the ID
-//     this.latestExchangeRequests.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     this.latestExchangeRequests = this.latestExchangeRequests.slice(0, 5);
-//   });
-// }
-
-// ngOnInit(): void {
-//   // Fetch exchange request data
-//   this.fetchLatestExchangeRequests();
-// }
-//
-//
-//
-// fetchLatestExchangeRequests(): void {
-//   this.exchangeRequestService.query().subscribe((response) => {
-//     this.latestExchangeRequests = response.body || [];
-//     // Sort the latestExchangeRequests array in descending order based on the ID
-//     this.latestExchangeRequests.sort((a, b) => b.id - a.id);
-//     // Ensure only the latest 5 items are displayed
-//     this.latestExchangeRequests = this.latestExchangeRequests.slice(0, 5);
-//   });
-// }
