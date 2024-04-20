@@ -12,20 +12,18 @@
       <span *ngIf="!account"> Sign in to start planning </span>
     </button-main>
   </div>
-  <div *ngIf="itemLogs.length > 0; else noItemLogs">
-    <div *ngFor="let itemLog of itemLogs">
-      {{ itemLog.date | date: 'EEEE, d LLLL' }}
+  <div *ngIf="logReceivedData; else noItemLogs">
+    <div *ngFor="let itemLog of logReceivedData">
       <div *ngIf="itemLog.date">
-        <p>date</p>
-        <p>{{ itemLog.date | date: 'EEEE, d LLLL' }}</p>
+        <span>{{ itemLog.date }}</span>
       </div>
-      <div *ngIf="itemLog.outfit.name">
-        <p>outfitname</p>
-        <p>{{ itemLog.outfit.name }}</p>
+      <div *ngIf="!itemLog.outfit">
+        <span>No outfit selected!</span>
       </div>
+      <p></p>
     </div>
   </div>
   <ng-template #noItemLogs>
-    <div (click)="addItemLog()">There are no entries in your diary.</div>
+    <p>There are no entries in your diary.</p>
   </ng-template>
 </div>
