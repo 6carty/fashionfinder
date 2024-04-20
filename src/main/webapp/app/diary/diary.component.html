@@ -17,6 +17,9 @@
       <div *ngIf="itemLog.date">
         <span>{{ itemLog.date }}</span>
       </div>
+      <div *ngIf="itemLog.outfit">
+        <span>{{ fetchSingleOutfit(itemLog.outfit.id)?.name }}</span>
+      </div>
       <div *ngIf="!itemLog.outfit">
         <span>No outfit selected!</span>
       </div>

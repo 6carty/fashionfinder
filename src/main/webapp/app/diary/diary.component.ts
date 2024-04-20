@@ -10,6 +10,8 @@ import { IUser } from '../entities/user/user.model';
 import { UserService } from '../entities/user/user.service';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
 import { IUserProfile } from '../entities/user-profile/user-profile.model';
+import { OutfitService } from '../entities/outfit/service/outfit.service';
+import { IOutfit } from '../entities/outfit/outfit.model';
 
 @Component({
   selector: 'jhi-diary',
@@ -27,6 +29,7 @@ export class DiaryComponent implements OnInit {
     private itemLogService: ItemLogService,
     private userService: UserService,
     private userProfileService: UserProfileService,
+    private outfitService: OutfitService,
     protected activatedRoute: ActivatedRoute
   ) {}
   givenId: number = -1;
@@ -86,6 +89,17 @@ export class DiaryComponent implements OnInit {
         }
       }
     });
+  }
+
+  fetchSingleOutfit(id: number): IOutfit | null {
+    let temp: IItemLog[] | null = null;
+    this.outfitService.query({ 'id.equals': id }).subscribe(outfit => {
+      temp = outfit.body;
+    });
+    if (temp) {
+      return temp[0];
+    }
+    return null;
   }
 
   filterLogs() {
