@@ -1,1 +1,31 @@
-<p>diary works!</p>
+<h1>Diary</h1>
+<div class="display-box">
+  <div class="d-flex">
+    <button-main
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-item-log"
+      [routerLink]="['/item-log/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span *ngIf="account"> Create a new entry </span>
+      <span *ngIf="!account"> Sign in to start planning </span>
+    </button-main>
+  </div>
+  <div *ngIf="itemLogs.length > 0; else noItemLogs">
+    <div *ngFor="let itemLog of itemLogs">
+      {{ itemLog.date | date: 'EEEE, d LLLL' }}
+      <div *ngIf="itemLog.date">
+        <p>date</p>
+        <p>{{ itemLog.date | date: 'EEEE, d LLLL' }}</p>
+      </div>
+      <div *ngIf="itemLog.outfit.name">
+        <p>outfitname</p>
+        <p>{{ itemLog.outfit.name }}</p>
+      </div>
+    </div>
+  </div>
+  <ng-template #noItemLogs>
+    <div (click)="addItemLog()">There are no entries in your diary.</div>
+  </ng-template>
+</div>
