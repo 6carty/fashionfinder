@@ -1,25 +1,17 @@
 // In social-chat.component.ts
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
+import { ViewChild, ElementRef } from '@angular/core';
+import { Subscription, Observable, forkJoin, of, interval } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
 import { Account } from '../core/auth/account.model';
 import { AccountService } from '../core/auth/account.service';
-import { Status } from '../entities/enumerations/status.model';
 import { ChatroomService } from '../entities/chatroom/service/chatroom.service';
 import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
-import { getUserIdentifier } from '../entities/user/user.model';
-import { IUser } from 'app/entities/user/user.model';
 import { UserManagementService } from '../admin/user-management/service/user-management.service';
 import { IChatMessage, NewChatMessage } from '../entities/chat-message/chat-message.model';
 import { ChatMessageService } from '../entities/chat-message/service/chat-message.service';
 import dayjs from 'dayjs/esm';
-import { interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { startWith, catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -34,10 +26,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   chatroomReceivedData: any;
   newMessageContent: string = '';
   isSaving = false;
-  userInput: any;
-  userInput2: any;
   userInput3: any;
-  currentUser: any;
   messages: Array<{
     text: string;
     timestamp: string;
@@ -58,8 +47,7 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private chatroomService: ChatroomService,
     private userManagementService: UserManagementService,
-    private chatMessageService: ChatMessageService,
-    private http: HttpClient
+    private chatMessageService: ChatMessageService
   ) {}
 
   fetchChatrooms(): void {
@@ -261,10 +249,6 @@ export class SocialChatComponent implements OnInit, OnDestroy {
     if (input.files && input.files[0]) {
       this.selectedImage = input.files[0];
     }
-  }
-
-  enlargeImage(imageSrc: string): void {
-    window.open(imageSrc, '_blank');
   }
 
   startPollingMessages(chatroomId: number): void {
