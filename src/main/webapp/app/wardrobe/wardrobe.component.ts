@@ -4,9 +4,9 @@ import { ClothingItemService } from '../entities/clothing-item/service/clothing-
 import { IClothingItem, NewClothingItem } from '../entities/clothing-item/clothing-item.model';
 import { Status } from '../entities/enumerations/status.model';
 import { ClothingType } from '../entities/enumerations/clothing-type.model';
-import { EMPTY, Observable, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
-import { filter, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { OutfitService } from '../entities/outfit/service/outfit.service';
 import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
@@ -105,6 +105,43 @@ export class WardrobeComponent implements OnInit {
   filterColourPressed() {
     // @ts-ignore
     this.filteredItems.sort((a, b) => a.colour.localeCompare(b.colour));
+  }
+
+  filterTypePressed() {
+    const typeChosen = document.getElementById('Type') as HTMLInputElement;
+    if (this.clothingReceivedData) {
+      if (typeChosen.value == 'ALL') {
+        this.filteredItems = this.clothingReceivedData;
+      }
+      if (typeChosen.value == 'SHIRTS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.SHIRTS);
+      }
+      if (typeChosen.value == 'SHOES') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.SHOES);
+      }
+      if (typeChosen.value == 'DRESS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.DRESS);
+      }
+      if (typeChosen.value == 'TROUSERS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.TROUSERS);
+      }
+      if (typeChosen.value == 'HATS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.HATS);
+      }
+      if (typeChosen.value == 'ACCESSORIES') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.ACCESSORIES);
+      }
+      if (typeChosen.value == 'OTHERS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.OTHERS);
+      }
+    }
   }
 
   fetchClothes() {

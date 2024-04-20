@@ -30,8 +30,18 @@
   </div>
 
   <div class="display-box detail-box">
-    <div class="text-center"><span>STYLE:</span></div>
-    <textarea type="text" class="text-center" id="Style" rows="1">{{ clothingItemToEdit?.style }}</textarea>
+    <div class="text-center"><span>TYPE:</span></div>
+    <div class="text-center">
+      <select value="{{ clothingItemToEdit?.type }}" id="Type">
+        <option>SHIRTS</option>
+        <option>SHOES</option>
+        <option>DRESS</option>
+        <option>TROUSERS</option>
+        <option>HATS</option>
+        <option>ACCESSORIES</option>
+        <option>OTHERS</option>
+      </select>
+    </div>
   </div>
 
   <div class="display-box detail-box">
@@ -48,14 +58,15 @@
     <div class="text-center"><span>LAST WORN:</span></div>
     <div class="text-center">{{ clothingItemToEdit?.lastWorn }}</div>
   </div>
-
-  <div class="display-box image-box">
-    <span>
-      <img
-        src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
-        alt="your outfit"
-      />
-      <input type="file" id="Photo" accept="image/*" />
-    </span>
+  <div>
+    <div class="display-box image-box">
+      <span>
+        <img
+          src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
+          alt="your outfit"
+        />
+        <input type="file" id="Photo" accept="image/*" />
+      </span>
+    </div>
   </div>
 </div>

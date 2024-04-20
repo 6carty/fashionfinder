@@ -14,22 +14,27 @@
     </div>
     <div class="display-box weather-box">
       <div class="offset">
-        <div class="text-center">
+        <div>
           <input type="checkbox" id="sunny" [(ngModel)]="sunny" />
           <label for="sunny"><h6>SUNNY</h6></label>
-          <br />
+        </div>
+        <div>
           <input type="checkbox" id="rainy" [(ngModel)]="rainy" />
           <label for="rainy"><h6>RAINY</h6></label>
-          <br />
+        </div>
+        <div>
           <input type="checkbox" id="windy" [(ngModel)]="windy" />
           <label for="windy"><h6>WINDY</h6></label>
-          <br />
+        </div>
+        <div>
           <input type="checkbox" id="cold" [(ngModel)]="cold" />
           <label for="cold"><h6>COLD</h6></label>
-          <br />
+        </div>
+        <div>
           <input type="checkbox" id="hot" [(ngModel)]="hot" />
           <label for="hot"><h6>HOT</h6></label>
-          <br />
+        </div>
+        <div>
           <input type="checkbox" id="snowy" [(ngModel)]="snowy" />
           <label for="snowy"><h6>SNOWY</h6></label>
         </div>
@@ -57,14 +62,12 @@
         <div class="text-center"><h4>DELETE</h4></div>
       </div>
     </div>
+
     <div class="display-box image-box">
       <span>
-        File Upload
+        <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
         <input type="file" id="outfitPhoto" accept="image/*" />
       </span>
-      <div class="text-center">
-        <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
-      </div>
     </div>
   </div>
 

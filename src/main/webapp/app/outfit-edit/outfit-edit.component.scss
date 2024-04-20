@@ -78,8 +78,8 @@ textarea {
 
 img {
   display: flex;
-  width: 120%;
-  height: 120%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
 }
 
@@ -135,34 +135,20 @@ img {
 
 .save-button {
   position: relative;
-  background-color: #97c294;
+  background-color: var(--save-button-color);
   border-radius: 3.5vh;
   width: 9.5vw;
   height: 20vh;
   transition-duration: 0.4s;
-  &:hover {
-    background-color: #b4d3b2;
-  }
-  &:active {
-    transition-duration: 0s;
-    background-color: #78b075;
-  }
 }
 
 .delete-button {
   position: relative;
-  background-color: #ff392e;
+  background-color: var(--delete-button-color);
   border-radius: 3.5vh;
   width: 9.5vw;
   height: 20vh;
   transition-duration: 0.4s;
-  &:hover {
-    background-color: #ff6961;
-  }
-  &:active {
-    transition-duration: 0s;
-    background-color: #c30900;
-  }
 }
 
 .save-delete-grid {

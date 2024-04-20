@@ -24,6 +24,20 @@
           <button class="button-main" (click)="filterColourPressed()" value="Name">
             <b style="color: var(--button-text-color)">COLOUR</b>
           </button>
+          <br />
+          <button class="button-main" (click)="filterTypePressed()">
+            <b style="color: var(--button-text-color)">TYPE</b>
+          </button>
+          <select id="Type">
+            <option>ALL</option>
+            <option>SHIRTS</option>
+            <option>SHOES</option>
+            <option>DRESS</option>
+            <option>TROUSERS</option>
+            <option>HATS</option>
+            <option>ACCESSORIES</option>
+            <option>OTHERS</option>
+          </select>
         </div>
       </div>
     </div>
