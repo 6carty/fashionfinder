@@ -19,8 +19,8 @@
   <!--    <div class="SustainabilityContainer">-->
   <div class="grid1">
     <div class="display-box column">
-      <h2 style="text-align: center">"Regeneration"</h2>
-      <p style="text-align: center">We are committed to enhancing the well-being of our planet and its people.</p>
+      <h2 style="text-align: center; color: black">"Regeneration"</h2>
+      <p style="text-align: center; color: black">We are committed to enhancing the well-being of our planet and its people.</p>
       <ol>
         <li>
           <!--point1-->
@@ -56,13 +56,15 @@
           <!-- point5-->
           Go natural<br />
           Buy clothing made with natural fabric fibers instead of synthetic fabrics.
-          <p>Natural alternatives to synthetic fabrics include cotton, linen, bamboo, flax, jute, silk, wool, and alpaca.</p>
+          <p style="color: black">
+            Natural alternatives to synthetic fabrics include cotton, linen, bamboo, flax, jute, silk, wool, and alpaca.
+          </p>
           <hr />
         </li>
       </ol>
     </div>
     <div class="display-box column" style="margin-left: 20px">
-      <h2 style="text-align: center">
+      <h2 style="text-align: center; color: black">
         How can I help the earth by doing this?
         <hr style="height: 2px" />
       </h2>
@@ -111,9 +113,9 @@
     <div class="display-box YoutubeContainer">
       <div class="video-slider-container">
         <div class="ExternalResource-Title">
-          <h3 style="margin-left: 10px">More on sustainable fashion</h3>
+          <h3 style="color: black; margin-left: 10px">More on sustainable fashion</h3>
           <hr />
-          <p>Here are some YouTube videos that provides more information on sustainable fashion</p>
+          <p style="color: black">Here are some YouTube videos that provides more information on sustainable fashion</p>
         </div>
         <div class="video-slider">
           <div class="video-slide" *ngFor="let video of videos">
@@ -161,32 +163,38 @@
   <div class="display-box ExchangeRequest">
     <div class="display-box ExchangeRequestGrid">
       <div class="headingText">
-        <h2 style="text-align: center">Now it's your chance to save the Earth!</h2>
-        <p style="text-align: center">
+        <h2 style="text-align: center; color: black">Now it's your chance to save the Earth!</h2>
+        <p style="text-align: center; color: black">
           Create your User Profile first and Click the buttons below to exchange your clothes with the community.
         </p>
       </div>
       <div class="ButtonContainer">
-        <button class="UserProfileButton" [routerLink]="['/user-profile/new']">New User-profile</button>
-        <button class="BuySellButton" [routerLink]="['/wardrobe']">Add item to wardrobe</button>
-        <button class="ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
+        <button class="button-primary UserProfileButton" [routerLink]="['/user-profile/new']">New User-profile</button>
+        <button class="button-primary BuySellButton" [routerLink]="['/wardrobe']">Add item to wardrobe</button>
+        <button class="button-primary ExchangeButton" [routerLink]="['/exchange-request/new']">Exchange</button>
       </div>
 
       <div class="d-flex">
-        <span *ngIf="!account"> Sign in to see the latest requests </span>
-        <span *ngIf="account"> Here are all the requests. Click on the photo you to edit your exchange</span>
+        <span *ngIf="!account"> Sign in to see the latest requests. </span>
+        <span *ngIf="account"> Here are all the requests. Click on the photo to edit your exchange and view details.</span>
       </div>
 
       <div class="ExchangeRequestDetail">
-        <h3>Latest Exchange Requests.</h3>
-        <div class="grid-container">
-          <div class="grid-item-header" style="color: black">Clothing Item</div>
-          <div class="grid-item-header" style="color: black">Description</div>
-          <div class="grid-item-header" style="color: black">Image</div>
-          <div class="grid-item-header" style="color: black">Creater</div>
-          <div class="grid-item-header" style="color: black">Requester</div>
-          <div class="grid-item-header" style="color: black">Select</div>
-          <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 5); let i = index">
+        <h3 style="margin-left: 10px">Latest Exchange Requests</h3>
+        <ol style="color: black">
+          <li>First make sure you have create a user profile.</li>
+          <li>Second add a new item into wardrobe.</li>
+          <li>Third click on the exchange button to start swapping clothes!</li>
+        </ol>
+        <p>Click on the creater or requester to see if it is correct.</p>
+        <div class="grid-container" style="color: black">
+          <div class="grid-item-header">Clothing Item</div>
+          <div class="grid-item-header">Description</div>
+          <div class="grid-item-header">Image</div>
+          <div class="grid-item-header">Creater</div>
+          <div class="grid-item-header">Requester</div>
+          <div class="grid-item-header">Select</div>
+          <ng-container *ngFor="let exchangeRequest of latestExchangeRequests.slice(0, 10); let i = index">
             <div class="grid-item">{{ exchangeRequest.clothingItem?.name }}</div>
             <div class="grid-item">{{ exchangeRequest.description }}</div>
             <div class="grid-item">
@@ -197,8 +205,12 @@
                 [routerLink]="['/exchange-request', latestExchangeRequests[i].id, 'view']"
               />
             </div>
-            <div class="grid-item">{{ exchangeRequest.creater?.id }}</div>
-            <div class="grid-item">{{ exchangeRequest.requester?.id }}</div>
+            <div class="grid-item" [routerLink]="['/user-profile', latestExchangeRequests[i].creater?.id, 'view']">
+              {{ exchangeRequest.creater?.id }}
+            </div>
+            <div class="grid-item" [routerLink]="['/user-profile', latestExchangeRequests[i].requester?.id, 'view']">
+              {{ exchangeRequest.requester?.id }}
+            </div>
             <div class="grid-item">
               <input type="radio" name="selectedItem" (change)="selectItem(exchangeRequest)" />
             </div>
@@ -224,8 +236,8 @@
         <img src="/content/images/question.gif" alt="question mark Image" />
       </div>
       <!-- Button to close the popup -->
-      <h2>Confirm this exchange?</h2>
-      <p>The item you are going to exchange for {{ selectedExchangeRequest?.clothingItem?.name }} by</p>
+      <h2 style="color: black">Confirm this exchange?</h2>
+      <p style="color: black">The item you are going to exchange for {{ selectedExchangeRequest?.clothingItem?.name }} by</p>
       <button class="confirm-button" (click)="confirmExchange()">Yes</button>
       <button class="cancel-button" (click)="cancelExchange()">No</button>
     </div>
@@ -237,8 +249,8 @@
       <div class="tick-container">
         <img src="/content/images/GreenTick.png" alt="Green Tick Image" />
       </div>
-      <h2>Thank you!</h2>
-      <p>Your request has been proceeded. Click the button below to connect with your requester now!</p>
+      <h2 style="color: black">Thank you!</h2>
+      <p style="color: black">Your request has been proceeded. Click the button below to connect with your requester now!</p>
       <div style="display: flex; justify-content: center; align-items: center">
         <button class="DirectSocialChat" [routerLink]="['/social-chat']">Click here</button>
       </div>
@@ -251,8 +263,8 @@
       <div class="error-container">
         <img src="/content/images/error-message.png" alt="Error message Image" />
       </div>
-      <h2>Error</h2>
-      <p>You cannot exchange items with yourself</p>
+      <h2 style="color: black">Error</h2>
+      <p style="color: black">You cannot exchange items with yourself</p>
     </div>
   </div>
   <!--    </div>-->
