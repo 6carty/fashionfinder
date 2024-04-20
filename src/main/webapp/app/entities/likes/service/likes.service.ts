@@ -8,6 +8,7 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ILikes, NewLikes } from '../likes.model';
+import { IComment } from '../../comment/comment.model';
 
 export type PartialUpdateLikes = Partial<ILikes> & Pick<ILikes, 'id'>;
 
@@ -30,6 +31,9 @@ export class LikesService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  getLikes(): Observable<ILikes[]> {
+    return this.http.get<ILikes[]>(this.resourceUrl);
+  }
   create(likes: NewLikes): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(likes);
     return this.http.post<RestLikes>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));

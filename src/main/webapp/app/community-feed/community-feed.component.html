@@ -37,10 +37,12 @@
         </button>
       </div>
     </div>
+    <ng-container *ngFor="let like of likeDetails[i]">
+      <div class="liked-by" [routerLink]="['/likes/']">
+        <h6>{{ like.likeCount }} Likes</h6>
+      </div>
+    </ng-container>
 
-    <div class="liked-by">
-      <h6>| Like count goes here | Likes</h6>
-    </div>
     <ng-container *ngFor="let currentPost of everyPostsInfo[i]" class="postAuthorInfo">
       <ng-container *ngFor="let currentAuthor of feedUsernames[i]" class="caption">
         <h5>
@@ -51,7 +53,7 @@
         <h6>
           <u>{{ currentPost.commentFrom }}</u> {{ currentPost.visibleComment }}
         </h6>
-        <div class="text-muted" [routerLink]="['/comment/new']">View Comments</div>
+        <div class="text-muted" [routerLink]="['/comment/']">View Comments</div>
       </div>
     </ng-container>
   </div>

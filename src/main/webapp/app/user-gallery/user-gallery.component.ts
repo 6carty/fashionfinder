@@ -25,10 +25,14 @@ export class UserGalleryComponent implements OnInit {
   account: Account | null = null;
   allUserProfiles: Observable<IUserProfile[]> | null = null;
   filteredProfile: IUserProfile[] | null = null;
+  currentUser: IUserProfile | null = null;
   filteredPosts: IPost[] | null = null;
   currentID: any;
   accountSubscription: Subscription | null = null;
   postSubscription: Subscription | null = null;
+
+  currentProfile: IUserProfile | null = null;
+  isSaving: boolean = false;
 
   constructor(
     protected postService: PostService,
@@ -51,7 +55,7 @@ export class UserGalleryComponent implements OnInit {
             this.allUserProfiles.subscribe(userProfiles => {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentID = this.filteredProfile[0].id;
-
+              this.currentUser = this.filteredProfile[0];
               this.allPosts = this.postService.getPosts();
               this.allPosts.subscribe(currentUsersPosts => {
                 this.filteredPosts = currentUsersPosts.filter(post => post.author?.id == this.currentID);
@@ -68,12 +72,72 @@ export class UserGalleryComponent implements OnInit {
   }
 
   trackId = (_index: number, item: IPost): number => this.postService.getPostIdentifier(item);
+
   ngOnInit(): void {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
+      this.initialiseService();
       this.initialiseServicePost();
     });
   }
 
   protected readonly PostComponent = PostComponent;
+
+  initialiseService(): void {
+    if (this.account?.login) {
+      this.userManagementService.find(this.account.login).subscribe({
+        next: currentUser => {
+          if (currentUser.id != null) {
+            this.currentID = currentUser.id;
+            this.allUserProfiles = this.userProfileService.getUserProfiles();
+            this.allUserProfiles.subscribe(userProfiles => {
+              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+              this.currentProfile = this.filteredProfile[0];
+            });
+          }
+        },
+      });
+    }
+  }
+
+  /* onCreatePostButtonClick() {
+     const post: NewPost = {
+       id: null,
+       caption: '',
+       createdDate: dayjs(),
+       editedDate: dayjs(),
+       author: this.currentID
+     }
+     this.subscribeToSaveResponsePost(this.postService.create(post));
+   }
+
+   protected subscribeToSaveResponsePost(result: Observable<HttpResponse<IPost>>): void {
+     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+       next: () => this.onSaveSuccessPost(),
+       error: () => this.onSaveError(),
+     });
+   }
+
+
+   protected onSaveSuccessPost(): void {
+     this.router.navigate(['/social-chat'], //{
+       //queryParams: { id: '-1' }
+       //,
+       //}
+     );
+   }
+
+   protected onSaveError(): void {
+     // Api for inheritance.
+   }
+   protected onSaveFinalize(): void {
+     this.isSaving = false;
+   }
+
+   ngOnDestroy(): void {
+     if (this.accountSubscription) {
+       this.accountSubscription.unsubscribe();
+     }
+   }
+ }*/
 }

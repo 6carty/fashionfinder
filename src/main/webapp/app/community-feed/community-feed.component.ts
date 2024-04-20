@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { IPost } from '../entities/post/post.model';
+import { IPost, NewPost } from '../entities/post/post.model';
 import { IUserProfile } from '../entities/user-profile/user-profile.model';
 import { Account } from '../core/auth/account.model';
 import { PostService } from '../entities/post/service/post.service';
@@ -14,6 +14,8 @@ import { AccountService } from '../core/auth/account.service';
 import { UserService } from '../entities/user/user.service';
 import { IComment } from '../entities/comment/comment.model';
 import { CommentService } from '../entities/comment/service/comment.service';
+import { ILikes } from '../entities/likes/likes.model';
+import { LikesService } from '../entities/likes/service/likes.service';
 
 @Component({
   selector: 'jhi-community-feed',
@@ -40,17 +42,26 @@ export class CommunityFeedComponent implements OnInit {
   visibleComment: any;
   commentFrom: any;
 
+  allLikes: Observable<ILikes[]> | null = null;
+  feedLikes: ILikes[] | null = null;
+  likePos: number = 0;
+  likeDetails: { likeCount: number; postID: any }[][] = [];
+  totalLikes: number = 0;
+
   quickID: any;
   currentCommentPos: number = 0;
   userPos: number = 0;
 
   everyPostsInfo: { visibleComment: string; commentFrom: string; postID: any }[][] = [];
 
+  isSaving = false;
+
   constructor(
     protected postService: PostService,
     protected commentService: CommentService,
+    protected likeService: LikesService,
     protected activatedRoute: ActivatedRoute,
-    public router: Router,
+    private router: Router,
     protected sortService: SortService,
     protected dataUtils: DataUtils,
     protected modalService: NgbModal,
@@ -59,6 +70,24 @@ export class CommunityFeedComponent implements OnInit {
     protected userService: UserService,
     protected accountService: AccountService
   ) {}
+
+  filterLikes(postID: number, index: number): void {
+    this.likeDetails.push([{ likeCount: 0, postID: '' }]);
+    this.allLikes = this.likeService.getLikes();
+    this.allLikes.subscribe(currentUsersLikes => {
+      //get all comments for a specific post
+      this.feedLikes = currentUsersLikes;
+      this.feedLikes = currentUsersLikes.filter(like => like.post?.id === postID && like.like == true);
+      if (this.feedLikes.length) {
+        this.likeDetails[index][0].likeCount = this.feedLikes.length;
+        this.likeDetails[index][0].postID = postID;
+        this.likePos += 1;
+        if (this.likePos === this.feedLikes.length) {
+          this.likeDetails.sort((a, b) => a[0].postID - b[0].postID);
+        }
+      }
+    });
+  }
 
   initialiseServicePost(): void {
     if (this.account?.login) {
@@ -102,6 +131,7 @@ export class CommunityFeedComponent implements OnInit {
       for (let i = 0; i < this.feedPosts.length; i++) {
         this.getPostAuthor(this.feedPosts[i], i);
         this.filterComments(this.feedPosts[i].id, i);
+        this.filterLikes(this.feedPosts[i].id, i);
       }
     });
   }
@@ -148,11 +178,7 @@ export class CommunityFeedComponent implements OnInit {
               this.everyPostsInfo[index][0].commentFrom = this.commentFrom;
               this.userPos += 1;
               if (this.userPos === this.everyPostsInfo.length) {
-                console.log('before sort');
-                console.log(this.everyPostsInfo);
                 this.everyPostsInfo.sort((a, b) => a[0].postID - b[0].postID);
-                console.log('after sort');
-                console.log(this.everyPostsInfo);
               }
             }
           });

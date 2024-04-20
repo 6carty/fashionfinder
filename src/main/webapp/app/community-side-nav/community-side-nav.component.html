@@ -31,11 +31,14 @@
         <span class="stat-heading"
           ><h5><b>Total Likes</b></h5></span
         >
-        <span class="stat-value"><h4>11.4k</h4></span>
+        <span class="stat-value"
+          ><h4>{{ totalLikes }}</h4></span
+        >
       </a>
     </div>
     <!-- Button for Uploads -->
     <button class="post-btn" [routerLink]="['/post/new']">
+      <!--     (click)="onCreatePostButtonClick()-->
       <b>Create Post</b>
     </button>
     <!-- Button for Gallery -->
