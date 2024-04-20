@@ -66,3 +66,12 @@ Main page styles
   //  background-size: contain;
   //}
 }
+
+.logo-img {
+  height: 200px;
+  width: 200px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url('../../content/images/Logo.png') no-repeat center center;
+  background-size: contain;
+}
