@@ -23,6 +23,7 @@ export class DiaryComponent implements OnInit {
   protected account: Account | null = null;
   private accountSubscription: Subscription | null = null;
   protected logReceivedData: IItemLog[] | null = null;
+  protected matchingOutfits: IOutfit[] = [];
   constructor(
     private router: Router,
     private accountService: AccountService,
@@ -78,36 +79,31 @@ export class DiaryComponent implements OnInit {
   fetchItemLogs() {
     this.itemLogService.query().subscribe(itemLogs => {
       this.logReceivedData = itemLogs.body;
-      if (this.logReceivedData) this.logReceivedData = this.logReceivedData.filter(obj => obj.owner?.id == this.userProfile?.id);
-
       if (this.logReceivedData) {
-        for (let item of this.logReceivedData) {
-          if (item.id == this.givenId) {
-            this.itemLogToEdit = item;
-            this.id = this.itemLogToEdit.id;
-          }
-        }
+        this.logReceivedData = this.logReceivedData.filter(obj => obj.owner?.id == this.user?.id);
+        this.fetchMatchingOutfits();
       }
     });
   }
 
-  fetchSingleOutfit(id: number): IOutfit | null {
-    let temp: IItemLog[] | null = null;
-    this.outfitService.query({ 'id.equals': id }).subscribe(outfit => {
-      temp = outfit.body;
-    });
-    if (temp) {
-      return temp[0];
+  fetchMatchingOutfits() {
+    if (this.logReceivedData) {
+      for (var itemLog of this.logReceivedData) {
+        if (itemLog.owner) {
+          this.matchingOutfits?.push(this.fetchSingleOutfit(itemLog.owner.id));
+        }
+      }
     }
-    return null;
   }
 
-  filterLogs() {
-    // Filter events that belong to the current user via userProfile, where the userProfile has the same login
-    // This only works if userProfile is auto generated for each user, where account login === userProfile firstName
-    this.itemLogs = this.itemLogs.filter((itemLog: { owner: any }) => {
-      return itemLog.owner !== null && itemLog.owner.firstName === this.account?.login;
+  fetchSingleOutfit(id: number): IOutfit {
+    let temp: IOutfit[] = [];
+    this.outfitService.query({ 'id.equals': id }).subscribe(outfit => {
+      if (outfit.body) {
+        temp = outfit.body;
+      }
     });
+    return temp[0];
   }
 
   addItemLog() {

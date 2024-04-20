@@ -13,12 +13,16 @@
     </button-main>
   </div>
   <div *ngIf="logReceivedData; else noItemLogs">
-    <div *ngFor="let itemLog of logReceivedData">
+    <div *ngIf="userProfile">
+      <!--<p>fetching items for user {{ userProfile.id}} </p>-->
+    </div>
+    <p>{{ logReceivedData.length }} entries in your diary</p>
+    <div *ngFor="let itemLog of logReceivedData; let i = index">
       <div *ngIf="itemLog.date">
         <span>{{ itemLog.date }}</span>
       </div>
       <div *ngIf="itemLog.outfit">
-        <span>{{ fetchSingleOutfit(itemLog.outfit.id)?.name }}</span>
+        <!--<span>{{ matchingOutfits[i].name }}</span>-->
       </div>
       <div *ngIf="!itemLog.outfit">
         <span>No outfit selected!</span>
