@@ -15,9 +15,9 @@
       <div class="center">
         <span *ngIf="account">
           <input type="text" id="recipientField" placeholder="Enter recipient login" (keyup.enter)="onCreateChatroomButtonClick()" />
-          <div class="create-new-chatroom-button" (click)="onCreateChatroomButtonClick()">
-            <h5>Create new chatroom</h5>
-          </div>
+          <button class="button-main" (click)="onCreateChatroomButtonClick()">
+            <h5 style="color: var(--button-text-color)">Create new chatroom</h5>
+          </button>
         </span>
         <button [routerLink]="['/login']" *ngIf="!account" class="button-focusable">Sign in to start chatting</button>
       </div>
@@ -61,7 +61,7 @@
       <!-- Messages will go here -->
       <div class="message" *ngFor="let message of messages">
         <div class="message-content" [ngClass]="{ sent: message.isSent, received: !message.isSent }">
-          <span>{{ message.text }}</span>
+          <span class="black">{{ message.text }}</span>
 
           <div class="image-modal" *ngIf="isImageModalOpen" (click)="closeImageModal()">
             <div class="image-modal-content">
@@ -75,7 +75,7 @@
             alt="Image message"
             (click)="openImageModal(message.image)"
           />
-          <span class="message-time">{{ message.timestamp }}</span>
+          <span class="message-time" style="color: var(--text-color)">{{ message.timestamp }}</span>
         </div>
       </div>
     </div>

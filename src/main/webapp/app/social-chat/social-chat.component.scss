@@ -1,3 +1,5 @@
+@import '../../content/scss/global';
+
 .chat-container {
   display: flex;
   height: 75vh;
@@ -168,7 +170,7 @@
           position: relative;
 
           &.sent {
-            background-color: #d1ffd7; // light green for sent messages
+            background-color: #d1ffd7 !important; // light green for sent messages
             display: flex;
             margin-left: auto;
             .message-time {
@@ -181,7 +183,7 @@
           }
 
           &.received {
-            background-color: #ffffff; // white for received messages
+            background-color: #ffffff !important; // white for received messages
             align-self: flex-start;
             .message-time {
               position: absolute;
@@ -270,8 +272,8 @@
 }
 
 .message-image {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 400px;
+  max-height: 400px;
   cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -295,4 +297,8 @@
   max-width: 90%;
   max-height: 90%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.black {
+  color: #000000;
 }
