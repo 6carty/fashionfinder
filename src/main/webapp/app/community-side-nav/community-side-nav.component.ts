@@ -72,7 +72,9 @@ export class CommunitySideNavComponent implements OnInit {
         next: currentUser => {
           if (currentUser.id != null) {
             this.currentID = currentUser.id;
+            // @ts-ignore
             this.allUserProfiles = this.userProfileService.getUserProfiles();
+            // @ts-ignore
             this.allUserProfiles.subscribe(userProfiles => {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentProfile = this.filteredProfile[0];
