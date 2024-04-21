@@ -1,25 +1,17 @@
 // In social-chat.component.ts
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
+import { ViewChild, ElementRef } from '@angular/core';
+import { Subscription, Observable, forkJoin, of, interval } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Account } from '../core/auth/account.model';
 import { AccountService } from '../core/auth/account.service';
-import { Status } from '../entities/enumerations/status.model';
 import { ChatroomService } from '../entities/chatroom/service/chatroom.service';
 import { IChatroom, NewChatroom } from '../entities/chatroom/chatroom.model';
-import { getUserIdentifier } from '../entities/user/user.model';
-import { IUser } from 'app/entities/user/user.model';
 import { UserManagementService } from '../admin/user-management/service/user-management.service';
 import { IChatMessage, NewChatMessage } from '../entities/chat-message/chat-message.model';
 import { ChatMessageService } from '../entities/chat-message/service/chat-message.service';
 import dayjs from 'dayjs/esm';
-import { interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { startWith, catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-social-chat',
@@ -34,19 +26,21 @@ export class SocialChatComponent implements OnInit, OnDestroy {
   chatroomReceivedData: any;
   newMessageContent: string = '';
   isSaving = false;
-  userInput: any;
-  userInput2: any;
   userInput3: any;
-  currentUser: any;
   messages: Array<{
-    text: string; // the message text
-    timestamp: string; // the message timestamp formatted as a string
-    isSent: boolean; // whether the message was sent by the current user
+    text: string;
+    timestamp: string;
+    isSent: boolean;
+    image?: string;
   }> = [];
   currentUserId: number | undefined;
   private pollingSubscription: Subscription | null = null;
   private readonly pollingInterval = 5000; // Poll every 5 seconds
   @ViewChild('messageContainer') private messageContainer: ElementRef | null = null;
+  selectedImage: File | null = null;
+  @ViewChild('fileInput') private fileInput?: ElementRef;
+  isImageModalOpen = false;
+  modalImageSrc = '';
 
   constructor(
     private accountService: AccountService,
@@ -135,13 +129,12 @@ export class SocialChatComponent implements OnInit, OnDestroy {
 
   selectChatroom(chatroom: IChatroom): void {
     this.selectedChatroom = chatroom;
+    // Unsubscribe from any existing polling subscription
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
+    }
+    // Fetch messages for the selected chatroom and start polling for new messages
     this.fetchMessages(chatroom.id);
-    this.pollingSubscription?.unsubscribe(); // Stop any existing polling
-    this.startPollingMessages(chatroom.id);
-
-    this.pollingSubscription?.unsubscribe();
-
-    // Start polling for the selected chatroom
     this.startPollingMessages(chatroom.id);
   }
 
@@ -150,98 +143,135 @@ export class SocialChatComponent implements OnInit, OnDestroy {
       (res: HttpResponse<IChatMessage[]>) => {
         if (res.body) {
           this.messages = res.body
-            .map(message => ({
-              text: message.content || '',
-              timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
-              isSent: message.sender?.id === this.currentUserId,
-              chatroomId: message.chatroom?.id,
-            }))
+            .map(message => {
+              let imageSrc;
+              if (message.image && message.imageContentType) {
+                imageSrc = `data:${message.imageContentType};base64,${message.image}`;
+              }
+              return {
+                text: message.content || '',
+                timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
+                isSent: message.sender?.id === this.currentUserId,
+                chatroomId: message.chatroom?.id,
+                image: imageSrc || undefined,
+              };
+            })
             .filter(m => m.chatroomId === chatroomId);
-
-          console.log(this.messages);
         }
       },
       error => {
         console.error('There was an error fetching messages:', error);
       }
     );
-    this.scrollToBottom();
   }
 
   sendMessage(): void {
     if (this.selectedChatroom && this.account?.login && this.newMessageContent.trim()) {
-      // Use the UserManagementService to find the user by login and get the ID
       this.userManagementService.find(this.account.login).subscribe({
         next: user => {
-          if (user.id) {
+          if (user && user.id) {
             const newMessage: NewChatMessage = {
               id: null,
               content: this.newMessageContent,
               timestamp: dayjs(),
-              sender: { id: user.id }, // Use the ID from the user
+              sender: { id: user.id },
               chatroom: { id: this.selectedChatroom.id },
+              image: null,
+              imageContentType: null,
             };
 
-            this.chatMessageService.create(newMessage).subscribe({
-              next: response => {
-                this.newMessageContent = ''; // Clear the message input
-                const createdMessage = response.body;
-                if (createdMessage) {
-                  this.messages.push({
-                    text: createdMessage.content || '',
-                    timestamp: createdMessage.timestamp ? dayjs(createdMessage.timestamp).format('HH:mm') : '',
-                    isSent: true, // As the current user is the sender
-                  });
+            if (this.selectedImage) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                if (typeof reader.result === 'string') {
+                  newMessage.image = reader.result.split(',')[1]; // Base64 encoded string
+                  newMessage.imageContentType = this.selectedImage?.type; // Image content type e.g., 'image/png'
+                  this.sendImageMessage(newMessage);
                 }
-              },
-              error: error => {
-                console.error('Error sending message:', error);
-              },
-            });
+              };
+              reader.readAsDataURL(this.selectedImage);
+            } else {
+              this.sendTextMessage(newMessage);
+            }
           } else {
             console.error(`User with login ${this.account?.login} does not have an ID.`);
           }
         },
-        error: error => {
-          console.error('Error fetching user by login for message sending:', error);
+        error: (error: HttpErrorResponse) => {
+          console.error('Error fetching user by login for message sending:', error.message);
         },
       });
     } else {
       console.error('Message content is empty or no chatroom/user is selected');
     }
-    this.scrollToBottom();
+  }
+
+  sendImageMessage(newMessage: NewChatMessage): void {
+    this.chatMessageService.create(newMessage).subscribe({
+      next: () => {
+        // Clear input fields after message is sent
+        this.newMessageContent = '';
+        this.selectedImage = null;
+        if (this.fileInput) {
+          this.fileInput.nativeElement.value = ''; // Clear the file input
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error sending message:', error.message);
+      },
+    });
+  }
+
+  sendTextMessage(newMessage: NewChatMessage): void {
+    this.chatMessageService.create(newMessage).subscribe({
+      next: response => {
+        this.newMessageContent = '';
+        this.changeDetectorRef.detectChanges(); // Manually trigger change detection
+        const createdMessage = response.body;
+        if (createdMessage) {
+          this.messages.push({
+            text: createdMessage.content || '',
+            timestamp: dayjs(createdMessage.timestamp).format('HH:mm'),
+            isSent: true,
+            image: createdMessage.image ?? undefined,
+          });
+        }
+        this.scrollToBottom();
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error sending message:', error.message);
+      },
+    });
+  }
+
+  handleImageInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedImage = input.files[0];
+    }
   }
 
   startPollingMessages(chatroomId: number): void {
+    if (this.pollingSubscription) {
+      this.pollingSubscription.unsubscribe();
+    }
+
+    // Setup polling to call fetchMessages every 5 seconds
     this.pollingSubscription = interval(this.pollingInterval)
-      .pipe(
-        startWith(0),
-        switchMap(() => this.chatMessageService.queryByChatroomId(chatroomId))
-      )
-      .subscribe(
-        (res: HttpResponse<IChatMessage[]>) => {
-          this.messages =
-            res.body
-              ?.map(message => ({
-                text: message.content || '',
-                timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
-                isSent: message.sender?.id === this.currentUserId,
-                chatroomId: message.chatroom?.id, // Assume there's a chatroom object with an ID
-              }))
-              .filter(m => m.chatroomId === chatroomId) || [];
-        },
-        error => {
-          console.error('Error polling messages:', error);
-        }
-      );
+      .pipe(startWith(0)) // Start immediately
+      .subscribe(() => {
+        this.fetchMessages(chatroomId);
+      });
   }
 
-  appendSentMessage(message: IChatMessage): void {
-    this.messages.push({
-      text: message.content || '',
-      timestamp: message.timestamp ? dayjs(message.timestamp).format('HH:mm') : '',
-      isSent: true,
-    });
+  openImageModal(imageSrc: string): void {
+    this.modalImageSrc = imageSrc;
+    this.isImageModalOpen = true;
+  }
+
+  // Method to close the image modal
+  closeImageModal(): void {
+    this.isImageModalOpen = false;
   }
 
   ngAfterViewChecked() {

@@ -1,119 +1,60 @@
-<div class="container">
-  <div class="feed">
+<ng-container *ngFor="let post of feedPosts; let i = index; trackBy: trackId" class="post-container">
+  <div class="my-feed">
     <div class="heading">
-      <div class="user">
+      <div *ngFor="let currentAuthor of feedUsernames[i]" class="user">
         <div class="profile-photo">
           <img
-            src="/content/images/jhipster_family_member_2_head-192.png"
+            [src]="'data:' + currentAuthor.imageType + ';base64,' + currentAuthor.imageURL"
             alt="Profile Picture"
             class="image"
             [routerLink]="['/user-profile/']"
           />
         </div>
-        <div class="info">
+        <div class="post-user-info">
           <div class="username-text">
-            <h5><b>sukhrajmann88</b></h5>
+            <h5>{{ currentAuthor.username }}</h5>
           </div>
           <div class="post-info-text">
-            <small>Birmingham, 2 hours ago</small>
+            <small> {{ post.createdDate }}</small>
           </div>
         </div>
       </div>
-      <span class="post-options">
-        <!--- include ellipses image, this is where you can report a post-->
-        <img src="/content/images/ellipses.png" class="post-options-img" alt="Options Image" />
-      </span>
     </div>
-    <div class="post">
-      <img src="/content/images/noisy-gradients-2.png" class="post-img" alt="Post Picture" />
-    </div>
-    <div class="action-buttons">
-      <div class="interaction-buttons">
-        <span><i class="/g"></i></span>
-        <button class="like-btn" [routerLink]="['/likes/new']">
-          <!-- onclick="changeImage()" -->
-          <img id="like-img" src="/content/images/unliked.png" class="action-img" alt="Like Icon" />
-        </button>
-        <button class="comment-btn" [routerLink]="['/comment/new']">
-          <img src="/content/images/comment.png" class="action-img" alt="Comment Icon" />
-        </button>
-        <button class="share-btn" [routerLink]="['/share/new']">
-          <img src="/content/images/share.png" class="action-img" alt="Share Icon" />
-        </button>
-      </div>
-      <div class="bookmark">
-        <img src="/content/images/unsaved.png" class="action-img" alt="Bookmark Icon" [routerLink]="['/likes/']" />
-      </div>
-    </div>
-    <div class="liked-by">
-      <!--    <span> <img src="/content/images/jhipster_family_member_0_head-192.png" alt="1st User Picture" /></span>-->
-      <!--    <span><img src="/content/images/jhipster_family_member_0_head-192.png" alt="2nd User Picture" /></span>-->
-      <!--    <span><img src="/content/images/jhipster_family_member_0_head-192.png" alt="3rd User Picture" /></span>-->
-      <p>Liked By <b>USERNAME</b> and <b>123 others</b></p>
-    </div>
-    <div class="caption">
-      <p><b>USERNAME</b> INSERT CAPTION HERE</p>
-    </div>
-    <div class="text-muted" [routerLink]="['/comment/new']">View all 20 comments</div>
-  </div>
-</div>
 
-<div class="container">
-  <div class="feed">
-    <div class="heading">
-      <div class="user">
-        <div class="profile-photo">
-          <img
-            src="/content/images/jhipster_family_member_1_head-192.png"
-            alt="Profile Picture"
-            class="image"
-            [routerLink]="['/user-profile/']"
-          />
-        </div>
-        <div class="info">
-          <div class="username-text">
-            <h5><b>sukhrajmann88</b></h5>
-          </div>
-          <div class="post-info-text">
-            <small>Birmingham, 2 hours ago</small>
-          </div>
-        </div>
-      </div>
-      <span class="post-options">
-        <!--- include ellipses image, this is where you can report a post-->
-        <img src="/content/images/ellipses.png" class="post-options-img" alt="Options Image" />
-      </span>
-    </div>
     <div class="post">
-      <img src="/content/images/noisy-gradients-1.png" class="post-img" alt="Post Picture" />
+      <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" class="post-img" alt="Post Picture" />
     </div>
     <div class="action-buttons">
       <div class="interaction-buttons">
         <span><i class="/g"></i></span>
         <button class="like-btn" [routerLink]="['/likes/new']">
           <!-- onclick="changeImage()" -->
+
           <img id="like-img" src="/content/images/unliked.png" class="action-img" alt="Like Icon" />
         </button>
         <button class="comment-btn" [routerLink]="['/comment/new']">
           <img src="/content/images/comment.png" class="action-img" alt="Comment Icon" />
         </button>
-        <button class="share-btn" [routerLink]="['/share/new']">
-          <img src="/content/images/share.png" class="action-img" alt="Share Icon" />
-        </button>
-      </div>
-      <div class="bookmark">
-        <img src="/content/images/unsaved.png" class="action-img" alt="Bookmark Icon" [routerLink]="['/likes/']" />
       </div>
     </div>
-    <div class="liked-by">
-      <!--    <span> <img src="/content/images/jhipster_family_member_0_head-192.png" alt="1st User Picture" /></span>-->
-      <!--    <span><img src="/content/images/jhipster_family_member_0_head-192.png" alt="2nd User Picture" /></span>-->
-      <!--    <span><img src="/content/images/jhipster_family_member_0_head-192.png" alt="3rd User Picture" /></span>-->
-      <p>Liked By <b>USERNAME</b> and <b>123 others</b></p>
-    </div>
-    <div class="caption">
-      <p><b>USERNAME</b> INSERT CAPTION HERE</p>
-    </div>
-    <div class="text-muted" [routerLink]="['/comment/new']">View all 20 comments</div>
+    <ng-container *ngFor="let like of likeDetails[i]">
+      <div class="liked-by" [routerLink]="['/likes/']">
+        <h6>{{ like.likeCount }} Likes</h6>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let currentPost of everyPostsInfo[i]" class="postAuthorInfo">
+      <ng-container *ngFor="let currentAuthor of feedUsernames[i]" class="caption">
+        <h5>
+          <b>{{ currentAuthor.username }}</b> {{ post.caption }}
+        </h5>
+      </ng-container>
+      <div class="comments">
+        <h6>
+          <u>{{ currentPost.commentFrom }}</u> {{ currentPost.visibleComment }}
+        </h6>
+        <div class="text-muted" [routerLink]="['/comment/']">View Comments</div>
+      </div>
+    </ng-container>
   </div>
-</div>
+</ng-container>

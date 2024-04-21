@@ -16,8 +16,7 @@
 
 .detail-box {
   position: relative;
-  background-color: rgba(87, 87, 87, 0.5);
-  border-radius: 3.5vh;
+
   height: 20vh;
   width: 15vw;
   transition-duration: 0.4s;
@@ -54,8 +53,7 @@ textarea {
 
 .image-box {
   position: relative;
-  background-color: rgba(87, 87, 87, 0.5);
-  border-radius: 3.5vh;
+
   height: 20vw;
   width: 20vw;
   transition-duration: 0.4s;
@@ -67,32 +65,18 @@ textarea {
 
 .save-button {
   position: relative;
-  background-color: #97c294;
+  background-color: var(--save-button-color);
   border-radius: 3.5vh;
   width: 9.5vw;
   height: 20vh;
   transition-duration: 0.4s;
-  &:hover {
-    background-color: #b4d3b2;
-  }
-  &:active {
-    transition-duration: 0s;
-    background-color: #78b075;
-  }
 }
 
 .delete-button {
   position: relative;
-  background-color: #ff392e;
+  background-color: var(--delete-button-color);
   border-radius: 3.5vh;
   width: 9.5vw;
   height: 20vh;
   transition-duration: 0.4s;
-  &:hover {
-    background-color: #ff6961;
-  }
-  &:active {
-    transition-duration: 0s;
-    background-color: #c30900;
-  }
 }

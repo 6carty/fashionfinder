@@ -2,10 +2,15 @@
 <div *ngIf="account">
   <!-- Profile Picture -->
   <div class="sidebar">
-    <div user-details>
+    <div class="user-details">
       <div class="profile-picture">
-        <img src="{{ currentProfile?.profilePicture }} " alt="Profile Picture" class="circle-image" />
+        <img
+          [src]="'data:' + currentProfile?.profilePictureContentType + ';base64,' + currentProfile?.profilePicture"
+          alt="Profile Picture"
+          class="circle-image"
+        />
       </div>
+
       <!-- Display Name -->
       <div class="display-name">
         <h6>{{ currentProfile?.firstName }} {{ currentProfile?.lastName }}</h6>
@@ -26,23 +31,14 @@
         <span class="stat-heading"
           ><h5><b>Total Likes</b></h5></span
         >
-        <span class="stat-value"><h4>11.4k</h4></span>
-      </a>
-      <a class="followers" style="text-decoration: none">
-        <span class="stat-heading"
-          ><h5><b>Followers</b></h5></span
+        <span class="stat-value"
+          ><h4>{{ totalLikes }}</h4></span
         >
-        <span class="stat-value"><h4>465</h4></span>
-      </a>
-      <a class="following" style="text-decoration: none">
-        <span class="stat-heading"
-          ><h5><b>Following</b></h5></span
-        >
-        <span class="stat-value"><h4>238</h4></span>
       </a>
     </div>
     <!-- Button for Uploads -->
     <button class="post-btn" [routerLink]="['/post/new']">
+      <!--     (click)="onCreatePostButtonClick()-->
       <b>Create Post</b>
     </button>
     <!-- Button for Gallery -->

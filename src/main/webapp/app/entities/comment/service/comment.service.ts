@@ -8,6 +8,8 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IComment, NewComment } from '../comment.model';
+import { IUserProfile } from '../../user-profile/user-profile.model';
+import { IPost } from '../../post/post.model';
 
 export type PartialUpdateComment = Partial<IComment> & Pick<IComment, 'id'>;
 
@@ -30,6 +32,9 @@ export class CommentService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  getComments(): Observable<IComment[]> {
+    return this.http.get<IComment[]>(this.resourceUrl);
+  }
   create(comment: NewComment): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(comment);
     return this.http

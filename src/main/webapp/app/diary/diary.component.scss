@@ -1,0 +1,27 @@
+.d-flex {
+  justify-content: start;
+  padding-bottom: 20px;
+}
+
+.imgDisplay {
+  display: block;
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  border: none;
+  border-radius: 25px;
+}
+
+.outfit-image-3 {
+  //margin-right: 20px;
+  margin-right: 54px;
+  height: 200px;
+  width: 160px;
+  //width: 160px;
+  border-radius: 25px;
+  background-size: cover;
+  background-position: center;
+  background-color: white;
+  grid-column-start: 1;
+  cursor: pointer;
+}

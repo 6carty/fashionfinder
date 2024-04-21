@@ -1,21 +1,21 @@
 <div class="layout-grid">
-  <div class="detail-box">
-    <div class="text-center">NAME:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>NAME:</span></div>
     <textarea type="text" class="text-center" id="Name" rows="2">{{ this.clothingItemToEdit?.name }}</textarea>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">DESCRIPTION:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>DESCRIPTION:</span></div>
     <textarea type="text" class="text-center" id="Description" rows="5">{{ this.clothingItemToEdit?.description }}</textarea>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">SIZE:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>SIZE:</span></div>
     <textarea type="text" class="text-center" id="ClothingSize" rows="1">{{ clothingItemToEdit?.clothingSize }}</textarea>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">COLOUR:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>COLOUR:</span></div>
     <textarea type="text" class="text-center" id="Colour" rows="1">{{ clothingItemToEdit?.colour }}</textarea>
   </div>
 
@@ -29,33 +29,44 @@
     </div>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">STYLE:</div>
-    <textarea type="text" class="text-center" id="Style" rows="1">{{ clothingItemToEdit?.style }}</textarea>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>TYPE:</span></div>
+    <div class="text-center">
+      <select value="{{ clothingItemToEdit?.type }}" id="Type">
+        <option>SHIRTS</option>
+        <option>SHOES</option>
+        <option>DRESS</option>
+        <option>TROUSERS</option>
+        <option>HATS</option>
+        <option>ACCESSORIES</option>
+        <option>OTHERS</option>
+      </select>
+    </div>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">BRAND:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>BRAND:</span></div>
     <textarea type="text" class="text-center" id="Brand" rows="1">{{ clothingItemToEdit?.brand }}</textarea>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">MATERIAL:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>MATERIAL:</span></div>
     <textarea type="text" class="text-center" id="Material" rows="1">{{ clothingItemToEdit?.material }}</textarea>
   </div>
 
-  <div class="detail-box">
-    <div class="text-center">LAST WORN:</div>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>LAST WORN:</span></div>
     <div class="text-center">{{ clothingItemToEdit?.lastWorn }}</div>
   </div>
-
-  <div class="image-box">
-    <span>
-      <img
-        src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
-        alt="your outfit"
-      />
-      <input type="file" id="Photo" accept="image/*" />
-    </span>
+  <div>
+    <div class="display-box image-box">
+      <span>
+        <img
+          src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
+          alt="your outfit"
+        />
+        <input type="file" id="Photo" accept="image/*" />
+      </span>
+    </div>
   </div>
 </div>

@@ -17,6 +17,13 @@ import { ClothingItemDeleteDialogComponent } from '../entities/clothing-item/del
 import { DataUtils } from '../core/util/data-util.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpParams } from '@angular/common/http';
+import { IUser } from '../entities/user/user.model';
+import { IUserProfile } from '../entities/user-profile/user-profile.model';
+import { Account } from '../core/auth/account.model';
+import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { AccountService } from '../core/auth/account.service';
+import { UserService } from '../entities/user/user.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'jhi-outfit-edit',
@@ -33,17 +40,30 @@ export class OutfitEditComponent implements OnInit {
   clothingItems: IClothingItem[] = [];
   id: number = 0;
   inputElementName: any;
-  inputElementDescription: any;
+  inputElementDescription: string = '';
   userInputPhoto: any;
   isSaving = false;
   public show = true;
   inputElementOccasion: any;
+  description: string = '';
   date: any;
   predicate = 'id';
   ascending = true;
   isLoading = false;
   deleting: boolean = false;
   outfitId: number = 0;
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
+  userProfile: IUserProfile | undefined = undefined;
+  userProfilePick: Pick<IUserProfile, 'id'> | null = null;
+  active: Account | undefined = undefined;
+  userProfiles: IUserProfile[] | undefined = undefined;
+  sunny: boolean = false;
+  rainy: boolean = false;
+  windy: boolean = false;
+  cold: boolean = false;
+  hot: boolean = false;
+  snowy: boolean = false;
 
   constructor(
     private clothingItemService: ClothingItemService,
@@ -52,15 +72,40 @@ export class OutfitEditComponent implements OnInit {
     protected sortService: SortService,
     public router: Router,
     protected dataUtils: DataUtils,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private userProfileService: UserProfileService,
+    private accountService: AccountService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.givenId = params.id;
+
+      this.accountService.identity().subscribe(account => {
+        if (account) this.active = account;
+
+        this.userService.query().subscribe(users => {
+          this.users = users.body;
+          if (this.users) this.user = this.users.find(user => user.login === this.active?.login);
+          if (this.user) {
+            const pickUser: Pick<IUser, 'id'> = this.user;
+            const queryObject = {
+              'user.equal': pickUser,
+            };
+            this.userProfileService.query(queryObject).subscribe(userProfile => {
+              if (userProfile.body) {
+                this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+                this.userProfile = this.userProfiles[0];
+                this.userProfilePick = this.userProfile;
+              }
+
+              this.fetchClothes();
+            });
+          }
+        });
+      });
     });
-    //this.load();
-    this.fetchClothes();
   }
 
   fetchClothes() {
@@ -72,6 +117,8 @@ export class OutfitEditComponent implements OnInit {
 
     this.clothingItemService.query(queryObject).subscribe(clothingItems => {
       this.clothingReceivedData = clothingItems.body;
+      if (this.clothingReceivedData)
+        this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj.owner?.id == this.userProfile?.id);
       this.fetchOutfits();
     });
   }
@@ -79,6 +126,9 @@ export class OutfitEditComponent implements OnInit {
   fetchOutfits() {
     this.outfitService.query('include.creator, include.clothingItems').subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
+      if (this.outfitReceivedData) {
+        this.outfitReceivedData = this.outfitReceivedData.filter(obj => obj.creator?.id == this.userProfile?.id);
+      }
       if (this.givenId == -1) {
         var outfitData = this.outfitReceivedData;
         var clothingData = this.clothingReceivedData;
@@ -115,6 +165,31 @@ export class OutfitEditComponent implements OnInit {
                 this.clothesChosen.push(clothingItem);
               }
             }
+        }
+      }
+      const fullDescription = this.outfitToEdit?.description;
+      if (fullDescription) {
+        const descriptionInParts = fullDescription.split(',');
+        this.description = descriptionInParts[0];
+        for (let part of descriptionInParts) {
+          if (part == 'sunny') {
+            this.sunny = true;
+          }
+          if (part == 'rainy') {
+            this.rainy = true;
+          }
+          if (part == 'windy') {
+            this.windy = true;
+          }
+          if (part == 'cold') {
+            this.cold = true;
+          }
+          if (part == 'hot') {
+            this.hot = true;
+          }
+          if (part == 'snowy') {
+            this.snowy = true;
+          }
         }
       }
     });
@@ -167,7 +242,17 @@ export class OutfitEditComponent implements OnInit {
       return;
     }
     this.inputElementName = document.getElementById('Name') as HTMLInputElement;
-    this.inputElementDescription = document.getElementById('Description') as HTMLInputElement;
+    var writtenDescriptionElement = document.getElementById('Description') as HTMLInputElement;
+    var writtenDescription = writtenDescriptionElement.value;
+    writtenDescription = writtenDescription.split(',').join('');
+    this.inputElementDescription = this.inputElementDescription.concat(writtenDescription);
+    if (this.sunny) this.inputElementDescription = this.inputElementDescription.concat(',sunny');
+    if (this.rainy) this.inputElementDescription = this.inputElementDescription.concat(',rainy');
+    if (this.windy) this.inputElementDescription = this.inputElementDescription.concat(',windy');
+    if (this.cold) this.inputElementDescription = this.inputElementDescription.concat(',cold');
+    if (this.hot) this.inputElementDescription = this.inputElementDescription.concat(',hot');
+    if (this.snowy) this.inputElementDescription = this.inputElementDescription.concat(',snowy');
+
     this.inputElementOccasion = document.getElementById('Occasion') as HTMLInputElement;
     if (this.outfitToEdit) {
       this.id = this.outfitToEdit.id;
@@ -176,25 +261,16 @@ export class OutfitEditComponent implements OnInit {
     //making a list of updated clothes item to upload later
     if (this.outfitToEdit && this.clothingReceivedData) {
       var pickId: Pick<IOutfit, 'id'> = this.outfitToEdit;
-      for (let clothingItem of this.clothingReceivedData) {
-        if (clothingItem.outfits != null) {
-          clothingItem.outfits = clothingItem.outfits.filter(obj => obj !== pickId);
-        }
+
+      var counter = 0;
+      while (counter < this.clothingReceivedData.length) {
+        this.clothingReceivedData[0].outfits?.filter(obj => obj.id !== this.outfitId);
         for (let cloth of this.clothesChosen) {
-          if (cloth.id == clothingItem.id) {
-            this.clothesChosen = this.clothesChosen.filter(obj => obj !== cloth);
-            this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj !== clothingItem);
-
-            if (clothingItem.outfits == null) {
-              clothingItem.outfits = [];
-              clothingItem.outfits.push(pickId);
-            } else {
-              clothingItem.outfits.push(pickId);
-            }
-
-            this.clothingReceivedData.push(clothingItem);
+          if (this.clothingReceivedData[counter].id == cloth.id) {
+            this.clothingReceivedData[counter].outfits?.push(pickId);
           }
         }
+        counter += 1;
       }
     }
 
@@ -216,8 +292,9 @@ export class OutfitEditComponent implements OnInit {
           id: this.id,
           name: this.inputElementName.value,
           occasion: this.inputElementOccasion.value,
-          description: this.inputElementDescription.value,
+          description: this.inputElementDescription,
           date: this.outfitToEdit?.date,
+          userCreated: this.user,
           creator: this.outfitToEdit?.creator,
         };
 
@@ -237,10 +314,11 @@ export class OutfitEditComponent implements OnInit {
         id: this.id,
         name: this.inputElementName.value,
         occasion: this.inputElementOccasion.value,
-        description: this.inputElementDescription.value,
+        description: this.inputElementDescription,
         image: this.outfitToEdit?.image,
         imageContentType: this.outfitToEdit?.imageContentType,
         date: this.outfitToEdit?.date,
+        userCreated: this.user,
         creator: this.outfitToEdit?.creator,
       };
       this.subscribeToSaveResponseOutfit(this.outfitService.update(outfit));

@@ -1,183 +1,166 @@
 .display-5 {
   display: flex;
   position: relative;
-
   min-height: 74vh;
   .non-img-boxes {
     //flex: 1;
     margin-right: 20px;
+    color: inherit;
     .date-and-time {
       background-color: rgba(87, 87, 87, 0.5);
-      height: 61.752903907074966px;
+      //height: 61.752903907074966px;
       width: 235px;
       border-radius: 25px;
       margin-bottom: 40px;
-
-      .date-txt {
-        padding-top: 5px;
-        margin-left: 12px;
-      }
-      .time-txt,
-      .current-temp {
-        margin-left: 12px;
-        margin-bottom: 5px;
-      }
     }
-    .filter-box {
-      background-color: rgba(87, 87, 87, 0.5);
-      border-radius: 25px;
-      min-height: 338px;
-      width: 235px;
-      .topnav .search-container {
-        display: flex;
-        margin-top: 24px;
-        margin-bottom: 25px;
-      }
-
-      .topnav input[type='text'] {
-        font-size: 17px;
-        border: none;
-        width: 207px;
-        height: 29px;
-      }
-
-      .topnav .search-container button {
-        background: rgba(167, 167, 167, 0.5);
-        font-size: 17px;
-        border: none;
-        cursor: pointer;
-        width: 28px;
-        height: 29px;
-      }
-      .clear-button {
-        //background: rgba(167, 167, 167, 0.5);
-        background: white;
-        font-size: 15px;
-        border: none;
-        cursor: pointer;
-        width: 100px;
-        height: 29px;
-        margin-left: 115px;
-        margin-bottom: 30px;
-      }
-      .clear-button:hover {
-        background: #ccc;
-      }
-      .topnav .search-container button:hover {
-        background: #ccc;
-      }
-      .normal-filters {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .date-Button,
-        .weather-Button,
-        .occasion-Button {
-          background: none;
-          font-size: 19px;
-          text-align: left;
-          display: flex;
-          justify-content: space-between;
-          border: none;
-          width: 235px;
-          height: 19px;
-          margin-bottom: 6px;
-          .Brandtxt {
-            margin-left: 20px;
-          }
-          .plusbt {
-            margin-right: 20px;
-          }
-        }
-        .line3 {
-          margin-top: 6px;
-          margin-bottom: 6px;
-          width: 200px;
-          border-bottom: 1px solid black;
-        }
-
-        .dropdown-content {
-          font-size: 16px;
-          //margin-left: 12px;
-
-          padding: 12px 16px;
-        }
-
-        .dropdown-content label {
-          display: inherit;
-          margin-bottom: 8px;
-        }
-
-        .dropdown-content label input {
-          margin-right: 5px;
-        }
-      }
-
-      .filter-text {
-        margin-left: 19px;
-        padding-top: 10px;
-      }
-    }
-  }
-
-  .rectangle-4 {
-    //flex: 2;
-    background-color: rgba(87, 87, 87, 0.5);
-    border-radius: 25px;
-
-    width: 1170px;
-    height: 595.765px;
-    .recommended-outfit-text,
-    .trending-outfit-text {
-      margin-left: 62px;
-      margin-top: 34.26px;
-    }
-    .first-image-line,
-    .second-image-line {
+    //.filter-box {
+    //  background-color: rgba(87, 87, 87, 0.5);
+    //  border-radius: 25px;
+    //  min-height: 338px;
+    //  width: 235px;
+    .topnav .search-container {
       display: flex;
-      margin-left: 98px;
+      margin-top: 24px;
+      margin-bottom: 25px;
+    }
 
-      .outfit-image {
-        //margin-right: 20px;
-        margin-right: 54px;
-        height: 200px;
-        width: 160px;
-        //width: 160px;
-        border-radius: 25px;
-        background-size: cover;
-        background-position: center;
-        background-color: white;
-        cursor: pointer;
+    .topnav input[type='text'] {
+      font-size: 17px;
+      border: none;
+      width: 207px;
+      height: 29px;
+    }
+
+    .topnav .search-container button {
+      background: rgba(167, 167, 167, 0.5);
+      font-size: 17px;
+      border: none;
+      cursor: pointer;
+      width: 28px;
+      height: 29px;
+    }
+    .clear-button {
+      //background: rgba(167, 167, 167, 0.5);
+      background: white;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      width: 100px;
+      height: 29px;
+      margin-left: 115px;
+      margin-bottom: 30px;
+      color: inherit;
+    }
+    .clear-button:hover {
+      background: #ccc;
+    }
+    .topnav .search-container button:hover {
+      background: #ccc;
+    }
+    .normal-filters {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: inherit;
+      .date-Button,
+      .weather-Button,
+      .occasion-Button {
+        background: none;
+        font-size: 19px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        width: 235px;
+        height: 19px;
+        margin-bottom: 6px;
+        color: inherit;
+        .Brandtxt {
+          margin-left: 20px;
+          color: inherit;
+        }
+        .plusbt {
+          margin-right: 20px;
+        }
       }
-      .first-line-img02 {
-        background-color: white;
-        height: 200px;
+      .line3 {
+        margin-top: 6px;
+        margin-bottom: 6px;
         width: 200px;
-        margin-right: 54px;
-        border-radius: 25px;
+        border-bottom: 1px solid black;
       }
-      .second-image-img01,
-      .second-image-img02,
-      .second-image-img03,
-      .second-image-img04,
-      .second-image-img05 {
-        margin-top: 14px;
-        margin-right: 54px;
-        background-color: white;
-        height: 200px;
-        width: 200px;
-        border-radius: 25px;
+
+      .dropdown-content {
+        font-size: 16px;
+        //margin-left: 12px;
+
+        padding: 12px 16px;
+      }
+
+      .dropdown-content label {
+        display: inherit;
+        margin-bottom: 8px;
+      }
+
+      .dropdown-content label input {
+        margin-right: 5px;
       }
     }
-    //scrollbar for firstimgline
-    div.first-image-line,
-    div.second-image-line {
-      //background-color: #333;
-      overflow-x: auto;
-      white-space: nowrap;
+
+    .filter-text {
+      margin-left: 19px;
+      padding-top: 10px;
     }
   }
 }
+
+//.rectangle-4 {
+//  //flex: 2;
+//  background-color: rgba(87, 87, 87, 0.5);
+//  border-radius: 25px;
+//
+//  width: 1170px;
+//  height: 595.765px;
+.recommended-outfit-text,
+.trending-outfit-text {
+  margin-left: 62px;
+  margin-top: 34.26px;
+  color: inherit;
+}
+.first-image-line,
+.second-image-line {
+  display: flex;
+  margin-left: 98px;
+
+  .outfit-image {
+    //margin-right: 20px;
+    margin-right: 54px;
+    height: 200px;
+    width: 160px;
+    //width: 160px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center;
+    background-color: white;
+    cursor: pointer;
+  }
+  .first-line-img02 {
+    background-color: white;
+    height: 200px;
+    width: 160px;
+    margin-right: 54px;
+    border-radius: 25px;
+  }
+}
+//scrollbar for firstimgline
+div.first-image-line,
+div.second-image-line {
+  //background-color: #333;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+//}
+//}
 .outfit-image-2 {
   //margin-right: 20px;
   margin-right: 54px;

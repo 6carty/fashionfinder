@@ -33,21 +33,22 @@
 }
 
 .display-analytics {
-  display: flex;
+  display: grid;
+  place-items: center;
   position: relative;
   min-height: 75vh;
 
   .sideLeft {
-    display: inline-flex;
-    margin-left: 100px;
+    //display: inline-flex;
+    //margin-left: 100px;
   }
 
   .sideRight {
-    //display: inline-flex;
+    display: inline-flex;
   }
 
   .leastWorn {
-    display: flex;
+    //display: flex;
   }
 
   @mixin translucent-bg($color, $alpha) {
@@ -116,5 +117,14 @@
     border: none;
     border-radius: 25px;
     transition: background-color 0.25s ease;
+  }
+
+  .imgDisplay {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border: none;
+    border-radius: 25px;
   }
 }

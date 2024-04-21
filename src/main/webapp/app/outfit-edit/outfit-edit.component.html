@@ -1,25 +1,50 @@
 <div class="display-page">
   <div class="display-grid">
-    <div class="name-box">
+    <div class="display-box name-box">
       <div class="offset">
-        <div class="text-center"><h4>NAME:</h4></div>
+        <div class="text-center"><span>NAME:</span></div>
         <textarea type="text" class="text-center" id="Name" rows="2">{{ outfitToEdit?.name }}</textarea>
       </div>
     </div>
-    <div class="description-box">
+    <div class="display-box description-box">
       <div class="offset">
-        <div class="text-center"><h4>DESCRIPTION:</h4></div>
-        <textarea type="text" class="text-center" id="Description" rows="5">{{ outfitToEdit?.description }}</textarea>
+        <div class="text-center"><span>DESCRIPTION:</span></div>
+        <textarea type="text" class="text-center" id="Description" rows="5">{{ this.description }}</textarea>
       </div>
     </div>
-    <div class="date-box">
+    <div class="display-box weather-box">
       <div class="offset">
-        <div class="text-center">DATE MADE: {{ outfitToEdit?.date }}</div>
+        <div>
+          <input type="checkbox" id="sunny" [(ngModel)]="sunny" />
+          <label for="sunny"><h6>SUNNY</h6></label>
+        </div>
+        <div>
+          <input type="checkbox" id="rainy" [(ngModel)]="rainy" />
+          <label for="rainy"><h6>RAINY</h6></label>
+        </div>
+        <div>
+          <input type="checkbox" id="windy" [(ngModel)]="windy" />
+          <label for="windy"><h6>WINDY</h6></label>
+        </div>
+        <div>
+          <input type="checkbox" id="cold" [(ngModel)]="cold" />
+          <label for="cold"><h6>COLD</h6></label>
+        </div>
+        <div>
+          <input type="checkbox" id="hot" [(ngModel)]="hot" />
+          <label for="hot"><h6>HOT</h6></label>
+        </div>
+        <div>
+          <input type="checkbox" id="snowy" [(ngModel)]="snowy" />
+          <label for="snowy"><h6>SNOWY</h6></label>
+        </div>
       </div>
     </div>
-    <div class="occasion-box">
+    <div class="display-box occasion-box">
       <div class="offset">
-        <div class="text-center">OCCASION: {{ outfitToEdit?.occasion }}</div>
+        <div class="text-center">
+          <span>OCCASION: {{ outfitToEdit?.occasion }}</span>
+        </div>
         <select value="{{ outfitToEdit?.occasion }}" id="Occasion">
           <option>FORMAL</option>
           <option>BUSINESS</option>
@@ -30,26 +55,24 @@
     </div>
     <div class="save-delete-grid">
       <div class="save-button" (click)="saveButtonPressed()">
-        <div class="text-center">SAVE</div>
+        <div class="text-center"><h4>SAVE</h4></div>
       </div>
 
       <div class="delete-button" (click)="deleteButtonPressed()">
-        <div class="text-center">DELETE</div>
+        <div class="text-center"><h4>DELETE</h4></div>
       </div>
     </div>
-    <div class="image-box">
+
+    <div class="display-box image-box">
       <span>
-        File Upload
+        <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
         <input type="file" id="outfitPhoto" accept="image/*" />
       </span>
-      <div class="text-center">
-        <img src="data:image/{{ outfitToEdit?.imageContentType }};charset=utf-8;base64,{{ outfitToEdit?.image }}" alt="your outfit" />
-      </div>
     </div>
   </div>
 
   <div class="display-grid-clothing" id="clothing-grid">
-    <div class="clothing-display-box">
+    <div class="display-box clothing-display-box">
       <div class="offset">
         <h2>Your Clothes</h2>
         <div class="scrollable-area">
@@ -65,7 +88,7 @@
       </div>
     </div>
 
-    <div class="clothing-display-box">
+    <div class="display-box clothing-display-box">
       <div class="offset">
         <h2>Clothes for this outfit <b>(required)</b></h2>
         <div class="scrollable-area">

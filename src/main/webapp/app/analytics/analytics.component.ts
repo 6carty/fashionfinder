@@ -13,6 +13,9 @@ import { Account } from '../core/auth/account.model';
 import { AccountService } from '../core/auth/account.service';
 import dayjs from 'dayjs/esm';
 import { dateComparator } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools';
+import { EntityArrayResponseType } from '../entities/event/service/event.service';
+import { ItemLogService } from '../entities/item-log/service/item-log.service';
+import { IItemLog } from '../entities/item-log/item-log.model';
 
 @Component({
   selector: 'jhi-analytics',
@@ -23,7 +26,7 @@ export class AnalyticsComponent implements OnInit {
   numberOfItems = 0;
   numberOfOutfits = 0;
   topOccasion = 'Unknown';
-  numberOfExchanged = 0;
+  numberOfLogs = 0;
   breakupItem: IClothingItem | null = null;
 
   clothingReceivedData: IClothingItem[] | null = null;
@@ -36,11 +39,13 @@ export class AnalyticsComponent implements OnInit {
 
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
+  protected itemLogs: any | IItemLog[] = [];
 
   constructor(
     private accountService: AccountService,
     private clothingItemService: ClothingItemService,
-    private outfitService: OutfitService
+    private outfitService: OutfitService,
+    private itemLogService: ItemLogService
   ) {}
 
   ngOnInit(): void {
@@ -60,10 +65,26 @@ export class AnalyticsComponent implements OnInit {
   fetchOutfits() {
     this.outfitService.query('include.owner').subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
-      this.assessVars();
+      this.fetchItemLogs();
     });
 
     this.outfitReceivedData.unsubscribe();
+  }
+
+  fetchItemLogs() {
+    this.itemLogService.query('include.owner').subscribe((itemLogs: EntityArrayResponseType) => {
+      this.itemLogs = itemLogs.body || [];
+      this.filterLogs();
+      this.assessVars();
+    });
+  }
+
+  filterLogs() {
+    // Filter events that belong to the current user via userProfile, where the userProfile has the same login
+    // This only works if userProfile is auto generated for each user, where account login === userProfile firstName
+    this.itemLogs = this.itemLogs.filter((itemLog: { owner: any }) => {
+      return itemLog.owner !== null && itemLog.owner.firstName === this.account?.login;
+    });
   }
 
   assessVars(): void {
@@ -75,6 +96,9 @@ export class AnalyticsComponent implements OnInit {
     }
     if (!(typeof this.outfitReceivedData == undefined || this.outfitReceivedData == null)) {
       this.numberOfOutfits = <number>this.outfitReceivedData.length;
+    }
+    if (!(typeof this.itemLogs == undefined || this.itemLogs == null)) {
+      this.numberOfLogs = <number>this.itemLogs.length;
     }
     var themeList: number[] = [0, 0, 0, 0];
     for (var outfit of this.outfitReceivedData) {

@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123212"
+  },
   "applications": "*",
   "changelogDate": "20240303123212",
   "dto": "no",
@@ -44,66 +47,77 @@
       "otherEntityRelationshipName": "userProfile",
       "ownerSide": true,
       "relationshipName": "user",
+      "relationshipSide": "left",
       "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "post",
       "otherEntityRelationshipName": "author",
       "relationshipName": "posts",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "comment",
       "otherEntityRelationshipName": "userCommented",
       "relationshipName": "comments",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "likes",
       "otherEntityRelationshipName": "userLiked",
       "relationshipName": "likes",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "clothingItem",
       "otherEntityRelationshipName": "owner",
       "relationshipName": "clothingItems",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "creator",
       "relationshipName": "outfits",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "message",
       "otherEntityRelationshipName": "userProfile",
       "relationshipName": "message",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "purchaseListing",
       "otherEntityRelationshipName": "seller",
       "relationshipName": "purchaseListings",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "saleListing",
       "otherEntityRelationshipName": "seller",
       "relationshipName": "saleListings",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "fashionTip",
       "otherEntityRelationshipName": "author",
       "relationshipName": "fashionTips",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "userMilestone",
       "otherEntityRelationshipName": "userProfile",
       "relationshipName": "userMilestone",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
@@ -111,6 +125,7 @@
       "otherEntityRelationshipName": "userProfile",
       "ownerSide": true,
       "relationshipName": "chatroom",
+      "relationshipSide": "left",
       "relationshipType": "many-to-many"
     },
     {
@@ -118,8 +133,10 @@
       "otherEntityRelationshipName": "userProfile",
       "ownerSide": false,
       "relationshipName": "calendar",
+      "relationshipSide": "right",
       "relationshipType": "one-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

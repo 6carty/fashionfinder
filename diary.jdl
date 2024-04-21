@@ -1,0 +1,13 @@
+entity ItemLog {
+    date Instant required
+}
+
+relationship ManyToOne {
+<<<<<<< HEAD
+    ItemLog{owner} to User
+    ItemLog{outfit} to Outfit
+=======
+    ItemLog{owner} to User with builtInEntity
+    ItemLog{outfit} to Outfit with builtInEntity
+>>>>>>> 9c44c7b80986d34d4fcff2f9a2700337e9989995
+}

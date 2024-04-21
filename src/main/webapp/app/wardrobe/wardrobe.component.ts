@@ -12,6 +12,12 @@ import { IOutfit, NewOutfit } from '../entities/outfit/outfit.model';
 import { Occasion } from '../entities/enumerations/occasion.model';
 import { Router } from '@angular/router';
 import dayjs from 'dayjs/esm';
+import { IUser } from '../entities/user/user.model';
+import { UserService } from '../entities/user/user.service';
+import { AccountService } from '../core/auth/account.service';
+import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { IUserProfile } from '../entities/user-profile/user-profile.model';
+import { Account } from '../core/auth/account.model';
 
 @Component({
   selector: 'jhi-wardrobe',
@@ -20,7 +26,7 @@ import dayjs from 'dayjs/esm';
 })
 export class WardrobeComponent implements OnInit {
   clothingReceivedData: IClothingItem[] | null = null;
-  outfitReceivedData: any;
+  outfitReceivedData: IOutfit[] | null = null;
   isSaving = false;
   clothingItem: IClothingItem | null = null;
   userInputName: any;
@@ -33,46 +39,116 @@ export class WardrobeComponent implements OnInit {
   userInputMaterial: any;
   filteredItems: IClothingItem[] = [];
   filterType: ClothingType | null = null;
-  filterSortType: boolean = false;
-  filterSortAlphabetical: boolean = false;
-  filterSortSize: boolean = false;
+  filterName: boolean = false;
+  filterBrand: boolean = false;
+  filterColour: boolean = false;
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
+  userProfile: IUserProfile | undefined = undefined;
+  userProfiles: IUserProfile[] | null = null;
+  userProfilePick: Pick<IUserProfile, 'id'> | null = null;
+  active: Account | undefined = undefined;
 
   formData = {
     name: '',
     occasion: '',
     colour: '',
   };
-  constructor(private clothingItemService: ClothingItemService, private outfitService: OutfitService, private router: Router) {}
+  constructor(
+    private clothingItemService: ClothingItemService,
+    private outfitService: OutfitService,
+    private router: Router,
+    private accountService: AccountService,
+    private userService: UserService,
+    private userProfileService: UserProfileService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchClothes();
+    this.accountService.identity().subscribe(account => {
+      if (account) this.active = account;
+
+      this.userService.query().subscribe(users => {
+        this.users = users.body;
+        if (this.users) this.user = this.users.find(user => user.login === this.active?.login);
+        if (this.user) {
+          const pickUser: Pick<IUser, 'id'> = this.user;
+          const queryObject = {
+            'user.equal': pickUser,
+          };
+          this.userProfileService.query(queryObject).subscribe(userProfile => {
+            if (userProfile.body) {
+              this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+              this.userProfile = this.userProfiles[0];
+              this.userProfilePick = this.userProfile;
+            }
+
+            this.fetchClothes();
+          });
+        }
+      });
+    });
   }
 
   trackByClothingId(index: number, clothingItem: IClothingItem): number {
     return clothingItem.id;
   }
 
-  filterButtonPressed() {
-    if (this.filterSortType && this.clothingReceivedData) {
-      const inputElementType = document.getElementById('clothingItemTypeFilter') as HTMLInputElement;
-      this.filteredItems = this.clothingReceivedData;
-      this.filteredItems = this.filteredItems.filter(obj => obj.type?.toString() == inputElementType.value);
-    } else {
-      if (this.clothingReceivedData) {
+  filterNamePressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  filterBrandPressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.brand.localeCompare(b.brand));
+  }
+  filterColourPressed() {
+    // @ts-ignore
+    this.filteredItems.sort((a, b) => a.colour.localeCompare(b.colour));
+  }
+
+  filterTypePressed() {
+    const typeChosen = document.getElementById('Type') as HTMLInputElement;
+    if (this.clothingReceivedData) {
+      if (typeChosen.value == 'ALL') {
         this.filteredItems = this.clothingReceivedData;
       }
-    }
-
-    if (this.filterSortAlphabetical && this.clothingReceivedData) {
-      // @ts-ignore
-      this.filteredItems.sort((a, b) => a.name.localeCompare(b.name));
+      if (typeChosen.value == 'SHIRTS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.SHIRTS);
+      }
+      if (typeChosen.value == 'SHOES') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.SHOES);
+      }
+      if (typeChosen.value == 'DRESS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.DRESS);
+      }
+      if (typeChosen.value == 'TROUSERS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.TROUSERS);
+      }
+      if (typeChosen.value == 'HATS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.HATS);
+      }
+      if (typeChosen.value == 'ACCESSORIES') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.ACCESSORIES);
+      }
+      if (typeChosen.value == 'OTHERS') {
+        this.filteredItems = this.clothingReceivedData;
+        this.filteredItems = this.filteredItems.filter(obj => obj.type == ClothingType.OTHERS);
+      }
     }
   }
 
   fetchClothes() {
-    this.clothingItemService.query('include.owner').subscribe(clothingItems => {
+    this.clothingItemService.query().subscribe(clothingItems => {
       this.clothingReceivedData = clothingItems.body;
       if (this.clothingReceivedData) {
+        this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj.owner?.id == this.userProfile?.id);
         this.filteredItems = this.clothingReceivedData;
       }
       this.fetchOutfits();
@@ -80,124 +156,37 @@ export class WardrobeComponent implements OnInit {
   }
 
   fetchOutfits() {
-    this.outfitService.query('include.owner').subscribe(outfits => {
+    this.outfitService.query().subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
+      if (this.outfitReceivedData) {
+        this.outfitReceivedData = this.outfitReceivedData.filter(obj => obj.creator?.id == this.userProfile?.id);
+      }
     });
-
-    this.outfitReceivedData.unsubscribe();
   }
 
   onCreateItemButtonClick() {
-    const inputElementName = document.getElementById('clothingItemNameField') as HTMLInputElement;
-    this.userInputName = inputElementName.value;
-
-    const inputElementDescription = document.getElementById('clothingItemDescriptionField') as HTMLInputElement;
-    this.userInputDescription = inputElementDescription.value;
-
-    const userType = (document.getElementById('clothingItemTypeField') as HTMLInputElement).value;
-    if (userType == 'SHIRTS') {
-      this.userInputType = ClothingType.SHIRTS;
-    }
-    if (userType == 'OTHERS') {
-      this.userInputType = ClothingType.OTHERS;
-    }
-    if (userType == 'HATS') {
-      this.userInputType = ClothingType.HATS;
-    }
-    if (userType == 'DRESS') {
-      this.userInputType = ClothingType.DRESS;
-    }
-    if (userType == 'SHOES') {
-      this.userInputType = ClothingType.SHOES;
-    }
-    if (userType == 'ACCESSORIES') {
-      this.userInputType = ClothingType.ACCESSORIES;
-    }
-    if (userType == 'TROUSERS') {
-      this.userInputType = ClothingType.TROUSERS;
-    }
-
     const inputElementPhoto = document.getElementById('clothingItemPhoto') as HTMLInputElement;
 
-    if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
-      const selectedFile = inputElementPhoto.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        if (reader.result && typeof reader.result === 'string') {
-          var base64result = reader.result.split(',')[1];
-          this.userInputPhoto = base64result;
-        } else {
-          this.userInputPhoto = null;
-        }
-
-        const clothingItem: NewClothingItem = {
-          id: null,
-          name: this.userInputName,
-          description: this.userInputDescription,
-          status: Status.NOTFORSALE,
-          type: this.userInputType,
-        };
-
-        if (inputElementPhoto.files) {
-          clothingItem.imageContentType = inputElementPhoto.files[0].type;
-          clothingItem.image = this.userInputPhoto;
-        }
-
-        this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
-      };
-
-      if (selectedFile) {
-        reader.readAsDataURL(selectedFile);
-      }
-    } else {
-      const clothingItem: NewClothingItem = {
-        id: null,
-        name: this.userInputName,
-        description: this.userInputDescription,
-        status: Status.NOTFORSALE,
-        type: ClothingType.OTHERS,
-      };
-      this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
-    }
+    const clothingItem: NewClothingItem = {
+      id: null,
+      name: '',
+      status: Status.NOTFORSALE,
+      type: ClothingType.OTHERS,
+      owner: this.userProfilePick,
+    };
+    this.subscribeToSaveResponseClothing(this.clothingItemService.create(clothingItem));
   }
 
   onCreateOutfitButtonClick() {
-    const inputElementName = document.getElementById('OutfitNameField') as HTMLInputElement;
-    this.userInputName = inputElementName.value;
+    const outfit: NewOutfit = {
+      id: null,
+      name: '',
+      occasion: Occasion.BUSINESS,
+      date: dayjs(),
+      creator: this.userProfilePick,
+    };
 
-    const inputElementPhoto = document.getElementById('outfitPhoto') as HTMLInputElement;
-
-    if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
-      const selectedFile = inputElementPhoto.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        if (reader.result && typeof reader.result === 'string') {
-          var base64result = reader.result.split(',')[1];
-          this.userInputPhoto = base64result;
-        } else {
-          this.userInputPhoto = null;
-        }
-
-        const outfit: NewOutfit = {
-          id: null,
-          name: this.userInputName,
-          occasion: Occasion.BUSINESS,
-          date: dayjs(),
-        };
-        if (inputElementPhoto.files) {
-          outfit.image = this.userInputPhoto;
-          outfit.imageContentType = inputElementPhoto.files[0].type;
-        }
-
-        this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
-      };
-
-      if (selectedFile) {
-        reader.readAsDataURL(selectedFile);
-      }
-    }
+    this.subscribeToSaveResponseOutfit(this.outfitService.create(outfit));
   }
 
   onOutfitClicked(id: number) {
