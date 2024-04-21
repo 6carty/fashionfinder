@@ -1,11 +1,11 @@
 <!-- <p>analytics works!</p> -->
 <div *ngIf="account">
-  <h1>Hi, {{ account.firstName }}</h1>
-  <h5>Let's have a look at your data</h5>
+  <h1 style="text-align: center">Hi, {{ userProfile?.firstName | titlecase }}</h1>
+  <h5 style="text-align: center">Let's have a look at your data</h5>
 </div>
 <div *ngIf="!account">
-  <h1>Hi, new user!</h1>
-  <h5>You're not signed in yet</h5>
+  <h1 style="text-align: center">Hi, new user!</h1>
+  <h5 style="text-align: center">You're not signed in yet</h5>
 </div>
 <div class="display-analytics">
   <!--<div class="display-box add-padding">
