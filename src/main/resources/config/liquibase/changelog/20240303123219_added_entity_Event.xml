@@ -29,9 +29,6 @@
             <column name="outfit_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="creator_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="event" columnName="date_time" columnDataType="${datetimeType}"/>
@@ -59,7 +56,6 @@
             <column name="location" type="string"/>
             <column name="date_time" type="date"/>
             <column name="end_time" type="date"/>
-            <column name="creator_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

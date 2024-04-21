@@ -28,11 +28,11 @@ export class CommunitySideNavComponent implements OnInit {
       this.userManagementService.find(this.account.login).subscribe({
         next: currentUser => {
           if (currentUser.id != null) {
-            this.allUserProfiles = this.userProfileService.getUserProfiles();
-            this.allUserProfiles.subscribe(userProfiles => {
-              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
-              this.currentProfile = this.filteredProfile[0];
-            });
+            // this.allUserProfiles = this.userProfileService.getUserProfiles();
+            // this.allUserProfiles.subscribe(userProfiles => {
+            //   this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+            //   this.currentProfile = this.filteredProfile[0];
+            // });
           }
         },
       });
