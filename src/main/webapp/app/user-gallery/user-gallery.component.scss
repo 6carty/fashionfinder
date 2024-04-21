@@ -14,8 +14,6 @@ main .container .community-page .middle {
   flex-direction: column;
   justify-content: center;
   padding: 10px;
-  background: #595b5f;
-  border-radius: 15px;
   height: max-content;
   width: max-content;
   margin-left: 30px;
@@ -35,8 +33,6 @@ main .container .community-page .left {
 
 main .container .left .user-details {
   padding: 10px;
-  background: #595b5f;
-  border-radius: 15px;
   display: flex;
   align-items: center;
   width: 100%;
@@ -52,11 +48,9 @@ main .container .left .user-details {
 
 .my-feed {
   padding: 10px;
-  background: #595b5f;
-  border-radius: 15px;
   font-size: 0.85rem;
   line-height: 0.5;
-  margin: 5px 5px 10px;
+  margin: 5px 5px 50px;
 }
 
 .heading {
@@ -73,7 +67,8 @@ main .container .left .user-details {
   width: 20px;
   height: 20px;
 }
-
+.post-options {
+}
 .user {
   display: flex;
   gap: 1rem;
@@ -107,8 +102,8 @@ main .container .left .user-details {
   border-radius: 10px;
 }
 
-.post img {
-  border: 2px solid #ffffff;
+.post-info-text {
+  color: var(--text-color);
 }
 
 .action-buttons {
@@ -140,25 +135,25 @@ main .container .left .user-details {
 .caption p {
   color: white;
 }
-.liked-by p {
-  margin-left: 0.5rem;
-  margin-top: 1.5%;
-  color: white;
-}
 
 .caption {
   margin-top: 1%;
+  margin-left: 5px;
 }
 
-.text-muted {
-  margin-left: 5px;
-  font-size: 90%;
+.text-view-com {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: var(--text-color);
+}
+
+.comments {
+  margin-bottom: 10px;
 }
 
 .user-details {
   padding: 5px;
-  background: #595b5f;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -187,8 +182,7 @@ main .container .left .user-details {
 }
 
 .sidebar {
-  background: #595b5f;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -228,7 +222,9 @@ main .container .left .user-details {
   height: 75px;
   margin-bottom: 10px;
   border-radius: 30px;
-  background-color: #3e8acc;
+  background-color: var(--secondary-content-color);
+  box-shadow: 0 5px 25px var(--drop-shadow-color);
+  backdrop-filter: blur(20px);
   color: white;
 }
 
@@ -240,15 +236,15 @@ main .container .left .user-details {
   justify-content: center;
   width: 85%;
   height: 75px;
-  background-color: red;
+  background-color: var(--secondary-content-color);
+  box-shadow: 0 5px 25px var(--drop-shadow-color);
   color: white;
   margin-top: 10px;
   margin-bottom: 20px;
   border-radius: 30px;
+  backdrop-filter: blur(20px);
 }
 
-.gallery-btn:hover,
-.post-btn:hover {
-  background-color: lime;
-  color: black;
+.liked-by {
+  cursor: pointer;
 }

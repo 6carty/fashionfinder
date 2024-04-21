@@ -7,11 +7,9 @@
 
 .my-feed {
   padding: 10px;
-  background: #595b5f;
-  border-radius: 15px;
   font-size: 0.85rem;
   line-height: 0.5;
-  margin: 5px 5px 10px;
+  margin: 5px 5px 50px;
 }
 
 .heading {
@@ -63,8 +61,8 @@
   border-radius: 10px;
 }
 
-.post img {
-  border: 2px solid #ffffff;
+.post-info-text {
+  color: var(--text-color);
 }
 
 .action-buttons {
@@ -76,6 +74,14 @@
 .action-img {
   width: 30px;
   height: 30px;
+  cursor: pointer;
+}
+
+.liked-by {
+  cursor: pointer;
+}
+
+.text-view-com {
   cursor: pointer;
 }
 
@@ -104,9 +110,15 @@
 
 .caption {
   margin-top: 1%;
+  margin-left: 5px;
 }
 
-.text-muted {
-  margin-left: 5px;
-  font-size: 90%;
+.text-view-com {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: var(--text-color);
+}
+
+.comments {
+  margin-bottom: 10px;
 }
