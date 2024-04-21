@@ -1,4 +1,11 @@
-<h1>Diary</h1>
+<div *ngIf="account">
+  <h1 style="text-align: center">Hi, {{ userProfile?.firstName | titlecase }}</h1>
+  <h5 style="text-align: center">Let's keep a record</h5>
+</div>
+<div *ngIf="!account">
+  <h1 style="text-align: center">Hi, new user!</h1>
+  <h5 style="text-align: center">You're not signed in yet</h5>
+</div>
 <div class="display-box main-display">
   <div class="add-padding">
     <button-main
@@ -8,8 +15,8 @@
       [routerLink]="['/item-log/new']"
     >
       <fa-icon icon="plus"></fa-icon>
-      <span *ngIf="account"> Create a new entry </span>
-      <span *ngIf="!account"> Sign in to start planning </span>
+      <span class="lightText" *ngIf="account"> Create a new entry </span>
+      <span class="lightText" *ngIf="!account"> Sign in to start planning </span>
     </button-main>
     <div *ngIf="logReceivedData; else noItemLogs">
       <h6 class="text bump">You have {{ logReceivedData.length }} entries in your diary</h6>
@@ -18,10 +25,11 @@
   <div *ngIf="logReceivedData; else noItemLogs">
     <div *ngFor="let itemLog of logReceivedData; let i = index">
       <div *ngIf="itemLog.date && itemLog.outfit">
+        <hr style="border-width: 2px; color: var(--text-color)" />
         <h5 class="text">On {{ itemLog.date.format('dddd, D MMMM (YYYY)') }}, you wore {{ matchingOutfits[i].name }}</h5>
         <a [routerLink]="['/outfit', itemLog.outfit.id, 'view']">
           <img
-            class="outfit-image-3"
+            class="outfit-image-3 add-padding"
             src="data:image/{{ matchingOutfits[i].imageContentType }};charset=utf-8;base64,{{ matchingOutfits[i].image }}"
             alt="{{ matchingOutfits[i].name }}"
             *ngIf="matchingOutfits[i].image"
