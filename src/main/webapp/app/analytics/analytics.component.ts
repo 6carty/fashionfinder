@@ -122,17 +122,7 @@ export class AnalyticsComponent implements OnInit {
         this.numberOfOutfits = <number>this.outfitReceivedData.length;
         this.assessVars(this.outfitReceivedData);
         //this.fetchMatchingOutfits();
-        this.outfitReceivedData = this.outfitReceivedData.sort((one, two) => {
-          if (this.findLinkedOutfits(one.id) > this.findLinkedOutfits(two.id)) {
-            return 1;
-          }
-          if (this.findLinkedOutfits(one.id) < this.findLinkedOutfits(two.id)) {
-            return -1;
-          }
-          return 0;
-        });
-        this.outfitHead = this.outfitReceivedData.slice(0, min(this.outfitReceivedData.length + 1, 5));
-        this.outfitTail = this.outfitReceivedData.reverse().slice(0, min(this.outfitReceivedData.length + 1, 5));
+        this.headTail(this.outfitReceivedData);
       }
     });
     this.fetchItemLogs();
@@ -205,5 +195,20 @@ export class AnalyticsComponent implements OnInit {
       }
     }
     return num;
+  }
+
+  headTail(copyData: IOutfit[]) {
+    let temp: IOutfit[] = [];
+    temp = copyData.sort((one, two) => {
+      if (this.findLinkedOutfits(one.id) > this.findLinkedOutfits(two.id)) {
+        return 1;
+      }
+      if (this.findLinkedOutfits(one.id) < this.findLinkedOutfits(two.id)) {
+        return -1;
+      }
+      return 0;
+    });
+    this.outfitHead = temp.slice(0, min(temp.length + 1, 10));
+    this.outfitTail = temp.reverse().slice(0, min(temp.length + 1, 10));
   }
 }

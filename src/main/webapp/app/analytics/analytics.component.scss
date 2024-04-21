@@ -1,42 +1,23 @@
-.text-xxlarge-center {
-  margin: 14px 14px 5px;
-  //color: aliceblue;
-  color: #1a1a1a;
-  font-size: xx-large;
-  font-weight: bold;
-  text-align: center;
-}
-
-.text-xlarge {
-  margin: 14px;
-  color: #1a1a1a;
-  font-size: x-large;
-  font-weight: bold;
-}
-
-.text-med {
-  margin: 14px;
-  color: #1a1a1a;
-  font-size: medium;
-  font-weight: lighter;
-  //padding-bottom: 20px;
-}
-
-.text-med-center {
-  margin-top: 5px;
-  margin-bottom: 40px;
-  color: #1a1a1a;
-  font-size: medium;
-  font-weight: lighter;
-  text-align: center;
+.text {
+  //margin-top: 10px;
+  margin-inline: 10px;
+  text-align: left;
   //padding-bottom: 20px;
 }
 
 .display-analytics {
-  display: grid;
-  place-items: center;
+  display: inline;
+  //place-items: center;
+  justify-content: space-evenly;
   position: relative;
   min-height: 75vh;
+  margin: auto;
+
+  .add-padding {
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-inline: 10px;
+  }
 
   .sideLeft {
     //display: inline-flex;
@@ -53,55 +34,6 @@
 
   @mixin translucent-bg($color, $alpha) {
     background-color: rgba($color, $alpha);
-  }
-
-  .examplePane1 {
-    //background-color: lightsteelblue;
-    @include translucent-bg(white, 0.3);
-    border-radius: 25px;
-    min-height: 338px;
-    max-height: min-content;
-    width: 235px;
-    margin-right: 20px;
-    backdrop-filter: blur(10px);
-  }
-
-  .examplePane2 {
-    //background-color: lightsteelblue;
-    @include translucent-bg(white, 0.3);
-    border-radius: 25px;
-    min-height: 338px;
-    //min-width: 235px;
-    min-width: min-content;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(10px);
-  }
-
-  .examplePane3 {
-    //background-color: lightsteelblue;
-    @include translucent-bg(white, 0.3);
-    border-radius: 25px;
-    //min-height: 338px;
-    height: min-content;
-    min-height: 200px;
-    width: 250px;
-    margin-right: 20px;
-    backdrop-filter: blur(10px);
-  }
-
-  .exampleImg {
-    margin: 14px 54px 14px 14px;
-    background-color: aliceblue;
-    cursor: pointer;
-    &:hover {
-      background-color: lightgrey;
-    }
-    height: 200px;
-    width: 200px;
-    border: none;
-    border-radius: 25px;
-    transition: background-color 0.25s ease;
   }
 
   .exampleImg2 {
@@ -121,24 +53,30 @@
 
   .imgDisplay {
     display: inline-block;
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
     border: none;
-    border-radius: 25px;
   }
 
   .outfit-image-3 {
     //margin-right: 20px;
-    margin-right: 54px;
+    //margin-right: 10px;
+    //margin-left: 10px;
+    margin-inline: 10px;
+    margin-bottom: 10px;
     height: 200px;
-    width: 160px;
+    width: 200px;
     //width: 160px;
     border-radius: 25px;
-    background-size: cover;
+    border: none;
+    background-size: auto;
     background-position: center;
     background-color: white;
     grid-column-start: 1;
     cursor: pointer;
+  }
+
+  .scrollable-area {
+    max-width: 100%;
+    overflow-x: scroll;
+    contain: paint;
   }
 }
