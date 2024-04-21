@@ -1,42 +1,41 @@
 <h1>Diary</h1>
 <div class="display-box">
-  <div class="d-flex">
-    <button-main
-      id="jh-create-entity"
-      data-cy="entityCreateButton"
-      class="btn btn-primary jh-create-entity create-item-log"
-      [routerLink]="['/item-log/new']"
-    >
-      <fa-icon icon="plus"></fa-icon>
-      <span *ngIf="account"> Create a new entry </span>
-      <span *ngIf="!account"> Sign in to start planning </span>
-    </button-main>
-  </div>
   <div *ngIf="logReceivedData; else noItemLogs">
-    <div *ngIf="userProfile">
-      <!--<p>fetching items for user {{ userProfile.id}} </p>-->
-    </div>
-    <h4>{{ logReceivedData.length }} entries in your diary</h4>
+    <h6 class="text">You have {{ logReceivedData.length }} entries in your diary</h6>
+  </div>
+  <button-main
+    id="jh-create-entity"
+    data-cy="entityCreateButton"
+    class="btn btn-primary jh-create-entity create-item-log"
+    [routerLink]="['/item-log/new']"
+  >
+    <fa-icon icon="plus"></fa-icon>
+    <span *ngIf="account"> Create a new entry </span>
+    <span *ngIf="!account"> Sign in to start planning </span>
+  </button-main>
+  <div *ngIf="logReceivedData; else noItemLogs">
     <div *ngFor="let itemLog of logReceivedData; let i = index">
-      <div *ngIf="itemLog.date">
-        <h4>{{ itemLog.date.format('dddd D MMMM (YYYY)') }}</h4>
-      </div>
-      <div *ngIf="itemLog.outfit">
-        <h5>{{ matchingOutfits[i].name }}</h5>
-        <img
-          class="outfit-image-3"
-          src="data:image/{{ matchingOutfits[i].imageContentType }};charset=utf-8;base64,{{ matchingOutfits[i].image }}"
-          alt="{{ matchingOutfits[i].name }}"
-          *ngIf="matchingOutfits[i]"
-        />
+      <div *ngIf="itemLog.date && itemLog.outfit">
+        <h5 class="text">On {{ itemLog.date.format('dddd, D MMMM (YYYY)') }}, you wore {{ matchingOutfits[i].name }}</h5>
+        <a [routerLink]="['/outfit', itemLog.outfit.id, 'view']">
+          <img
+            class="outfit-image-3"
+            src="data:image/{{ matchingOutfits[i].imageContentType }};charset=utf-8;base64,{{ matchingOutfits[i].image }}"
+            alt="{{ matchingOutfits[i].name }}"
+            *ngIf="matchingOutfits[i].image"
+          />
+        </a>
+        <a [routerLink]="['/outfit', itemLog.outfit.id, 'view']">
+          <h6 class="text" *ngIf="!matchingOutfits[i].image">No image found!</h6>
+        </a>
       </div>
       <div *ngIf="!itemLog.outfit">
-        <h6>No outfit selected!</h6>
+        <h6 class="text">No outfit selected!</h6>
       </div>
       <p></p>
     </div>
   </div>
   <ng-template #noItemLogs>
-    <p>There are no entries in your diary.</p>
+    <p class="text">There are no entries in your diary.</p>
   </ng-template>
 </div>

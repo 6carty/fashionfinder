@@ -119,10 +119,10 @@ export class AnalyticsComponent implements OnInit {
       this.outfitReceivedData = outfits.body;
       if (this.outfitReceivedData) {
         this.outfitReceivedData = this.outfitReceivedData.filter(obj => obj.creator?.id == this.userProfile?.id);
+        this.headTail(this.outfitReceivedData);
         this.numberOfOutfits = <number>this.outfitReceivedData.length;
         this.assessVars(this.outfitReceivedData);
         //this.fetchMatchingOutfits();
-        this.headTail(this.outfitReceivedData);
       }
     });
     this.fetchItemLogs();
