@@ -307,6 +307,10 @@ public class UserService {
             });
     }
 
+    public Optional<AdminUserDTO> getUserWithAuthoritiesById(Long id) {
+        return userRepository.findById(id).map(AdminUserDTO::new);
+    }
+
     /**
      * Gets a list of all the authorities.
      * @return a list of all the authorities.

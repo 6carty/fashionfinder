@@ -116,14 +116,8 @@ entity SaleListing {
 }
 
 entity Rating {
-    rating Double required
+    ratedAt Instant required
 }
-
-entity TrendingOutfit {
-    name String required
-    description String
-}
-
 
 entity Post {
     caption String required
@@ -153,7 +147,6 @@ entity Leaderboard{
 relationship OneToOne {
     UserProfile to User
     Calendar to UserProfile
-    TrendingOutfit to Rating
 }
 
 relationship ManyToMany {
@@ -169,6 +162,10 @@ relationship ManyToOne {
     UserMilestone to MilestoneType{type}
     Message to Chatroom{chatroom(name)}
     ExchangeRequest{ClothingItem(name)} to ClothingItem
+    ExchangeRequest{creater} to UserProfile
+    ExchangeRequest{requester} to UserProfile
+    Rating{userRated} to User
+    Outfit{userCreated} to User
 }
 
 relationship OneToMany {
@@ -178,7 +175,6 @@ relationship OneToMany {
     UserProfile{ClothingItems} to ClothingItem{owner}
     UserProfile{outfits} to Outfit{creator}
     UserProfile to Message
-    UserProfile{exchangeRequests} to ExchangeRequest{requester}
     UserProfile{purchaseListings} to PurchaseListing{seller}
     UserProfile{saleListings} to SaleListing{seller}
     UserProfile{fashionTips} to FashionTip{author}

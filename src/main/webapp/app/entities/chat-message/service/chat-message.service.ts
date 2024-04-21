@@ -64,6 +64,11 @@ export class ChatMessageService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  queryByChatroomId(chatroomId: number): Observable<EntityArrayResponseType> {
+    const options = createRequestOption({ 'chatroomId.equals': chatroomId });
+    return this.http.get<IChatMessage[]>(`${this.resourceUrl}`, { params: options, observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

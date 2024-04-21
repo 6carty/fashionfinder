@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123226"
+  },
   "applications": "*",
   "changelogDate": "20240303123226",
   "dto": "no",
@@ -6,8 +9,8 @@
   "entityTableName": "rating",
   "fields": [
     {
-      "fieldName": "rating",
-      "fieldType": "Double",
+      "fieldName": "ratedAt",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     }
   ],
@@ -18,18 +21,19 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "trendingOutfit",
-      "otherEntityRelationshipName": "rating",
-      "ownerSide": false,
-      "relationshipName": "trendingOutfit",
-      "relationshipType": "one-to-one"
+      "otherEntityName": "user",
+      "relationshipName": "userRated",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "outfit",
       "otherEntityRelationshipName": "ratings",
       "relationshipName": "outfit",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

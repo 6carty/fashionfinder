@@ -1,8 +1,11 @@
+import dayjs from 'dayjs/esm';
+import { IUser } from 'app/entities/user/user.model';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 
 export interface IRating {
   id: number;
-  rating?: number | null;
+  ratedAt?: dayjs.Dayjs | null;
+  userRated?: Pick<IUser, 'id'> | null;
   outfit?: Pick<IOutfit, 'id'> | null;
 }
 

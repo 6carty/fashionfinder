@@ -43,7 +43,6 @@ export class NavbarComponent implements OnInit {
       this.account = account;
     });
   }
-
   collapseNavbar(): void {
     this.isNavbarCollapsed = true;
   }
@@ -78,5 +77,9 @@ export class NavbarComponent implements OnInit {
 
   analytics(): void {
     this.router.navigate(['/analytics']);
+  }
+
+  diary(): void {
+    this.router.navigate(['/diary']);
   }
 }

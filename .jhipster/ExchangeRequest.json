@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123223"
+  },
   "applications": "*",
   "changelogDate": "20240303123223",
   "dto": "no",
@@ -26,14 +29,22 @@
       "otherEntityField": "name",
       "otherEntityName": "clothingItem",
       "relationshipName": "clothingItem",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
-      "otherEntityRelationshipName": "exchangeRequests",
+      "relationshipName": "creater",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "userProfile",
       "relationshipName": "requester",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

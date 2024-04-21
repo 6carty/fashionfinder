@@ -75,6 +75,23 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_creater">Creater</label>
+          <select
+            class="form-control"
+            id="field_creater"
+            data-cy="creater"
+            name="creater"
+            formControlName="creater"
+            [compareWith]="compareUserProfile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection">
+              {{ userProfileOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_requester">Requester</label>
           <select
             class="form-control"

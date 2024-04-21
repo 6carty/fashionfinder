@@ -31,12 +31,6 @@ public class FashionTip implements Serializable {
     @Column(name = "description_1")
     private String description1;
 
-    @Column(name = "title_2")
-    private String title2;
-
-    @Column(name = "description_2")
-    private String description2;
-
     @ManyToOne
     @JsonIgnoreProperties(
         value = {
@@ -47,11 +41,11 @@ public class FashionTip implements Serializable {
             "clothingItems",
             "outfits",
             "messages",
-            "exchangeRequests",
             "purchaseListings",
             "saleListings",
             "fashionTips",
             "userMilestones",
+            "events",
             "chatrooms",
             "calendar",
         },
@@ -100,32 +94,6 @@ public class FashionTip implements Serializable {
         this.description1 = description1;
     }
 
-    public String getTitle2() {
-        return this.title2;
-    }
-
-    public FashionTip title2(String title2) {
-        this.setTitle2(title2);
-        return this;
-    }
-
-    public void setTitle2(String title2) {
-        this.title2 = title2;
-    }
-
-    public String getDescription2() {
-        return this.description2;
-    }
-
-    public FashionTip description2(String description2) {
-        this.setDescription2(description2);
-        return this;
-    }
-
-    public void setDescription2(String description2) {
-        this.description2 = description2;
-    }
-
     public UserProfile getAuthor() {
         return this.author;
     }
@@ -165,8 +133,6 @@ public class FashionTip implements Serializable {
             "id=" + getId() +
             ", title1='" + getTitle1() + "'" +
             ", description1='" + getDescription1() + "'" +
-            ", title2='" + getTitle2() + "'" +
-            ", description2='" + getDescription2() + "'" +
             "}";
     }
 }

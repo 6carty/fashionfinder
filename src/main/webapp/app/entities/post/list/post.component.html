@@ -82,7 +82,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let post of posts; trackBy: trackId" data-cy="entityTable">
-          <!--        [hidden]="post.author?.id !== 1101"-->
           <td>
             <a [routerLink]="['/post', post.id, 'view']">{{ post.id }}</a>
           </td>

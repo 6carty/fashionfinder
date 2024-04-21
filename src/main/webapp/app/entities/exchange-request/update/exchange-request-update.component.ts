@@ -123,6 +123,7 @@ export class ExchangeRequestUpdateComponent implements OnInit {
     );
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
       this.userProfilesSharedCollection,
+      exchangeRequest.creater,
       exchangeRequest.requester
     );
   }
@@ -143,7 +144,11 @@ export class ExchangeRequestUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IUserProfile[]>) => res.body ?? []))
       .pipe(
         map((userProfiles: IUserProfile[]) =>
-          this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(userProfiles, this.exchangeRequest?.requester)
+          this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(
+            userProfiles,
+            this.exchangeRequest?.creater,
+            this.exchangeRequest?.requester
+          )
         )
       )
       .subscribe((userProfiles: IUserProfile[]) => (this.userProfilesSharedCollection = userProfiles));

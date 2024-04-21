@@ -4,10 +4,11 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IRating } from '../rating.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../rating.test-samples';
 
-import { RatingService } from './rating.service';
+import { RatingService, RestRating } from './rating.service';
 
-const requireRestSample: IRating = {
+const requireRestSample: RestRating = {
   ...sampleWithRequiredData,
+  ratedAt: sampleWithRequiredData.ratedAt?.toJSON(),
 };
 
 describe('Rating Service', () => {

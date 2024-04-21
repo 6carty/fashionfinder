@@ -23,6 +23,7 @@ describe('ExchangeRequest Form Service', () => {
             image: expect.any(Object),
             description: expect.any(Object),
             clothingItem: expect.any(Object),
+            creater: expect.any(Object),
             requester: expect.any(Object),
           })
         );
@@ -37,6 +38,7 @@ describe('ExchangeRequest Form Service', () => {
             image: expect.any(Object),
             description: expect.any(Object),
             clothingItem: expect.any(Object),
+            creater: expect.any(Object),
             requester: expect.any(Object),
           })
         );

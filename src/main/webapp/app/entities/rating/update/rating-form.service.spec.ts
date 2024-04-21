@@ -20,7 +20,8 @@ describe('Rating Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            rating: expect.any(Object),
+            ratedAt: expect.any(Object),
+            userRated: expect.any(Object),
             outfit: expect.any(Object),
           })
         );
@@ -32,7 +33,8 @@ describe('Rating Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            rating: expect.any(Object),
+            ratedAt: expect.any(Object),
+            userRated: expect.any(Object),
             outfit: expect.any(Object),
           })
         );

@@ -1,68 +1,9 @@
+@import '../../content/scss/global';
+
 .display-wardrobe {
   display: flex;
   position: relative;
   min-height: 75vh;
-}
-
-.dropdown-new-item {
-  transition: all 0.4s ease;
-  position: relative;
-  display: inline-block;
-  background-color: #bbcedd;
-  color: black;
-  padding: 5px 10px;
-  border-radius: 1.75vh;
-  width: 17.5vw;
-  height: 5vh;
-  top: 5px;
-}
-
-.dropdown-new-item-content {
-  transition: all 0.4s ease;
-  overflow: hidden;
-  position: absolute;
-  height: 0vh;
-  border-radius: 0vh;
-  top: 5.1vh;
-  left: -5px;
-  background-color: rgba(87, 87, 87, 0.5);
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding-top: 0px;
-  padding-left: 1.25vh;
-  padding-right: 1.25vh;
-  backdrop-filter: blur(10px);
-}
-
-.dropdown-new-item:hover .dropdown-new-item-content {
-  transition: height 0.4s ease;
-  border-radius: 1.25vh;
-  padding: 1.25vh;
-  height: 595px;
-}
-
-.dropdown-new-item-content-outfit {
-  transition: all 0.4s ease;
-  overflow: hidden;
-  position: absolute;
-  height: 0vh;
-  border-radius: 0vh;
-  top: 5.1vh;
-  left: -5px;
-  background-color: rgba(87, 87, 87, 0.5);
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding-top: 0px;
-  padding-left: 1.25vh;
-  padding-right: 1.25vh;
-  backdrop-filter: blur(10px);
-}
-
-.dropdown-new-item:hover .dropdown-new-item-content-outfit {
-  transition: height 0.4s ease;
-  border-radius: 1.25vh;
-  padding: 1.25vh;
-  height: auto;
 }
 
 .grid-container-large {
@@ -76,59 +17,44 @@
   left: 5vw;
   top: 5vh;
   padding-left: 5vw;
-  background-color: rgba(87, 87, 87, 0.5);
-  border-radius: 3.5vh;
   height: 70vh;
   width: 40vw;
   transition-duration: 0.4s;
 }
 
-.outfit-box {
-  margin: 5px;
-
-  label {
-    display: block;
-    padding: 5px 10px;
-    height: 15vh;
-    width: 15vh;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  input[type='checkbox'] {
-    display: none;
-
-    &:checked + label {
-      background-color: #ccc;
-    }
-  }
+.offset {
+  position: relative;
+  padding: 1.25vh;
 }
 
-.clothing-item-box {
-  margin: 5px;
+.outfit-box {
+  position: relative;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
 
-  label {
-    display: block;
-    padding: 5px 10px;
-    height: 15vh;
-    width: 15vh;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    cursor: pointer;
-    user-select: none;
-  }
+  height: 7.5vw;
+  width: 7.5vw;
+  transition-duration: 0.4s;
+  margin: 1.25vh;
+  contain: paint;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  input[type='checkbox'] {
-    display: none;
+.clothing-box {
+  position: relative;
+  background-color: rgba(87, 87, 87, 0.5);
+  border-radius: 3.5vh;
+  height: 7.5vw;
+  width: 7.5vw;
+  transition-duration: 0.4s;
 
-    &:checked + label {
-      background-color: #ccc;
-    }
-  }
+  margin: 1.25vh;
+  contain: paint;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .rectangle-filter {
@@ -136,8 +62,6 @@
   position: relative;
   left: 5vw;
   top: 5vh;
-  background-color: rgba(87, 87, 87, 0.5);
-  border-radius: 3.5vh;
   height: 70vh;
   width: 20vw;
   transition-duration: 0.4s;
@@ -149,11 +73,27 @@
   top: 1.75vh;
 }
 
+.scrollable-area {
+  max-height: 60vh;
+  overflow-y: scroll;
+  contain: paint;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.image-item {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .apply-filter-button {
-  background-color: #bbcedd;
-  color: black;
   padding: 5px 10px;
-  border-radius: 1.75vh;
+
   width: 17.5vw;
   height: 5vh;
   top: 5px;
@@ -176,4 +116,19 @@
 .grid-container {
   display: inline-grid;
   grid-column-gap: 5vh;
+}
+
+.grid-container-2 {
+  display: inline-grid;
+  grid-column-gap: 20px;
+  grid-template-areas: 'left right';
+  padding-bottom: 20px;
+}
+
+.filter-tick {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  border-color: #26282a;
+  color: #cccccc;
 }

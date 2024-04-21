@@ -75,11 +75,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./rating/rating.module').then(m => m.RatingModule),
       },
       {
-        path: 'trending-outfit',
-        data: { pageTitle: 'TrendingOutfits' },
-        loadChildren: () => import('./trending-outfit/trending-outfit.module').then(m => m.TrendingOutfitModule),
-      },
-      {
         path: 'post',
         data: { pageTitle: 'Posts' },
         loadChildren: () => import('./post/post.module').then(m => m.PostModule),
@@ -100,24 +95,14 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./leaderboard/leaderboard.module').then(m => m.LeaderboardModule),
       },
       {
-        path: 'weather',
-        data: { pageTitle: 'Weathers' },
-        loadChildren: () => import('./weather/weather.module').then(m => m.WeatherModule),
-      },
-      {
-        path: 'clothing-pic',
-        data: { pageTitle: 'ClothingPics' },
-        loadChildren: () => import('./clothing-pic/clothing-pic.module').then(m => m.ClothingPicModule),
-      },
-      {
-        path: 'outfit-pic',
-        data: { pageTitle: 'OutfitPics' },
-        loadChildren: () => import('./outfit-pic/outfit-pic.module').then(m => m.OutfitPicModule),
-      },
-      {
         path: 'chat-message',
         data: { pageTitle: 'ChatMessages' },
         loadChildren: () => import('./chat-message/chat-message.module').then(m => m.ChatMessageModule),
+      },
+      {
+        path: 'item-log',
+        data: { pageTitle: 'ItemLogs' },
+        loadChildren: () => import('./item-log/item-log.module').then(m => m.ItemLogModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

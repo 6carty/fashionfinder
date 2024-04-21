@@ -14,9 +14,13 @@
         <dd>
           <span>{{ rating.id }}</span>
         </dd>
-        <dt><span>Rating</span></dt>
+        <dt><span>Rated At</span></dt>
         <dd>
-          <span>{{ rating.rating }}</span>
+          <span>{{ rating.ratedAt | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>User Rated</span></dt>
+        <dd>
+          <span>{{ rating.userRated?.id }}</span>
         </dd>
         <dt><span>Outfit</span></dt>
         <dd>

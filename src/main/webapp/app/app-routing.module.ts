@@ -16,6 +16,10 @@ import { WardrobeComponent } from './wardrobe/wardrobe.component';
 import { SustainabilityComponent } from './sustainability/sustainability.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
+import { UserGalleryComponent } from './user-gallery/user-gallery.component';
+import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
+import { DiaryComponent } from './diary/diary.component';
 
 @NgModule({
   imports: [
@@ -76,6 +80,22 @@ import { PreferencesComponent } from './preferences/preferences.component';
         {
           path: 'preferences',
           component: PreferencesComponent,
+        },
+        {
+          path: 'outfit-edit',
+          component: OutfitEditComponent,
+        },
+        {
+          path: 'user-gallery',
+          component: UserGalleryComponent,
+        },
+        {
+          path: 'clothing-item-edit',
+          component: ClothingItemEditComponent,
+        },
+        {
+          path: 'diary',
+          component: DiaryComponent,
         },
         navbarRoute,
         ...errorRoute,

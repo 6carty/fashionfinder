@@ -1,0 +1,72 @@
+<div class="layout-grid">
+  <div class="display-box detail-box">
+    <div class="text-center"><span>NAME:</span></div>
+    <textarea type="text" class="text-center" id="Name" rows="2">{{ this.clothingItemToEdit?.name }}</textarea>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>DESCRIPTION:</span></div>
+    <textarea type="text" class="text-center" id="Description" rows="5">{{ this.clothingItemToEdit?.description }}</textarea>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>SIZE:</span></div>
+    <textarea type="text" class="text-center" id="ClothingSize" rows="1">{{ clothingItemToEdit?.clothingSize }}</textarea>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>COLOUR:</span></div>
+    <textarea type="text" class="text-center" id="Colour" rows="1">{{ clothingItemToEdit?.colour }}</textarea>
+  </div>
+
+  <div class="save-delete-grid">
+    <div class="save-button" (click)="saveButtonPressed()">
+      <div class="text-center">SAVE</div>
+    </div>
+
+    <div class="delete-button" (click)="deleteButtonPressed()">
+      <div class="text-center">DELETE</div>
+    </div>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>TYPE:</span></div>
+    <div class="text-center">
+      <select value="{{ clothingItemToEdit?.type }}" id="Type">
+        <option>SHIRTS</option>
+        <option>SHOES</option>
+        <option>DRESS</option>
+        <option>TROUSERS</option>
+        <option>HATS</option>
+        <option>ACCESSORIES</option>
+        <option>OTHERS</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>BRAND:</span></div>
+    <textarea type="text" class="text-center" id="Brand" rows="1">{{ clothingItemToEdit?.brand }}</textarea>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>MATERIAL:</span></div>
+    <textarea type="text" class="text-center" id="Material" rows="1">{{ clothingItemToEdit?.material }}</textarea>
+  </div>
+
+  <div class="display-box detail-box">
+    <div class="text-center"><span>LAST WORN:</span></div>
+    <div class="text-center">{{ clothingItemToEdit?.lastWorn }}</div>
+  </div>
+  <div>
+    <div class="display-box image-box">
+      <span>
+        <img
+          src="data:image/{{ clothingItemToEdit?.imageContentType }};charset=utf-8;base64,{{ clothingItemToEdit?.image }}"
+          alt="your outfit"
+        />
+        <input type="file" id="Photo" accept="image/*" />
+      </span>
+    </div>
+  </div>
+</div>

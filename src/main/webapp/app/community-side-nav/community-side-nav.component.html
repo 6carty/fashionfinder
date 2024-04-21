@@ -1,18 +1,23 @@
 <!-- sidebar.component.html -->
-<div class="user-details">
-  <div *ngIf="account">
-    <!-- Profile Picture -->
-    <div class="profile-picture">
-      <img src="{{ userProfile?.profilePicture }}" alt="Profile Picture" class="circle-image" />
-    </div>
-    <!-- Display Name -->
-    <div class="display-name">
-      <h6>{{ userProfile?.firstName }} {{ userProfile?.lastName }}</h6>
-      <p class="text-muted">@{{ userProfile?.user }}</p>
-    </div>
-  </div>
-
+<div *ngIf="account">
+  <!-- Profile Picture -->
   <div class="sidebar">
+    <div class="user-details">
+      <div class="profile-picture">
+        <img
+          [src]="'data:' + currentProfile?.profilePictureContentType + ';base64,' + currentProfile?.profilePicture"
+          alt="Profile Picture"
+          class="circle-image"
+        />
+      </div>
+
+      <!-- Display Name -->
+      <div class="display-name">
+        <h6>{{ currentProfile?.firstName }} {{ currentProfile?.lastName }}</h6>
+        <p class="text-muted">@{{ account.login }}</p>
+      </div>
+    </div>
+
     <div class="stats">
       <a class="rank" style="text-decoration: none">
         <span class="stat-heading">
@@ -26,27 +31,17 @@
         <span class="stat-heading"
           ><h5><b>Total Likes</b></h5></span
         >
-        <span class="stat-value"><h4>11.4k</h4></span>
-      </a>
-      <a class="followers" style="text-decoration: none">
-        <span class="stat-heading"
-          ><h5><b>Followers</b></h5></span
+        <span class="stat-value"
+          ><h4>{{ totalLikes }}</h4></span
         >
-        <span class="stat-value"><h4>465</h4></span>
-      </a>
-      <a class="following" style="text-decoration: none">
-        <span class="stat-heading"
-          ><h5><b>Following</b></h5></span
-        >
-        <span class="stat-value"><h4>238</h4></span>
       </a>
     </div>
-
     <!-- Button for Uploads -->
     <button class="post-btn" [routerLink]="['/post/new']">
+      <!--     (click)="onCreatePostButtonClick()-->
       <b>Create Post</b>
     </button>
     <!-- Button for Gallery -->
-    <button class="gallery-btn"><b>Gallery</b></button>
+    <button class="gallery-btn" routerLink="/user-gallery"><b>Gallery</b></button>
   </div>
 </div>

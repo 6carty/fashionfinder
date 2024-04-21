@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { IPost } from '../post.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, PostService } from '../service/post.service';
@@ -20,7 +19,6 @@ export class PostComponent implements OnInit {
 
   predicate = 'id';
   ascending = true;
-
   constructor(
     protected postService: PostService,
     protected activatedRoute: ActivatedRoute,

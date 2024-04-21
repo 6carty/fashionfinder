@@ -1,0 +1,82 @@
+.layout-grid {
+  position: relative;
+  display: inline-grid;
+  grid-column-gap: 2.5vw;
+  grid-row-gap: 2.5vw;
+  grid-template-areas: 'left middle-left middle middle-right right';
+}
+
+.save-delete-grid {
+  position: relative;
+  display: inline-grid;
+  grid-column-gap: 1vw;
+  grid-row-gap: 2.5vw;
+  grid-template-areas: 'left right';
+}
+
+.detail-box {
+  position: relative;
+
+  height: 20vh;
+  width: 15vw;
+  transition-duration: 0.4s;
+}
+
+img {
+  display: flex;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.text-center {
+  display: flex;
+  width: auto;
+  height: auto;
+  top: auto;
+  bottom: auto;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+textarea {
+  display: flex;
+  width: auto;
+  height: auto;
+  top: auto;
+  bottom: auto;
+  border: 2px solid #cccccc;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-box {
+  position: relative;
+
+  height: 20vw;
+  width: 20vw;
+  transition-duration: 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  contain: paint;
+}
+
+.save-button {
+  position: relative;
+  background-color: var(--save-button-color);
+  border-radius: 3.5vh;
+  width: 9.5vw;
+  height: 20vh;
+  transition-duration: 0.4s;
+}
+
+.delete-button {
+  position: relative;
+  background-color: var(--delete-button-color);
+  border-radius: 3.5vh;
+  width: 9.5vw;
+  height: 20vh;
+  transition-duration: 0.4s;
+}

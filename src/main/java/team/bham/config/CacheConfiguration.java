@@ -98,6 +98,7 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.Outfit.class.getName() + ".ratings");
             createCache(cm, team.bham.domain.Chatroom.class.getName() + ".chatMessages");
             createCache(cm, team.bham.domain.ChatMessage.class.getName());
+            createCache(cm, team.bham.domain.ItemLog.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

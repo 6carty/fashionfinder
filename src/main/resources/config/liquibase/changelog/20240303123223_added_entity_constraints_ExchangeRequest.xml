@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="clothing_item"/>
 
+        <addForeignKeyConstraint baseColumnNames="creater_id"
+                                 baseTableName="exchange_request"
+                                 constraintName="fk_exchange_request__creater_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
+
         <addForeignKeyConstraint baseColumnNames="requester_id"
                                  baseTableName="exchange_request"
                                  constraintName="fk_exchange_request__requester_id"

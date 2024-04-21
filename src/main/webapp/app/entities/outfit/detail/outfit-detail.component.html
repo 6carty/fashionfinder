@@ -10,10 +10,10 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ outfit.id }}</span>
-        </dd>
+        <!--        <dt><span>ID</span></dt>-->
+        <!--        <dd>-->
+        <!--          <span>{{ outfit.id }}</span>-->
+        <!--        </dd>-->
         <dt><span>Name</span></dt>
         <dd>
           <span>{{ outfit.name }}</span>
@@ -38,6 +38,10 @@
             </a>
             {{ outfit.imageContentType }}, {{ byteSize(outfit.image) }}
           </div>
+        </dd>
+        <dt><span>User Created</span></dt>
+        <dd>
+          <span>{{ outfit.userCreated?.id }}</span>
         </dd>
         <dt><span>Creator</span></dt>
         <dd>

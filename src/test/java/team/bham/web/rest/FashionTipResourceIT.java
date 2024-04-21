@@ -35,12 +35,6 @@ class FashionTipResourceIT {
     private static final String DEFAULT_DESCRIPTION_1 = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION_1 = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TITLE_2 = "AAAAAAAAAA";
-    private static final String UPDATED_TITLE_2 = "BBBBBBBBBB";
-
-    private static final String DEFAULT_DESCRIPTION_2 = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION_2 = "BBBBBBBBBB";
-
     private static final String ENTITY_API_URL = "/api/fashion-tips";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -65,11 +59,7 @@ class FashionTipResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FashionTip createEntity(EntityManager em) {
-        FashionTip fashionTip = new FashionTip()
-            .title1(DEFAULT_TITLE_1)
-            .description1(DEFAULT_DESCRIPTION_1)
-            .title2(DEFAULT_TITLE_2)
-            .description2(DEFAULT_DESCRIPTION_2);
+        FashionTip fashionTip = new FashionTip().title1(DEFAULT_TITLE_1).description1(DEFAULT_DESCRIPTION_1);
         return fashionTip;
     }
 
@@ -80,11 +70,7 @@ class FashionTipResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static FashionTip createUpdatedEntity(EntityManager em) {
-        FashionTip fashionTip = new FashionTip()
-            .title1(UPDATED_TITLE_1)
-            .description1(UPDATED_DESCRIPTION_1)
-            .title2(UPDATED_TITLE_2)
-            .description2(UPDATED_DESCRIPTION_2);
+        FashionTip fashionTip = new FashionTip().title1(UPDATED_TITLE_1).description1(UPDATED_DESCRIPTION_1);
         return fashionTip;
     }
 
@@ -108,8 +94,6 @@ class FashionTipResourceIT {
         FashionTip testFashionTip = fashionTipList.get(fashionTipList.size() - 1);
         assertThat(testFashionTip.getTitle1()).isEqualTo(DEFAULT_TITLE_1);
         assertThat(testFashionTip.getDescription1()).isEqualTo(DEFAULT_DESCRIPTION_1);
-        assertThat(testFashionTip.getTitle2()).isEqualTo(DEFAULT_TITLE_2);
-        assertThat(testFashionTip.getDescription2()).isEqualTo(DEFAULT_DESCRIPTION_2);
     }
 
     @Test
@@ -160,9 +144,7 @@ class FashionTipResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fashionTip.getId().intValue())))
             .andExpect(jsonPath("$.[*].title1").value(hasItem(DEFAULT_TITLE_1)))
-            .andExpect(jsonPath("$.[*].description1").value(hasItem(DEFAULT_DESCRIPTION_1)))
-            .andExpect(jsonPath("$.[*].title2").value(hasItem(DEFAULT_TITLE_2)))
-            .andExpect(jsonPath("$.[*].description2").value(hasItem(DEFAULT_DESCRIPTION_2)));
+            .andExpect(jsonPath("$.[*].description1").value(hasItem(DEFAULT_DESCRIPTION_1)));
     }
 
     @Test
@@ -178,9 +160,7 @@ class FashionTipResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(fashionTip.getId().intValue()))
             .andExpect(jsonPath("$.title1").value(DEFAULT_TITLE_1))
-            .andExpect(jsonPath("$.description1").value(DEFAULT_DESCRIPTION_1))
-            .andExpect(jsonPath("$.title2").value(DEFAULT_TITLE_2))
-            .andExpect(jsonPath("$.description2").value(DEFAULT_DESCRIPTION_2));
+            .andExpect(jsonPath("$.description1").value(DEFAULT_DESCRIPTION_1));
     }
 
     @Test
@@ -202,11 +182,7 @@ class FashionTipResourceIT {
         FashionTip updatedFashionTip = fashionTipRepository.findById(fashionTip.getId()).get();
         // Disconnect from session so that the updates on updatedFashionTip are not directly saved in db
         em.detach(updatedFashionTip);
-        updatedFashionTip
-            .title1(UPDATED_TITLE_1)
-            .description1(UPDATED_DESCRIPTION_1)
-            .title2(UPDATED_TITLE_2)
-            .description2(UPDATED_DESCRIPTION_2);
+        updatedFashionTip.title1(UPDATED_TITLE_1).description1(UPDATED_DESCRIPTION_1);
 
         restFashionTipMockMvc
             .perform(
@@ -222,8 +198,6 @@ class FashionTipResourceIT {
         FashionTip testFashionTip = fashionTipList.get(fashionTipList.size() - 1);
         assertThat(testFashionTip.getTitle1()).isEqualTo(UPDATED_TITLE_1);
         assertThat(testFashionTip.getDescription1()).isEqualTo(UPDATED_DESCRIPTION_1);
-        assertThat(testFashionTip.getTitle2()).isEqualTo(UPDATED_TITLE_2);
-        assertThat(testFashionTip.getDescription2()).isEqualTo(UPDATED_DESCRIPTION_2);
     }
 
     @Test
@@ -294,11 +268,7 @@ class FashionTipResourceIT {
         FashionTip partialUpdatedFashionTip = new FashionTip();
         partialUpdatedFashionTip.setId(fashionTip.getId());
 
-        partialUpdatedFashionTip
-            .title1(UPDATED_TITLE_1)
-            .description1(UPDATED_DESCRIPTION_1)
-            .title2(UPDATED_TITLE_2)
-            .description2(UPDATED_DESCRIPTION_2);
+        partialUpdatedFashionTip.title1(UPDATED_TITLE_1).description1(UPDATED_DESCRIPTION_1);
 
         restFashionTipMockMvc
             .perform(
@@ -314,8 +284,6 @@ class FashionTipResourceIT {
         FashionTip testFashionTip = fashionTipList.get(fashionTipList.size() - 1);
         assertThat(testFashionTip.getTitle1()).isEqualTo(UPDATED_TITLE_1);
         assertThat(testFashionTip.getDescription1()).isEqualTo(UPDATED_DESCRIPTION_1);
-        assertThat(testFashionTip.getTitle2()).isEqualTo(UPDATED_TITLE_2);
-        assertThat(testFashionTip.getDescription2()).isEqualTo(UPDATED_DESCRIPTION_2);
     }
 
     @Test
@@ -330,11 +298,7 @@ class FashionTipResourceIT {
         FashionTip partialUpdatedFashionTip = new FashionTip();
         partialUpdatedFashionTip.setId(fashionTip.getId());
 
-        partialUpdatedFashionTip
-            .title1(UPDATED_TITLE_1)
-            .description1(UPDATED_DESCRIPTION_1)
-            .title2(UPDATED_TITLE_2)
-            .description2(UPDATED_DESCRIPTION_2);
+        partialUpdatedFashionTip.title1(UPDATED_TITLE_1).description1(UPDATED_DESCRIPTION_1);
 
         restFashionTipMockMvc
             .perform(
@@ -350,8 +314,6 @@ class FashionTipResourceIT {
         FashionTip testFashionTip = fashionTipList.get(fashionTipList.size() - 1);
         assertThat(testFashionTip.getTitle1()).isEqualTo(UPDATED_TITLE_1);
         assertThat(testFashionTip.getDescription1()).isEqualTo(UPDATED_DESCRIPTION_1);
-        assertThat(testFashionTip.getTitle2()).isEqualTo(UPDATED_TITLE_2);
-        assertThat(testFashionTip.getDescription2()).isEqualTo(UPDATED_DESCRIPTION_2);
     }
 
     @Test

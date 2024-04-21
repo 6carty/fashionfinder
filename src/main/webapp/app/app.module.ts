@@ -37,6 +37,11 @@ import { CommunitySideNavComponent } from './community-side-nav/community-side-n
 import { CommunityFeedComponent } from './community-feed/community-feed.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { YoutubeComponent } from './sustainability/YouTubeApi/youtube.component';
+import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
+import { UserGalleryComponent } from './user-gallery/user-gallery.component';
+import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
+import { DiaryComponent } from './diary/diary.component';
 
 @NgModule({
   imports: [
@@ -76,6 +81,11 @@ import { PreferencesComponent } from './preferences/preferences.component';
     CommunityFeedComponent,
     AnalyticsComponent,
     PreferencesComponent,
+    YoutubeComponent,
+    OutfitEditComponent,
+    UserGalleryComponent,
+    ClothingItemEditComponent,
+    DiaryComponent,
   ],
   bootstrap: [MainComponent],
 })

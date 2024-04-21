@@ -2,8 +2,8 @@
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">FashionFinder</span>
-      <span class="navbar-version">{{ version }}</span>
+      <span>FashionFinder</span>
+      <span>{{ version }}</span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -19,6 +19,13 @@
     </a>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item" routerLinkActive="active-l" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/diary" (click)="diary()">
+            <span>
+              <span>Diary</span>
+            </span>
+          </a>
+        </li>
         <li class="nav-item" routerLinkActive="active-l" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/wardrobe" (click)="wardrobe()">
             <span>
@@ -255,18 +262,6 @@
             <li>
               <a
                 class="dropdown-item"
-                routerLink="trending-outfit"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Trending Outfit</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
                 routerLink="post"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -315,42 +310,6 @@
             <li>
               <a
                 class="dropdown-item"
-                routerLink="weather"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Weather</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="clothing-pic"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Clothing Pic</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="outfit-pic"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Outfit Pic</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
                 routerLink="chat-message"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -358,6 +317,18 @@
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Chat Message</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="item-log"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Item Log</span>
               </a>
             </li>
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
@@ -381,44 +352,44 @@
             <li>
               <a class="dropdown-item" routerLink="admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
-                <span>User management</span>
+                <span class="black">User management</span>
               </a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
-                <span>Metrics</span>
+                <span class="black">Metrics</span>
               </a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
-                <span>Health</span>
+                <span class="black">Health</span>
               </a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
-                <span>Configuration</span>
+                <span class="black">Configuration</span>
               </a>
             </li>
             <li>
               <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
-                <span>Logs</span>
+                <span class="black">Logs</span>
               </a>
             </li>
             <li *ngIf="openAPIEnabled">
               <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
                 <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
-                <span>API</span>
+                <span class="black">API</span>
               </a>
             </li>
             <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
             <li *ngIf="!inProduction">
               <a class="dropdown-item" href="./h2-console/" target="_tab" (click)="collapseNavbar()">
                 <fa-icon icon="database" [fixedWidth]="true"></fa-icon>
-                <span>Database</span>
+                <span class="black">Database</span>
               </a>
             </li>
           </ul>
@@ -444,15 +415,21 @@
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" routerLink="user-profile" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <a
+                class="dropdown-item"
+                routerLink="account/settings"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
                 <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
-                <span>Settings</span>
+                <span class="black">Settings</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
               <a class="dropdown-item" routerLink="/preferences" routerLinkActive="active" (click)="collapseNavbar()" data-cy="preferences">
                 <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
-                <span>Preferences</span>
+                <span class="black">Preferences</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
@@ -464,13 +441,13 @@
                 data-cy="passwordItem"
               >
                 <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
-                <span>Password</span>
+                <span class="black">Password</span>
               </a>
             </li>
             <li *ngSwitchCase="true">
               <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
                 <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
-                <span>Sign out</span>
+                <span class="black">Sign out</span>
               </a>
             </li>
             <li *ngSwitchCase="false">

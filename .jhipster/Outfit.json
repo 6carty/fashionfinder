@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123214"
+  },
   "applications": "*",
   "changelogDate": "20240303123214",
   "dto": "no",
@@ -40,12 +43,20 @@
       "otherEntityName": "rating",
       "otherEntityRelationshipName": "outfit",
       "relationshipName": "ratings",
+      "relationshipSide": "left",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "userCreated",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "outfits",
       "relationshipName": "creator",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     },
     {
@@ -53,8 +64,10 @@
       "otherEntityRelationshipName": "outfit",
       "ownerSide": false,
       "relationshipName": "clothingItem",
+      "relationshipSide": "right",
       "relationshipType": "many-to-many"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

@@ -1,4 +1,7 @@
 {
+  "annotations": {
+    "changelogDate": "20240303123217"
+  },
   "applications": "*",
   "changelogDate": "20240303123217",
   "dto": "no",
@@ -30,14 +33,17 @@
       "otherEntityName": "milestoneType",
       "otherEntityRelationshipName": "type",
       "relationshipName": "milestoneType",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "userProfile",
       "otherEntityRelationshipName": "userMilestone",
       "relationshipName": "userProfile",
+      "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "no"
 }

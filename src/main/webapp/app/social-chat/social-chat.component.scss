@@ -1,3 +1,5 @@
+@import '../../content/scss/global';
+
 .chat-container {
   display: flex;
   height: 75vh;
@@ -168,7 +170,7 @@
           position: relative;
 
           &.sent {
-            background-color: #d1ffd7; // light green for sent messages
+            background-color: #d1ffd7 !important; // light green for sent messages
             display: flex;
             margin-left: auto;
             .message-time {
@@ -181,7 +183,7 @@
           }
 
           &.received {
-            background-color: #ffffff; // white for received messages
+            background-color: #ffffff !important; // white for received messages
             align-self: flex-start;
             .message-time {
               position: absolute;
@@ -213,6 +215,8 @@
         border: none;
         background: transparent;
         margin-right: 10px;
+        margin-left: 10px;
+
         color: #000000; // White text color
 
         &::placeholder {
@@ -238,68 +242,6 @@
   }
 }
 
-.dropdown-new-item {
-  transition: all 0.4s ease;
-  position: relative;
-  display: inline-block;
-  background-color: #bbcedd;
-  color: black;
-  padding: 5px 10px;
-  border-radius: 1.75vh;
-  width: 17.5vw;
-  height: 5vh;
-  top: 5px;
-}
-
-.dropdown-new-item-content {
-  transition: all 0.4s ease;
-  overflow: hidden;
-  position: absolute;
-  height: 0vh;
-  border-radius: 0vh;
-  top: 5.1vh;
-  left: -5px;
-  color: white;
-  background-color: rgba(87, 87, 87, 0.5);
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding-top: 0px;
-  padding-left: 1.25vh;
-  padding-right: 1.25vh;
-  backdrop-filter: blur(10px);
-}
-
-.dropdown-new-item:hover .dropdown-new-item-content {
-  transition: height 0.4s ease;
-  border-radius: 1.25vh;
-  padding: 1.25vh;
-  height: 60vh;
-}
-
-.dropdown-new-item-content-outfit {
-  transition: all 0.4s ease;
-  overflow: hidden;
-  position: absolute;
-  height: 0vh;
-  border-radius: 0vh;
-  top: 5.1vh;
-  left: -5px;
-  background-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  padding-top: 0px;
-  padding-left: 1.25vh;
-  padding-right: 1.25vh;
-  backdrop-filter: blur(10px);
-}
-
-.dropdown-new-item:hover .dropdown-new-item-content-outfit {
-  transition: height 0.4s ease;
-  border-radius: 1.25vh;
-  padding: 1.25vh;
-  height: 40vh;
-}
-
 .create-new-chatroom-button {
   background-color: #bbcedd;
   color: black;
@@ -316,4 +258,47 @@
     transition-duration: 0s;
     background-color: #889baa;
   }
+}
+
+.chatroom-item-focusable:focus {
+  outline: none; /* Removes the default outline */
+  box-shadow: 0 0 0 2px #0099ff; /* Adds a custom focus indicator */
+}
+
+.button-focusable:focus {
+  outline: none; /* Removes the default outline */
+
+  box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.25); /* Soft blue outline */
+}
+
+.message-image {
+  max-width: 400px;
+  max-height: 400px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.image-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-modal-content img {
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.black {
+  color: #000000;
 }

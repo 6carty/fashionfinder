@@ -14,14 +14,18 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="rating" type="double">
+            <column name="rated_at" type="${datetimeType}">
                 <constraints nullable="false" />
+            </column>
+            <column name="user_rated_id" type="bigint">
+                <constraints nullable="true" />
             </column>
             <column name="outfit_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="rating" columnName="rated_at" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -41,7 +45,7 @@
                   tableName="rating"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="rating" type="numeric"/>
+            <column name="rated_at" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

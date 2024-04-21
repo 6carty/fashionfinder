@@ -56,6 +56,7 @@
             <column name="location" type="string"/>
             <column name="date_time" type="date"/>
             <column name="end_time" type="date"/>
+            <column name="creator_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

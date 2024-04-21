@@ -1,22 +1,24 @@
+import dayjs from 'dayjs/esm';
+
 import { IRating, NewRating } from './rating.model';
 
 export const sampleWithRequiredData: IRating = {
   id: 92458,
-  rating: 88012,
+  ratedAt: dayjs('2024-03-02T15:25'),
 };
 
 export const sampleWithPartialData: IRating = {
   id: 38329,
-  rating: 62920,
+  ratedAt: dayjs('2024-03-02T21:26'),
 };
 
 export const sampleWithFullData: IRating = {
   id: 48944,
-  rating: 33071,
+  ratedAt: dayjs('2024-03-03T04:36'),
 };
 
 export const sampleWithNewData: NewRating = {
-  rating: 32763,
+  ratedAt: dayjs('2024-03-03T04:40'),
   id: null,
 };
 

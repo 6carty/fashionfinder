@@ -3,6 +3,99 @@
 @import '~bootswatch/dist/flatly/variables';
 @import '~bootstrap/scss/variables';
 
+/*
+BASIC ELEMENTS WITHIN THE PAGE PLEASE USE THESE WHEN YOU CAN
+please use these elements as a general base for your
+page elements.
+example usage is if you define the size and position of a box
+in .content-display for example your html would be
+
+<div class = "display-box content-display">
+
+if you want to use a custom font color within your html you will
+have to specify the new color, here's and example from wardrobe
+where i wanted the text in a button to be the correct color
+
+<h5 style="color: var(--button-text-color);" >  add new item</h5>
+or
+<h5 style="color: white;" >  add new item</h5>
+
+ */
+
+.display-box {
+  color: var(--box-color);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 25px var(--drop-shadow-color);
+  border-radius: 10px;
+  background-color: rgba(white, 0.2);
+}
+
+.button-main {
+  background-color: var(--secondary-content-color);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px var(--drop-shadow-color);
+  border-radius: 10px;
+}
+
+/*
+Stuff for Font Changing and dark-mode
+ */
+:root {
+  --font-base-size: 1;
+  /*
+  PLEASE USE THE COLOURS LISTED BELOW AS MUCH AS POSSIBLE
+
+  IF YOU WANT DARK-MODE TO AFFECT A COLOUR OR TO ADD A NEW GENERAL USE COLOUR
+  PLEASE PUT IT HERE THEN TELL JAMES AS FOR DARK-MODE TO AFFECT IT OTHER CHANGES HAVE TO BE MADE
+   */
+  --box-color: rgba(255, 255, 255, 0.2);
+  --drop-shadow-color: rgba(129, 124, 124, 0.2);
+  --secondary-content-color: rgb(130, 130, 130);
+  --text-color: rgb(20, 20, 20);
+  --save-button-color: rgb(59, 154, 73);
+  --button-text-color: rgb(255, 255, 255);
+  --delete-button-color: rgb(179, 41, 41);
+}
+
+body {
+  font-size: calc(16px * var(--font-base-size));
+  color: var(--text-color);
+}
+
+p {
+  font-size: calc(16px * var(--font-base-size));
+  color: var(--text-color);
+}
+
+h1 {
+  font-size: calc(2.5rem * var(--font-base-size));
+  color: var(--text-color);
+}
+h2 {
+  font-size: calc(2rem * var(--font-base-size));
+  color: var(--text-color);
+}
+h3 {
+  font-size: calc(1.75rem * var(--font-base-size));
+  color: var(--text-color);
+}
+h4 {
+  font-size: calc(1.5rem * var(--font-base-size));
+  color: var(--text-color);
+}
+h5 {
+  font-size: calc(1.25rem * var(--font-base-size));
+  color: var(--text-color);
+}
+h6 {
+  font-size: calc(1rem * var(--font-base-size));
+  color: var(--text-color);
+}
+span {
+  font-size: calc(16px * var(--font-base-size));
+  color: var(--text-color);
+}
+
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
@@ -212,3 +305,7 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   }
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+.black {
+  color: black;
+}

@@ -1,0 +1,114 @@
+<main>
+  <div class="container">
+    <div class="community-page">
+      <div class="left">
+        <!-- sidebar.component.html -->
+        <div *ngIf="account">
+          <!-- Profile Picture -->
+          <div class="sidebar">
+            <div class="user-details">
+              <div class="profile-picture">
+                <img
+                  [src]="'data:' + currentProfile?.profilePictureContentType + ';base64,' + currentProfile?.profilePicture"
+                  alt="Profile Picture"
+                  class="circle-image"
+                />
+              </div>
+
+              <!-- Display Name -->
+              <div class="display-name">
+                <h6>{{ currentProfile?.firstName }} {{ currentProfile?.lastName }}</h6>
+                <p class="text-muted">@{{ account.login }}</p>
+              </div>
+            </div>
+
+            <div class="stats">
+              <a class="rank" style="text-decoration: none">
+                <span class="stat-heading">
+                  <h5><b>Rank</b></h5>
+                </span>
+                <span class="stat-value">
+                  <h4>1</h4>
+                </span>
+              </a>
+              <a class="like-count" style="text-decoration: none">
+                <span class="stat-heading"
+                  ><h5><b>Total Likes</b></h5></span
+                >
+                <span class="stat-value"><h4>11.4k</h4></span>
+              </a>
+            </div>
+            <!-- Button for Uploads -->
+            <button class="post-btn" [routerLink]="['/post/new']">
+              <!--     (click)="onCreatePostButtonClick()-->
+              <b>Create Post</b>
+            </button>
+            <!-- Button for Gallery -->
+            <button class="gallery-btn" routerLink="/community"><b>Back to Feed</b></button>
+          </div>
+        </div>
+      </div>
+      <div class="middle">
+        <div *ngFor="let post of filteredPosts; let i = index; trackBy: trackId" class="post-container">
+          <div *ngFor="let profile of filteredProfile" class="my-feed">
+            <div class="heading">
+              <div class="profile-photo">
+                <!--this should be user profile stuff-->
+                <img
+                  [src]="'data:' + currentUser?.profilePictureContentType + ';base64,' + currentUser?.profilePicture"
+                  alt="Profile Picture"
+                  class="image"
+                  [routerLink]="['/user-profile/']"
+                />
+              </div>
+              <div class="post-user-info">
+                <div class="username-text">
+                  <h5>{{ account?.login }}</h5>
+                </div>
+                <div class="post-info-text">
+                  <h6>{{ post.createdDate }}</h6>
+                </div>
+              </div>
+            </div>
+
+            <!--end of user profile stuff-->
+
+            <div class="post">
+              <img [src]="'data:' + post.imageContentType + ';base64,' + post.image" class="post-img" alt="Post Picture" />
+            </div>
+            <div class="action-buttons">
+              <div class="interaction-buttons">
+                <span><i class="/g"></i></span>
+                <button class="like-btn" [routerLink]="['/likes/new']">
+                  <!-- onclick="changeImage()" -->
+
+                  <img id="like-img" src="/content/images/unliked.png" class="action-img" alt="Like Icon" />
+                </button>
+                <button class="comment-btn" [routerLink]="['/comment/new']">
+                  <!--[hidde] = -->
+                  <img src="/content/images/comment.png" class="action-img" alt="Comment Icon" />
+                </button>
+              </div>
+            </div>
+
+            <div class="liked-by" [routerLink]="['/likes/']">
+              <h6>| Like count goes here | Likes</h6>
+            </div>
+            <div class="postAuthorInfo">
+              <!--*ngFor="let currentPost of everyPostsInfo[i]" -->
+              <div class="caption">
+                <h5>
+                  <b>{{ account?.login }}</b> {{ post.caption }}
+                </h5>
+              </div>
+              <div class="comments">
+                <div class="text-muted" [routerLink]="['/comment/']">View Comments</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </div>
+</main>

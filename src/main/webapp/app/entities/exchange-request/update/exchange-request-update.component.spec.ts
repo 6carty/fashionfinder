@@ -77,12 +77,14 @@ describe('ExchangeRequest Management Update Component', () => {
 
     it('Should call UserProfile query and add missing value', () => {
       const exchangeRequest: IExchangeRequest = { id: 456 };
-      const requester: IUserProfile = { id: 64855 };
+      const creater: IUserProfile = { id: 64855 };
+      exchangeRequest.creater = creater;
+      const requester: IUserProfile = { id: 25650 };
       exchangeRequest.requester = requester;
 
-      const userProfileCollection: IUserProfile[] = [{ id: 25650 }];
+      const userProfileCollection: IUserProfile[] = [{ id: 2537 }];
       jest.spyOn(userProfileService, 'query').mockReturnValue(of(new HttpResponse({ body: userProfileCollection })));
-      const additionalUserProfiles = [requester];
+      const additionalUserProfiles = [creater, requester];
       const expectedCollection: IUserProfile[] = [...additionalUserProfiles, ...userProfileCollection];
       jest.spyOn(userProfileService, 'addUserProfileToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -101,13 +103,16 @@ describe('ExchangeRequest Management Update Component', () => {
       const exchangeRequest: IExchangeRequest = { id: 456 };
       const clothingItem: IClothingItem = { id: 13560 };
       exchangeRequest.clothingItem = clothingItem;
-      const requester: IUserProfile = { id: 2537 };
+      const creater: IUserProfile = { id: 22043 };
+      exchangeRequest.creater = creater;
+      const requester: IUserProfile = { id: 23159 };
       exchangeRequest.requester = requester;
 
       activatedRoute.data = of({ exchangeRequest });
       comp.ngOnInit();
 
       expect(comp.clothingItemsSharedCollection).toContain(clothingItem);
+      expect(comp.userProfilesSharedCollection).toContain(creater);
       expect(comp.userProfilesSharedCollection).toContain(requester);
       expect(comp.exchangeRequest).toEqual(exchangeRequest);
     });

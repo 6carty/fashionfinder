@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPost, NewPost } from '../post.model';
+import { IUserProfile } from '../../user-profile/user-profile.model';
 
 export type PartialUpdatePost = Partial<IPost> & Pick<IPost, 'id'>;
 
@@ -32,6 +33,9 @@ export class PostService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
+  getPosts(): Observable<IUserProfile[]> {
+    return this.http.get<IPost[]>(this.resourceUrl);
+  }
   create(post: NewPost): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(post);
     return this.http.post<RestPost>(this.resourceUrl, copy, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));

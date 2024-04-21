@@ -37,6 +37,12 @@
             <a [routerLink]="['/clothing-item', exchangeRequest.clothingItem.id, 'view']">{{ exchangeRequest.clothingItem.name }}</a>
           </div>
         </dd>
+        <dt><span>Creater</span></dt>
+        <dd>
+          <div *ngIf="exchangeRequest.creater">
+            <a [routerLink]="['/user-profile', exchangeRequest.creater.id, 'view']">{{ exchangeRequest.creater.id }}</a>
+          </div>
+        </dd>
         <dt><span>Requester</span></dt>
         <dd>
           <div *ngIf="exchangeRequest.requester">

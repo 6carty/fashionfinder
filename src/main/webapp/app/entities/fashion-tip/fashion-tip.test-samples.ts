@@ -6,23 +6,19 @@ export const sampleWithRequiredData: IFashionTip = {
 };
 
 export const sampleWithPartialData: IFashionTip = {
-  id: 95163,
-  title1: 'Devolved',
-  description1: 'Cheese',
-  title2: 'array',
-  description2: 'red Fresh implement',
+  id: 55750,
+  title1: 'Directives Cheese Cheese',
+  description1: 'array',
 };
 
 export const sampleWithFullData: IFashionTip = {
-  id: 1403,
-  title1: 'Ports Officer',
-  description1: 'overriding',
-  title2: 'Brand Dale',
-  description2: 'one-to-one Concrete experiences',
+  id: 95619,
+  title1: 'Health',
+  description1: 'AGP',
 };
 
 export const sampleWithNewData: NewFashionTip = {
-  title1: 'infrastructures',
+  title1: 'Kids withdrawal',
   id: null,
 };
 

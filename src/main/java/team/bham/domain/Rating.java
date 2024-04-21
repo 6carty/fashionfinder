@@ -2,6 +2,7 @@ package team.bham.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -25,15 +26,14 @@ public class Rating implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "rating", nullable = false)
-    private Double rating;
-
-    @JsonIgnoreProperties(value = { "rating" }, allowSetters = true)
-    @OneToOne(mappedBy = "rating")
-    private TrendingOutfit trendingOutfit;
+    @Column(name = "rated_at", nullable = false)
+    private Instant ratedAt;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
+    private User userRated;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "ratings", "userCreated", "creator", "clothingItems" }, allowSetters = true)
     private Outfit outfit;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -51,35 +51,29 @@ public class Rating implements Serializable {
         this.id = id;
     }
 
-    public Double getRating() {
-        return this.rating;
+    public Instant getRatedAt() {
+        return this.ratedAt;
     }
 
-    public Rating rating(Double rating) {
-        this.setRating(rating);
+    public Rating ratedAt(Instant ratedAt) {
+        this.setRatedAt(ratedAt);
         return this;
     }
 
-    public void setRating(Double rating) {
-        this.rating = rating;
+    public void setRatedAt(Instant ratedAt) {
+        this.ratedAt = ratedAt;
     }
 
-    public TrendingOutfit getTrendingOutfit() {
-        return this.trendingOutfit;
+    public User getUserRated() {
+        return this.userRated;
     }
 
-    public void setTrendingOutfit(TrendingOutfit trendingOutfit) {
-        if (this.trendingOutfit != null) {
-            this.trendingOutfit.setRating(null);
-        }
-        if (trendingOutfit != null) {
-            trendingOutfit.setRating(this);
-        }
-        this.trendingOutfit = trendingOutfit;
+    public void setUserRated(User user) {
+        this.userRated = user;
     }
 
-    public Rating trendingOutfit(TrendingOutfit trendingOutfit) {
-        this.setTrendingOutfit(trendingOutfit);
+    public Rating userRated(User user) {
+        this.setUserRated(user);
         return this;
     }
 
@@ -120,7 +114,7 @@ public class Rating implements Serializable {
     public String toString() {
         return "Rating{" +
             "id=" + getId() +
-            ", rating=" + getRating() +
+            ", ratedAt='" + getRatedAt() + "'" +
             "}";
     }
 }

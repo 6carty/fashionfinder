@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AccountService } from '../core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { IUserProfile } from '../entities/user-profile/user-profile.model';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
-import { IUser } from '../entities/user/user.model';
-import { UserService } from '../entities/user/user.service';
+import { UserManagementService } from '../admin/user-management/service/user-management.service';
+import { IPost, NewPost } from '../entities/post/post.model';
+import dayjs from 'dayjs/esm';
+import { HttpResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { PostService } from '../entities/post/service/post.service';
+import { Router } from '@angular/router';
+import { ILikes } from '../entities/likes/likes.model';
+import { LikesService } from '../entities/likes/service/likes.service';
+import { CommunityFeedComponent } from '../community-feed/community-feed.component';
 
 @Component({
   selector: 'jhi-community-side-nav',
@@ -14,15 +22,123 @@ import { UserService } from '../entities/user/user.service';
 })
 export class CommunitySideNavComponent implements OnInit {
   account: Account | null = null;
-  protected userProfile: IUserProfile | null = null;
-  private accountSubscription: Subscription | null = null;
+  allUserProfiles: Observable<IUserProfile[]> | null = null;
+  filteredProfile: IUserProfile[] | null = null;
+  currentProfile: IUserProfile | null = null;
+  isSaving: boolean = false;
+  currentID: any;
+  allLikes: Observable<ILikes[]> | null = null;
+  feedLikes: ILikes[] | any = [];
+  filteredLikes: ILikes[] | undefined;
+  likePos: number = 0;
+  allPosts: Observable<IPost[]> | null = null;
+  feedPosts: IPost[] | null = null;
+  likeDetails: { likeCount: number; postID: any }[][] = [];
+  totalLikes: any = 0;
+  accountSubscription: Subscription | null = null;
+  constructor(
+    private accountService: AccountService,
+    private userProfileService: UserProfileService,
+    private userManagementService: UserManagementService,
+    private postService: PostService,
+    private router: Router,
+    private likeService: LikesService
+  ) {}
 
-  // private user: IUser | null = null;
-  constructor(private accountService: AccountService, private userProfileService: UserProfileService, private userService: UserService) {}
+  findTotalLikeCount(userID: number, currentPost: IPost): void {
+    this.allLikes = this.likeService.getLikes();
+    this.allLikes.subscribe(currentUsersLikes => {
+      this.feedLikes = currentUsersLikes;
+      //this.feedLikes = currentUsersLikes.map(like => [like.post?.id , like.like, like.post?.id]);
+      console.log(this.feedLikes);
+      this.filteredLikes = this.feedLikes?.filter((like: { userLiked: any; like: boolean }) => like.like);
+      //&& this.feedLikes.includes(currentPost.id)
+      console.log(this.filteredLikes, 'can u see me');
+      this.totalLikes += this.feedLikes?.length;
+    });
+  }
+
+  filterPosts(userID: number): void {
+    this.allPosts = null;
+    this.feedPosts = null;
+
+    this.allPosts = this.postService.getPosts();
+    this.allPosts.subscribe(currentUsersPosts => {
+      this.feedPosts = currentUsersPosts;
+      this.feedPosts = currentUsersPosts.filter(post => post.author?.id == 1101);
+      if (this.feedPosts) {
+        this.feedPosts.forEach((post, index) => {
+          this.findTotalLikeCount(userID, post);
+        });
+      }
+    });
+  }
+  initialiseService(): void {
+    if (this.account?.login) {
+      this.userManagementService.find(this.account.login).subscribe({
+        next: currentUser => {
+          if (currentUser.id != null) {
+            this.currentID = currentUser.id;
+            this.allUserProfiles = this.userProfileService.getUserProfiles();
+            this.allUserProfiles.subscribe(userProfiles => {
+              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+              this.currentProfile = this.filteredProfile[0];
+              this.filterPosts(this.currentID);
+            });
+            this.allUserProfiles = this.userProfileService.getUserProfiles();
+            this.allUserProfiles.subscribe(userProfiles => {
+              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+              this.currentProfile = this.filteredProfile[0];
+            });
+          }
+        },
+      });
+    }
+  }
   ngOnInit(): void {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
+      this.initialiseService();
     });
-    this.userProfile = this.userProfileService.getUserProfile();
+  }
+
+  onCreatePostButtonClick() {
+    const post: NewPost = {
+      id: null,
+      caption: '',
+      createdDate: dayjs(),
+      editedDate: dayjs(),
+      author: this.currentID,
+    };
+    this.subscribeToSaveResponsePost(this.postService.create(post));
+  }
+
+  protected subscribeToSaveResponsePost(result: Observable<HttpResponse<IPost>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccessPost(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccessPost(): void {
+    this.router.navigate(
+      ['/social-chat'] //{
+      //queryParams: { id: '-1' }
+      //,
+      //}
+    );
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.accountSubscription) {
+      this.accountSubscription.unsubscribe();
+    }
   }
 }

@@ -1,61 +1,116 @@
 .TitleBox {
   width: 100%;
   height: 100px;
-  border: 0.5px solid rgba(26, 25, 25, 0.12);
   padding: 10px;
   margin: 10px;
-  //background-color: #e2a417;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 50px;
   font-family: 'Playfair Display';
-  color: white;
-  background-image: url("/content/images/SustainableBanner.png");
-  //background-image: url("https://img.businessoffashion.com/resizer/AUhhVIFVu0pPpTb0pY_eQKuMf38=/1440x0/filters:format(png):quality(70)/cloudfront-eu-central-1.images.arcpublishing.com/businessoffashion/75XJGRKJXJGTDBF34AZFTDUDDA.png");
+  background-image: url('/content/images/SustainableBanner.png');
 }
 
-.column{
-  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
-  background-color: rgba(255, 255, 255, 0.5);
-}
+//.SustainabilityContainer {
+//  background-color: rgba(255, 255, 255, 0.5);
+//  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-
-// Define variables
-$primary-color: #4CAF50;
-$hover-color: #45a049;
-
-// Styles
-body {
-  font-family: Arial, sans-serif;
-}
-
-.Paragraph{
-  font-size: 16px;
-
-}
-.quote {
-  font-size: 18px;
-}
-
+//@mixin translucent-bg($color, $alpha) {
+//  background-color: rgba($color, $alpha);
+//}
 
 .grid1 {
   display: grid;
   grid-auto-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   margin-top: 20px;
+  border: #555555;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  //box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  //background-color: rgba(255, 255, 255, 0.5);
+  //@include translucent-bg(grey, 0.2);
+  border-radius: 10px;
+}
+
+.column {
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  //@include translucent-bg(grey, 0.2);
+}
+
+.ExchangeRequest {
+  display: block;
+  justify-content: space-evenly;
+  width: 100%;
   border: #555555;
   padding: 20px;
   backdrop-filter: blur(20px);
   box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
+  margin-top: 20px;
+  //@include translucent-bg(grey, 0.2);
+
+  //background-color: rgba(87, 87, 87, 0.5);
+}
+.YoutubeContainer {
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(255, 255, 255, 0.5);
+  //@include translucent-bg(grey, 0.2);
+}
+.ExternalResource-Title {
+}
+.video-slider-container {
+  border-radius: 10px;
+  position: relative;
+  overflow-x: auto; /* Add horizontal scrollbar */
+  white-space: nowrap; /* Keep slides in a single line */
+  //@include translucent-bg(grey, 0.2);
+}
+
+.video-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Optional: Smooth scrolling on iOS */
+  //@include translucent-bg(white, 0.2);
+}
+
+/* Optional: Hide horizontal scrollbar */
+.video-slider::-webkit-scrollbar {
+  display: flex;
+}
+
+.video-slide {
+  flex: 0 0 auto;
+  margin-right: 20px; /* Adjust spacing between slides */
+  scroll-snap-align: start;
+}
+
+.video-slide iframe {
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+.video {
+  display: flex;
+  flex-direction: column;
+}
+
+/*ExchangeRequest*/
+
+.ExchangeRequestGrid {
+  width: 100%;
+  height: auto;
+  //border: 1px solid;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, auto);
-  background-color: #2196F3;
+  grid-template-columns: repeat(6, auto);
+  background-color: #2196f3;
   padding: 10px;
 }
 .grid-item {
@@ -75,16 +130,14 @@ body {
   margin-bottom: 5px;
 }
 
-
-
-.another-grid-container{
+.another-grid-container {
   display: grid;
-  grid-template-columns: repeat(4, auto);
-  background-color: #2196F3;
+  grid-template-columns: repeat(6, auto);
+  background-color: #2196f3;
   padding: 10px;
 }
 
-.another-grid-item{
+.another-grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
@@ -92,41 +145,15 @@ body {
   text-align: left;
 }
 
-
-
-.ExchangeRequest{
-  display: block;
-  justify-content: space-evenly;
-  width: 100%;
-  border: #555555;
-  padding: 20px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-  margin-top: 20px;
-  //background-color: rgba(87, 87, 87, 0.5);
-}
-.ExchangeRequestGrid {
-  width: 100%;
-  height: auto;
-  //border: 1px solid;
-
-}
-
-
-
-
 .quote {
   font-size: 20px;
   font-style: italic;
 }
 
-.ButtonContainer{
+.ButtonContainer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
 }
 
 button {
@@ -144,14 +171,19 @@ button {
 .BuySellButton {
   //display: block;
   box-sizing: border-box;
-  border: 2px solid var(--button_outline_color);
+  //border: 2px solid var(--button_outline_color);
   border-radius: var(--button_radius);
   padding: 0.75em 1.5em;
-  background: var(--button_color);
-  color: var(--button_outline_color);
+  //background: var(--button_color);
+  //color: var(--button_outline_color);
   transform: translateY(-0.2em);
   transition: transform 0.1s ease;
   display: inline;
+
+  background-color: rgba(130, 130, 130, 69);
+  border: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
 }
 
 button:hover.BuySellButton {
@@ -163,18 +195,6 @@ button:active.BuySellButton {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
-
-//.BuySellButton {
-//  padding: 10px 15px;
-//  margin-top: 10px;
-//  background: $primary-color;
-//  color: white;
-//  text-decoration: none;
-//
-//  &:hover {
-//    background: $hover-color;
-//  }
-//}
 
 button {
   /* Variables */
@@ -189,78 +209,44 @@ button {
   display: inline;
 }
 
+.FashionTipsButton,
+.UserProfileButton,
+.DirectSocialChat,
 .ExchangeButton {
   display: block;
   box-sizing: border-box;
-  border: 2px solid var(--button_outline_color);
+  //border: 2px solid var(--button_outline_color);
   border-radius: var(--button_radius);
   padding: 0.75em 1.5em;
-  background: var(--button_color);
-  color: var(--button_outline_color);
+  //background: var(--button_color);
+  //color: var(--button_outline_color);
   transform: translateY(-0.2em);
   transition: transform 0.1s ease;
+
+  background-color: rgba(130, 130, 130, 69);
+  border: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
 }
 
+button:hover.FashionTipsButton,
+button:hover.UserProfileButton,
+button:hover.DirectSocialChat,
 button:hover.ExchangeButton {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
 
+button:active.FashionTipsButton,
+button:active.UserProfileButton,
+button:active.DirectSocialChat,
 button:active.ExchangeButton {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
 
-//.ExchangeButton {
-//  background-color: white;
-//  color: black;
-//  border-radius: 10em;
-//  font-size: 17px;
-//  font-weight: 600;
-//  padding: 1em 2em;
-//  cursor: pointer;
-//  transition: all 0.3s ease-in-out;
-//  border: 1px solid black;
-//  box-shadow: 0 0 0 0 black;
-//}
-//
-//.ExchangeButton:hover {
-//  transform: translateY(-4px) translateX(-2px);
-//  box-shadow: 2px 5px 0 0 black;
-//};
-//
-//.ExchangeButton:active {
-//  transform: translateY(2px) translateX(1px);
-//  box-shadow: 0 0 0 0 black;
-//};
-
-
-//.ExchangeButton{
-//  background-color: #04AA6D; /* Green */
-//  border: none;
-//  color: white;
-//  padding: 15px 32px;
-//  text-align: center;
-//  text-decoration: none;
-//  display: inline-block;
-//  font-size: 16px;
-//
-//
-//  //background-color: green;
-//  //border: none;
-//  //padding: 10px 15px;
-//  //margin-top: 10px;
-//  //background: $primary-color;
-//  //color: white;
-//  //text-decoration: none;
-//
-//  &:hover {
-//    background: $hover-color;
-//  }
-//}
-
 .confirm-button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   border: none;
   color: white;
   padding: 10px 20px;
@@ -287,7 +273,8 @@ button:active.confirm-button {
   background-color: #45a049; /* Darker green */
 }
 
-.cancel-button {
+.cancel-button,
+.clear-button {
   background-color: #f44336; /* Red */
   border: none;
   color: white;
@@ -301,17 +288,20 @@ button:active.confirm-button {
   border-radius: 5px;
 }
 
-button:hover.cancel-button {
+button:hover.cancel-button,
+button:hover.clear-button {
   /* Pull the button upwards when hovered */
   transform: translateY(-0.33em);
 }
 
-button:active.cancel-button {
+button:active.cancel-button,
+button:active.clear-button {
   /* Push the button downwards when pressed */
   transform: translateY(0);
 }
 
-.cancel-button:hover {
+.cancel-button:hover,
+.clear-button:hover {
   background-color: #d32f2f; /* Darker red */
 }
 
@@ -326,6 +316,7 @@ button:active.cancel-button {
 }
 
 /* Hidden by default */
+
 .popup {
   display: none;
   position: fixed;
@@ -339,12 +330,52 @@ button:active.cancel-button {
 }
 
 /* Popup content */
+
 .popup-content {
   background-color: white;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Blue color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.popup-button:hover {
+  background-color: #0056b3; /* Darker blue color */
+}
+
+.error-container,
+.tick-container {
+  margin-bottom: 20px; /* Add some space below the tick image */
+}
+
+.error-container img,
+.tick-container img {
+  width: 100px; /* Set the width of the tick image */
+
+  height: 100px; /* Set the height of the tick image */
+}
+
+.QuestionMark-container img {
+  width: 100px; /* Set the width of the tick image */
+
+  height: 100px; /* Set the height of the tick image */
 }
 
 /* Close button */
@@ -362,15 +393,23 @@ button:active.cancel-button {
   cursor: pointer;
 }
 
+.video-columns {
+  display: flex;
+  justify-content: space-between;
+}
 
+.video-slide,
+.column2 {
+  width: calc(33.33% - 10px); /* Each column takes up one-third of the container width */
+  margin-right: 10px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px -8px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  align-items: center; /* Align items vertically */
+}
 
-
-
-
-
-
-
-
-
-
-
+.column:last-child {
+  margin-right: 0; /* Remove right margin from the last column */
+}
+//}

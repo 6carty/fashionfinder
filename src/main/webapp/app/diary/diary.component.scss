@@ -1,0 +1,48 @@
+.text {
+  //margin-top: 10px;
+  margin-inline: 10px;
+  text-align: center;
+  //padding-bottom: 20px;
+}
+
+.add-padding {
+  padding: 10px;
+  margin: 20px;
+  display: inline-flex;
+}
+
+.bump {
+  margin-top: 8px;
+}
+
+.main-display {
+  width: 70%;
+  margin-left: 15%;
+  place-items: center;
+  align-items: center;
+}
+
+.imgDisplay {
+  display: block;
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  border: none;
+  border-radius: 25px;
+  align-self: center;
+}
+
+.outfit-image-3 {
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 10px;
+  height: 400px;
+  width: 400px;
+  //width: 160px;
+  border-radius: 25px;
+  border: none;
+  background-size: auto;
+  background-position: center;
+  background-color: white;
+  cursor: pointer;
+}

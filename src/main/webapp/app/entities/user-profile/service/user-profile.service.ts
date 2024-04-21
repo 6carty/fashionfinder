@@ -28,6 +28,7 @@ export type EntityArrayResponseType = HttpResponse<IUserProfile[]>;
 export class UserProfileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/user-profiles');
   protected userProfile: IUserProfile | null = null;
+  protected userProfiles: IUserProfile[] = [];
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(userProfile: NewUserProfile): Observable<EntityResponseType> {
@@ -72,8 +73,8 @@ export class UserProfileService {
     return userProfile.id;
   }
 
-  getUserProfile(): IUserProfile | null {
-    return this.userProfile;
+  getUserProfiles(): Observable<IUserProfile[]> {
+    return this.http.get<IUserProfile[]>(this.resourceUrl);
   }
 
   compareUserProfile(o1: Pick<IUserProfile, 'id'> | null, o2: Pick<IUserProfile, 'id'> | null): boolean {

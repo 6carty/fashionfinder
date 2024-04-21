@@ -1,67 +1,68 @@
 <!-- <p>analytics works!</p> -->
 <div *ngIf="account">
-  <div class="text-xxlarge-center">Hi, {{ account.firstName }}</div>
-  <div class="text-med-center">Let's have a look at your data</div>
+  <h1>Hi, {{ account.firstName }}</h1>
+  <h5>Let's have a look at your data</h5>
+</div>
+<div *ngIf="!account">
+  <h1>Hi, new user!</h1>
+  <h5>You're not signed in yet</h5>
 </div>
 <div class="display-analytics">
-  <div class="sideLeft">
-    <div class="examplePane1">
-      <div class="text-xlarge">Your most worn outfit</div>
-      <div class="text-med">If we're picking favourites, here's yours</div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
+  <!--<div class="display-box add-padding">
+    <h5 class="text">Your most popular outfit</h5>
+    <p class="text">Here's what the community has to say</p>
+  </div>-->
+  <div class="display-box add-padding scrollable-area">
+    <h5 class="text">Your most worn outfits</h5>
+    <p class="text">If we're picking favourites, here are yours</p>
+    <a *ngFor="let outfit of outfitHead" class="imgDisplay" [routerLink]="['/outfit', outfit.id, 'view']">
+      <img
+        class="outfit-image-3"
+        src="data:image/{{ outfit.imageContentType }};charset=utf-8;base64,{{ outfit.image }}"
+        alt="{{ outfit.name }}"
+      />
+    </a>
+  </div>
+  <div class="leastWorn">
+    <div class="display-box add-padding scrollable-area">
+      <h5 class="text">Your least worn outfits</h5>
+      <p class="text">Some deep dives into your wardrobe</p>
+      <a *ngFor="let outfit of outfitTail" class="imgDisplay" [routerLink]="['/outfit', outfit.id, 'view']">
+        <img
+          class="outfit-image-3"
+          src="data:image/{{ outfit.imageContentType }};charset=utf-8;base64,{{ outfit.image }}"
+          alt="{{ outfit.name }}"
+        />
+      </a>
     </div>
-    <div class="examplePane1">
-      <div class="text-xlarge">Your most popular outfit</div>
-      <div class="text-med">Here's what the community has to say</div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
-      <div class="exampleImg"></div>
-    </div>
+    <!--<div class="display-box add-padding">
+      <h5 class="text">Time for a breakup?</h5>
+      <p class="text">Consider donating your unloved items, like this one</p>
+      <button class="outfit-image-3" [routerLink]="['/sustainability']">
+        <img
+          src="data:image/{{ breakupItem.imageContentType }};charset=utf-8;base64,{{ breakupItem.image }}"
+          alt="{{ breakupItem.name }}"
+          *ngIf="breakupItem"
+        />
+      </button>
+    </div>-->
   </div>
   <div class="sideRight">
-    <div class="examplePane2">
-      <div class="text-xlarge">Your most worn items</div>
-      <div class="text-med">Bring out the classics</div>
-      <div class="exampleImg2"></div>
-      <div class="exampleImg2"></div>
-      <div class="exampleImg2"></div>
-      <div class="exampleImg2"></div>
+    <div class="display-box add-padding">
+      <h5 class="text">{{ numberOfOutfits }} outfits created</h5>
+      <p class="text">And you're still going strong</p>
     </div>
-    <div class="leastWorn">
-      <div class="examplePane2">
-        <div class="text-xlarge">Your least worn items</div>
-        <div class="text-med">Some deep dives into your wardrobe</div>
-        <div class="exampleImg2"></div>
-        <div class="exampleImg2"></div>
-        <div class="exampleImg2"></div>
-      </div>
-      <div class="examplePane3">
-        <div class="text-xlarge">Time for a breakup?</div>
-        <div class="text-med">Consider donating your unloved items, like this one</div>
-        <button class="exampleImg" [routerLink]="['/sustainability']"></button>
-      </div>
+    <div class="display-box add-padding">
+      <h5 class="text">{{ numberOfItems }} items in your wardrobe</h5>
+      <p class="text">That's a lot of combinations</p>
     </div>
-    <div class="leastWorn">
-      <div class="examplePane3">
-        <div class="text-xlarge">{{ numberOfOutfits }} outfits posted</div>
-        <div class="text-med">And you're still going strong</div>
-      </div>
-      <div class="examplePane3">
-        <div class="text-xlarge">{{ numberOfItems }} items in your wardrobe</div>
-        <div class="text-med">That's a lot of combinations</div>
-      </div>
-      <div class="examplePane3">
-        <div class="text-xlarge">Most common occasion: {{ topOccasion }}</div>
-        <div class="text-med">You're always dressed to impress</div>
-      </div>
-      <div class="examplePane3">
-        <div class="text-xlarge">{{ numberOfExchanged }} items exchanged</div>
-        <div class="text-med">What a social butterfly</div>
-      </div>
+    <div class="display-box add-padding">
+      <h5 class="text">Most common occasion: {{ topOccasion }}</h5>
+      <p class="text">You're always dressed to impress</p>
+    </div>
+    <div class="display-box add-padding">
+      <h5 class="text">{{ numberOfLogs }} entries in your diary</h5>
+      <p class="text">Ready to log and load</p>
     </div>
   </div>
 </div>
