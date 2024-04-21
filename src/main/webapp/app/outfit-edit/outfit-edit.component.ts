@@ -294,6 +294,7 @@ export class OutfitEditComponent implements OnInit {
           occasion: this.inputElementOccasion.value,
           description: this.inputElementDescription,
           date: this.outfitToEdit?.date,
+          userCreated: this.user,
           creator: this.outfitToEdit?.creator,
         };
 
@@ -317,6 +318,7 @@ export class OutfitEditComponent implements OnInit {
         image: this.outfitToEdit?.image,
         imageContentType: this.outfitToEdit?.imageContentType,
         date: this.outfitToEdit?.date,
+        userCreated: this.user,
         creator: this.outfitToEdit?.creator,
       };
       this.subscribeToSaveResponseOutfit(this.outfitService.update(outfit));

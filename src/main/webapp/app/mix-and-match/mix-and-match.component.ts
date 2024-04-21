@@ -59,36 +59,7 @@ export class MixAndMatchComponent implements OnInit {
     protected userService: UserService,
     protected accountService: AccountService,
     protected darkModeService: DarkModeService
-  ) {
-    // this.accountService
-    //   .getAuthenticationState()
-    //   .pipe(
-    //     filter(account => !!account?.login), // Filter out falsy accounts
-    //     switchMap(account => {
-    //       if (account) this.active = account.login;
-    //       return this.userService.query();
-    //     }),
-    //     switchMap(usersResponse => {
-    //       this.users = usersResponse.body;
-    //       if (this.users) {
-    //         this.user = this.users.find(user => user.login === this.active);
-    //         console.log('The user is currently', this.user);
-    //         return this.fetchWeatherData(); // Call fetchWeatherData after user data is obtained
-    //       }
-    //       return EMPTY; // If user data is not available, return an empty observable
-    //     })
-    //     // switchMap(() => this.fetchOufit()), // Fetch outfit first
-    //     // switchMap(() => this.populateLikedStates())
-    //     // switchMap(() => this.fetchOufit()),
-    //     // tap(() =>{
-    //     //   this.populateLikedStates()
-    //     // })
-    //     // switchMap(() => this.populateLikedStates()),
-    //   )
-    //   .subscribe(() => {
-    //     this.fetchOufit().subscribe(() => {}); // Call fetchOutfit after user data is obtained
-    //   });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.accountService
@@ -202,7 +173,7 @@ export class MixAndMatchComponent implements OnInit {
                 'data:' + outfitPic.imageContentType + ';base64,' + outfitPic.image
             );
         }
-        const remaining = 10 - this.outfitImages.length;
+        const remaining = 5 - this.outfitImages.length;
         this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
 
         for (const soleOutfit of this.outfit) {
@@ -254,14 +225,6 @@ export class MixAndMatchComponent implements OnInit {
     }
 
     return randomOutfits;
-    // const randomOutfits = [];
-    // while (count > 0 && outfits.length > 0) {
-    //   const randomIndex = Math.floor(Math.random() * outfits.length);
-    //   randomOutfits.push(outfits[randomIndex]);
-    //   outfits.splice(randomIndex, 1);
-    //   count--;
-    // }
-    // return randomOutfits;
   }
   insertSorted(array: { outfit: IOutfit; ratingCount: number }[], newItem: { outfit: IOutfit; ratingCount: number }): void {
     let index = array.findIndex(item => item.ratingCount < newItem.ratingCount);
@@ -361,9 +324,6 @@ export class MixAndMatchComponent implements OnInit {
             const outfitDate = new Date(outfit.date);
             return outfitDate >= startOfWeek && outfitDate < endOfWeek;
           });
-          // const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-          // const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + 6);
-          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getDate >= startOfWeek && outfit.date <= endOfWeek);
         } else if (filter === 'Month') {
           const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
           const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Get the last day of the current month
@@ -372,7 +332,6 @@ export class MixAndMatchComponent implements OnInit {
             const outfitDate = new Date(outfit.date);
             return outfitDate >= startOfMonth && outfitDate <= endOfMonth;
           });
-          // this.filterOutfits = this.filterOutfits.filter((outfit:any) => outfit.date.getMonth() === today.getMonth() && outfit.date.getFullYear() === today.getFullYear());
         } else if (filter === 'Year') {
           const startOfYear = new Date(today.getFullYear(), 0, 1);
           const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st of the current year
@@ -401,9 +360,6 @@ export class MixAndMatchComponent implements OnInit {
   resetAlternateContent(index: number) {
     this.showAlternate[index] = false;
   }
-  // ngAfterViewInit() {
-  //   this.resetAlternateContent();
-  // }
   changeToSeeAll(): void {
     this.seeallview = !this.seeallview;
   }
