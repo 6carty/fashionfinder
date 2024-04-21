@@ -75,6 +75,7 @@ export class UserProfileService {
   getUserProfile(): IUserProfile | null {
     return this.userProfile;
   }
+
   compareUserProfile(o1: Pick<IUserProfile, 'id'> | null, o2: Pick<IUserProfile, 'id'> | null): boolean {
     return o1 && o2 ? this.getUserProfileIdentifier(o1) === this.getUserProfileIdentifier(o2) : o1 === o2;
   }

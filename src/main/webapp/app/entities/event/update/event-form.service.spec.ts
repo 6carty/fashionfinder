@@ -25,7 +25,6 @@ describe('Event Form Service', () => {
             dateTime: expect.any(Object),
             endTime: expect.any(Object),
             outfit: expect.any(Object),
-            creator: expect.any(Object),
           })
         );
       });
@@ -41,7 +40,6 @@ describe('Event Form Service', () => {
             dateTime: expect.any(Object),
             endTime: expect.any(Object),
             outfit: expect.any(Object),
-            creator: expect.any(Object),
           })
         );
       });

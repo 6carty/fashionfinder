@@ -113,12 +113,6 @@
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "event",
-      "otherEntityRelationshipName": "creator",
-      "relationshipName": "event",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "chatroom",
       "otherEntityRelationshipName": "userProfile",
       "ownerSide": true,
