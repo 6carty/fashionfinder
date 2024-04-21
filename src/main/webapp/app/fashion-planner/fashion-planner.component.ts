@@ -6,6 +6,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { WeatherDataService } from './weather-c/weather-data.service';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { DarkModeService } from '../shared/dark-mode.service';
 
 @Component({
   selector: 'jhi-fashion-planner',
@@ -17,16 +18,16 @@ export class FashionPlannerComponent implements OnInit {
   data: any;
   eventsByDay: { date: Date; events: any[] }[] = [];
   account: Account | null = null;
-  userProfile: any;
+  darkmode = false;
 
   constructor(
     private eventService: EventService,
     private router: Router,
     private profileService: ProfileService,
     private accountService: AccountService,
-    private weatherService: WeatherDataService
-  ) // private userProfileService: UserProfileService
-  {}
+    private weatherService: WeatherDataService,
+    protected darkModeService: DarkModeService
+  ) {}
 
   ngOnInit(): void {
     this.accountService.getAuthenticationState().subscribe(account => {
@@ -43,6 +44,10 @@ export class FashionPlannerComponent implements OnInit {
     //   this.userProfile = res.body || [];
     //   console.log('user profile from query log: ' + this.userProfile);
     // });
+
+    this.darkModeService.darkMode$.subscribe((isdarkmode: boolean) => {
+      this.darkmode = isdarkmode;
+    });
 
     this.fetchEvents();
   }

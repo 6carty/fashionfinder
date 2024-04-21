@@ -36,6 +36,20 @@
   vertical-align: top;
 }
 
+.custom-card-dark {
+  display: inline-block;
+  margin: 8px 8px 0px 0px;
+  width: 40%;
+  border: #555555;
+  padding: 8px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 5px 25px rgba(129, 124, 124, 0.2);
+  background-color: rgba(255, 255, 255, 0);
+  text-align: left;
+  border-radius: 10px;
+  vertical-align: top;
+}
+
 .cardA {
   display: inline-block;
   margin: 8px 8px 0px 0px;

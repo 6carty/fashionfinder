@@ -1,8 +1,8 @@
 <div class="display-4">
-  <p>Fashion Planner</p>
+  <h1>Fashion Planner</h1>
 </div>
 
-<div class="container">
+<div class="container" [ngStyle]="{ 'background-color': darkmode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.5)' }">
   <div class="d-flex">
     <button
       id="jh-create-entity"
@@ -11,20 +11,30 @@
       [routerLink]="['/event/new']"
     >
       <fa-icon icon="plus"></fa-icon>
-      <span *ngIf="account"> Create a new event </span>
-      <span *ngIf="!account"> Sign in to start planning </span>
+      <span style="color: #ffffff" *ngIf="account"> Create a new event </span>
+      <span style="color: #ffffff" *ngIf="!account"> Sign in to start planning </span>
     </button>
   </div>
   <div *ngFor="let dayEvents of eventsByDay; let i = index" style="padding-bottom: 8px">
     <h3 style="text-align: left; padding-top: 8px">{{ dayEvents.date | date: 'EEEE, d LLLL' }} &nbsp;</h3>
     <div style="padding: 8px 0px">
-      <span class="chip"> {{ data[i]['weatherCode'] }} | {{ data[i]['minTemp'] }}°C / {{ data[i]['maxTemp'] }}°C </span>
-      <span class="chip"> Precipitation: {{ data[i]['precipitation'] }}% </span>
-      <span class="chip"> Wind: {{ data[i]['windSpeed'] }} km/h </span>
+      <span class="chip" [ngStyle]="{ 'background-color': darkmode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.5)' }">
+        {{ data[i]['weatherCode'] }} | {{ data[i]['minTemp'] }}°C / {{ data[i]['maxTemp'] }}°C
+      </span>
+      <span class="chip" [ngStyle]="{ 'background-color': darkmode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.5)' }">
+        Precipitation: {{ data[i]['precipitation'] }}%
+      </span>
+      <span class="chip" [ngStyle]="{ 'background-color': darkmode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.5)' }">
+        Wind: {{ data[i]['windSpeed'] }} km/h
+      </span>
     </div>
     <div *ngIf="dayEvents.events.length > 0; else noEvents">
       <div *ngFor="let event of dayEvents.events">
-        <div class="custom-card" (click)="viewEvent(event.id)" [ngClass]="{ cardA: event.dateTime < currentTime() }">
+        <div
+          class="custom-card"
+          (click)="viewEvent(event.id)"
+          [ngClass]="{ cardA: event.dateTime < currentTime(), 'custom-card-dark': event.dateTime >= currentTime() && darkmode }"
+        >
           <div>
             <span style="font-weight: bold">
               {{ event.title }}
@@ -34,7 +44,12 @@
             <div *ngIf="event.location" style="font-size: 90%">{{ event.location }}</div>
           </div>
         </div>
-        <div class="custom-card" *ngIf="event.outfit != null" (click)="viewClothing(event.outfit.id)">
+        <div
+          class="custom-card"
+          *ngIf="event.outfit != null"
+          (click)="viewClothing(event.outfit.id)"
+          [ngClass]="{ 'custom-card-dark': darkmode }"
+        >
           <span style="font-weight: bold"> {{ event.outfit.name }} <br /> </span>
           {{ event.outfit.occasion | titlecase }} outfit
         </div>
