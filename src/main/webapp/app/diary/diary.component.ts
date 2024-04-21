@@ -40,7 +40,6 @@ export class DiaryComponent implements OnInit {
   userProfiles: IUserProfile[] | undefined = undefined;
   userProfile: IUserProfile | undefined = undefined;
   userProfilePick: Pick<IUserProfile, 'id'> | null = null;
-  itemLogToEdit: IItemLog | null = null;
   id: number = 0;
 
   ngOnInit(): void {
@@ -81,6 +80,7 @@ export class DiaryComponent implements OnInit {
       this.logReceivedData = itemLogs.body;
       if (this.logReceivedData) {
         this.logReceivedData = this.logReceivedData.filter(obj => obj.owner?.id == this.user?.id);
+        this.logReceivedData = this.logReceivedData.reverse();
         this.fetchMatchingOutfits();
       }
     });

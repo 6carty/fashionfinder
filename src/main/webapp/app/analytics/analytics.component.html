@@ -9,26 +9,36 @@
 </div>
 <div class="display-analytics">
   <div class="display-box">
-    <h5>Your most worn outfit</h5>
-    <p>If we're picking favourites, here's yours</p>
-  </div>
-  <div class="display-box">
     <h5>Your most popular outfit</h5>
     <p>Here's what the community has to say</p>
   </div>
   <div class="display-box">
-    <h5>Your most worn items</h5>
-    <p>Bring out the classics</p>
+    <h5>Your most worn outfits</h5>
+    <p>If we're picking favourites, here are yours</p>
+    <div *ngFor="let outfit of outfitHead">
+      <img
+        class="outfit-image-3"
+        src="data:image/{{ outfit.imageContentType }};charset=utf-8;base64,{{ outfit.image }}"
+        alt="{{ outfit.name }}"
+      />
+    </div>
   </div>
   <div class="leastWorn">
     <div class="display-box">
-      <h5>Your least worn items</h5>
+      <h5>Your least worn outfits</h5>
       <p>Some deep dives into your wardrobe</p>
+      <div *ngFor="let outfit of outfitTail">
+        <img
+          class="outfit-image-3"
+          src="data:image/{{ outfit.imageContentType }};charset=utf-8;base64,{{ outfit.image }}"
+          alt="{{ outfit.name }}"
+        />
+      </div>
     </div>
     <div class="display-box">
       <h5>Time for a breakup?</h5>
       <p>Consider donating your unloved items, like this one</p>
-      <button class="imgDisplay" [routerLink]="['/sustainability']">
+      <button class="outfit-image-3" [routerLink]="['/sustainability']">
         <img
           src="data:image/{{ breakupItem.imageContentType }};charset=utf-8;base64,{{ breakupItem.image }}"
           alt="{{ breakupItem.name }}"
@@ -51,8 +61,11 @@
       <p>You're always dressed to impress</p>
     </div>
     <div class="display-box">
-      <h5>{{ numberOfLogs }} outfits in your diary</h5>
+      <h5>{{ numberOfLogs }} entries in your diary</h5>
       <p>Ready to log and load</p>
     </div>
   </div>
 </div>
+
+<p>breakup item not found: {{ breakupItem == null }}</p>
+<p>outfitHead: {{ outfitHead }}</p>

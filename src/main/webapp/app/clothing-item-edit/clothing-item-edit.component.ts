@@ -17,6 +17,7 @@ import { Account } from '../core/auth/account.model';
 import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
 import { AccountService } from '../core/auth/account.service';
 import { UserService } from '../entities/user/user.service';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-clothing-item-edit',
@@ -166,6 +167,7 @@ export class ClothingItemEditComponent implements OnInit {
           this.clothingItemToEdit.brand = this.brand.value;
           this.clothingItemToEdit.material = this.material.value;
           this.clothingItemToEdit.type = this.type;
+          this.clothingItemToEdit.lastWorn = dayjs();
         }
 
         if (inputElementPhoto.files && this.clothingItemToEdit) {
@@ -189,6 +191,7 @@ export class ClothingItemEditComponent implements OnInit {
         this.clothingItemToEdit.brand = this.brand.value;
         this.clothingItemToEdit.material = this.material.value;
         this.clothingItemToEdit.type = this.type;
+        this.clothingItemToEdit.lastWorn = dayjs();
       }
       if (this.clothingItemToEdit != null) {
         this.subscribeToSaveResponse(this.clothingItemService.update(this.clothingItemToEdit));

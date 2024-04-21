@@ -16,6 +16,12 @@ import { dateComparator } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker
 import { EntityArrayResponseType } from '../entities/event/service/event.service';
 import { ItemLogService } from '../entities/item-log/service/item-log.service';
 import { IItemLog } from '../entities/item-log/item-log.model';
+import { IUser } from '../entities/user/user.model';
+import { IUserProfile } from '../entities/user-profile/user-profile.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../entities/user/user.service';
+import { UserProfileService } from '../entities/user-profile/service/user-profile.service';
+import { min } from '@popperjs/core/lib/utils/math';
 
 @Component({
   selector: 'jhi-analytics',
@@ -30,7 +36,9 @@ export class AnalyticsComponent implements OnInit {
   breakupItem: IClothingItem | null = null;
 
   clothingReceivedData: IClothingItem[] | null = null;
-  outfitReceivedData: any;
+  outfitReceivedData: IOutfit[] | null = null;
+  outfitHead: IOutfit[] | null = null;
+  outfitTail: IOutfit[] | null = null;
   isSaving = false;
   clothingItem: IClothingItem | null = null;
   userInputName: any;
@@ -39,112 +47,163 @@ export class AnalyticsComponent implements OnInit {
 
   account: Account | null = null;
   private accountSubscription: Subscription | null = null;
-  protected itemLogs: any | IItemLog[] = [];
+  protected itemLogs: IItemLog[] | null = null;
 
   constructor(
+    private router: Router,
     private accountService: AccountService,
     private clothingItemService: ClothingItemService,
     private outfitService: OutfitService,
-    private itemLogService: ItemLogService
+    private itemLogService: ItemLogService,
+    protected activatedRoute: ActivatedRoute,
+    private userService: UserService,
+    private userProfileService: UserProfileService
   ) {}
+  givenId: number = -1;
+  active: Account | undefined = undefined;
+  users: IUser[] | null = null;
+  user: IUser | undefined = undefined;
+  userProfiles: IUserProfile[] | undefined = undefined;
+  userProfile: IUserProfile | undefined = undefined;
+  userProfilePick: Pick<IUserProfile, 'id'> | null = null;
+  id: number = 0;
 
   ngOnInit(): void {
     this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
       this.account = account;
     });
-    this.fetchClothes();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.givenId = params.id;
+
+      this.accountService.identity().subscribe(account => {
+        if (account) this.active = account;
+
+        this.userService.query().subscribe(users => {
+          this.users = users.body;
+          if (this.users) this.user = this.users.find(user => user.login === this.active?.login);
+          if (this.user) {
+            const pickUser: Pick<IUser, 'id'> = this.user;
+            const queryObject = {
+              'user.equal': pickUser,
+            };
+            this.userProfileService.query(queryObject).subscribe(userProfile => {
+              if (userProfile.body) {
+                this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+                this.userProfile = this.userProfiles[0];
+                this.userProfilePick = this.userProfile;
+              }
+
+              this.fetchClothes();
+            });
+          }
+        });
+      });
+    });
   }
 
   fetchClothes() {
-    this.clothingItemService.query('include.owner').subscribe(clothingItems => {
+    this.clothingItemService.query().subscribe(clothingItems => {
       this.clothingReceivedData = clothingItems.body;
-      this.fetchOutfits();
+      if (this.clothingReceivedData) {
+        this.clothingReceivedData = this.clothingReceivedData.filter(obj => obj.owner?.id == this.userProfile?.id);
+        this.numberOfItems = <number>this.clothingReceivedData.length;
+        this.findBreakupItem(this.clothingReceivedData);
+        //this.fetchMatchingOutfits();
+      }
     });
+    this.fetchOutfits();
   }
 
   fetchOutfits() {
-    this.outfitService.query('include.owner').subscribe(outfits => {
+    this.outfitService.query().subscribe(outfits => {
       this.outfitReceivedData = outfits.body;
-      this.fetchItemLogs();
+      if (this.outfitReceivedData) {
+        this.outfitReceivedData = this.outfitReceivedData.filter(obj => obj.creator?.id == this.userProfile?.id);
+        this.numberOfOutfits = <number>this.outfitReceivedData.length;
+        this.assessVars(this.outfitReceivedData);
+        //this.fetchMatchingOutfits();
+        this.outfitReceivedData = this.outfitReceivedData.sort((one, two) => {
+          if (this.findLinkedOutfits(one.id) > this.findLinkedOutfits(two.id)) {
+            return 1;
+          }
+          if (this.findLinkedOutfits(one.id) < this.findLinkedOutfits(two.id)) {
+            return -1;
+          }
+          return 0;
+        });
+        this.outfitHead = this.outfitReceivedData.slice(0, min(this.outfitReceivedData.length + 1, 5));
+        this.outfitTail = this.outfitReceivedData.reverse().slice(0, min(this.outfitReceivedData.length + 1, 5));
+      }
     });
-
-    this.outfitReceivedData.unsubscribe();
+    this.fetchItemLogs();
   }
 
   fetchItemLogs() {
-    this.itemLogService.query('include.owner').subscribe((itemLogs: EntityArrayResponseType) => {
-      this.itemLogs = itemLogs.body || [];
-      this.filterLogs();
-      this.assessVars();
-    });
-  }
-
-  filterLogs() {
-    // Filter events that belong to the current user via userProfile, where the userProfile has the same login
-    // This only works if userProfile is auto generated for each user, where account login === userProfile firstName
-    this.itemLogs = this.itemLogs.filter((itemLog: { owner: any }) => {
-      return itemLog.owner !== null && itemLog.owner.firstName === this.account?.login;
-    });
-  }
-
-  assessVars(): void {
-    if (!(typeof this.clothingReceivedData == undefined || this.clothingReceivedData == null)) {
-      this.numberOfItems = <number>this.clothingReceivedData.length;
-      if (this.findBreakupItem()) {
-        this.breakupItem = this.findBreakupItem();
+    this.itemLogService.query().subscribe(itemLogs => {
+      this.itemLogs = itemLogs.body;
+      if (this.itemLogs) {
+        this.itemLogs = this.itemLogs.filter(obj => obj.owner?.id == this.user?.id);
+        this.itemLogs = this.itemLogs.reverse();
+        this.numberOfLogs = <number>this.itemLogs.length;
+        //this.fetchMatchingOutfits();
       }
-    }
-    if (!(typeof this.outfitReceivedData == undefined || this.outfitReceivedData == null)) {
-      this.numberOfOutfits = <number>this.outfitReceivedData.length;
-    }
-    if (!(typeof this.itemLogs == undefined || this.itemLogs == null)) {
-      this.numberOfLogs = <number>this.itemLogs.length;
-    }
+    });
+  }
+
+  assessVars(copyData: IOutfit[]): void {
     var themeList: number[] = [0, 0, 0, 0];
-    for (var outfit of this.outfitReceivedData) {
-      switch (outfit?.occasion) {
-        case 'FORMAL':
-          themeList[0] += 1;
-          break;
-        case 'BUSINESS':
-          themeList[1] += 1;
-          break;
-        case 'CASUAL':
-          themeList[2] += 1;
-          break;
-        case 'SPORTS':
-          themeList[3] += 1;
-          break;
-        default:
-          break;
+    if (copyData) {
+      for (var outfit of copyData) {
+        switch (outfit?.occasion) {
+          case 'FORMAL':
+            themeList[0] += 1;
+            break;
+          case 'BUSINESS':
+            themeList[1] += 1;
+            break;
+          case 'CASUAL':
+            themeList[2] += 1;
+            break;
+          case 'SPORTS':
+            themeList[3] += 1;
+            break;
+          default:
+            break;
+        }
       }
-    }
-    const returnList: string[] = ['FORMAL', 'BUSINESS', 'CASUAL', 'SPORTS'];
-    let max = 0;
-    for (let x = 0; x < 4; x++) {
-      if (themeList[x] > max) {
-        max = themeList[x];
-        this.topOccasion = returnList[x].toLowerCase();
-      }
-    }
-  }
-
-  findBreakupItem(): IClothingItem | null {
-    let dateWorn: dayjs.Dayjs;
-    let candidate: IClothingItem | null;
-    dateWorn = dayjs();
-    candidate = null;
-    const clothingReceivedData1 = this.clothingReceivedData;
-    if (clothingReceivedData1 != null) {
-      for (var item of clothingReceivedData1) {
-        if (item.lastWorn != null) {
-          if (!dateWorn.isBefore(item.lastWorn)) {
-            dateWorn = item.lastWorn;
-            candidate = item;
-          }
+      const returnList: string[] = ['FORMAL', 'BUSINESS', 'CASUAL', 'SPORTS'];
+      let max = 0;
+      for (let x = 0; x < 4; x++) {
+        if (themeList[x] > max) {
+          max = themeList[x];
+          this.topOccasion = returnList[x].toLowerCase();
         }
       }
     }
-    return candidate;
+  }
+
+  findBreakupItem(copyData: IClothingItem[]): IClothingItem | null {
+    let dateWorn: dayjs.Dayjs = dayjs();
+    let candidate: IClothingItem | null = null;
+    for (var item of copyData) {
+      if (item.lastWorn) {
+        if (item.lastWorn.isBefore(dateWorn)) {
+          dateWorn = item.lastWorn;
+          candidate = item;
+        }
+      }
+    }
+    return copyData[0];
+  }
+
+  findLinkedOutfits(id: number) {
+    let num = 0;
+    // @ts-ignore
+    for (var itemLog of this.itemLogs) {
+      if (itemLog.outfit?.id == id) {
+        num += 1;
+      }
+    }
+    return num;
   }
 }
