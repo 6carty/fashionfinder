@@ -1,23 +1,32 @@
-.display-page {
-  display: flex;
-  position: relative;
-  min-height: 75vh;
-}
-
-.display-grid {
+.layout-grid {
   position: relative;
   display: inline-grid;
+  grid-column-gap: 2.5vw;
+  grid-row-gap: 2.5vw;
   grid-template-areas: 'left middle-left middle middle-right right';
-  grid-column-gap: 2.5vw;
-  grid-row-gap: -2.5vw;
 }
 
-.display-grid-clothing {
-  position: absolute;
-  top: 22.5vh;
+.save-delete-grid {
+  position: relative;
   display: inline-grid;
+  grid-column-gap: 1vw;
+  grid-row-gap: 2.5vw;
   grid-template-areas: 'left right';
-  grid-column-gap: 2.5vw;
+}
+
+.detail-box {
+  position: relative;
+
+  height: 20vh;
+  width: 15vw;
+  transition-duration: 0.4s;
+}
+
+img {
+  display: flex;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .text-center {
@@ -42,53 +51,6 @@ textarea {
   margin-right: auto;
 }
 
-.offset {
-  position: relative;
-  padding: 1.25vh;
-}
-
-.caption-box {
-  position: relative;
-
-  height: 20vh;
-  width: 15vw;
-  transition-duration: 0.4s;
-}
-
-.description-box {
-  position: relative;
-
-  height: 20vh;
-  width: 15vw;
-  transition-duration: 0.4s;
-}
-
-.weather-box {
-  position: relative;
-
-  height: 20vh;
-  width: 15vw;
-  transition-duration: 0.4s;
-}
-
-.grid-container {
-  display: inline-grid;
-  grid-column-gap: 5vh;
-}
-
-img {
-  display: flex;
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-}
-
-.scrollable-area {
-  max-height: 40vh;
-  overflow-y: scroll;
-  contain: paint;
-}
-
 .image-box {
   position: relative;
 
@@ -99,38 +61,6 @@ img {
   justify-content: center;
   align-items: center;
   contain: paint;
-  grid-column: 5;
-  grid-row: 2;
-}
-
-.occasion-box {
-  position: relative;
-
-  height: 20vh;
-  width: 15vw;
-  transition-duration: 0.4s;
-}
-
-.post-display-box {
-  position: relative;
-
-  height: 50vh;
-  width: 32.5vw;
-  transition-duration: 0.4s;
-}
-
-.post-box {
-  position: relative;
-
-  height: 7.5vw;
-  width: 7.5vw;
-  transition-duration: 0.4s;
-  padding: 1.25vh;
-  margin: 1.25vh;
-  contain: paint;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .save-button {
@@ -149,12 +79,4 @@ img {
   width: 9.5vw;
   height: 20vh;
   transition-duration: 0.4s;
-}
-
-.save-delete-grid {
-  position: relative;
-  display: inline-grid;
-  grid-column-gap: 1vw;
-  grid-row-gap: 2.5vw;
-  grid-template-areas: 'left right';
 }

@@ -8,7 +8,7 @@
           <div class="display-box">
             <div class="sidebar">
               <div class="user-details">
-                <div class="profile-picture">
+                <div class="profile-picture" [routerLink]="['/post']">
                   <img
                     [src]="'data:' + currentProfile?.profilePictureContentType + ';base64,' + currentProfile?.profilePicture"
                     alt="Profile Picture"
@@ -24,13 +24,32 @@
                 </div>
               </div>
 
+              <div class="stats">
+                <a class="rank" style="text-decoration: none">
+                  <span class="stat-heading">
+                    <h5><b>Posts</b></h5>
+                  </span>
+                  <span class="stat-value">
+                    <h4>{{ filteredPosts?.length }}</h4>
+                  </span>
+                </a>
+                <a class="like-count" style="text-decoration: none">
+                  <span class="stat-heading">
+                    <h5><b>Total Likes</b></h5>
+                  </span>
+                  <span class="stat-value">
+                    <h4>{{ totalLikes }}</h4>
+                  </span>
+                </a>
+              </div>
+
               <!-- Button for Uploads -->
               <button class="post-btn" [routerLink]="['/post/new']">
                 <!--     (click)="onCreatePostButtonClick()-->
                 <b>Create Post</b>
               </button>
               <!-- Button for Gallery -->
-              <button class="gallery-btn" routerLink="/community"><b>Back to Feed</b></button>
+              <button class="gallery-btn" [routerLink]="['/community']"><b>Back to Feed</b></button>
             </div>
           </div>
         </div>
@@ -43,11 +62,11 @@
                 <div class="profile-photo">
                   <!--this should be user profile stuff-->
                   <img
-                    [src]="'data:' + currentUser?.profilePictureContentType + ';base64,' + currentUser?.profilePicture"
+                    [src]="'data:' + profile.profilePictureContentType + ';base64,' + profile.profilePicture"
                     alt="Profile Picture"
                     class="image"
-                    [routerLink]="['/user-profile/']"
                   />
+                  <!--[routerLink]="['/user-profile/']" -->
                 </div>
                 <div class="post-user-info">
                   <div class="username-text">
@@ -55,6 +74,7 @@
                   </div>
                   <div class="post-info-text">
                     <small>{{ post.createdDate }}</small>
+                    <b>ID: {{ post.id }}</b>
                   </div>
                 </div>
               </div>
@@ -79,9 +99,11 @@
                 </div>
               </div>
 
-              <div class="liked-by" [routerLink]="['/likes/']">
-                <h6>| Like count goes here | Likes</h6>
-              </div>
+              <ng-container *ngFor="let like of likeDetails[i]">
+                <div class="liked-by" [routerLink]="['/likes/']">
+                  <h6>{{ like.likeCount }} Likes</h6>
+                </div>
+              </ng-container>
               <div class="postAuthorInfo">
                 <!--*ngFor="let currentPost of everyPostsInfo[i]" -->
                 <div class="caption">

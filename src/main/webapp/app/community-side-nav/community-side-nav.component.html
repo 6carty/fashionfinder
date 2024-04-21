@@ -20,24 +20,24 @@
         </div>
       </div>
 
-      <!-- <div class="stats">
-      <a class="rank" style="text-decoration: none">
-        <span class="stat-heading">
-          <h5><b>Rank</b></h5>
-        </span>
-        <span class="stat-value">
-          <h4>1</h4>
-        </span>
-      </a>
-      <a class="like-count" style="text-decoration: none">
-        <span class="stat-heading"
-          ><h5><b>Total Likes</b></h5></span
-        >
-        <span class="stat-value"
-          ><h4>{{ totalLikes }}</h4></span
-        >
-      </a>
-    </div>-->
+      <div class="stats">
+        <a class="rank" style="text-decoration: none">
+          <span class="stat-heading">
+            <h5><b>Posts</b></h5>
+          </span>
+          <span class="stat-value">
+            <h4>{{ filteredPosts?.length }}</h4>
+          </span>
+        </a>
+        <a class="like-count" style="text-decoration: none">
+          <span class="stat-heading">
+            <h5><b>Total Likes</b></h5>
+          </span>
+          <span class="stat-value">
+            <h4>{{ totalLikes }}</h4>
+          </span>
+        </a>
+      </div>
       <!-- Button for Uploads -->
       <button class="post-btn" [routerLink]="['/post/new']">
         <!--     (click)="onCreatePostButtonClick()-->

@@ -13,6 +13,10 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 
+import { SortService } from '../shared/sort/sort.service';
+import { DataUtils } from '../core/util/data-util.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'jhi-post-form',
   templateUrl: './post-form.component.html',
@@ -22,126 +26,139 @@ export class PostFormComponent implements OnInit {
   constructor(
     private postService: PostService,
     protected activatedRoute: ActivatedRoute,
+    protected sortService: SortService,
     public router: Router,
+    protected dataUtils: DataUtils,
+    protected modalService: NgbModal,
     private userProfileService: UserProfileService,
     private accountService: AccountService,
     private userService: UserService
   ) {}
 
   postReceivedData: IPost[] | null = null;
-  postItemToEdit: IPost | any;
+  postToEdit: IPost | null = null;
   givenId: number = -1;
-
-  caption: string = '';
+  id: number = 0;
+  caption: any;
   userInputPhoto: any;
-  deleting: boolean = false;
   isSaving = false;
   users: IUser[] | null = null;
   user: IUser | undefined = undefined;
   userProfile: IUserProfile | undefined = undefined;
+  userProfilePick: Pick<IUserProfile, 'id'> | null = null;
+  active: Account | undefined = undefined;
+  userProfiles: IUserProfile[] | undefined = undefined;
 
   ngOnInit(): void {
-    /*this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.givenId = params.id;
 
       this.accountService.identity().subscribe(account => {
-        if (account) this.user = account;
+        if (account) this.active = account;
 
         this.userService.query().subscribe(users => {
           this.users = users.body;
-          if (this.users) this.user = this.users.find(user => user.login === this.user?.login);
+          if (this.users) this.user = this.users.find(user => user.login === this.active?.login);
           if (this.user) {
+            const pickUser: Pick<IUser, 'id'> = this.user;
             const queryObject = {
-              'user.equal': this.user,
+              'user.equal': pickUser,
             };
             this.userProfileService.query(queryObject).subscribe(userProfile => {
               if (userProfile.body) {
-                this.userProfile = userProfile.body.filter(obj => obj.user?.id == this.user?.id)[0];
+                this.userProfiles = userProfile.body.filter(obj => obj.user?.id == this.user?.id);
+                this.userProfile = this.userProfiles[0];
+                this.userProfilePick = this.userProfile;
               }
+
               this.fetchPosts();
             });
           }
         });
       });
-    });*/
+    });
   }
 
   fetchPosts() {
-    this.postService.query().subscribe(posts => {
-      this.postReceivedData = posts.body;
+    this.postService.query().subscribe(aPost => {
+      this.postReceivedData = aPost.body;
+      if (this.postReceivedData) this.postReceivedData = this.postReceivedData.filter(bPost => bPost.author?.id == this.userProfile?.id);
+
       if (this.postReceivedData) {
-        this.postItemToEdit = this.postReceivedData.find(post => post.id == this.givenId);
+        for (let item of this.postReceivedData) {
+          if (item.id == this.givenId) {
+            this.postToEdit = item;
+            this.id = this.postToEdit.id;
+          }
+        }
       }
     });
   }
 
   deleteButtonPressed() {
-    if (this.postItemToEdit) {
-      this.postService.delete(this.postItemToEdit.id).subscribe(() => {
+    if (this.postToEdit != null) {
+      this.postService.delete(this.postToEdit.id).subscribe(() => {
         this.router.navigate(['/community']);
       });
     }
   }
 
   saveButtonPressed() {
+    this.caption = document.getElementById('Caption') as HTMLInputElement;
     const inputElementPhoto = document.getElementById('Photo') as HTMLInputElement;
-
     if (inputElementPhoto.files && inputElementPhoto.files.length != 0) {
       const selectedFile = inputElementPhoto.files[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
         if (reader.result && typeof reader.result === 'string') {
-          let base64result = reader.result.split(',')[1];
+          var base64result = reader.result.split(',')[1];
           this.userInputPhoto = base64result;
         } else {
           this.userInputPhoto = null;
         }
 
-        const newPost: IPost = {
-          id: this.postItemToEdit?.id || 0,
-          caption: this.caption,
-          editedDate: dayjs(),
-          createdDate: dayjs(),
-          totalLikes: this.postItemToEdit?.totalLikes || 0,
-          author: this.userProfile,
-        };
-
-        if (inputElementPhoto.files && newPost) {
-          newPost.image = this.userInputPhoto;
-          newPost.imageContentType = inputElementPhoto.files[0].type;
+        if (this.postToEdit) {
+          this.postToEdit.caption = this.caption.value;
+          this.postToEdit.editedDate = dayjs();
+          this.postToEdit.createdDate = dayjs();
         }
-
-        if (this.postItemToEdit) {
-          this.subscribeToSaveResponse(this.postService.update(newPost));
-        } else {
-          //this.subscribeToSaveResponse(this.postService.create(newPost.id));
+        if (inputElementPhoto.files && this.postToEdit) {
+          this.postToEdit.image = this.userInputPhoto;
+          this.postToEdit.imageContentType = inputElementPhoto.files[0].type;
+        }
+        if (this.postToEdit != null) {
+          this.subscribeToSaveResponse(this.postService.update(this.postToEdit));
         }
       };
 
       if (selectedFile) {
         reader.readAsDataURL(selectedFile);
       }
+    } else {
+      if (this.postToEdit) {
+        this.postToEdit.caption = this.caption.value;
+        this.postToEdit.editedDate = dayjs();
+        this.postToEdit.createdDate = dayjs();
+      }
+      if (this.postToEdit != null) {
+        this.subscribeToSaveResponse(this.postService.update(this.postToEdit));
+      }
     }
   }
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPost>>): void {
-    this.isSaving = true;
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => {
-        this.onSaveSuccess();
-        this.router.navigate(['/community']);
-      },
-      error: () => {
-        this.isSaving = false;
-        // Handle error
-      },
+      next: () => this.onSaveSuccessClothing(),
+      error: () => this.onSaveError(),
     });
   }
 
-  protected onSaveSuccess(): void {
-    this.isSaving = false;
-    // Handle success if needed
+  protected onSaveSuccessClothing(): void {
+    window.location.reload();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
   }
 
   protected onSaveFinalize(): void {

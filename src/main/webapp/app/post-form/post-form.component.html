@@ -1,84 +1,29 @@
-<!--
-<div class="d-flex justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-post-heading" data-cy="PostCreateUpdateHeading">Create or edit a Post</h2>
+<div class="layout-grid">
+  <div class="display-box detail-box">
+    <div class="text-center"><span>CAPTION:</span></div>
+    <textarea type="text" class="text-center" id="Name" rows="2">{{ this.postToEdit?.caption }}</textarea>
+  </div>
 
-      <div>
-        <div class="row mb-3">
-          <label class="form-label" for="field_caption">Caption</label>
-          <input type="text" class="form-control" name="caption" id="field_caption" data-cy="caption" formControlName="caption" />
-          <div *ngIf="editForm.get('caption')!.invalid && (editForm.get('caption')!.dirty || editForm.get('caption')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('caption')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
+  <div class="save-delete-grid">
+    <div class="save-button" (click)="saveButtonPressed()" [routerLink]="['/user-gallery']">
+      <div class="text-center">SAVE</div>
+    </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="file_image">Image</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('image')!.value"
-              alt="post image"
-            />
-            <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
-              <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
-              <button
-                type="button"
-                (click)="clearInputImage('image', 'imageContentType', 'file_image')"
-                class="btn btn-secondary btn-xs pull-end"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
-            </div>
-            <input type="file" id="file_image" data-cy="image" (change)="setFileData($event, 'image', true)" accept="image/*" />
-          </div>
-          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
-          <input
-            type="hidden"
-            class="form-control"
-            name="imageContentType"
-            id="field_imageContentType"
-            formControlName="imageContentType"
-          />
-        </div>
+    <div class="delete-button" (click)="deleteButtonPressed()" [routerLink]="['/community']">
+      <div class="text-center">DELETE</div>
+    </div>
+  </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_author">Author</label>
-          <select
-            class="form-control"
-            id="field_author"
-            data-cy="author"
-            name="author"
-            formControlName="author"
-            &lt;!&ndash;[compareWith]="compareUserProfile"&ndash;&gt;
-          >
-            <option [ngValue]="null"></option>
-            &lt;!&ndash;<option [ngValue]="userProfileOption" *ngFor="let userProfileOption of userProfilesSharedCollection"> &ndash;&gt;
-          &lt;!&ndash; {{ userProfileOption.id }} &ndash;&gt;
-         </option>
-       </select>
-     </div>
-   </div>
-
-   <div>
-     <button type="button" id="delete-button" data-cy="deleteButton" class="btn btn-danger" (click)="deleteButtonPressed()">
-       <fa-icon icon="trash"></fa-icon>&nbsp;<span>Delete</span>
-     </button>
-
-     <button
-       type="button"
-       id="save-button"
-       data-cy="saveButton"
-       [disabled]="editForm.invalid || isSaving"
-       class="btn btn-primary"
-       (click)="saveButtonPressed()"
-     >
-       <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-     </button>
-   </div>
- </form>
+  <div class="display-box detail-box">
+    <div class="text-center"><span>CREATED AT:</span></div>
+    <div class="text-center">{{ postToEdit?.createdDate }}</div>
+  </div>
+  <div>
+    <div class="display-box image-box">
+      <span>
+        <img src="data:image/{{ postToEdit?.imageContentType }};charset=utf-8;base64,{{ postToEdit?.image }}" alt="your outfit" />
+        <input type="file" id="Photo" accept="image/*" />
+      </span>
+    </div>
+  </div>
 </div>
-</div>
--->

@@ -10,10 +10,12 @@ import dayjs from 'dayjs/esm';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { PostService } from '../entities/post/service/post.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ILikes } from '../entities/likes/likes.model';
 import { LikesService } from '../entities/likes/service/likes.service';
 import { CommunityFeedComponent } from '../community-feed/community-feed.component';
+import { DataUtils } from '../core/util/data-util.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-community-side-nav',
@@ -21,58 +23,44 @@ import { CommunityFeedComponent } from '../community-feed/community-feed.compone
   styleUrls: ['./community-side-nav.component.scss'],
 })
 export class CommunitySideNavComponent implements OnInit {
+  allPosts: Observable<IPost[]> | null = null;
+  userProfiles: IUserProfile[] | null = null;
+  currentUsersPosts: IPost[] | null = null;
   account: Account | null = null;
   allUserProfiles: Observable<IUserProfile[]> | null = null;
   filteredProfile: IUserProfile[] | null = null;
+  currentUser: IUserProfile | null = null;
+  filteredPosts: IPost[] | null = null;
+  currentID: any;
+  accountSubscription: Subscription | null = null;
+  postSubscription: Subscription | null = null;
   currentProfile: IUserProfile | null = null;
   isSaving: boolean = false;
-  currentID: any;
-  allLikes: Observable<ILikes[]> | null = null;
-  feedLikes: ILikes[] | any = [];
-  filteredLikes: ILikes[] | undefined;
-  likePos: number = 0;
-  allPosts: Observable<IPost[]> | null = null;
-  feedPosts: IPost[] | null = null;
   likeDetails: { likeCount: number; postID: any }[][] = [];
-  totalLikes: any = 0;
-  accountSubscription: Subscription | null = null;
+  allLikes: Observable<ILikes[]> | null = null;
+  feedLikes: ILikes[] | null = null;
+  likePos: number = 0;
+  totalLikes: number = 0;
+
   constructor(
-    private accountService: AccountService,
-    private userProfileService: UserProfileService,
-    private userManagementService: UserManagementService,
-    private postService: PostService,
-    private router: Router,
-    private likeService: LikesService
+    protected postService: PostService,
+    protected activatedRoute: ActivatedRoute,
+    public router: Router,
+    protected dataUtils: DataUtils,
+    protected likeService: LikesService,
+    protected modalService: NgbModal,
+    protected userProfileService: UserProfileService,
+    protected userManagementService: UserManagementService,
+    protected accountService: AccountService
   ) {}
 
-  findTotalLikeCount(userID: number, currentPost: IPost): void {
-    this.allLikes = this.likeService.getLikes();
-    this.allLikes.subscribe(currentUsersLikes => {
-      this.feedLikes = currentUsersLikes;
-      //this.feedLikes = currentUsersLikes.map(like => [like.post?.id , like.like, like.post?.id]);
-      //////////////console.log(this.feedLikes);
-      this.filteredLikes = this.feedLikes?.filter((like: { userLiked: any; like: boolean }) => like.like);
-      //&& this.feedLikes.includes(currentPost.id)
-      //////////////////////console.log(this.filteredLikes, 'can u see me');
-      this.totalLikes += this.feedLikes?.length;
+  ngOnInit(): void {
+    this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
+      this.account = account;
+      this.initialiseService();
     });
   }
 
-  filterPosts(userID: number): void {
-    this.allPosts = null;
-    this.feedPosts = null;
-
-    this.allPosts = this.postService.getPosts();
-    this.allPosts.subscribe(currentUsersPosts => {
-      this.feedPosts = currentUsersPosts;
-      this.feedPosts = currentUsersPosts.filter(post => post.author?.id == 1101);
-      if (this.feedPosts) {
-        this.feedPosts.forEach((post, index) => {
-          this.findTotalLikeCount(userID, post);
-        });
-      }
-    });
-  }
   initialiseService(): void {
     if (this.account?.login) {
       this.userManagementService.find(this.account.login).subscribe({
@@ -83,62 +71,54 @@ export class CommunitySideNavComponent implements OnInit {
             this.allUserProfiles.subscribe(userProfiles => {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentProfile = this.filteredProfile[0];
-              this.filterPosts(this.currentID);
-            });
-            this.allUserProfiles = this.userProfileService.getUserProfiles();
-            this.allUserProfiles.subscribe(userProfiles => {
-              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
-              this.currentProfile = this.filteredProfile[0];
+              this.initialiseServicePost(); // Call initialiseServicePost() here
             });
           }
         },
       });
     }
   }
-  ngOnInit(): void {
-    this.accountSubscription = this.accountService.identity().subscribe((account: Account | null) => {
-      this.account = account;
-      this.initialiseService();
-    });
-  }
 
-  onCreatePostButtonClick() {
-    const post: NewPost = {
-      id: null,
-      caption: '',
-      createdDate: dayjs(),
-      editedDate: dayjs(),
-      author: this.currentID,
-    };
-    this.subscribeToSaveResponsePost(this.postService.create(post));
-  }
+  initialiseServicePost(): void {
+    if (this.currentProfile) {
+      this.allPosts = this.postService.getPosts();
+      this.allPosts.subscribe(currentUsersPosts => {
+        this.filteredPosts = currentUsersPosts.filter(post => post.author?.id == this.currentProfile?.id);
 
-  protected subscribeToSaveResponsePost(result: Observable<HttpResponse<IPost>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccessPost(),
-      error: () => this.onSaveError(),
-    });
-  }
-
-  protected onSaveSuccessPost(): void {
-    this.router.navigate(
-      ['/social-chat'] //{
-      //queryParams: { id: '-1' }
-      //,
-      //}
-    );
-  }
-
-  protected onSaveError(): void {
-    // Api for inheritance.
-  }
-  protected onSaveFinalize(): void {
-    this.isSaving = false;
-  }
-
-  ngOnDestroy(): void {
-    if (this.accountSubscription) {
-      this.accountSubscription.unsubscribe();
+        if (this.filteredPosts) {
+          this.filteredPosts.forEach((post, index) => {
+            this.likeDetails.push([{ likeCount: 0, postID: '' }]);
+          });
+        }
+        for (let i = 0; i < this.filteredPosts.length; i++) {
+          this.filterLikes(this.filteredPosts[i].id, i);
+        }
+      });
     }
   }
+
+  filterLikes(postID: number, index: number): void {
+    this.allLikes = this.likeService.getLikes();
+    this.allLikes.subscribe(currentUsersLikes => {
+      //get all likes for a specific post
+      this.feedLikes = currentUsersLikes;
+      this.feedLikes = currentUsersLikes.filter(like => like.post?.id === postID);
+      if (this.feedLikes.length) {
+        this.totalLikes += this.feedLikes.length;
+        console.log(this.totalLikes);
+        this.likeDetails[index][0].likeCount = this.feedLikes.length;
+        this.likeDetails[index][0].postID = postID;
+        this.likePos += 1;
+        if (this.likePos === this.feedLikes.length) {
+          this.likeDetails.sort((a, b) => a[0].postID - b[0].postID);
+        }
+      }
+    });
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
+  }
+
+  trackId = (_index: number, item: IPost): number => this.postService.getPostIdentifier(item);
 }
