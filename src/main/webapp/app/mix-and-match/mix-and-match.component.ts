@@ -74,7 +74,6 @@ export class MixAndMatchComponent implements OnInit {
           this.users = usersResponse.body;
           if (this.users) {
             this.user = this.users.find(user => user.login === this.active);
-            console.log('The user is currently', this.user);
             return this.fetchWeatherData(); // Call fetchWeatherData after user data is obtained
           }
           return EMPTY; // If user data is not available, return an empty observable
@@ -159,10 +158,8 @@ export class MixAndMatchComponent implements OnInit {
           ) {
             filterUserOutfits = filterUserOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
             this.recommendedfilterOutfit = filterUserOutfits;
-            console.log('It filtered Something and that is', this.recommendedfilterOutfit);
           }
         });
-        console.log('what is it currently filtering to', this.activeRecommendedFilters);
         if (filterUserOutfits.length == 0) {
           this.outfitImages = this.alloutfitImage.slice(0, 10);
         } else {
@@ -185,7 +182,6 @@ export class MixAndMatchComponent implements OnInit {
                 const ratingCount = soleOutfitRatings.length;
                 const newItem = { outfit: soleOutfit, ratingCount };
                 const existingItemIndex = this.likeOccurence.findIndex(item => item.outfit.id === newItem.outfit.id);
-                console.log(existingItemIndex);
                 if (existingItemIndex !== -1) {
                 } else {
                   let index = this.likeOccurence.findIndex(item => item.ratingCount < newItem.ratingCount);
@@ -419,7 +415,6 @@ export class MixAndMatchComponent implements OnInit {
         windSpeed10m: hourly.variables(4)!.valuesArray()!,
       },
     };
-    console.log(this.weatherData);
     this.getCurrentHourData();
   }
   toggleOccasionDropdown(): void {
