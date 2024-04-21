@@ -77,7 +77,7 @@ export class CommunityFeedComponent implements OnInit {
     this.allLikes.subscribe(currentUsersLikes => {
       //get all comments for a specific post
       this.feedLikes = currentUsersLikes;
-      this.feedLikes = currentUsersLikes.filter(like => like.post?.id === postID && like.like == true);
+      this.feedLikes = currentUsersLikes.filter(like => like.post?.id === postID);
       if (this.feedLikes.length) {
         this.likeDetails[index][0].likeCount = this.feedLikes.length;
         this.likeDetails[index][0].postID = postID;
@@ -115,13 +115,6 @@ export class CommunityFeedComponent implements OnInit {
     this.allPosts.subscribe(currentUsersPosts => {
       this.feedPosts = currentUsersPosts;
       this.feedPosts = currentUsersPosts.filter(post => post.author?.id !== this.currentID);
-      /*this.feedPosts.sort((a, b) => {
-        if (a.createdDate && b.createdDate) {
-          return b.createdDate.date() - a.createdDate.date();
-        }
-        // Handle the case where postCommented is undefined
-        return 0;
-      });*/
 
       if (this.feedPosts) {
         this.feedPosts.forEach((post, index) => {
@@ -137,9 +130,9 @@ export class CommunityFeedComponent implements OnInit {
   }
 
   filterComments(postID: number, index: number): void {
+    console.log(postID, 'post id at each event');
     this.everyPostsInfo.push([{ visibleComment: '', commentFrom: '', postID: '' }]);
     this.allComments = this.commentService.getComments();
-
     this.allComments.subscribe(currentUsersComments => {
       //get all comments for a specific post
       this.feedComments = currentUsersComments;
@@ -151,39 +144,49 @@ export class CommunityFeedComponent implements OnInit {
         return 0;
       });
       this.feedComments = currentUsersComments.filter(comment => comment.postCommented?.id === postID);
-      //console.log(this.feedComments , "filtered" , postID)
-      this.visibleComment = '';
+      this.visibleComment = ' ';
       if (this.feedComments.length) {
         this.visibleComment = this.feedComments[0].content;
         this.quickID = this.feedComments[0].userCommented?.id;
         this.everyPostsInfo[this.currentCommentPos][0].visibleComment = this.visibleComment;
         this.everyPostsInfo[this.currentCommentPos][0].postID = postID;
       }
-      this.getCommentAuthor(this.quickID, this.currentCommentPos);
+      this.getCommentAuthor(this.quickID, this.currentCommentPos, this.feedComments.length == 0);
+      if (!this.feedComments.length) {
+        this.everyPostsInfo[this.currentCommentPos][0].postID = postID;
+      }
       this.currentCommentPos += 1;
     });
   }
 
-  getCommentAuthor(postAuthorID: number | undefined, index: number): void {
+  getCommentAuthor(postAuthorID: number | undefined, index: number, comments: boolean): void {
     this.commentFrom = '';
-    if (this.userProfileSub) {
-      this.userProfileSub.subscribe(userProfiles => {
-        let userProfile = userProfiles.find(profile => profile.id === postAuthorID);
-        if (userProfile?.id) {
-          // Now that we have the user profile, get the username
-          this.userService.getUsers().subscribe(users => {
-            let user = users.find(user => user.id === userProfile?.user?.id);
-            if (user?.login) {
-              this.commentFrom = user.login;
-              this.everyPostsInfo[index][0].commentFrom = this.commentFrom;
-              this.userPos += 1;
-              if (this.userPos === this.everyPostsInfo.length) {
-                this.everyPostsInfo.sort((a, b) => a[0].postID - b[0].postID);
+    if (comments) {
+      this.everyPostsInfo[this.currentCommentPos][0].commentFrom = this.commentFrom;
+      this.userPos += 1;
+    } else {
+      if (this.userProfileSub) {
+        this.userProfileSub.subscribe(userProfiles => {
+          let userProfile = userProfiles.find(profile => profile.id === postAuthorID);
+          if (userProfile?.id) {
+            // Now that we have the user profile, get the username
+            this.userService.getUsers().subscribe(users => {
+              let user = users.find(user => user.id === userProfile?.user?.id);
+              if (user?.login) {
+                this.commentFrom = user.login;
+                this.everyPostsInfo[index][0].commentFrom = this.commentFrom;
+                this.userPos += 1;
+                if (this.userPos === this.everyPostsInfo.length) {
+                  console.log(this.everyPostsInfo);
+
+                  this.everyPostsInfo.sort((a, b) => a[0].postID - b[0].postID);
+                  console.log(this.everyPostsInfo);
+                }
               }
-            }
-          });
-        }
-      });
+            });
+          }
+        });
+      }
     }
   }
 

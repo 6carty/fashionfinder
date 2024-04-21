@@ -80,7 +80,7 @@ export class LikesFormService {
 
     return {
       id: null,
-      like: false,
+      like: true,
       likedAt: currentTime,
     };
   }

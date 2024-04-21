@@ -12,6 +12,8 @@ import { EventManager, EventWithContent } from 'app/core/util/event-manager.serv
 import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
 import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
+import { UserManagementService } from '../../../admin/user-management/service/user-management.service';
+import { Account } from '../../../core/auth/account.model';
 
 @Component({
   selector: 'jhi-post-update',
@@ -25,23 +27,46 @@ export class PostUpdateComponent implements OnInit {
 
   editForm: PostFormGroup = this.postFormService.createPostFormGroup();
 
+  private userProfileSub: Observable<IUserProfile[]> | null = null;
+  private filteredProfile: any;
+  private account: Account | null = null;
+
   constructor(
     protected dataUtils: DataUtils,
     protected eventManager: EventManager,
     protected postService: PostService,
     protected postFormService: PostFormService,
     protected userProfileService: UserProfileService,
+
+    private userManagementService: UserManagementService,
+
     protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareUserProfile = (o1: IUserProfile | null, o2: IUserProfile | null): boolean => this.userProfileService.compareUserProfile(o1, o2);
 
+  /*getUser(): any {
+   if (this.account?.login) {
+     this.userManagementService.find(this.account.login).subscribe({
+       next: currentUser => {
+         if (currentUser.id != null) {
+           this.userProfileSub = this.userProfileService.getUserProfiles();
+           this.userProfileSub.subscribe(userProfiles => {
+             this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+             return this.filteredProfile[0]
+           });
+         }
+       },
+     });
+   }
+ }*/
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ post }) => {
       this.post = post;
       if (post) {
         this.updateForm(post);
+        //this.getUser() as a parameter
       }
 
       this.loadRelationshipsOptions();
@@ -108,6 +133,8 @@ export class PostUpdateComponent implements OnInit {
 
   protected updateForm(post: IPost): void {
     this.post = post;
+    //this.post.author = user;
+    //this.post.author.id = user.id
     this.postFormService.resetForm(this.editForm, post);
 
     this.userProfilesSharedCollection = this.userProfileService.addUserProfileToCollectionIfMissing<IUserProfile>(

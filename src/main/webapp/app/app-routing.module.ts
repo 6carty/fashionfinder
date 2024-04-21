@@ -20,6 +20,7 @@ import { OutfitEditComponent } from './outfit-edit/outfit-edit.component';
 import { UserGalleryComponent } from './user-gallery/user-gallery.component';
 import { ClothingItemEditComponent } from './clothing-item-edit/clothing-item-edit.component';
 import { DiaryComponent } from './diary/diary.component';
+import { PostFormComponent } from './post-form/post-form.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,10 @@ import { DiaryComponent } from './diary/diary.component';
         {
           path: 'diary',
           component: DiaryComponent,
+        },
+        {
+          path: 'post-form',
+          component: PostFormComponent,
         },
         navbarRoute,
         ...errorRoute,

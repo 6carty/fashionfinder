@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IPost, NewPost } from '../post.model';
+import dayjs from 'dayjs/esm';
+import { Account } from '../../../core/auth/account.model';
+import { UserManagementService } from '../../../admin/user-management/service/user-management.service';
+import { UserProfileService } from '../../user-profile/service/user-profile.service';
+import { Observable, Subscription } from 'rxjs';
+import { IUserProfile } from '../../user-profile/user-profile.model';
 
 /**
  * A partial Type with required key is used as form input.
@@ -32,8 +38,11 @@ export type PostFormGroup = FormGroup<PostFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class PostFormService {
   createPostFormGroup(post: PostFormGroupInput = { id: null }): PostFormGroup {
+    const currentTime = dayjs();
     const postRawValue = {
       ...this.getFormDefaults(),
+      ...(post.createdDate = currentTime),
+      ...(post.editedDate = currentTime),
       ...post,
     };
     return new FormGroup<PostFormGroupContent>({

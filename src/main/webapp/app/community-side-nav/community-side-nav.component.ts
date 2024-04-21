@@ -50,10 +50,10 @@ export class CommunitySideNavComponent implements OnInit {
     this.allLikes.subscribe(currentUsersLikes => {
       this.feedLikes = currentUsersLikes;
       //this.feedLikes = currentUsersLikes.map(like => [like.post?.id , like.like, like.post?.id]);
-      console.log(this.feedLikes);
+      //////////////console.log(this.feedLikes);
       this.filteredLikes = this.feedLikes?.filter((like: { userLiked: any; like: boolean }) => like.like);
       //&& this.feedLikes.includes(currentPost.id)
-      console.log(this.filteredLikes, 'can u see me');
+      //////////////////////console.log(this.filteredLikes, 'can u see me');
       this.totalLikes += this.feedLikes?.length;
     });
   }

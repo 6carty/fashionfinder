@@ -50,56 +50,56 @@
           />
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_createdDate">Created Date</label>
-          <div class="input-group">
-            <input
-              id="field_createdDate"
-              data-cy="createdDate"
-              type="text"
-              class="form-control"
-              name="createdDate"
-              ngbDatepicker
-              #createdDateDp="ngbDatepicker"
-              formControlName="createdDate"
-            />
-            <button type="button" class="btn btn-secondary" (click)="createdDateDp.toggle()">
-              <fa-icon icon="calendar-alt"></fa-icon>
-            </button>
-          </div>
-          <div *ngIf="editForm.get('createdDate')!.invalid && (editForm.get('createdDate')!.dirty || editForm.get('createdDate')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('createdDate')?.errors?.required"> This field is required. </small>
-          </div>
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_createdDate">Created Date</label>-->
+        <!--          <div class="input-group">-->
+        <!--            <input-->
+        <!--              id="field_createdDate"-->
+        <!--              data-cy="createdDate"-->
+        <!--              type="text"-->
+        <!--              class="form-control"-->
+        <!--              name="createdDate"-->
+        <!--              ngbDatepicker-->
+        <!--              #createdDateDp="ngbDatepicker"-->
+        <!--              formControlName="createdDate"-->
+        <!--            />-->
+        <!--            <button type="button" class="btn btn-secondary" (click)="createdDateDp.toggle()">-->
+        <!--              <fa-icon icon="calendar-alt"></fa-icon>-->
+        <!--            </button>-->
+        <!--          </div>-->
+        <!--          <div *ngIf="editForm.get('createdDate')!.invalid && (editForm.get('createdDate')!.dirty || editForm.get('createdDate')!.touched)">-->
+        <!--            <small class="form-text text-danger" *ngIf="editForm.get('createdDate')?.errors?.required"> This field is required. </small>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_editedDate">Edited Date</label>
-          <div class="input-group">
-            <input
-              id="field_editedDate"
-              data-cy="editedDate"
-              type="text"
-              class="form-control"
-              name="editedDate"
-              ngbDatepicker
-              #editedDateDp="ngbDatepicker"
-              formControlName="editedDate"
-            />
-            <button type="button" class="btn btn-secondary" (click)="editedDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-          </div>
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_editedDate">Edited Date</label>-->
+        <!--          <div class="input-group">-->
+        <!--            <input-->
+        <!--              id="field_editedDate"-->
+        <!--              data-cy="editedDate"-->
+        <!--              type="text"-->
+        <!--              class="form-control"-->
+        <!--              name="editedDate"-->
+        <!--              ngbDatepicker-->
+        <!--              #editedDateDp="ngbDatepicker"-->
+        <!--              formControlName="editedDate"-->
+        <!--            />-->
+        <!--            <button type="button" class="btn btn-secondary" (click)="editedDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_totalLikes">Total Likes</label>
-          <input
-            type="number"
-            class="form-control"
-            name="totalLikes"
-            id="field_totalLikes"
-            data-cy="totalLikes"
-            formControlName="totalLikes"
-          />
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_totalLikes">Total Likes</label>-->
+        <!--          <input-->
+        <!--            type="number"-->
+        <!--            class="form-control"-->
+        <!--            name="totalLikes"-->
+        <!--            id="field_totalLikes"-->
+        <!--            data-cy="totalLikes"-->
+        <!--            formControlName="totalLikes"-->
+        <!--          />-->
+        <!--        </div>-->
 
         <div class="row mb-3">
           <label class="form-label" for="field_author">Author</label>
