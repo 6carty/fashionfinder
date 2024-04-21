@@ -564,13 +564,11 @@ public class UserProfile implements Serializable {
 
     public UserProfile addChatroom(Chatroom chatroom) {
         this.chatrooms.add(chatroom);
-        chatroom.getUserProfiles().add(this);
         return this;
     }
 
     public UserProfile removeChatroom(Chatroom chatroom) {
         this.chatrooms.remove(chatroom);
-        chatroom.getUserProfiles().remove(this);
         return this;
     }
 
