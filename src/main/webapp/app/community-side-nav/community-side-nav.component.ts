@@ -79,6 +79,11 @@ export class CommunitySideNavComponent implements OnInit {
               this.filterPosts(this.currentID);
               this.findTotalLikeCount(this.currentProfile.id);
             });
+            this.allUserProfiles = this.userProfileService.getUserProfiles();
+            this.allUserProfiles.subscribe(userProfiles => {
+              this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
+              this.currentProfile = this.filteredProfile[0];
+            });
           }
         },
       });

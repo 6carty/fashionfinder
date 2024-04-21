@@ -78,13 +78,18 @@ public class UserProfile implements Serializable {
 
     @OneToMany(mappedBy = "creator")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "ratings", "userCreated", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
     private Set<Outfit> outfits = new HashSet<>();
 
     @OneToMany(mappedBy = "userProfile")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "chatroom", "userProfile" }, allowSetters = true)
     private Set<Message> messages = new HashSet<>();
+
+    @OneToMany(mappedBy = "requester")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "requester" }, allowSetters = true)
+    private Set<ExchangeRequest> exchangeRequests = new HashSet<>();
 
     @OneToMany(mappedBy = "seller")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -113,7 +118,7 @@ public class UserProfile implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "chatroom_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "chatrooms", "userProfiles" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "chatMessages", "creator", "recipient" }, allowSetters = true)
     private Set<Chatroom> chatrooms = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "userProfile" }, allowSetters = true)
@@ -425,6 +430,37 @@ public class UserProfile implements Serializable {
         return this;
     }
 
+    public Set<ExchangeRequest> getExchangeRequests() {
+        return this.exchangeRequests;
+    }
+
+    public void setExchangeRequests(Set<ExchangeRequest> exchangeRequests) {
+        if (this.exchangeRequests != null) {
+            this.exchangeRequests.forEach(i -> i.setRequester(null));
+        }
+        if (exchangeRequests != null) {
+            exchangeRequests.forEach(i -> i.setRequester(this));
+        }
+        this.exchangeRequests = exchangeRequests;
+    }
+
+    public UserProfile exchangeRequests(Set<ExchangeRequest> exchangeRequests) {
+        this.setExchangeRequests(exchangeRequests);
+        return this;
+    }
+
+    public UserProfile addExchangeRequests(ExchangeRequest exchangeRequest) {
+        this.exchangeRequests.add(exchangeRequest);
+        exchangeRequest.setRequester(this);
+        return this;
+    }
+
+    public UserProfile removeExchangeRequests(ExchangeRequest exchangeRequest) {
+        this.exchangeRequests.remove(exchangeRequest);
+        exchangeRequest.setRequester(null);
+        return this;
+    }
+
     public Set<PurchaseListing> getPurchaseListings() {
         return this.purchaseListings;
     }
@@ -564,13 +600,11 @@ public class UserProfile implements Serializable {
 
     public UserProfile addChatroom(Chatroom chatroom) {
         this.chatrooms.add(chatroom);
-        chatroom.getUserProfiles().add(this);
         return this;
     }
 
     public UserProfile removeChatroom(Chatroom chatroom) {
         this.chatrooms.remove(chatroom);
-        chatroom.getUserProfiles().remove(this);
         return this;
     }
 
