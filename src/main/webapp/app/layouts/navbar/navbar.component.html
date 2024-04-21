@@ -76,264 +76,265 @@
         </li>
 
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-        <li
-          *ngSwitchCase="true"
-          ngbDropdown
-          class="nav-item dropdown pointer"
-          display="dynamic"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
-            <span>
-              <fa-icon icon="th-list"></fa-icon>
-              <span>Entities</span>
-            </span>
-          </a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="user-profile"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>User Profile</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="clothing-item"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Clothing Item</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="outfit"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Outfit</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="message"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Message</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="chatroom"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Chatroom</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="user-milestone"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>User Milestone</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="milestone-type"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Milestone Type</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="event"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Event</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="calendar"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Calendar</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="fashion-tip"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Fashion Tip</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="exchange-request"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Exchange Request</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="purchase-listing"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Purchase Listing</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="sale-listing"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Sale Listing</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="rating"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Rating</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="post"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Post</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="comment"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Comment</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="likes"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Likes</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="leaderboard"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Leaderboard</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="chat-message"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Chat Message</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="item-log"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Item Log</span>
-              </a>
-            </li>
-            <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-          </ul>
-        </li>
+        <!--        Here-->
+        <!--        <li-->
+        <!--          *ngSwitchCase="true"-->
+        <!--          ngbDropdown-->
+        <!--          class="nav-item dropdown pointer"-->
+        <!--          display="dynamic"-->
+        <!--          routerLinkActive="active"-->
+        <!--          [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--        >-->
+        <!--          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">-->
+        <!--            <span>-->
+        <!--              <fa-icon icon="th-list"></fa-icon>-->
+        <!--              <span>Entities</span>-->
+        <!--            </span>-->
+        <!--          </a>-->
+        <!--          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="user-profile"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>User Profile</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="clothing-item"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Clothing Item</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="outfit"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Outfit</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="message"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Message</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="chatroom"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Chatroom</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="user-milestone"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>User Milestone</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="milestone-type"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Milestone Type</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="event"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Event</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="calendar"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Calendar</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="fashion-tip"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Fashion Tip</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="exchange-request"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Exchange Request</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="purchase-listing"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Purchase Listing</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="sale-listing"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Sale Listing</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="rating"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Rating</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="post"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Post</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="comment"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Comment</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="likes"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Likes</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="leaderboard"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Leaderboard</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="chat-message"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Chat Message</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            <li>-->
+        <!--              <a-->
+        <!--                class="dropdown-item"-->
+        <!--                routerLink="item-log"-->
+        <!--                routerLinkActive="active"-->
+        <!--                [routerLinkActiveOptions]="{ exact: true }"-->
+        <!--                (click)="collapseNavbar()"-->
+        <!--              >-->
+        <!--                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>-->
+        <!--                <span>Item Log</span>-->
+        <!--              </a>-->
+        <!--            </li>-->
+        <!--            &lt;!&ndash; jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here &ndash;&gt;-->
+        <!--          </ul>-->
+        <!--        </li>-->
         <li
           *jhiHasAnyAuthority="'ROLE_ADMIN'"
           ngbDropdown
