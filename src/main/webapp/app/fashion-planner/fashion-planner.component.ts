@@ -50,7 +50,8 @@ export class FashionPlannerComponent implements OnInit {
   fetchEvents() {
     this.eventService.query().subscribe((res: EntityArrayResponseType) => {
       this.events = res.body || [];
-      this.filterEvents();
+      // this.filterEvents();
+      this.groupEventsByDay();
     });
   }
 

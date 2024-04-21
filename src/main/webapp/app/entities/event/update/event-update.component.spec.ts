@@ -11,8 +11,6 @@ import { EventService } from '../service/event.service';
 import { IEvent } from '../event.model';
 import { IOutfit } from 'app/entities/outfit/outfit.model';
 import { OutfitService } from 'app/entities/outfit/service/outfit.service';
-import { IUserProfile } from 'app/entities/user-profile/user-profile.model';
-import { UserProfileService } from 'app/entities/user-profile/service/user-profile.service';
 
 import { EventUpdateComponent } from './event-update.component';
 
@@ -23,7 +21,6 @@ describe('Event Management Update Component', () => {
   let eventFormService: EventFormService;
   let eventService: EventService;
   let outfitService: OutfitService;
-  let userProfileService: UserProfileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,7 +44,6 @@ describe('Event Management Update Component', () => {
     eventFormService = TestBed.inject(EventFormService);
     eventService = TestBed.inject(EventService);
     outfitService = TestBed.inject(OutfitService);
-    userProfileService = TestBed.inject(UserProfileService);
 
     comp = fixture.componentInstance;
   });
@@ -75,40 +71,15 @@ describe('Event Management Update Component', () => {
       expect(comp.outfitsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call UserProfile query and add missing value', () => {
-      const event: IEvent = { id: 456 };
-      const creator: IUserProfile = { id: 24421 };
-      event.creator = creator;
-
-      const userProfileCollection: IUserProfile[] = [{ id: 14460 }];
-      jest.spyOn(userProfileService, 'query').mockReturnValue(of(new HttpResponse({ body: userProfileCollection })));
-      const additionalUserProfiles = [creator];
-      const expectedCollection: IUserProfile[] = [...additionalUserProfiles, ...userProfileCollection];
-      jest.spyOn(userProfileService, 'addUserProfileToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ event });
-      comp.ngOnInit();
-
-      expect(userProfileService.query).toHaveBeenCalled();
-      expect(userProfileService.addUserProfileToCollectionIfMissing).toHaveBeenCalledWith(
-        userProfileCollection,
-        ...additionalUserProfiles.map(expect.objectContaining)
-      );
-      expect(comp.userProfilesSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const event: IEvent = { id: 456 };
       const outfit: IOutfit = { id: 83700 };
       event.outfit = outfit;
-      const creator: IUserProfile = { id: 39283 };
-      event.creator = creator;
 
       activatedRoute.data = of({ event });
       comp.ngOnInit();
 
       expect(comp.outfitsSharedCollection).toContain(outfit);
-      expect(comp.userProfilesSharedCollection).toContain(creator);
       expect(comp.event).toEqual(event);
     });
   });
@@ -189,16 +160,6 @@ describe('Event Management Update Component', () => {
         jest.spyOn(outfitService, 'compareOutfit');
         comp.compareOutfit(entity, entity2);
         expect(outfitService.compareOutfit).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
-    describe('compareUserProfile', () => {
-      it('Should forward to userProfileService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(userProfileService, 'compareUserProfile');
-        comp.compareUserProfile(entity, entity2);
-        expect(userProfileService.compareUserProfile).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

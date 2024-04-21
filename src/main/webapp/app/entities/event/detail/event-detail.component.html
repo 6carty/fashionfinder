@@ -36,12 +36,6 @@
             <a [routerLink]="['/outfit', event.outfit.id, 'view']">{{ event.outfit.name }}</a>
           </div>
         </dd>
-        <dt><span>Creator</span></dt>
-        <dd>
-          <div *ngIf="event.creator">
-            <a [routerLink]="['/user-profile', event.creator.id, 'view']">{{ event.creator.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

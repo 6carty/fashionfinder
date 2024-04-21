@@ -40,31 +40,8 @@ public class Event implements Serializable {
     private ZonedDateTime endTime;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "ratings", "creator", "clothingItems" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ratings", "userCreated", "creator", "clothingItems" }, allowSetters = true)
     private Outfit outfit;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(
-        value = {
-            "user",
-            "posts",
-            "comments",
-            "likes",
-            "clothingItems",
-            "outfits",
-            "messages",
-            "purchaseListings",
-            "saleListings",
-            "fashionTips",
-            "userMilestones",
-            "events",
-            "chatrooms",
-            "calendar",
-        },
-        allowSetters = true
-    )
-    private UserProfile creator;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -143,19 +120,6 @@ public class Event implements Serializable {
 
     public Event outfit(Outfit outfit) {
         this.setOutfit(outfit);
-        return this;
-    }
-
-    public UserProfile getCreator() {
-        return this.creator;
-    }
-
-    public void setCreator(UserProfile userProfile) {
-        this.creator = userProfile;
-    }
-
-    public Event creator(UserProfile userProfile) {
-        this.setCreator(userProfile);
         return this;
     }
 
