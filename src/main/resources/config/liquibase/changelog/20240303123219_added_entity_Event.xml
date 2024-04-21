@@ -29,9 +29,6 @@
             <column name="outfit_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="creator_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="event" columnName="date_time" columnDataType="${datetimeType}"/>

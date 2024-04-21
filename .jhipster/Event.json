@@ -39,13 +39,6 @@
       "relationshipName": "outfit",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "userProfile",
-      "otherEntityRelationshipName": "event",
-      "relationshipName": "creator",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
     }
   ],
   "searchEngine": "no",

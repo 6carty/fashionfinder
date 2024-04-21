@@ -88,7 +88,7 @@ public class UserProfile implements Serializable {
 
     @OneToMany(mappedBy = "requester")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "requester" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "clothingItem", "requester" }, allowSetters = true)
     private Set<ExchangeRequest> exchangeRequests = new HashSet<>();
 
     @OneToMany(mappedBy = "seller")
@@ -118,7 +118,7 @@ public class UserProfile implements Serializable {
         inverseJoinColumns = @JoinColumn(name = "chatroom_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "chatMessages", "creator", "recipient" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "chatrooms", "userProfiles" }, allowSetters = true)
     private Set<Chatroom> chatrooms = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "userProfile" }, allowSetters = true)
@@ -600,11 +600,13 @@ public class UserProfile implements Serializable {
 
     public UserProfile addChatroom(Chatroom chatroom) {
         this.chatrooms.add(chatroom);
+        //        chatroom.getUserProfiles().add(this);
         return this;
     }
 
     public UserProfile removeChatroom(Chatroom chatroom) {
         this.chatrooms.remove(chatroom);
+        //        chatroom.getUserProfiles().remove(this);
         return this;
     }
 

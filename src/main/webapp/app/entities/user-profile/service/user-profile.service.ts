@@ -77,21 +77,6 @@ export class UserProfileService {
     return this.http.get<IUserProfile[]>(this.resourceUrl);
   }
 
-  getUserProfileById(id: number | undefined): Observable<IUserProfile> {
-    return this.http.get<RestUserProfile[]>(this.resourceUrl, { observe: 'response' }).pipe(
-      map(res => {
-        // @ts-ignore
-        this.userProfiles = res.body || [];
-        const userProfile = this.userProfiles.find(profile => profile.user === id);
-        if (userProfile) {
-          return userProfile;
-        } else {
-          throw new Error(`User profile with ID ${id} not found.`);
-        }
-      })
-    );
-  }
-
   compareUserProfile(o1: Pick<IUserProfile, 'id'> | null, o2: Pick<IUserProfile, 'id'> | null): boolean {
     return o1 && o2 ? this.getUserProfileIdentifier(o1) === this.getUserProfileIdentifier(o2) : o1 === o2;
   }

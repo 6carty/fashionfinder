@@ -24,9 +24,9 @@ export class FashionPlannerComponent implements OnInit {
     private router: Router,
     private profileService: ProfileService,
     private accountService: AccountService,
-    private weatherService: WeatherDataService,
-    private userProfileService: UserProfileService
-  ) {}
+    private weatherService: WeatherDataService
+  ) // private userProfileService: UserProfileService
+  {}
 
   ngOnInit(): void {
     this.accountService.getAuthenticationState().subscribe(account => {
@@ -39,10 +39,10 @@ export class FashionPlannerComponent implements OnInit {
       this.data = data;
     });
 
-    this.userProfileService.query().subscribe((res: EntityArrayResponseType) => {
-      this.userProfile = res.body || [];
-      console.log('user profile from query log: ' + this.userProfile);
-    });
+    // this.userProfileService.query().subscribe((res: EntityArrayResponseType) => {
+    //   this.userProfile = res.body || [];
+    //   console.log('user profile from query log: ' + this.userProfile);
+    // });
 
     this.fetchEvents();
   }
@@ -50,18 +50,19 @@ export class FashionPlannerComponent implements OnInit {
   fetchEvents() {
     this.eventService.query().subscribe((res: EntityArrayResponseType) => {
       this.events = res.body || [];
-      this.filterEvents();
+      // this.filterEvents();
+      this.groupEventsByDay();
     });
   }
 
-  filterEvents() {
-    // Filter events that belong to the current user via userProfile, where the userProfile has the same login
-    // This only works if userProfile is auto generated for each user, where account login === userProfile firstName
-    this.events = this.events.filter((event: { creator: any }) => {
-      return event.creator !== null && event.creator.firstName === this.account?.login;
-    });
-    this.groupEventsByDay();
-  }
+  // filterEvents() {
+  //   // Filter events that belong to the current user via userProfile, where the userProfile has the same login
+  //   // This only works if userProfile is auto generated for each user, where account login === userProfile firstName
+  //   this.events = this.events.filter((event: { creator: any }) => {
+  //     return event.creator !== null && event.creator.firstName === this.account?.login;
+  //   });
+  //   this.groupEventsByDay();
+  // }
 
   groupEventsByDay() {
     const nextSevenDays = Array.from({ length: 7 }, (_, i) => {

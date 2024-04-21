@@ -28,13 +28,13 @@ export class CommunitySideNavComponent implements OnInit {
   isSaving: boolean = false;
   currentID: any;
   allLikes: Observable<ILikes[]> | null = null;
-  feedLikes: ILikes[] | null = null;
-  filteredLikes: ILikes[] | null = null;
+  feedLikes: ILikes[] | any = [];
+  filteredLikes: ILikes[] | undefined;
   likePos: number = 0;
   allPosts: Observable<IPost[]> | null = null;
   feedPosts: IPost[] | null = null;
   likeDetails: { likeCount: number; postID: any }[][] = [];
-  totalLikes: number = 0;
+  totalLikes: any = 0;
   accountSubscription: Subscription | null = null;
   constructor(
     private accountService: AccountService,
@@ -45,27 +45,34 @@ export class CommunitySideNavComponent implements OnInit {
     private likeService: LikesService
   ) {}
 
-  findTotalLikeCount(userID: number): void {
-    this.allPosts = null;
-    this.feedPosts = null;
-    this.allPosts = this.postService.getPosts();
-    this.allPosts.subscribe(currentUsersPosts => {
-      this.feedPosts = currentUsersPosts;
-      this.feedPosts = currentUsersPosts.filter(post => post.author?.id == userID);
-      this.allLikes = this.likeService.getLikes();
-      this.allLikes.subscribe(currentUsersLikes => {
-        this.feedLikes = currentUsersLikes;
-        if (this.feedPosts)
-          for (let i = 0; i < this.feedPosts?.length; i++) {
-            // @ts-ignore
-            this.filteredLikes = this.feedLikes.filter(like => like.post.id === this.feedPosts[i].id && like.like == true);
-            this.totalLikes = this.feedLikes.length;
-          }
-      });
+  findTotalLikeCount(userID: number, currentPost: IPost): void {
+    this.allLikes = this.likeService.getLikes();
+    this.allLikes.subscribe(currentUsersLikes => {
+      this.feedLikes = currentUsersLikes;
+      //this.feedLikes = currentUsersLikes.map(like => [like.post?.id , like.like, like.post?.id]);
+      console.log(this.feedLikes);
+      this.filteredLikes = this.feedLikes?.filter((like: { userLiked: any; like: boolean }) => like.like);
+      //&& this.feedLikes.includes(currentPost.id)
+      console.log(this.filteredLikes, 'can u see me');
+      this.totalLikes += this.feedLikes?.length;
     });
   }
 
-  filterPosts(userID: number): void {}
+  filterPosts(userID: number): void {
+    this.allPosts = null;
+    this.feedPosts = null;
+
+    this.allPosts = this.postService.getPosts();
+    this.allPosts.subscribe(currentUsersPosts => {
+      this.feedPosts = currentUsersPosts;
+      this.feedPosts = currentUsersPosts.filter(post => post.author?.id == 1101);
+      if (this.feedPosts) {
+        this.feedPosts.forEach((post, index) => {
+          this.findTotalLikeCount(userID, post);
+        });
+      }
+    });
+  }
   initialiseService(): void {
     if (this.account?.login) {
       this.userManagementService.find(this.account.login).subscribe({
@@ -77,7 +84,6 @@ export class CommunitySideNavComponent implements OnInit {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentProfile = this.filteredProfile[0];
               this.filterPosts(this.currentID);
-              this.findTotalLikeCount(this.currentProfile.id);
             });
             this.allUserProfiles = this.userProfileService.getUserProfiles();
             this.allUserProfiles.subscribe(userProfiles => {
