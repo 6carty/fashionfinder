@@ -1,18 +1,20 @@
 <h1>Diary</h1>
-<div class="display-box">
-  <div *ngIf="logReceivedData; else noItemLogs">
-    <h6 class="text">You have {{ logReceivedData.length }} entries in your diary</h6>
+<div class="display-box main-display">
+  <div class="add-padding">
+    <button-main
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-item-log"
+      [routerLink]="['/item-log/new']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span *ngIf="account"> Create a new entry </span>
+      <span *ngIf="!account"> Sign in to start planning </span>
+    </button-main>
+    <div *ngIf="logReceivedData; else noItemLogs">
+      <h6 class="text bump">You have {{ logReceivedData.length }} entries in your diary</h6>
+    </div>
   </div>
-  <button-main
-    id="jh-create-entity"
-    data-cy="entityCreateButton"
-    class="btn btn-primary jh-create-entity create-item-log"
-    [routerLink]="['/item-log/new']"
-  >
-    <fa-icon icon="plus"></fa-icon>
-    <span *ngIf="account"> Create a new entry </span>
-    <span *ngIf="!account"> Sign in to start planning </span>
-  </button-main>
   <div *ngIf="logReceivedData; else noItemLogs">
     <div *ngFor="let itemLog of logReceivedData; let i = index">
       <div *ngIf="itemLog.date && itemLog.outfit">
