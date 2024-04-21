@@ -13,5 +13,11 @@
                                  constraintName="fk_event__outfit_id"
                                  referencedColumnNames="id"
                                  referencedTableName="outfit"/>
+
+        <addForeignKeyConstraint baseColumnNames="creator_id"
+                                 baseTableName="event"
+                                 constraintName="fk_event__creator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_profile"/>
     </changeSet>
 </databaseChangeLog>

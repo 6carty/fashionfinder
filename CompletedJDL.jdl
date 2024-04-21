@@ -180,4 +180,5 @@ relationship OneToMany {
     UserProfile{fashionTips} to FashionTip{author}
     UserProfile to UserMilestone
     Outfit{ratings} to Rating{outfit}
+    UserProfile{event} to Event{creator required}
 }

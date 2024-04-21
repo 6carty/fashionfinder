@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.IntegrationTest;
 import team.bham.domain.Event;
+import team.bham.domain.UserProfile;
 import team.bham.repository.EventRepository;
 
 /**
@@ -83,6 +84,16 @@ class EventResourceIT {
      */
     public static Event createEntity(EntityManager em) {
         Event event = new Event().title(DEFAULT_TITLE).location(DEFAULT_LOCATION).dateTime(DEFAULT_DATE_TIME).endTime(DEFAULT_END_TIME);
+        // Add required entity
+        UserProfile userProfile;
+        if (TestUtil.findAll(em, UserProfile.class).isEmpty()) {
+            userProfile = UserProfileResourceIT.createEntity(em);
+            em.persist(userProfile);
+            em.flush();
+        } else {
+            userProfile = TestUtil.findAll(em, UserProfile.class).get(0);
+        }
+        event.setCreator(userProfile);
         return event;
     }
 
@@ -94,6 +105,16 @@ class EventResourceIT {
      */
     public static Event createUpdatedEntity(EntityManager em) {
         Event event = new Event().title(UPDATED_TITLE).location(UPDATED_LOCATION).dateTime(UPDATED_DATE_TIME).endTime(UPDATED_END_TIME);
+        // Add required entity
+        UserProfile userProfile;
+        if (TestUtil.findAll(em, UserProfile.class).isEmpty()) {
+            userProfile = UserProfileResourceIT.createUpdatedEntity(em);
+            em.persist(userProfile);
+            em.flush();
+        } else {
+            userProfile = TestUtil.findAll(em, UserProfile.class).get(0);
+        }
+        event.setCreator(userProfile);
         return event;
     }
 
