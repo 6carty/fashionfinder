@@ -94,7 +94,9 @@ export class CommunityFeedComponent implements OnInit {
       this.userManagementService.find(this.account.login).subscribe({
         next: currentUser => {
           if (currentUser.id != null) {
+            // @ts-ignore
             this.userProfileSub = this.userProfileService.getUserProfiles();
+            // @ts-ignore
             this.userProfileSub.subscribe(userProfiles => {
               this.filteredProfile = userProfiles.filter(profile => profile.user?.id == currentUser.id);
               this.currentID = this.filteredProfile[0].id;

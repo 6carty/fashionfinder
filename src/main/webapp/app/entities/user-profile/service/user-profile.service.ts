@@ -123,4 +123,8 @@ export class UserProfileService {
       body: res.body ? res.body.map(item => this.convertDateFromServer(item)) : null,
     });
   }
+
+  getUserProfiles() {
+    return undefined;
+  }
 }
