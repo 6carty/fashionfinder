@@ -87,12 +87,26 @@ export class DiaryComponent implements OnInit {
   }
 
   fetchMatchingOutfits() {
+    let temp: IOutfit[] = [];
+    let tempoutfit: IOutfit[] | null;
     if (this.logReceivedData) {
       for (var itemLog of this.logReceivedData) {
-        if (itemLog.owner) {
-          this.matchingOutfits?.push(this.fetchSingleOutfit(itemLog.owner.id));
+        let tempLog = itemLog;
+        if (tempLog.outfit) {
+          //this.outfitService.query({'id.equals': itemLog.outfit.id}).subscribe(outfit => {
+          this.outfitService.query().subscribe(outfit => {
+            if (outfit.body) {
+              tempoutfit = outfit.body;
+              if (tempLog.outfit) {
+                // @ts-ignore
+                tempoutfit = tempoutfit.filter(obj => obj.id == tempLog.outfit.id);
+              }
+              temp.push(tempoutfit[0]);
+            }
+          });
         }
       }
+      this.matchingOutfits = temp;
     }
   }
 
@@ -109,4 +123,6 @@ export class DiaryComponent implements OnInit {
   addItemLog() {
     this.router.navigate(['/item-log/new']);
   }
+
+  protected readonly toString = toString;
 }
