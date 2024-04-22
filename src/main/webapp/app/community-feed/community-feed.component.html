@@ -61,3 +61,21 @@
     </div>
   </div>
 </ng-container>
+
+<div *ngIf="!account">
+  <h1 style="text-align: center">Hi, new user!</h1>
+  <h5 style="text-align: center">You're not signed in yet</h5>
+</div>
+<div class="display-box main-display">
+  <div class="add-padding">
+    <button-main
+      id="jh-create-entity"
+      data-cy="entityCreateButton"
+      class="btn btn-primary jh-create-entity create-item-log"
+      [routerLink]="['/login']"
+    >
+      <fa-icon icon="plus"></fa-icon>
+      <span class="lightText" *ngIf="!account"> Sign in to join the Community </span>
+    </button-main>
+  </div>
+</div>
