@@ -122,3 +122,37 @@
 .comments {
   margin-bottom: 10px;
 }
+
+.text {
+  //margin-top: 10px;
+  margin-inline: 15px;
+  text-align: center;
+  //padding-bottom: 20px;
+}
+
+.lightText {
+  color: var(--button-text-color);
+  font-weight: bold;
+}
+
+.add-padding {
+  padding: 10px;
+  margin: 20px;
+  display: inline-flex;
+  text-align: center;
+}
+
+.bump {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.main-display {
+  width: 60%;
+  margin-left: 20%;
+  //justify-self: center;
+  place-self: center;
+  place-items: center;
+  align-items: center;
+  display: grid;
+}
