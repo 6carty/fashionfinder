@@ -134,6 +134,7 @@ export class MixAndMatchComponent implements OnInit {
       //working on this bit
       const observables = this.outfitService.query().subscribe(outfit => {
         this.outfit = outfit.body;
+        console.log('this.outfit in total is', this.outfit);
         // this.outfitImages =outfit.body.image
         var filterUserOutfits = this.outfit?.filter((userOwned: IOutfit) => {
           if (userOwned.userCreated) {
@@ -158,6 +159,7 @@ export class MixAndMatchComponent implements OnInit {
           ) {
             filterUserOutfits = filterUserOutfits.filter((outfit: any) => outfit.description.includes(filter.toLowerCase()) === true);
             this.recommendedfilterOutfit = filterUserOutfits;
+            console.log('active recommended filters', this.activeRecommendedFilters);
           }
         });
         if (filterUserOutfits.length == 0) {
@@ -172,7 +174,7 @@ export class MixAndMatchComponent implements OnInit {
         }
         const remaining = 5 - this.outfitImages.length;
         this.placeholders = Array.from({ length: remaining }, (_, index) => index); // Generate array of remaining number of placeholders
-
+        this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
         for (const soleOutfit of this.outfit) {
           this.ratingService.query().subscribe(ratingTable => {
             const ratings = ratingTable.body;
@@ -234,7 +236,6 @@ export class MixAndMatchComponent implements OnInit {
   populateLikedStates(likeOccurence: { outfit: IOutfit; ratingCount: number }[]): void {
     console.log('Got to populate Liked states', likeOccurence);
     this.likedStates = [];
-    this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
     // Create an array of promises for each asynchronous request
     const promises = likeOccurence.map((likeOccurenceItem, index) => {
       return new Promise<void>((resolve, reject) => {
