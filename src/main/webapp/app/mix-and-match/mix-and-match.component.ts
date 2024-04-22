@@ -194,6 +194,7 @@ export class MixAndMatchComponent implements OnInit {
                 }
                 const sendToPopulate = this.likeOccurence;
                 this.populateLikedStates(sendToPopulate);
+                console.log('what is send to populate', sendToPopulate);
               }
             }
           });
@@ -231,8 +232,9 @@ export class MixAndMatchComponent implements OnInit {
     //currently working on this
   }
   populateLikedStates(likeOccurence: { outfit: IOutfit; ratingCount: number }[]): void {
+    console.log('Got to populate Liked states', likeOccurence);
     this.likedStates = [];
-
+    this.placeholders2 = this.getRandomOutfits(this.returnalluser, 5);
     // Create an array of promises for each asynchronous request
     const promises = likeOccurence.map((likeOccurenceItem, index) => {
       return new Promise<void>((resolve, reject) => {
@@ -255,6 +257,7 @@ export class MixAndMatchComponent implements OnInit {
     // Wait for all promises to resolve
     Promise.all(promises).then(() => {
       const remainderTrending = 5 - this.likeOccurence.length;
+      console.log('how many are remaining that dont have ratings less than 5', remainderTrending);
       if (remainderTrending > 0) {
         this.ratingService.query().subscribe(ratingTable => {
           const ratings = ratingTable.body;
@@ -638,4 +641,6 @@ export class MixAndMatchComponent implements OnInit {
         return 'Unknown weather code: ' + weatherCode; // Handle unknown codes
     }
   }
+
+  protected readonly console = console;
 }
