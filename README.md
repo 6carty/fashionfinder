@@ -1,319 +1,118 @@
-# teamproject
+# FashionFinder - Social Fashion Community Platform
 
-This application was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
+![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white&style=flat)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=flat)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=springboot&logoColor=white&style=flat)
+![JHipster](https://img.shields.io/badge/JHipster-blue?style=flat)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat)
 
-## This repository belongs to team 20
-- Haydon Carty (hxc293@student.bham.ac.uk)
-- Timothy Sum Ming Yum (sty138@student.bham.ac.uk)
-- Ho Him Wong (Raphael) (hxw171@student.bham.ac.uk)
-- Feyisitan Opemipo (Tobi) (oof122@student.bham.ac.uk)
-- Tameemul Chowdhury (txc180@student.bham.ac.uk)
-- James waller (jxw1505@student.bham.ac.uk)
-- Jacob Keneson (jxk253@student.bham.ac.uk)
+An Instagram-style social platform for fashion enthusiasts. Users can post outfits, follow others, like and comment on posts, and browse a live community feed.
 
-## changes for Teamproject
+---
 
-Modified by Madasar Shah for Team Project
+## Screenshots
 
-- `.yo-rc.json` contains the setting used to generate this app (see below)
+> Screenshots pending
 
-- `pom.xml` line 87 changed to `<jib-maven-plugin.architecture>arm64</jib-maven-plugin.architecture>` this depends on the arch you will deploy the docker image to n.b. use `amd64` for Intel or AMD virtual machines
+---
 
-- `src/main/webapp/app/layouts/footer/footer.component.html` modified to add the text `You are accessing an experimental web application developed by participants of the Team Project 2024 module.`
+## Features
 
-- `.gitlab-ci.yml` generated using command `% jhipster ci-cd` , generate GitLab CI, and use docker to build.
+- Community Feed - Browse posts from other users with real-time like counts and top comments
+- User Profiles - Profile pictures, post history, and personal stats
+- Likes and Comments - Interact with posts in real time
+- Authentication - Secure login and session management
+- Responsive UI - Clean layout across screen sizes
 
-- `.gitlab-ci.yml` modified to remove unused test sections, `maven-package` section edited to fix bug with arm version of docker image used to build as chromium was missing :/
+---
 
-- `.gitlab-ci.yml` added `publish-docker:` stage using internal git.cs.bham.ac.uk docker image registry
-
-- `src/main/docker/` updated `app.yml`, added `Caddyfile` `caddy.yml` for web serving, added `prd.yml` for production deployment+database, added `install-app.sh` and `install-docker.sh` for app deployment over ssh
-
-- `.gitlab-ci.yml` added `deploy-dev:` to deploy app to cloud virtual machine using CI variables `$USER`@`IP` and `$RSA` set in the repo `Setting -> CI/CD -> variables` n.b. for non university VMs this requires DNS entries pointing to `$IP` for e.g. `dev.${CI_PROJECT_NAME}.bham.team` to work
-
-- `.gitlab-ci.yml` added `deploy-prod:` to deploy production app to cloud virtual machine n.b. for non university VMs this requires DNS entries pointing to `$IP` e.g. `{CI_PROJECT_NAME}.bham.team` to work
-
-### Install development environment
-
-Requires Java JDK, npm, node
-`% java --version openjdk 11.0.17 2022-10-18`
-
-`% mvn -version Apache Maven 3.9.4`
-
-`% npm -version 8.19.3`
-
-`% node --version v18.13.0`
-
-JHipster v7.9.4 maintenance is installed using NPM
-`npm install -g jhipster/generator-jhipster#v7.x_maintenance`
-
-### Settings used:
-
-- `? Which *type* of application would you like to create? Monolithic application (recommended for simple projects) `
-- `? What is the base name of your application? teamproject `
-- `? Do you want to make it reactive with Spring WebFlux? No `
-- `? What is your default Java package name? team.bham `
-- `? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token) `
-- `? Which *type* of database would you like to use? SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL) `
-- `? Which *production* database would you like to use? PostgreSQL `
-- `? Which *development* database would you like to use? H2 with disk-based persistence `
-- `? Which cache do you want to use? (Spring cache abstraction) Ehcache (local cache, for a single node) `
-- `? Do you want to use Hibernate 2nd level cache? Yes `
-- `? Would you like to use Maven or Gradle for building the backend? Maven `
-- `? Do you want to use the JHipster Registry to configure, monitor and scale your application? No `
-- `? Which other technologies would you like to use? `
-- `? Which *Framework* would you like to use for the client? Angular `
-- `? Do you want to generate the admin UI? Yes ? Would you like to use a Bootswatch theme (https://bootswatch.com/)? Flatly `
-- `? Choose a Bootswatch variant navbar theme (https://bootswatch.com/)? Light `
-- `? Would you like to enable internationalization support? No `
-- `? Please choose the native language of the application English `
-- `? Besides JUnit and Jest, which testing frameworks would you like to use? `
-- `? Would you like to install other generators from the JHipster Marketplace? No`
-
-## Project Structure
-
-Node is required for generation and recommended for development. `package.json` is always generated for a better development experience with prettier, commit hooks, scripts and so on.
-
-In the project root, JHipster generates configuration files for tools like git, prettier, eslint, husky, and others that are well known and you can find references in the web.
-
-`/src/*` structure follows default Java structure.
-
-- `.yo-rc.json` - Yeoman configuration file
-  JHipster configuration is stored in this file at `generator-jhipster` key. You may find `generator-jhipster-*` for specific blueprints configuration.
-- `.yo-resolve` (optional) - Yeoman conflict resolver
-  Allows to use a specific action when conflicts are found skipping prompts for files that matches a pattern. Each line should match `[pattern] [action]` with pattern been a [Minimatch](https://github.com/isaacs/minimatch#minimatch) pattern and action been one of skip (default if ommited) or force. Lines starting with `#` are considered comments and are ignored.
-- `.jhipster/*.json` - JHipster entity configuration files
-
-- `npmw` - wrapper to use locally installed npm.
-  JHipster installs Node and npm locally using the build tool by default. This wrapper makes sure npm is installed locally and uses it avoiding some differences different versions can cause. By using `./npmw` instead of the traditional `npm` you can configure a Node-less environment to develop or test your application.
-- `/src/main/docker` - Docker configurations for the application and services that the application depends on
-
-## Development
-
-Before you can build this project, you must install and configure the following dependencies on your machine:
-
-1. [Node.js][]: We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
-
-After installing Node, you should be able to run the following command to install development tools.
-You will only need to run this command when dependencies change in [package.json](package.json).
+## Architecture
 
 ```
+FashionFinder
+├── Frontend        Angular 15 + TypeScript
+│   ├── Community Feed Component
+│   ├── Side Navigation Component
+│   ├── Post / Comment / Likes Components
+│   └── User Profile Components
+│
+├── Backend         Spring Boot (Java)
+│   ├── REST API endpoints
+│   ├── JHipster entity generation
+│   └── JDL data modelling
+│
+└── Infrastructure  Docker + Docker Compose
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Angular, TypeScript, SCSS |
+| Backend | Spring Boot, Java |
+| API | REST APIs |
+| Scaffolding | JHipster, JDL |
+| DevOps | Docker, Docker Compose |
+| Version Control | Git |
+
+---
+
+## My Contribution
+
+This was a team project built during the second year of my BSc in AI and Computer Science at the University of Birmingham.
+
+I was responsible for the frontend community features:
+
+- Built the Community Feed component - fetches all posts via REST API, filters out the current user's own posts, and renders a sorted feed of other users' content
+- Implemented real-time like counts per post by calling the Likes API and aggregating results per post ID
+- Built comment preview logic - fetches comments per post and displays the most recent one inline in the feed
+- Built the Side Navigation component - displays the logged-in user's own posts and total likes received
+- Integrated user profile resolution - maps post author IDs to usernames and profile pictures via chained API calls
+- Handled authenticated session state using Angular's AccountService to scope all data to the logged-in user
+
+---
+
+## Running Locally
+
+This project requires the JHipster backend and database to be running before the frontend will function.
+
+```bash
+# Install frontend dependencies
 npm install
-```
 
-We use npm scripts and [Angular CLI][] with [Webpack][] as our build system.
+# Run frontend development server
+ng serve
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
-
-```
+# In a separate terminal - start the backend
 ./mvnw
-npm start
 ```
 
-Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
-Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
+The application will be available at http://localhost:4200
 
-The `npm run` command will list all of the scripts available to run for this project.
+Docker can also be used to spin up the full stack:
 
-### PWA Support
-
-JHipster ships with PWA (Progressive Web App) support, and it's turned off by default. One of the main components of a PWA is a service worker.
-
-The service worker initialization code is disabled by default. To enable it, uncomment the following code in `src/main/webapp/app/app.module.ts`:
-
-```typescript
-ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
+```bash
+docker-compose up
 ```
 
-### Managing dependencies
+---
 
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
+## Lessons Learned
 
-```
-npm install --save --save-exact leaflet
-```
+- Chaining multiple async API calls in Angular requires careful subscription management - nested subscriptions create race conditions and were refactored during development
+- JHipster accelerates scaffolding significantly but requires time to understand what is generated and why
+- Building a feature end-to-end across UI, API, and data layers gave practical insight into how full stack systems communicate
 
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
+---
 
-```
-npm install --save-dev --save-exact @types/leaflet
-```
+## Team
 
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-Edit [src/main/webapp/app/app.module.ts](src/main/webapp/app/app.module.ts) file:
+Built collaboratively as part of the Full Stack Programming module, University of Birmingham, 2024.
 
-```
-import 'leaflet/dist/leaflet.js';
-```
+---
 
-Edit [src/main/webapp/content/scss/vendor.scss](src/main/webapp/content/scss/vendor.scss) file:
+## Contact
 
-```
-@import '~leaflet/dist/leaflet.css';
-```
-
-Note: There are still a few other things remaining to do for Leaflet that we won't detail here.
-
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
-
-### Using Angular CLI
-
-You can also use [Angular CLI][] to generate some custom client code.
-
-For example, the following command:
-
-```
-ng generate component my-component
-```
-
-will generate few files:
-
-```
-create src/main/webapp/app/my-component/my-component.component.html
-create src/main/webapp/app/my-component/my-component.component.ts
-update src/main/webapp/app/app.module.ts
-```
-
-### JHipster Control Center
-
-JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
-
-```
-docker-compose -f src/main/docker/jhipster-control-center.yml up
-```
-
-## Building for production
-
-### Packaging as jar
-
-To build the final jar and optimize the teamproject application for production, run:
-
-```
-./mvnw -Pprod clean verify
-```
-
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
-
-```
-java -jar target/*.jar
-```
-
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
-
-Refer to [Using JHipster in production][] for more details.
-
-### Packaging as war
-
-To package your application as a war in order to deploy it to an application server, run:
-
-```
-./mvnw -Pprod,war clean verify
-```
-
-## Testing
-
-To launch your application's tests, run:
-
-```
-./mvnw verify
-```
-
-### Client tests
-
-Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-```
-npm test
-```
-
-For more information, refer to the [Running tests page][].
-
-### Code quality
-
-Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
-
-```
-docker-compose -f src/main/docker/sonar.yml up -d
-```
-
-Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
-
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
-
-Then, run a Sonar analysis:
-
-```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
-```
-
-For more information, refer to the [Code quality page][].
-
-## Using Docker to simplify development (optional)
-
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
-
-For example, to start a postgresql database in a docker container, run:
-
-```
-docker-compose -f src/main/docker/postgresql.yml up -d
-```
-
-To stop it and remove the container, run:
-
-```
-docker-compose -f src/main/docker/postgresql.yml down
-```
-
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
-
-```
-npm run java:docker
-```
-
-Or build a arm64 docker image when using an arm64 processor os like MacOS with M1 processor family running:
-
-```
-npm run java:docker:arm64
-```
-
-Then run:
-
-```
-docker-compose -f src/main/docker/app.yml up -d
-```
-
-When running Docker Desktop on MacOS Big Sur or later, consider enabling experimental `Use the new Virtualization framework` for better processing performance ([disk access performance is worse](https://github.com/docker/roadmap/issues/7)).
-
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
-## Continuous Integration (optional)
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
-
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 7.9.4 archive]: https://www.jhipster.tech/documentation-archive/v7.9.4
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.9.4/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.9.4/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.9.4/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v7.9.4/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v7.9.4/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.9.4/setting-up-ci/
-[node.js]: https://nodejs.org/
-[npm]: https://www.npmjs.com/
-[webpack]: https://webpack.github.io/
-[browsersync]: https://www.browsersync.io/
-[jest]: https://facebook.github.io/jest/
-[leaflet]: https://leafletjs.com/
-[definitelytyped]: https://definitelytyped.org/
-[angular cli]: https://cli.angular.io/
+Haydon Carty - [LinkedIn](https://linkedin.com/in/haydon_carty) · [GitHub](https://github.com/6carty) · haydoncarty@hotmail.co.uk
