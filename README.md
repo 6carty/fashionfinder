@@ -115,4 +115,4 @@ Built collaboratively as part of the Full Stack Programming module, University o
 
 ## Contact
 
-Haydon Carty - [LinkedIn](https://linkedin.com/in/haydon_carty) · [GitHub](https://github.com/6carty) · haydoncarty@hotmail.co.uk
+Haydon Carty - [LinkedIn](https://linkedin.com/in/haydon-carty) · [GitHub](https://github.com/6carty) · haydoncarty@hotmail.co.uk
