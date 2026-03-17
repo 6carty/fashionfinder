@@ -11,8 +11,7 @@ An Instagram-style social platform for fashion enthusiasts. Users can post outfi
 ---
 
 ## Screenshots
-
-> Screenshots pending
+> <img width="836" height="476" alt="Screenshot 2026-03-17 at 11 55 03" src="https://github.com/user-attachments/assets/566f3a4f-a531-4163-90e7-b1d9bf7c34bd" />
 
 ---
 
